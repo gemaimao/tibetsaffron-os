@@ -403,7 +403,11 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
-        mobile: path.resolve(__dirname, 'mobile.html')
+        os: path.resolve(__dirname, 'os.html'),
+        mobile: path.resolve(__dirname, 'mobile.html'),
+        evidence: path.resolve(__dirname, 'site/brand/evidence.html'),
+        history: path.resolve(__dirname, 'site/brand/history.html'),
+        products: path.resolve(__dirname, 'site/cognition/products.html')
       }
     }
   }
