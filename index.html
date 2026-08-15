@@ -27,16 +27,15 @@
     body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
 
     /* Navigation Header */
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; background: rgba(7,9,14,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); position: fixed; width: 100%; top: 0; z-index: 1000; }
-    .logo { font-size: 19px; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo i { color: var(--accent-gold); font-size: 24px; }
-    .nav-links { display: flex; gap: 20px; list-style: none; }
-    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13.5px; font-weight: 500; transition: color 0.2s; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; background: rgba(7,9,14,0.9); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); position: fixed; width: 100%; top: 0; z-index: 1000; }
+    .logo { font-size: 19px; font-weight: 800; color: white; display: flex; align-items: center; gap: 12px; text-decoration: none; white-space: nowrap; }
+    .logo img { height: 32px; width: auto; object-fit: contain; }
+    .logo-icon { color: var(--accent-gold); font-size: 24px; display: flex; align-items: center; }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; margin: 0; padding: 0; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; white-space: nowrap; }
     .nav-links a:hover { color: var(--accent-gold); }
-    .nav-actions { display: flex; align-items: center; gap: 12px; }
-    .btn-mobile { background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); color: #cbd5e1; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
-    .btn-os { background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: white; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(168,85,247,0.3); transition: transform 0.2s; }
-    .btn-os:hover { transform: translateY(-1px); }
+    .nav-links a.highlight { color: #cbd5e1; background: rgba(255,255,255,0.06); padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border-color); }
+    .nav-links a.highlight:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
 
     /* Hero Section */
     .hero { padding: 140px 40px 60px; text-align: center; max-width: 1100px; margin: 0 auto; }
@@ -97,24 +96,18 @@
 
   <!-- Navigation Bar -->
   <nav>
-    <a href="/" class="logo">
-      <i class="ri-flower-line"></i> 天旺农牧 Tianwang Agricultural
+    <a href="/" class="logo" id="brand-logo-container">
+      <span class="logo-icon"><i class="ri-flower-line"></i></span>
+      <span>天旺农牧 Tianwang Agricultural</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#brand-matrix">🏛️ 品牌主体 (6大支柱)</a></li>
-      <li><a href="#product-matrix">📦 全系产品矩阵 (6大体系)</a></li>
-      <li><a href="#map-section">🌐 生态地图探针</a></li>
-      <li><a href="/site/brand/evidence.html">🛡️ 凭证展厅</a></li>
-      <li><a href="/site/brand/history.html">📜 发展历程</a></li>
+      <li><a href="#brand-matrix">品牌系统</a></li>
+      <li><a href="#product-matrix">产品矩阵</a></li>
+      <li><a href="#map-section">基地认知</a></li>
+      <li><a href="/site/brand/evidence.html">凭证展厅</a></li>
+      <li><a href="/site/brand/history.html">发展历程</a></li>
+      <li><a href="/mobile.html" class="highlight"><i class="ri-smartphone-line"></i> 移动端</a></li>
     </ul>
-    <div class="nav-actions">
-      <a href="/mobile.html" class="btn-mobile" title="移动终端采集">
-        <i class="ri-smartphone-line"></i> 移动端
-      </a>
-      <a href="/os.html" class="btn-os" title="打开 Brand Content OS 控制台">
-        <i class="ri-dashboard-line"></i> Brand Content OS 控制台
-      </a>
-    </div>
   </nav>
 
   <!-- Hero Header -->
