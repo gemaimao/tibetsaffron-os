@@ -1,0 +1,3 @@
+# Cloudflare ignore
+node_modules
+.git
