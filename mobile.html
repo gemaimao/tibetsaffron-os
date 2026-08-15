@@ -10,16 +10,23 @@
   <!-- Google Fonts & Remixicon -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: #0a0d14; color: #f1f5f9; padding: 16px; min-height: 100vh; display: flex; flex-direction: column; }
-    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #1e293b; }
-    .title { font-size: 17px; font-weight: 700; color: #3b82f6; display: flex; align-items: center; gap: 8px; }
-    .subtitle { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+    
+    /* Header */
+    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #1e293b; }
+    .header-left { display: flex; align-items: center; gap: 10px; }
+    .header-logo { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; background: #fff; padding: 2px; }
+    .title { font-size: 15px; font-weight: 700; color: #f8fafc; }
+    .subtitle { font-size: 11px; color: #94a3b8; margin-top: 1px; }
+    .user-tag { font-size: 11px; background: rgba(59,130,246,0.15); color: #38bdf8; border: 1px solid rgba(59,130,246,0.3); padding: 4px 8px; border-radius: 6px; display: flex; align-items: center; gap: 4px; }
+    .btn-lock { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+
     .card { background-color: #141c2d; border: 1px solid #1e293b; border-radius: 16px; padding: 16px; margin-bottom: 16px; }
-    .card-title { font-size: 14px; font-weight: 600; color: #cbd5e1; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .card-title { font-size: 13.5px; font-weight: 600; color: #cbd5e1; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
     
     .media-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
     .media-btn { background-color: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 14px 6px; text-align: center; color: #94a3b8; font-size: 11px; cursor: pointer; transition: all 0.2s; }
@@ -32,22 +39,60 @@
     .preview-box { background: #0f172a; border: 1px dashed #334155; border-radius: 10px; padding: 12px; text-align: center; margin-bottom: 12px; display: none; }
     .preview-box img { max-width: 100%; max-height: 200px; border-radius: 8px; }
 
-    .submit-btn { width: 100%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 16px rgba(59,130,246,0.4); cursor: pointer; }
+    .submit-btn { width: 100%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 12px; padding: 15px; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 16px rgba(59,130,246,0.4); cursor: pointer; }
     .submit-btn:active { transform: scale(0.98); }
 
     .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #10b981; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9999; }
+
+    /* Auth Screen Overlay */
+    #auth-overlay { position: fixed; inset: 0; background: rgba(7,9,14,0.96); backdrop-filter: blur(20px); z-index: 8888; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .auth-card { width: 100%; max-width: 380px; background: #111726; border: 1px solid #1e293b; border-radius: 20px; padding: 28px 24px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+    .auth-logo { width: 64px; height: 64px; border-radius: 16px; object-fit: cover; background: #fff; padding: 4px; margin: 0 auto 16px; border: 2px solid rgba(245,158,11,0.4); }
+    .auth-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .auth-desc { font-size: 12.5px; color: #94a3b8; line-height: 1.5; margin-bottom: 24px; }
+    .auth-input { text-align: center; font-size: 18px; letter-spacing: 2px; font-family: monospace; padding: 14px; background: #07090e; border: 1px solid #334155; border-radius: 12px; margin-bottom: 16px; color: #f59e0b; }
+    .auth-input:focus { border-color: #f59e0b; box-shadow: 0 0 12px rgba(245,158,11,0.25); }
+    .auth-btn { width: 100%; background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 700; font-size: 15px; border: none; border-radius: 12px; padding: 14px; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .auth-btn:active { transform: scale(0.98); }
+    .auth-footer { font-size: 11px; color: #64748b; margin-top: 16px; }
   </style>
 </head>
 <body>
 
   <div class="toast" id="toast"></div>
 
-  <div class="header">
-    <div>
-      <div class="title"><i class="ri-smartphone-line"></i> 天旺藏红花 · 手机移动终端 App</div>
-      <div class="subtitle">照片/PDF 原图真实传输与全屏在线预览</div>
+  <!-- 安全权限验证浮层 (Auth Gatekeeper) -->
+  <div id="auth-overlay">
+    <div class="auth-card">
+      <img src="/assets/logo.jpg" alt="天旺农牧" class="auth-logo" />
+      <h2 class="auth-title">天旺移动采集端 · 权限验证</h2>
+      <p class="auth-desc">该终端仅供天旺农牧现场采编与知识库管理员使用。请输入访问安全口令解锁。</p>
+      
+      <input type="password" id="auth-password-input" class="auth-input" placeholder="输入访问口令" autofocus />
+      
+      <button class="auth-btn" onclick="verifyAuth()">
+        <i class="ri-shield-keyhole-line"></i> 验证并进入移动终端
+      </button>
+
+      <div class="auth-footer">
+        <a href="/" style="color: #94a3b8; text-decoration: none;"><i class="ri-arrow-left-line"></i> 返回企业官网首页</a>
+      </div>
     </div>
-    <div style="font-size: 11px; background: rgba(59,130,246,0.2); color: #3b82f6; padding: 4px 8px; border-radius: 6px; font-family: monospace;">192.168.1.4</div>
+  </div>
+
+  <!-- 主界面 (验证通过后展示) -->
+  <div class="header">
+    <div class="header-left">
+      <img src="/assets/logo.jpg" alt="天旺" class="header-logo" />
+      <div>
+        <div class="title">天旺藏红花 · 移动速记采集</div>
+        <div class="subtitle">照片/PDF 原图真实传输与全屏预览</div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div class="user-tag" id="current-user-badge"><i class="ri-user-follow-line"></i> 采编员</div>
+      <button class="btn-lock" onclick="lockTerminal()" title="锁定退出"><i class="ri-lock-2-line"></i></button>
+    </div>
   </div>
 
   <!-- 多媒体快捷采集面板 -->
@@ -96,7 +141,7 @@
   <div class="card" style="flex: 1;">
     <div class="card-title" style="justify-content: space-between;">
       <span><i class="ri-history-line" style="color: #3b82f6;"></i> 手机真实上传历史 (WebUI 实时同步)</span>
-      <span style="font-size: 11px; color: #10b981;">已连线</span>
+      <span style="font-size: 11px; color: #10b981;"><i class="ri-checkbox-circle-fill"></i> 权限已激活</span>
     </div>
     <div id="history-list" style="display: flex; flex-direction: column; gap: 8px;">
       <div style="font-size: 12px; color: #64748b; text-align: center; padding: 20px;">加载中...</div>
@@ -104,6 +149,48 @@
   </div>
 
   <script>
+    // 权限密码设定 (支持管理员口令与采编员口令)
+    const AUTH_KEYS = {
+      'tianwang2026': { role: '管理员', badge: '👑 首席架构师' },
+      'tianwang888': { role: '采编员', badge: '👤 现场采编员' },
+      'tianwang': { role: '采编员', badge: '👤 现场采编员' }
+    };
+
+    function checkAuth() {
+      const token = localStorage.getItem('tianwang_mobile_auth');
+      const overlay = document.getElementById('auth-overlay');
+      if (token && AUTH_KEYS[token]) {
+        overlay.style.display = 'none';
+        document.getElementById('current-user-badge').innerHTML = AUTH_KEYS[token].badge;
+        loadHistory();
+      } else {
+        overlay.style.display = 'flex';
+      }
+    }
+
+    function verifyAuth() {
+      const pwd = document.getElementById('auth-password-input').value.trim();
+      if (AUTH_KEYS[pwd]) {
+        localStorage.setItem('tianwang_mobile_auth', pwd);
+        showToast('✅ 身份验证通过，欢迎进入移动采集端');
+        checkAuth();
+      } else {
+        showToast('❌ 口令错误，请重新输入');
+        document.getElementById('auth-password-input').value = '';
+      }
+    }
+
+    // 支持回车直接登录
+    document.getElementById('auth-password-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') verifyAuth();
+    });
+
+    function lockTerminal() {
+      localStorage.removeItem('tianwang_mobile_auth');
+      showToast('🔒 终端已安全锁定');
+      checkAuth();
+    }
+
     let activeType = 'text';
     let uploadedMediaUrl = null;
 
@@ -264,7 +351,8 @@
       } catch (e) {}
     }
 
-    loadHistory();
+    // 页面加载触发权限检查
+    checkAuth();
   </script>
 </body>
 </html>
