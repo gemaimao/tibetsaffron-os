@@ -1,0 +1,46 @@
+{
+  "version": "V2.2",
+  "updated_at": "2026-08-09T00:00:00Z",
+  "claims": [
+    {
+      "id": "CLAIM-001",
+      "claim": "2025年5月，天旺藏红花通过拉萨海关现场检疫与出口报关，成功向加拿大出口2公斤高品质藏红花，出口货值25.64万元人民币。",
+      "evidence_id": "CMP-001",
+      "evidence_type": "Customs / Phytosanitary Certificate",
+      "evidence_title": "拉萨海关《植物检疫证书》及出口报关单原件",
+      "readiness": "VERIFIED",
+      "allowed_scenarios": ["OFFICIAL_PR", "MEDIA_FEATURE", "INVESTOR"],
+      "verification_date": "2025-05-15"
+    },
+    {
+      "id": "CLAIM-002",
+      "claim": "天旺藏红花样品经全项扫描，黄曲霉毒素未检出，农药残留指标达到全项0农残极高标准，色价λ440 >= 200。",
+      "evidence_id": "SCI-001",
+      "evidence_type": "3rd-Party Laboratory Testing Report",
+      "evidence_title": "重庆市食品药品检验检测研究院检验报告 No. A26SW02809",
+      "readiness": "VERIFIED",
+      "allowed_scenarios": ["OFFICIAL_PR", "MEDIA_FEATURE", "BRAND_STORY", "INVESTOR"],
+      "verification_date": "2025-06-20"
+    },
+    {
+      "id": "CLAIM-003",
+      "claim": "西藏林芝设施控环为生产过程的环境控制和投入品管理提供了必要条件；批次是否达到0农残，严格以第三方权威检测结果为准。",
+      "evidence_id": "TECH-001",
+      "evidence_type": "CEA Agricultural Technology Specification",
+      "evidence_title": "西藏林芝设施控环催花与投入品管理 SOP",
+      "readiness": "VERIFIED",
+      "allowed_scenarios": ["OFFICIAL_PR", "MEDIA_FEATURE", "BRAND_STORY", "INVESTOR"],
+      "verification_date": "2025-04-10"
+    },
+    {
+      "id": "CLAIM-004",
+      "claim": "天旺西藏林芝米瑞乡基地采用共富模式，向姆多村村民发放务工工资。",
+      "evidence_id": "IND-001",
+      "evidence_type": "Corporate Financial Record Draft",
+      "evidence_title": "米瑞乡姆多村农户务工名册与工资签收单（核验中）",
+      "readiness": "DRAFT",
+      "allowed_scenarios": ["INTERNAL_REVIEW"],
+      "verification_date": null
+    }
+  ]
+}

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>天旺农牧 · 西藏林芝极地风土与藏红花全系产品官方 DEMO 门户</title>
+  <!-- Google Fonts & Remixicon -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-card: #111726;
+      --bg-card-hover: #192338;
+      --border-color: #1e293b;
+      --accent-gold: #f59e0b;
+      --accent-gold-glow: rgba(245, 158, 11, 0.35);
+      --accent-purple: #a855f7;
+      --accent-blue: #3b82f6;
+      --accent-emerald: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; scroll-behavior: smooth; }
+    body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+
+    /* Navigation Header */
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; background: rgba(7,9,14,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); position: fixed; width: 100%; top: 0; z-index: 1000; }
+    .logo { font-size: 19px; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; }
+    .logo i { color: var(--accent-gold); font-size: 24px; }
+    .nav-links { display: flex; gap: 20px; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13.5px; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent-gold); }
+    .btn-os { background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: white; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(168,85,247,0.3); }
+
+    /* Hero Section */
+    .hero { padding: 140px 40px 60px; text-align: center; max-width: 1100px; margin: 0 auto; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(245,158,11,0.1); border: 1px solid var(--accent-gold-glow); color: var(--accent-gold); padding: 6px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+    .hero h1 { font-size: 46px; font-weight: 800; line-height: 1.25; margin-bottom: 20px; font-family: 'Noto Serif SC', serif; background: linear-gradient(135deg, #ffffff 40%, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 17px; color: var(--text-muted); max-width: 780px; margin: 0 auto 30px; }
+    .hero-actions { display: flex; justify-content: center; gap: 16px; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: black; padding: 12px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; transition: transform 0.2s; }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-secondary { background: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 12px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none; }
+
+    /* Dynamic GIS Map Interactive Canvas */
+    .map-wrapper { width: 92%; max-width: 1200px; height: 520px; margin: 20px auto 60px; background: #000; border: 1px solid var(--border-color); border-radius: 24px; position: relative; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.8); }
+    .map-img { width: 100%; height: 100%; object-fit: cover; }
+    .hotspot { position: absolute; transform: translate(-50%, -50%); cursor: pointer; z-index: 20; display: flex; flex-direction: column; align-items: center; transition: transform 0.3s; }
+    .hotspot:hover { transform: translate(-50%, -50%) scale(1.15); z-index: 30; }
+    .hotspot-pulse { position: absolute; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--accent-gold); animation: pulse-ring 2s infinite; }
+    .hotspot-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(7,9,14,0.9); border: 2px solid var(--accent-gold); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 15px var(--accent-gold-glow); backdrop-filter: blur(6px); }
+    .hotspot-label { margin-top: 6px; background: rgba(7,9,14,0.85); border: 1px solid var(--border-color); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
+
+    @keyframes pulse-ring { 0% { transform: scale(0.8); opacity: 1; } 100% { transform: scale(2.0); opacity: 0; } }
+
+    .map-modal { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 640px; background: rgba(15,23,42,0.95); border: 1px solid var(--accent-gold); border-radius: 16px; padding: 20px 24px; color: white; display: none; backdrop-filter: blur(16px); box-shadow: 0 15px 40px rgba(0,0,0,0.9); z-index: 50; }
+    .map-modal-title { font-size: 16px; font-weight: 700; color: var(--accent-gold); display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .map-modal-body { font-size: 13px; color: #cbd5e1; line-height: 1.6; }
+
+    /* Section Styling */
+    .section { padding: 80px 40px; max-width: 1200px; margin: 0 auto; border-bottom: 1px solid var(--border-color); }
+    .section-header { text-align: center; margin-bottom: 50px; }
+    .section-header-tag { font-size: 12px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+    .section-header h2 { font-size: 32px; font-weight: 800; font-family: 'Noto Serif SC', serif; margin-bottom: 12px; }
+    .section-header p { color: var(--text-muted); font-size: 15px; max-width: 700px; margin: 0 auto; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; }
+    .card:hover { border-color: var(--accent-gold); background: var(--bg-card-hover); transform: translateY(-3px); }
+    .card-badge { position: absolute; top: 16px; right: 16px; font-size: 10px; font-weight: 700; color: var(--accent-gold); background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); padding: 2px 8px; border-radius: 4px; }
+    .card-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(245,158,11,0.1); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 18px; }
+    .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #fff; }
+    .card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6. margin-bottom: 14px; }
+    .card-footer { font-family: monospace; font-size: 11px; color: var(--accent-blue); display: inline-block; background: rgba(59,130,246,0.1); padding: 3px 8px; border-radius: 4px; }
+
+    /* Footer */
+    footer { padding: 40px; text-align: center; font-size: 13px; color: var(--text-muted); background: #040609; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">
+      <i class="ri-flower-line"></i> 天旺农牧 Tianwang Agricultural
+    </div>
+    <ul class="nav-links">
+      <li><a href="#brand-matrix">🏛️ 品牌主体 (6大支柱)</a></li>
+      <li><a href="#product-matrix">📦 全系产品矩阵 (6大体系)</a></li>
+      <li><a href="#map-section">🌐 生态地图探针</a></li>
+    </ul>
+    <a href="/os" class="btn-os" target="_blank">
+      <i class="ri-dashboard-line"></i> Brand Content OS 控制台
+    </a>
+  </nav>
+
+  <!-- Hero Header -->
+  <header class="hero">
+    <div class="hero-badge">
+      <i class="ri-sparkling-fill"></i> 天旺藏红花 官方企业 Portal 3-in-1 DEMO
+    </div>
+    <h1>西藏林芝极地风土与全系藏红花<br/>品牌 ＋ 认知 ＋ 深加工产品矩阵</h1>
+    <p>产地证明你是谁，检测证明你是什么。天旺农牧依托崇明大田养球与林芝设施控环催花两段式现代农艺，建立从全株花丝到冷萃深加工与 B2B 原料的丰富产品体系。</p>
+    <div class="hero-actions">
+      <a href="#product-matrix" class="btn-primary">浏览 6 大全系产品矩阵</a>
+      <a href="#brand-matrix" class="btn-secondary">查看 6 大品牌主体支柱</a>
+    </div>
+  </header>
+
+  <!-- Interactive Ecosystem Map Sandbox Section -->
+  <div class="map-wrapper" id="map-section">
+    <img src="./assets/terroir_map.jpg" alt="天旺藏红花量产区环境与生态认知示意图" class="map-img" />
+
+    <!-- Map Hotspots -->
+    <div class="hotspot" style="top: 62%; left: 58%;" onclick="showMapInfo('cea')">
+      <div class="hotspot-pulse"></div>
+      <div class="hotspot-icon"><i class="ri-building-4-fill"></i></div>
+      <div class="hotspot-label">海拔 2945m 天旺大温室 (CEA 控环)</div>
+    </div>
+    <div class="hotspot" style="top: 15%; left: 75%;" onclick="showMapInfo('mountain')">
+      <div class="hotspot-pulse" style="border-color: var(--accent-purple);"></div>
+      <div class="hotspot-icon" style="border-color: var(--accent-purple); color: var(--accent-purple);"><i class="ri-mountain-fill"></i></div>
+      <div class="hotspot-label">南迦巴瓦 7782m & 加拉白垒群峰</div>
+    </div>
+    <div class="hotspot" style="top: 55%; left: 82%;" onclick="showMapInfo('water')">
+      <div class="hotspot-pulse" style="border-color: var(--accent-blue);"></div>
+      <div class="hotspot-icon" style="border-color: var(--accent-blue); color: var(--accent-blue);"><i class="ri-water-flash-fill"></i></div>
+      <div class="hotspot-label">雅鲁藏布江 / 尼洋河汇流水系</div>
+    </div>
+
+    <!-- Map Modal -->
+    <div class="map-modal" id="map-modal">
+      <div class="map-modal-title" id="map-modal-title">点击探针节点查看风土与产品凭证</div>
+      <div class="map-modal-body" id="map-modal-body">点击图中闪烁节点。</div>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- BODY 1: 📦 藏红花全系产品矩阵 (PRODUCT MATRIX - 6 CATEGORIES)       -->
+  <!-- =================================================================== -->
+  <section class="section" id="product-matrix">
+    <div class="section-header">
+      <span class="section-header-tag">PRODUCT ARCHITECTURE</span>
+      <h2>📦 藏红花全系产品矩阵 (6 大体系)</h2>
+      <p>打破单一花丝局限，基于全株解耦、深加工提取与 B2B 原料构建丰富的产品商业体系</p>
+    </div>
+
+    <div class="grid-3">
+      <!-- Product Category 1: 全花解耦 (重点柱头花丝) -->
+      <div class="card">
+        <div class="card-badge">体系 01</div>
+        <div class="card-icon"><i class="ri-flower-line"></i></div>
+        <h3>1. 全花分结构解耦 (重点柱头花丝)</h3>
+        <p>解耦藏红花柱头（高价值金黄花丝）、花瓣（富含黄酮类）与雄蕊。重点呈现 100% 特级纯净柱头花丝，建立清晰的结构分级。</p>
+        <a href="/site/cognition/products.html" class="card-footer" style="text-decoration:none;">点击查看 6 大产品矩阵详情 ➔</a>
+      </div>
+
+      <!-- Product Category 2: 鲜花整朵干燥品 -->
+      <div class="card">
+        <div class="card-badge">体系 02</div>
+        <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-sparkling-line"></i></div>
+        <h3>2. 鲜花整朵干燥品</h3>
+        <p>通过低温真空冻干与极地控环技术，完整保留整朵藏红花鲜花形态、紫色花瓣与金黄柱头的原貌高端干燥品，呈现视觉与观赏盛宴。</p>
+        <div class="card-footer">SSOT 代码: SFR-08 整朵鲜花干燥</div>
+      </div>
+
+      <!-- Product Category 3: 冷萃提取物深加工 (宝芝林 + 劲酒) -->
+      <div class="card">
+        <div class="card-badge">体系 03 (战略合作)</div>
+        <div class="card-icon" style="color: var(--accent-emerald);"><i class="ri-flask-line"></i></div>
+        <h3>3. 冷萃提取物深加工 (宝芝林 ＋ 劲酒)</h3>
+        <p>多糖与多酚水溶冷萃提取物系列：联合<b>香港宝芝林</b>推出高活性深加工保健品；联合<b>劲牌 / 劲酒</b>特别调配高端藏红花草本养生酒。</p>
+        <div class="card-footer">SSOT 代码: PROD-EXTRACT-01 战略合作</div>
+      </div>
+
+      <!-- Product Category 4: 周边与衍生应用 -->
+      <div class="card">
+        <div class="card-badge">体系 04</div>
+        <div class="card-icon" style="color: var(--accent-gold);"><i class="ri-cup-line"></i></div>
+        <h3>4. 精油、浸膏与极地物候茶</h3>
+        <p>研发藏红花高纯度精油 (Essential Oil)、浸膏 (Concrete) 芳香产品，以及融合米林灵芝、黄精与桃花山丁子酸奶的极地五季物候茶。</p>
+        <div class="card-footer">SSOT 代码: SFR-33.3 物候茶衍生</div>
+      </div>
+
+      <!-- Product Category 5: B2B 原料类与球茎产品 -->
+      <div class="card">
+        <div class="card-badge">体系 05 (B2B 供应)</div>
+        <div class="card-icon" style="color: var(--accent-blue);"><i class="ri-seedling-line"></i></div>
+        <h3>5. B2B 原料类与优质种球供应</h3>
+        <p>面向药企与化妆品B2B工业级藏红花原料供应；以及崇明/林芝两段式繁育的 25g+ 优质地下子球 (Corm) 农业种源供应。</p>
+        <div class="card-footer">SSOT 代码: SFR-05 地下球茎 B2B</div>
+      </div>
+
+      <!-- Product Category 6: 技术专利型产品 -->
+      <div class="card">
+        <div class="card-badge">体系 06 (科技专利)</div>
+        <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-shield-keyhole-line"></i></div>
+        <h3>6. 技术专利型科技产品</h3>
+        <p>基于“CEA 设施控环催花农艺专利”与“低温提取赋色提纯专利”支撑的科技型专利衍生产品，彰显高科技农业硬核壁垒。</p>
+        <div class="card-footer">SSOT 代码: PAT-2026 科技专利型</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================================== -->
+  <!-- BODY 2: 🏛️ 品牌主体内容矩阵 (BRAND MATRIX - 6 PILLARS)              -->
+  <!-- =================================================================== -->
+  <section class="section" id="brand-matrix">
+    <div class="section-header">
+      <span class="section-header-tag">BRAND MATRIX</span>
+      <h2>🏛️ 品牌主体内容矩阵 (6 大支柱)</h2>
+      <p>展现天旺农牧的风土观、种植法、凭证数据链与品牌大事纪</p>
+    </div>
+
+    <div class="grid-3">
+      <!-- Pillar 1: 风土观 -->
+      <div class="card">
+        <div class="card-icon"><i class="ri-landscape-line"></i></div>
+        <h3>1. 我们的风土观</h3>
+        <p>西藏林芝雅尼汇流高地（海拔 3000m）：天然强紫外线辐射刺激藏红花素合成，剧烈昼夜温差锁住藏红花醛挥发香气。</p>
+        <div class="card-footer">SSOT 代码: BRD-1000 极地风土观</div>
+      </div>
+
+      <!-- Pillar 2: 种植法 -->
+      <div class="card">
+        <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-cpu-line"></i></div>
+        <h3>2. 我们的种植法</h3>
+        <p>崇明大田养球（积蓄球茎养分与粗大收缩根沉降） ＋ 西藏林芝设施控环催花（无尘采收与0农残控制）两段式现代农艺。</p>
+        <div class="card-footer">SSOT 代码: SFR-09 两段式农艺</div>
+      </div>
+
+      <!-- Pillar 3: 证据链和数据链 -->
+      <div class="card">
+        <div class="card-icon" style="color: var(--accent-emerald);"><i class="ri-file-shield-line"></i></div>
+        <h3>3. 我们的证据链和数据链</h3>
+        <p>拉萨海关《植物检疫证书》出口报关单 (CMP-001) ＋ 重庆食药检院 No. A26SW02809 0农残检验报告 (SCI-001)。</p>
+        <div class="card-footer">SSOT 代码: CMP-001 / SCI-001</div>
+      </div>
+
+      <!-- Pillar 4: 技术和专利证书 -->
+      <div class="card">
+        <div class="card-icon" style="color: var(--accent-blue);"><i class="ri-award-line"></i></div>
+        <h3>4. 技术和专利证书</h3>
+        <p>拥有 CEA 设施控环催花专利、温湿度微气候调控专利、0农残检测合格文书与国际出境检疫证明体系。</p>
+        <div class="card-footer">SSOT 代码: PATENT-CERT-2026</div>
+      </div>
+
+      <!-- Pillar 5: 大事纪历程 -->
+      <div class="card">
+        <div class="card-icon" style="color: var(--accent-gold);"><i class="ri-history-line"></i></div>
+        <h3>5. 我们的大事纪历程</h3>
+        <p>演进路线：2016-2018 崇明养球适应性探索 (HISTORICAL) ➔ 2018-至今 林芝设施控环 (CURRENT) ➔ 未来 CEA 植物工厂。</p>
+        <div class="card-footer">SSOT 代码: EVOLUTION-TIMELINE</div>
+      </div>
+
+      <!-- Pillar 6: 品牌活动 -->
+      <div class="card">
+        <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-megaphone-line"></i></div>
+        <h3>6. 我们的品牌活动</h3>
+        <p>举办天旺藏红花 2026 新品品鉴会、出海战略研讨会与官方新闻发布，基于 OS V2.2 场景受控引擎一键合成公关通稿。</p>
+        <div class="card-footer">SSOT 代码: EVENT-2026-RELEASE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 天旺农牧 (Tianwang Agricultural Co., Ltd.) 版权所有 | 品牌知识控制台 Powered by Brand Content OS v14.0</p>
+  </footer>
+
+  <script>
+    const mapData = {
+      cea: {
+        title: "🏬 海拔 2945m 天旺大温室 (CEA 控环)",
+        body: "核心设施控环温室。实施自动化温度、湿度、光照微气候调控，洁净开花与无尘采收。支持 宝芝林 / 劲酒 深度冷萃提取合作。"
+      },
+      mountain: {
+        title: "🏔️ 南迦巴瓦 7782m & 加拉白垒群峰",
+        body: "强紫外线刺激藏红花素 (Crocin) 合成；强温差锁住藏红花醛 (Safranal) 挥发香气。"
+      },
+      water: {
+        title: "🌊 雅鲁藏布江 / 尼洋河水系",
+        body: "热岛增温系统与土壤冲积台地，藏红花极地生息归家之选。"
+      }
+    };
+
+    function showMapInfo(key) {
+      const data = mapData[key];
+      if (data) {
+        document.getElementById('map-modal-title').innerText = data.title;
+        document.getElementById('map-modal-body').innerText = data.body;
+        document.getElementById('map-modal').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

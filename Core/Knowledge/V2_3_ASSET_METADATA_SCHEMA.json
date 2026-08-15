@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Brand Content OS Asset Metadata Schema v2.3",
+  "type": "object",
+  "required": [
+    "id",
+    "asset_code",
+    "title",
+    "status",
+    "ownership",
+    "temporal",
+    "claim_control"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "asset_code": { "type": "string" },
+    "title": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "DRAFT", "INTERNAL_REVIEW", "VERIFIED", "PUBLISHED", "EXPIRED", "SUPERSEDED", "RESTRICTED"]
+    },
+    "ownership": {
+      "type": "object",
+      "required": ["owner_type", "permission"],
+      "properties": {
+        "owner_type": {
+          "type": "string",
+          "enum": ["BRAND_OWNED", "INDUSTRY_KNOWLEDGE", "ACADEMIC_REFERENCE", "PARTNER_EVIDENCE", "COMPETITOR_REFERENCE", "FUTURE_EXPLORATION", "UNVERIFIED"]
+        },
+        "owner_entity": { "type": "string" },
+        "permission": { "type": "string" }
+      }
+    },
+    "temporal": {
+      "type": "object",
+      "required": ["state"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["ORIGIN", "HISTORICAL", "CURRENT", "EVOLUTION", "EXPERIMENT", "FUTURE", "UNKNOWN"]
+        },
+        "valid_period": { "type": "string" },
+        "historical_context": { "type": "string" }
+      }
+    },
+    "claim_control": {
+      "type": "object",
+      "required": ["claim_level"],
+      "properties": {
+        "claim_level": {
+          "type": "string",
+          "enum": ["CONFIRMED_FACT", "DERIVED_EXPLANATION", "STRATEGIC_DIRECTION", "FORBIDDEN_ASSERTION"]
+        },
+        "allowed_usage": { "type": ["string", "array"] },
+        "forbidden_usage": { "type": ["string", "array"] }
+      }
+    }
+  }
+}

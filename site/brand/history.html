@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>集团简介与大事纪历程 · 天旺农牧</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-card: #111726;
+      --border-color: #1e293b;
+      --accent-gold: #f59e0b;
+      --accent-purple: #a855f7;
+      --accent-blue: #3b82f6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.7; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; background: rgba(7,9,14,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); position: fixed; width: 100%; top: 0; z-index: 1000; }
+    .logo { font-size: 19px; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo i { color: var(--accent-gold); font-size: 24px; }
+    .btn-back { background: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+
+    .container { max-width: 1000px; margin: 120px auto 80px; padding: 0 30px; }
+    .page-tag { font-size: 12px; font-weight: 700; color: var(--accent-gold); background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 16px; }
+    .page-title { font-size: 38px; font-weight: 800; font-family: 'Noto Serif SC', serif; margin-bottom: 16px; line-height: 1.3; }
+    .page-intro { font-size: 17px; color: var(--text-muted); margin-bottom: 50px; line-height: 1.8; border-bottom: 1px solid var(--border-color); padding-bottom: 30px; }
+
+    /* Timeline Styling */
+    .timeline { position: relative; padding-left: 30px; border-left: 2px solid var(--border-color); }
+    .timeline-item { position: relative; margin-bottom: 44px; }
+    .timeline-item::before { content: ''; position: absolute; left: -37px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent-gold); box-shadow: 0 0 12px var(--accent-gold); }
+    .timeline-year { font-size: 14px; font-weight: 800; color: var(--accent-gold); font-family: monospace; margin-bottom: 6px; }
+    .timeline-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .timeline-desc { font-size: 14.5px; color: var(--text-muted); line-height: 1.8; }
+    .timeline-code { font-family: monospace; font-size: 11px; color: var(--accent-blue); background: rgba(59,130,246,0.1); padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 10px; }
+
+    footer { padding: 40px; text-align: center; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/site/index.html" class="logo">
+      <i class="ri-flower-line"></i> 天旺农牧 Tianwang Agricultural
+    </a>
+    <a href="/site/index.html" class="btn-back">
+      <i class="ri-arrow-left-line"></i> 返回官网首页
+    </a>
+  </nav>
+
+  <div class="container">
+    <span class="page-tag">BRAND HISTORY & EVOLUTION</span>
+    <h1 class="page-title">集团简介与大事纪历程</h1>
+    <p class="page-intro">用十年时间，在西藏林芝认知风土、转化科技，实现从选种、对比种植、开花、扩种、种球迭代、数据达标和量产、技术升级的完整闭环。</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">2016 - 2018 年</div>
+        <h3 class="timeline-title">崇明大田养球与中国适应性探索阶段 (HISTORICAL)</h3>
+        <p class="timeline-desc">天旺农牧早期在上海崇明大田进行种球培育，依靠平原肥沃土壤与丰富水网积累地下球茎养分，完成了西班牙种球的本土化驯化与繁育积累。系统将其标记为 HISTORICAL 历史演进阶段。</p>
+        <span class="timeline-code">SSOT 节点: KNO-HIST-CHONGMING (Temporal State: HISTORICAL)</span>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2018 - 2022 年</div>
+        <h3 class="timeline-title">西藏林芝米瑞乡基地建设与设施控环攻关 (EVOLUTION)</h3>
+        <p class="timeline-desc">依托西藏林芝雅尼汇流高地小产区微气候（海拔 2945 米），建设核心 CEA 设施控环催花大温室。成功探索出“崇明大田养球 ＋ 西藏林芝设施控环催花”两段式现代农艺体系。</p>
+        <span class="timeline-code">SSOT 节点: SFR-09 两段式农艺演进</span>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2023 - 2025 年</div>
+        <h3 class="timeline-title">拉萨海关出口合规突破与全项 0 农残认证 (CURRENT)</h3>
+        <p class="timeline-desc">2025年5月，天旺藏红花顺利通过拉萨海关现场检疫与出口报关，成功向加拿大出口 2kg 高品质藏红花（货值 25.64 万元人民币）；同时获得第三方权威食药检院全项“0 农残”权威检验报告。</p>
+        <span class="timeline-code">SSOT 节点: CMP-001 (海关单) / SCI-001 (0农残)</span>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2026 年 - 未阶段</div>
+        <h3 class="timeline-title">IoT 营养液膜水培与 CEA 植物工厂未来探索 (FUTURE)</h3>
+        <p class="timeline-desc">启动 IoT 营养液膜水培与全自动无人化 CEA 植物工厂探索，标志着藏红花培育从单纯“寻找适宜土地”迈向“主动编程控制生长环境”的现代化工业阶段。</p>
+        <span class="timeline-code">SSOT 节点: TECH-IOT-HYDROPONICS (Temporal State: FUTURE)</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 天旺农牧 (Tianwang Agricultural Co., Ltd.) 版权所有 | 品牌知识控制台 Powered by Brand Content OS v14.0</p>
+  </footer>
+</body>
+</html>

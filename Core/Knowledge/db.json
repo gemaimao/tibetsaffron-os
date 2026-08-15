@@ -1,0 +1,152 @@
+{
+  "assets": [
+    {
+      "id": "asset-kno-sfr-master",
+      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380sfr",
+      "module_id": "mod-kno",
+      "asset_code": "KNO-SFR-MASTER",
+      "title": "SFR-KNO 藏红花深度认知知识库 34 Master 骨架 (v14.0)",
+      "subtitle": "Saffron Deep Cognition Skeleton & 9 Master Domains",
+      "summary": "面向泛兴趣受众与消费者的藏红花深度认知底库。涵盖 9 大 Master 知识族、34 Master 骨架与真假识别专题。",
+      "content": "# SFR-KNO 藏红花深度认知知识库 (v14.0)\n\n## 9 大 Master 深度认知知识族\n1. **01 本体认知**: 藏红花究竟是什么？\n2. **02 生命与繁育**: 它是怎样活着与延续下一代的？\n3. **03 生产方式**: 它是怎样被生产出来的？\n4. **04 全球产区**: 世界哪里种？为什么不同？\n5. **05 加工与品质**: 它如何从花变成商品？\n6. **06 标准与真假**: 怎么判断它是什么、好不好？\n7. **07 历史文化**: 为什么人类长期重视它？\n8. **08 传统与研究**: 藏红花今天发生了什么？\n9. **09 消费与使用**: 买回来后怎么保存、使用与理解？",
+      "quote": "产地证明你是谁，检测证明你是什么。",
+      "status": "Published",
+      "version": "v14.0",
+      "created_at": "2026-08-08T14:54:46.429Z",
+      "updated_at": "2026-08-08T14:54:46.429Z",
+      "tag_ids": [
+        "tag-sfr-kno",
+        "tag-ssot"
+      ]
+    },
+    {
+      "id": "asset-dat-evidence-layer",
+      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380dat",
+      "module_id": "mod-dat",
+      "asset_code": "DAT-EVIDENCE-LAYER",
+      "title": "Evidence & Data Layer 双重证据缺口矩阵与 7 级效力层级",
+      "subtitle": "Dual Evidence Gap Matrix & 7-Level Proof Hierarchy",
+      "summary": "建立天旺实测证据 (Tianwang Evidence) 与行业通用证据 (Category Evidence) 双矩阵，支持文案反向抗质疑检索。",
+      "content": "# Evidence & Data Layer (证据与数据层)\n\n## 7 级证据效力层级 (Proof Hierarchy)\n- **Level 1 政府官方文件**: 拉萨海关检疫证书与出口报关单 (CMP-001)、商标专利证 (CMP-002)\n- **Level 2 第三方实验室数据**: 食药检院 0农残报告 (No. A26SW02809)、HPLC 色价峰图 (SCI-001)\n- **Level 3 长期与动力学实验**: 水温溶出动力学曲线 (SCI-002)、24个月避光稳定性 (SCI-003)\n- **Level 4 企业原始记录**: 姆多村农户务工名册与 30万元工资签收单 (IND-001)\n- **Level 5 现场高清视觉**: 米瑞乡 4K 采摘 RAW 盘视频 (VIS-001)\n- **Level 6 体外研究证据**: DPPH/ABTS 自由基清除 (SCI-004 降级，严禁宣称人体抗衰老)\n- **Level 7 企业应用 SOP**: 星级餐厅 0.05g 克重卡 (APP-001)",
+      "quote": "拒绝盲目营销，建立“事实/数据 ➔ 证据链 ➔ 科学解释 ➔ 消费者认知”反向抗质疑链条。",
+      "status": "Published",
+      "version": "v14.0",
+      "created_at": "2026-08-08T14:54:46.429Z",
+      "updated_at": "2026-08-08T14:54:46.429Z",
+      "tag_ids": [
+        "tag-evidence",
+        "tag-metrics"
+      ]
+    },
+    {
+      "id": "asset-kno-sfr-gastronomy",
+      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380gas",
+      "module_id": "mod-kno",
+      "asset_code": "KNO-SFR-GASTRONOMY",
+      "title": "藏红花美食烹饪化学与林芝五季时令物候饮品体系 (v1.0)",
+      "subtitle": "Saffron Gastronomy, Culinary Chemistry & Linzhi 5-Season Drinks",
+      "summary": "涵盖全球四大经典藏红花料理化学原理、林芝五季物候特调饮品体系与工布在地美食（石锅焖饭/松茸蒸蛋/天麻鱼汤）。",
+      "content": "# 藏红花美食烹饪化学与林芝五季时令物候体系\n\n## 烹饪化学三大作用机制\n1. **水溶金黄视觉赋色**: Crocin 水溶极佳，赋予金黄鲜艳汤色；\n2. **挥发性香气协同**: Safranal 热力挥发，压制牛羊肉与海鲜腥膻，提供蜂草复合芳香；\n3. **抑腥提鲜与回甘**: Picrocrocin 微苦回甘，作为鲜味协同增效剂 (Umami Enhancer)。",
+      "quote": "Crocin 赋金黄，Safranal 压腥膻，Picrocrocin 提鲜回甘。",
+      "status": "Published",
+      "version": "v1.0",
+      "created_at": "2026-08-08T14:54:46.429Z",
+      "updated_at": "2026-08-08T14:54:46.429Z",
+      "tag_ids": [
+        "tag-sfr-kno",
+        "tag-ssot"
+      ]
+    },
+    {
+      "id": "asset-1786201248548",
+      "uuid": "uuid-1786201248548",
+      "module_id": "mod-kno",
+      "asset_code": "KNO-1847",
+      "title": "[附件上传] image.jpg",
+      "subtitle": "Mobile Capture",
+      "summary": "文件名称: image.jpg\n大小: 3431.8 KB\n格式: image/jpeg\n\n已成功选择文件，准备上传。",
+      "content": "文件名称: image.jpg\n大小: 3431.8 KB\n格式: image/jpeg\n\n已成功选择文件，准备上传。",
+      "quote": "",
+      "status": "Draft",
+      "version": "v1.0",
+      "created_at": "2026-08-08T15:00:48.548Z",
+      "updated_at": "2026-08-08T15:00:48.548Z",
+      "tag_ids": [
+        "tag-mobile-ingest"
+      ]
+    },
+    {
+      "id": "asset-1786201354768",
+      "uuid": "uuid-1786201354768",
+      "module_id": "mod-kno",
+      "asset_code": "KNO-2852",
+      "title": "藏红花白皮书插图",
+      "subtitle": "Mobile Capture",
+      "summary": "这张图片可以用作藏红花白皮书以后的插图。",
+      "content": "这张图片可以用作藏红花白皮书以后的插图。",
+      "quote": "",
+      "status": "Draft",
+      "version": "v1.0",
+      "created_at": "2026-08-08T15:02:34.768Z",
+      "updated_at": "2026-08-08T15:02:34.769Z",
+      "tag_ids": [
+        "tag-mobile-ingest"
+      ]
+    },
+    {
+      "id": "asset-1786201387493",
+      "uuid": "uuid-1786201387493",
+      "module_id": "mod-kno",
+      "asset_code": "KNO-7424",
+      "title": "[附件上传] 2024年艺术装置  燃烧人.pdf",
+      "subtitle": "Mobile Capture",
+      "summary": "文件名称: 2024年艺术装置  燃烧人.pdf\n大小: 2118.0 KB\n格式: application/pdf\n\n已成功选择文件，准备上传。",
+      "content": "文件名称: 2024年艺术装置  燃烧人.pdf\n大小: 2118.0 KB\n格式: application/pdf\n\n已成功选择文件，准备上传。",
+      "quote": "",
+      "status": "Draft",
+      "version": "v1.0",
+      "created_at": "2026-08-08T15:03:07.493Z",
+      "updated_at": "2026-08-08T15:03:07.493Z",
+      "tag_ids": [
+        "tag-mobile-ingest"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "mod-com",
+      "code": "COM",
+      "name": "Communication",
+      "description": "品牌传播层：核心口号、宣传文案、公关声明与 Pitch points",
+      "icon": "ri-message-3-line"
+    },
+    {
+      "id": "mod-kno",
+      "code": "KNO",
+      "name": "Knowledge",
+      "description": "SFR-KNO 藏红花深度认知知识库：9 大 Master 知识族",
+      "icon": "ri-book-open-line"
+    },
+    {
+      "id": "mod-vis",
+      "code": "VIS",
+      "name": "Visual",
+      "description": "品牌视觉层：色彩规范、4K 现场镜头、包装 Token",
+      "icon": "ri-palette-line"
+    },
+    {
+      "id": "mod-dat",
+      "code": "DAT",
+      "name": "Data & Evidence",
+      "description": "Evidence & Data Layer 证据与数据层",
+      "icon": "ri-bar-chart-box-line"
+    },
+    {
+      "id": "mod-brd",
+      "code": "BRD",
+      "name": "Brand Behavior",
+      "description": "品牌内核与行为层",
+      "icon": "ri-compass-3-line"
+    }
+  ]
+}

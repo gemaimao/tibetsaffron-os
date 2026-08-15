@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0a0d14" />
+  <title>天旺藏红花 移动终端速记与极速采集 App</title>
+  <!-- Google Fonts & Remixicon -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #0a0d14; color: #f1f5f9; padding: 16px; min-height: 100vh; display: flex; flex-direction: column; }
+    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #1e293b; }
+    .title { font-size: 17px; font-weight: 700; color: #3b82f6; display: flex; align-items: center; gap: 8px; }
+    .subtitle { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+    .card { background-color: #141c2d; border: 1px solid #1e293b; border-radius: 16px; padding: 16px; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 600; color: #cbd5e1; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    
+    .media-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+    .media-btn { background-color: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 14px 6px; text-align: center; color: #94a3b8; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+    .media-btn:active, .media-btn.active { border-color: #3b82f6; background-color: rgba(59,130,246,0.15); color: #3b82f6; }
+    .media-btn i { font-size: 22px; display: block; margin-bottom: 4px; }
+
+    input, select, textarea { width: 100%; background-color: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 12px; color: #f8fafc; font-size: 14px; outline: none; margin-bottom: 12px; }
+    input:focus, textarea:focus { border-color: #3b82f6; }
+
+    .preview-box { background: #0f172a; border: 1px dashed #334155; border-radius: 10px; padding: 12px; text-align: center; margin-bottom: 12px; display: none; }
+    .preview-box img { max-width: 100%; max-height: 200px; border-radius: 8px; }
+
+    .submit-btn { width: 100%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 16px rgba(59,130,246,0.4); cursor: pointer; }
+    .submit-btn:active { transform: scale(0.98); }
+
+    .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #10b981; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9999; }
+  </style>
+</head>
+<body>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="header">
+    <div>
+      <div class="title"><i class="ri-smartphone-line"></i> 天旺藏红花 · 手机移动终端 App</div>
+      <div class="subtitle">照片/PDF 原图真实传输与全屏在线预览</div>
+    </div>
+    <div style="font-size: 11px; background: rgba(59,130,246,0.2); color: #3b82f6; padding: 4px 8px; border-radius: 6px; font-family: monospace;">192.168.1.4</div>
+  </div>
+
+  <!-- 多媒体快捷采集面板 -->
+  <div class="card">
+    <div class="card-title"><i class="ri-sparkling-line" style="color: #8b5cf6;"></i> 选择手机采集类型</div>
+    <div class="media-grid">
+      <div class="media-btn active" id="btn-type-text" onclick="setType('text')">
+        <i class="ri-file-text-line"></i> 文本速记
+      </div>
+      <div class="media-btn" id="btn-type-voice" onclick="setType('voice')">
+        <i class="ri-mic-line"></i> 语音听写
+      </div>
+      <div class="media-btn" id="btn-type-photo" onclick="setType('photo')">
+        <i class="ri-camera-line"></i> 拍照/照片
+      </div>
+      <div class="media-btn" id="btn-type-file" onclick="setType('file')">
+        <i class="ri-file-pdf-2-line"></i> PDF/文档
+      </div>
+    </div>
+
+    <!-- 预览框 -->
+    <div class="preview-box" id="preview-box"></div>
+
+    <!-- 表单录入 -->
+    <input type="text" id="input-title" placeholder="资产标题 (如: 西藏林芝 0农残检测报告原件)..." />
+    
+    <select id="input-module">
+      <option value="mod-dat">DAT 数据层 (Evidence & Data 7级证据)</option>
+      <option value="mod-kno">KNO 知识层 (SFR-KNO 认知底库)</option>
+      <option value="mod-com">COM 传播层 (口号/公关声明)</option>
+      <option value="mod-vis">VIS 视觉层 (4K 镜头/包装 Token)</option>
+      <option value="mod-brd">BRD 品牌行为层 (愿景/法理防线)</option>
+    </select>
+
+    <textarea id="input-content" rows="5" placeholder="在此输入补充文字、备注或检测解读..."></textarea>
+
+    <!-- 隐藏文件上传器 (支持拍照与选择 PDF) -->
+    <input type="file" id="file-uploader" accept="image/*,application/pdf" style="display: none;" onchange="handleFileSelected(this)" />
+
+    <button class="submit-btn" id="submit-btn" onclick="submitMobileIngest()">
+      <i class="ri-cloud-upload-line"></i> 上传原图/PDF 并预览
+    </button>
+  </div>
+
+  <!-- 历史实时采集流 -->
+  <div class="card" style="flex: 1;">
+    <div class="card-title" style="justify-content: space-between;">
+      <span><i class="ri-history-line" style="color: #3b82f6;"></i> 手机真实上传历史 (WebUI 实时同步)</span>
+      <span style="font-size: 11px; color: #10b981;">已连线</span>
+    </div>
+    <div id="history-list" style="display: flex; flex-direction: column; gap: 8px;">
+      <div style="font-size: 12px; color: #64748b; text-align: center; padding: 20px;">加载中...</div>
+    </div>
+  </div>
+
+  <script>
+    let activeType = 'text';
+    let uploadedMediaUrl = null;
+
+    function setType(type) {
+      activeType = type;
+      document.querySelectorAll('.media-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`btn-type-${type}`).classList.add('active');
+
+      if (type === 'voice') {
+        startVoiceRecognition();
+      } else if (type === 'photo') {
+        const uploader = document.getElementById('file-uploader');
+        uploader.setAttribute('accept', 'image/*');
+        uploader.click();
+      } else if (type === 'file') {
+        const uploader = document.getElementById('file-uploader');
+        uploader.setAttribute('accept', 'application/pdf,image/*,.doc,.docx');
+        uploader.click();
+      }
+    }
+
+    function startVoiceRecognition() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'zh-CN';
+        recognition.onstart = () => showToast('🎤 请说话，正在录音听写...');
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          document.getElementById('input-content').value += transcript;
+          showToast('已完成语音转文字！');
+        };
+        recognition.start();
+      } else {
+        showToast('当前手机浏览器请使用系统自带键盘语音输入');
+      }
+    }
+
+    function handleFileSelected(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        showToast(`正在上传原文件: ${file.name}...`);
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const base64Data = e.target.result;
+          
+          // 渲染本地预览
+          const pBox = document.getElementById('preview-box');
+          pBox.style.display = 'block';
+          if (file.type.startsWith('image/')) {
+            pBox.innerHTML = `<img src="${base64Data}" alt="预览" /><div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">图片名称: ${file.name}</div>`;
+          } else {
+            pBox.innerHTML = `<div style="padding: 12px; font-size: 13px; color: #38bdf8;"><i class="ri-file-pdf-2-line" style="font-size: 24px;"></i><br/>已选择 PDF 文档: ${file.name} (${(file.size/1024).toFixed(1)} KB)</div>`;
+          }
+
+          // 上传至 Node API 服务器
+          try {
+            const res = await fetch('/api/upload', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ filename: file.name, fileData: base64Data })
+            });
+            const data = await res.json();
+            if (data.success) {
+              uploadedMediaUrl = data.mediaUrl;
+              document.getElementById('input-title').value = document.getElementById('input-title').value || `[附件] ${file.name}`;
+              showToast('✅ 媒体文件真实上传成功！服务器随时可在线浏览！');
+            }
+          } catch (err) {
+            showToast('❌ 上传失败: ' + err.message);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 3000);
+    }
+
+    async function submitMobileIngest() {
+      const title = document.getElementById('input-title').value.trim() || '手机终端极速采集';
+      const moduleId = document.getElementById('input-module').value;
+      let content = document.getElementById('input-content').value.trim();
+
+      if (uploadedMediaUrl) {
+        if (uploadedMediaUrl.toLowerCase().includes('.pdf')) {
+          content = `${content}\n\n### 📄 PDF 原件在线浏览凭证\n<iframe src="${uploadedMediaUrl}" width="100%" height="600px" style="border: 1px solid #334155; border-radius: 8px;"></iframe>\n\n[点击在新标签页全屏打开 PDF 原件](${uploadedMediaUrl})`;
+        } else {
+          content = `${content}\n\n### 📷 现场照片与检测图谱凭证\n![高清晰度上传图片](${uploadedMediaUrl})`;
+        }
+      }
+
+      if (!content) {
+        showToast('⚠️ 请输入内容或拍照/选择文件！');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.innerText = '正在提交并同步...';
+      submitBtn.disabled = true;
+
+      try {
+        const res = await fetch('/api/assets', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            module_id: moduleId,
+            title: title,
+            summary: content.slice(0, 100),
+            content: content,
+            media_url: uploadedMediaUrl,
+            status: 'Draft'
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast('🎉 上传成功！电脑 WebUI 实时支持图片/PDF 预览！');
+          document.getElementById('input-title').value = '';
+          document.getElementById('input-content').value = '';
+          document.getElementById('preview-box').style.display = 'none';
+          uploadedMediaUrl = null;
+          loadHistory();
+        } else {
+          showToast('❌ 上传失败: ' + data.message);
+        }
+      } catch (err) {
+        showToast('❌ 网络错误: ' + err.message);
+      } finally {
+        submitBtn.innerHTML = '<i class="ri-cloud-upload-line"></i> 上传原图/PDF 并预览';
+        submitBtn.disabled = false;
+      }
+    }
+
+    async function loadHistory() {
+      try {
+        const res = await fetch('/api/assets');
+        const data = await res.json();
+        if (data.success && data.data.items) {
+          const listEl = document.getElementById('history-list');
+          const items = data.data.items.slice(0, 5);
+          listEl.innerHTML = items.map(item => `
+            <div style="background-color: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 10px 12px;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                <span style="font-weight: 700; color: #3b82f6;">${item.asset_code}</span>
+                <span style="font-size: 10.5px; color: #64748b;">${new Date(item.created_at).toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit'})}</span>
+              </div>
+              <div style="font-size: 13px; font-weight: 600; margin-bottom: 2px;">${item.title}</div>
+              <div style="font-size: 11px; color: #94a3b8; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${item.summary || item.content}</div>
+            </div>
+          `).join('');
+        }
+      } catch (e) {}
+    }
+
+    loadHistory();
+  </script>
+</body>
+</html>

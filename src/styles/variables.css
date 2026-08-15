@@ -1,0 +1,81 @@
+/* Brand Content OS (BCOS) Design Tokens */
+:root {
+  /* Color Palette - Premium Dark Theme Default */
+  --bg-dark-primary: #0a0d14;
+  --bg-dark-secondary: #121824;
+  --bg-dark-tertiary: #1a2234;
+  --bg-dark-card: #141c2d;
+  --bg-dark-hover: #1f2a40;
+  
+  --border-dark: rgba(255, 255, 255, 0.08);
+  --border-dark-strong: rgba(255, 255, 255, 0.16);
+
+  --text-dark-primary: #f1f5f9;
+  --text-dark-secondary: #94a3b8;
+  --text-dark-muted: #64748b;
+
+  /* Brand Accents */
+  --accent-primary: #3b82f6; /* Electric Blue */
+  --accent-primary-hover: #2563eb;
+  --accent-glow: rgba(59, 130, 246, 0.25);
+  
+  --accent-cyan: #06b6d4;
+  --accent-purple: #8b5cf6;
+  --accent-amber: #f59e0b;
+  --accent-emerald: #10b981;
+  --accent-rose: #f43f5e;
+
+  /* Module Specific Colors */
+  --module-com: #3b82f6; /* Communication: Blue */
+  --module-kno: #8b5cf6; /* Knowledge: Purple */
+  --module-vis: #ec4899; /* Visual: Pink */
+  --module-dat: #06b6d4; /* Data: Cyan */
+  --module-brd: #f59e0b; /* Brand: Amber */
+
+  /* Status Colors */
+  --status-draft: #94a3b8;
+  --status-review: #f59e0b;
+  --status-published: #10b981;
+  --status-archived: #64748b;
+
+  /* Typography & Layout */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --sidebar-width: 260px;
+  --header-height: 64px;
+
+  /* Elevation & Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.2);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light Theme Variables Overrides */
+body.theme-light {
+  --bg-dark-primary: #f8fafc;
+  --bg-dark-secondary: #ffffff;
+  --bg-dark-tertiary: #f1f5f9;
+  --bg-dark-card: #ffffff;
+  --bg-dark-hover: #e2e8f0;
+
+  --border-dark: rgba(0, 0, 0, 0.08);
+  --border-dark-strong: rgba(0, 0, 0, 0.16);
+
+  --text-dark-primary: #0f172a;
+  --text-dark-secondary: #475569;
+  --text-dark-muted: #94a3b8;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
