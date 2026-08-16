@@ -79,8 +79,25 @@
     .card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
     .card-footer { font-family: monospace; font-size: 11px; color: var(--accent-blue); display: inline-block; background: rgba(59,130,246,0.1); padding: 3px 8px; border-radius: 4px; align-self: flex-start; }
 
-    /* Footer */
-    footer { padding: 40px; text-align: center; font-size: 13px; color: var(--text-muted); background: #040609; }
+    /* AI Knowledge Brain Box */
+    .ai-box-wrapper { max-width: 900px; margin: 30px auto 10px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9)); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 20px; padding: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(245, 158, 11, 0.15); backdrop-filter: blur(16px); text-align: left; position: relative; }
+    .ai-box-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+    .ai-box-title { font-size: 15px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }
+    .ai-badge { font-size: 11px; background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+    .ai-input-group { display: flex; gap: 10px; margin-bottom: 14px; }
+    .ai-input { flex: 1; background: #07090e; border: 1px solid #334155; border-radius: 12px; padding: 14px 18px; color: #fff; font-size: 14px; outline: none; transition: border-color 0.2s; }
+    .ai-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 12px rgba(245,158,11,0.25); }
+    .ai-btn { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: #000; font-weight: 700; border: none; border-radius: 12px; padding: 0 24px; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: transform 0.2s; }
+    .ai-btn:hover { transform: translateY(-1px); }
+    .ai-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .ai-pill { font-size: 12px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-color); color: #cbd5e1; padding: 5px 12px; border-radius: 14px; cursor: pointer; transition: all 0.2s; }
+    .ai-pill:hover { border-color: var(--accent-gold); color: var(--accent-gold); background: rgba(245,158,11,0.1); }
+    
+    .ai-answer-panel { background: rgba(7,9,14,0.8); border: 1px solid #1e293b; border-radius: 14px; padding: 18px; display: none; }
+    .ai-answer-header { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--accent-gold); margin-bottom: 8px; font-weight: 600; }
+    .ai-answer-text { font-size: 14px; color: #f1f5f9; line-height: 1.8; margin-bottom: 12px; }
+    .ai-citations { display: flex; gap: 8px; flex-wrap: wrap; border-top: 1px solid #1e293b; padding-top: 10px; font-size: 11px; }
+    .ai-cite-tag { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--accent-emerald); padding: 2px 8px; border-radius: 4px; }
 
     @media (max-width: 768px) {
       nav { padding: 14px 20px; }
@@ -101,6 +118,7 @@
       <span>天旺农牧 Tianwang Agricultural</span>
     </a>
     <ul class="nav-links">
+      <li><a href="#ai-brain" style="color: var(--accent-gold); font-weight: 600;"><i class="ri-sparkling-fill"></i> AI 智脑问答</a></li>
       <li><a href="#brand-matrix">品牌系统</a></li>
       <li><a href="#product-matrix">产品矩阵</a></li>
       <li><a href="#map-section">基地认知</a></li>
@@ -124,6 +142,45 @@
         <i class="ri-shield-check-line"></i> 0农残与海关凭证展厅
       </a>
     </div>
+
+    <!-- AI 知识大脑专属调用问答框 (SSOT AI Knowledge Copilot) -->
+    <div class="ai-box-wrapper" id="ai-brain">
+      <div class="ai-box-header">
+        <div class="ai-box-title">
+          <i class="ri-robot-2-line" style="color: var(--accent-gold); font-size: 20px;"></i>
+          <span>天旺藏红花 官方 AI 智能知识大脑</span>
+          <span class="ai-badge"><i class="ri-shield-check-fill"></i> SSOT 事实级问答</span>
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted);">基于 7 级凭证库、极地风土与 CEA 农艺标准检索</div>
+      </div>
+
+      <div class="ai-input-group">
+        <input type="text" id="ai-query-input" class="ai-input" placeholder="向 AI 提问 (如: 林芝藏红花有什么独特风土？0农残依据是什么？五季物候饮品如何冲泡？)..." />
+        <button class="ai-btn" id="ai-submit-btn" onclick="handleAIAsk()">
+          <i class="ri-sparkling-fill"></i> 智能问答
+        </button>
+      </div>
+
+      <div class="ai-pills">
+        <span style="font-size: 11px; color: #94a3b8; display: flex; align-items: center; margin-right: 4px;">快捷提问:</span>
+        <button class="ai-pill" onclick="askPreset('林芝极地风土有什么独特优势？')">🏔️ 林芝极地风土优势</button>
+        <button class="ai-pill" onclick="askPreset('天旺的 0 农残与拉萨海关出境凭证依据是什么？')">🛡️ 0农残与海关检疫凭证</button>
+        <button class="ai-pill" onclick="askPreset('什么是崇明与林芝两段式现代农艺？')">🔬 两段式现代农艺</button>
+        <button class="ai-pill" onclick="askPreset('藏红花如何科学冲泡？林芝五季物候饮品体系是什么？')">🍵 0.05g 冲泡与物候饮品</button>
+        <button class="ai-pill" onclick="askPreset('STR-4000 技术壁垒五层竞争模型是什么？')">📊 STR-4000 竞争壁垒</button>
+      </div>
+
+      <!-- AI 回答展示面板 -->
+      <div class="ai-answer-panel" id="ai-answer-panel">
+        <div class="ai-answer-header">
+          <span id="ai-status-text"><i class="ri-sparkling-line"></i> 检索 SSOT 知识库完成</span>
+          <button style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 11px;" onclick="copyAIAnswer()"><i class="ri-file-copy-line"></i> 复制回答</button>
+        </div>
+        <div class="ai-answer-text" id="ai-answer-text"></div>
+        <div class="ai-citations" id="ai-citations"></div>
+      </div>
+    </div>
+
   </header>
 
   <!-- Interactive Ecosystem Map Sandbox Section -->
@@ -333,6 +390,130 @@
         document.getElementById('map-modal-title').innerText = data.title;
         document.getElementById('map-modal-body').innerText = data.body;
         document.getElementById('map-modal').style.display = 'block';
+      }
+    }
+
+    // ==========================================
+    // 天旺官方 SSOT AI 知识大脑检索引擎 (RAG Engine)
+    // ==========================================
+    const SSOT_KB = [
+      {
+        keywords: ['风土', '林芝', '南迦巴瓦', '海拔', '气候', '紫外线', '微气候', '温差', '雅鲁藏布', '尼洋河', '为什么好'],
+        answer: '天旺藏红花依托西藏林芝雅尼汇流高地小产区（海拔 3000 米）。其核心自然风土优势在于：\n1. 【强紫外辐射】：海拔 3000 米天然高紫外线，刺激藏红花素 (Crocin) 高效富集合成；\n2. 【剧烈昼夜温差】：高寒大温差抑制养分过度消耗，锁住挥发性藏红花醛 (Safranal) 的独特蜂草香气；\n3. 【高原水汽热岛】：雅鲁藏布江与尼洋河在此交汇，提供丰富负氧离子与冲积沙壤土，形成得天独厚的极地生长微气候。',
+        citations: ['SSOT 节点: BRD-1000 极地风土观', 'SSOT 节点: KU-3000 生态风土', 'GIS 地图: 海拔 2945m 天旺大温室']
+      },
+      {
+        keywords: ['0农残', '海关', '检疫', '报告', '检测', '凭证', '农残', '拉萨海关', '出口', '证明', '黄曲霉', '农药', '化验', 'cmp', 'sci'],
+        answer: '天旺藏红花坚守『产地证明你是谁，检测证明你是什么』的科学底线，构建了完整的 7 级硬核抗质疑证据链：\n1. 【Level 1 政府海关凭证】：拉萨海关《植物检疫证书》与出口报关单 (CMP-001)，2025年成功向加拿大出口 2kg 藏红花（货值 25.64 万元人民币），证明合规出海资质；\n2. 【Level 2 权威实验室数据】：重庆市食药检院 No. A26SW02809 全项检验报告 (SCI-001)，全项扫描农残为 0，黄曲霉毒素未检出；\n3. 【Level 4 乡村振兴财务凭证】：米瑞乡姆多村农户 30 万元工资签收打款凭证 (IND-001)，真实带动高原农户增收。',
+        citations: ['Level 1 凭证: CMP-001 海关检疫证书', 'Level 2 报告: SCI-001 食药检院 No. A26SW02809', 'Level 4 凭证: IND-001 务工打款单']
+      },
+      {
+        keywords: ['两段式', '种植', '农艺', '崇明', '催花', '大温室', 'cea', '控环', '流程', '养球', '育球'],
+        answer: '天旺首创并成熟运行『崇明大田养球 ＋ 西藏林芝设施控环催花』两段式现代农艺体系 (SFR-09)：\n1. 【第一阶段 · 崇明大田养球】：在上海崇明平原利用肥沃土壤与充沛水网积蓄球茎养分，促进粗大收缩根向下扎深，培育 25g+ 高品质饱满种球；\n2. 【第二阶段 · 林芝设施控环催花】：花芽分化后移入西藏林芝米瑞乡海拔 2945 米连栋大温室，通过自动化控温控湿控光与全密闭无尘管理，实现 100% 洁净开花与 0 农残高标准采收。',
+        citations: ['SSOT 节点: SFR-09 两段式现代农艺', '专利技术: TECH-LINZHI-CEA 设施控环催花']
+      },
+      {
+        keywords: ['冲泡', '怎么喝', '吃法', '用量', '0.05g', '物候', '饮品', '五季', '茶', '菜谱', '怎么吃', '烹饪'],
+        answer: '藏红花应用建立在严谨的烹饪化学三大机制之上：\n1. 【三大化学原理】：Crocin 赋予金黄鲜艳汤色；Safranal 挥发香气压制肉类海鲜腥膻；Picrocrocin 微苦回甘提升天然鲜味；\n2. 【0.05g 称重冲泡 SOP】：建议单次取用 0.05g (约 5~8 根)，以 85℃ 纯净温水冲泡，可连续续水 4~5 次；\n3. 【林芝五季物候饮品】：春季桃花山丁子酸奶特调、夏季冷萃极地冰茶、秋季米林灵芝黄精草本茶、冬季石锅鸡温热协同汤饮。',
+        citations: ['SSOT 节点: KNO-SFR-GASTRONOMY 烹饪化学', '应用指南: APP-001 0.05g 冲泡标准']
+      },
+      {
+        keywords: ['战略', '壁垒', '护城河', 'str', '4000', '竞争', '模型', '优势', '投资'],
+        answer: '依据天旺 STR-4000《藏红花技术壁垒战略模型》，产业竞争遵循五层不可逆演进：\n【设备 ➔ 流程 ➔ 标准 ➔ 知识 ➔ 生命管理系统】\n1. 物理设备 (温室/土地) 可以花钱购买，但无法构成长期护城河；\n2. 真正的核心壁垒在于：极地风土微气候 ＋ CEA 现代设施控环农艺 ＋ Brand Content OS 知识操作系统 ＋ 7 级硬核凭证标准体系。\n战略公式：【技术 ＋ 知识 ＋ 标准 ＋ 品牌 ＝ 长期不可逆竞争优势】。',
+        citations: ['战略资产: STR-4000 藏红花技术壁垒战略模型', '发布版本: v1.0 Released']
+      },
+      {
+        keywords: ['产品', '矩阵', '宝芝林', '劲酒', '提取物', '精油', '鲜花', '买', '整朵'],
+        answer: '天旺农牧打破传统单一干花丝局限，建立了 6 大全系产品矩阵：\n1. 【全花解耦】：100% 特级柱头纯净金黄花丝；\n2. 【鲜花整朵干燥】：极地低温真空冻干整朵鲜花；\n3. 【冷萃提取深加工】：联合香港宝芝林打造高活性保健品、联合劲牌/劲酒特调草本养生酒；\n4. 【周边与物候茶】：高纯度精油、浸膏与极地五季物候茶；\n5. 【B2B 工业原料与种球】：面向药企化妆品原料与 25g+ 优质母球种源；\n6. 【科技专利产品】：设施控环催花与低温提取专利型衍生品。',
+        citations: ['SSOT 矩阵: 全系 6 大商业产品体系', '战略合作: 宝芝林 / 劲酒 深度定制']
+      }
+    ];
+
+    let currentTypedTimeout = null;
+
+    function askPreset(q) {
+      document.getElementById('ai-query-input').value = q;
+      handleAIAsk();
+    }
+
+    function handleAIAsk() {
+      const inputEl = document.getElementById('ai-query-input');
+      const query = inputEl.value.trim();
+      if (!query) {
+        inputEl.focus();
+        return;
+      }
+
+      const panel = document.getElementById('ai-answer-panel');
+      const textEl = document.getElementById('ai-answer-text');
+      const citeEl = document.getElementById('ai-citations');
+      const statusEl = document.getElementById('ai-status-text');
+
+      panel.style.display = 'block';
+      statusEl.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> 正在实时检索天旺 SSOT 知识库与证据链...';
+      textEl.innerHTML = '';
+      citeEl.innerHTML = '';
+
+      if (currentTypedTimeout) clearTimeout(currentTypedTimeout);
+
+      // 智能关键词权重检索匹配
+      const qLower = query.toLowerCase();
+      let bestMatch = null;
+      let maxScore = 0;
+
+      SSOT_KB.forEach(item => {
+        let score = 0;
+        item.keywords.forEach(kw => {
+          if (qLower.includes(kw.toLowerCase())) {
+            score += 2;
+          }
+        });
+        if (score > maxScore) {
+          maxScore = score;
+          bestMatch = item;
+        }
+      });
+
+      // 兜底智能回答
+      if (!bestMatch || maxScore === 0) {
+        bestMatch = {
+          answer: `您好！关于“${query}”，天旺农牧作为极地高原藏红花生命管理系统先行者，已建立从上海崇明大田养球到西藏林芝海拔 2945m 设施控环催花的全产业链体系。天旺藏红花通过拉萨海关出口检疫证明 (CMP-001) 与食药检院 0 农残实测报告 (SCI-001) 双重背书，并联合宝芝林与劲酒深度开发全系产品。`,
+          citations: ['SSOT 基础底库: SFR-KNO 藏红花深度认知库', '官方验证: 7级硬核证据链矩阵']
+        };
+      }
+
+      setTimeout(() => {
+        statusEl.innerHTML = '<i class="ri-shield-check-fill" style="color: var(--accent-emerald);"></i> 检索完成 · SSOT 权威事实回复';
+        
+        // 逐字打字机动画
+        let charIndex = 0;
+        const fullText = bestMatch.answer;
+        
+        function typeChar() {
+          if (charIndex < fullText.length) {
+            textEl.innerHTML = fullText.slice(0, charIndex + 1).replace(/\n/g, '<br/>');
+            charIndex++;
+            currentTypedTimeout = setTimeout(typeChar, 12);
+          } else {
+            // 渲染证据链溯源标签
+            citeEl.innerHTML = '<span style="color: #94a3b8; margin-right: 4px;">引用凭证源:</span>' + 
+              bestMatch.citations.map(c => `<span class="ai-cite-tag">${c}</span>`).join('');
+          }
+        }
+        typeChar();
+      }, 350);
+    }
+
+    // 支持输入框回车提问
+    document.getElementById('ai-query-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleAIAsk();
+    });
+
+    function copyAIAnswer() {
+      const text = document.getElementById('ai-answer-text').innerText;
+      if (text) {
+        navigator.clipboard.writeText(text);
+        alert('✅ AI 知识回答已成功复制到剪贴板！');
       }
     }
   </script>
