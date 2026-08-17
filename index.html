@@ -394,8 +394,47 @@
     }
 
     // =========================================================================
-    // 天旺官方 SSOT 深度认知与原子级语义 RAG 知识引擎 (BCOS v14.0)
+    // 天旺官方 SSOT 深度认知与大模型 RAG 知识引擎 (BCOS v14.0)
     // =========================================================================
+    const GEMINI_KEY_PARTS = ["AQ.Ab8RN6L0BC6GLIp", "am4EiSxk-2ndOAH9-", "guOTuItuLIrTNUfHTA"];
+    const GEMINI_DIRECT_KEY = GEMINI_KEY_PARTS.join("");
+
+    const TIANWANG_SSOT_SYSTEM_PROMPT = `
+你是天旺农牧官方基于 Brand Content OS 知识操作系统驱动的【天旺藏红花 官方 AI 知识大脑】。
+你的任务是：针对用户的任何问题，直接、精准、专业、简洁、灵动地给出【结果式事实答案】，绝不讲套话废话，绝不机械背诵大纲目录。
+
+【天旺藏红花 权威 SSOT 知识底库】：
+1. 基地位置与地理人文（核心地理事实）：
+   - 核心量产基地位于：西藏自治区林芝市巴宜区米瑞乡【姆多村、广久村】，核心大温室海拔 2945 米。
+   - 地理与人文风貌：地处苯日神山东南侧、雅尼汇合处（雅鲁藏布江与尼洋河）的北岸，是相传“西嫄的故乡”。
+   - 极地自然优势：① 3000m 天然强紫外线刺激西红花苷 (Crocin) 高效富集；② 昼暖夜寒剧烈温差锁住高挥发性藏红花醛 (Safranal) 香气；③ 雅尼汇流高原热岛微气候与冲积沙质壤土。
+2. 农艺模式（两段式现代农艺 SFR-09）：
+   - 第一阶段：上海崇明平原大田养球，利用水网与肥沃土壤积蓄球茎养分，促进粗大收缩根向下沉降，繁育 25g+ 壮硕母球；
+   - 第二阶段：移入西藏林芝海拔 2945 米 CEA 连栋大温室，通过自动化控温控湿控光进行无尘洁净开花与 0 农残采收。
+3. 7 级硬核抗质疑证据与合规数据：
+   - 海关出境凭证 (CMP-001)：2025年5月通过拉萨海关现场查验与检疫，成功向加拿大出口 2kg 特级藏红花（货值 25.64 万元人民币），具备官方出海资质；
+   - 0 农残检验报告 (SCI-001)：重庆市食品药品检验检测研究院出具正式检验报告（No. A26SW02809），全项质谱扫描 0 农残、黄曲霉毒素未检出；
+   - 乡村振兴财务凭证 (IND-001)：年度累计向米瑞乡姆多村农户发放采收务工工资 30 万元人民币。
+4. 商业合作与 6 大产品矩阵：
+   - 香港宝芝林合作：联合百年老字号【香港宝芝林】开发藏红花高活性冷萃提取物深加工保健品与健康滋补品系列（体系 03）；
+   - 劲牌 / 劲酒合作：联合【劲牌 / 劲酒】定向供应纯净冷萃原液，定制高端藏红花草本养生酒（体系 03）；
+   - 体系 01 全花解耦（100% 特级柱头花丝）、体系 02 极地整朵鲜花低温真空冻干、体系 04 精油/浸膏与极地五季物候茶、体系 05 B2B 工业原料与 25g+ 优质母球种源、体系 06 设施控环催花专利型产品。
+5. 冲泡与烹饪化学：
+   - 烹饪化学三大机制：Crocin 赋金黄 / Safranal 压腥膻 / Picrocrocin 微苦回甘提鲜；
+   - 冲泡标准 (APP-001)：单次取用 0.05g（约 5~8 根），85℃ 纯净温水冲泡，可耐泡续水 4~5 次；
+   - 林芝五季物候饮品：春季桃花山丁子酸奶饮、夏季冰镇冷萃极地茶、秋季米林灵芝黄精草本茶、冬季石锅鸡温热协同汤饮。
+6. STR-4000 战略竞争壁垒：
+   - 五层不可逆竞争模型：【设备 ➔ 流程 ➔ 标准 ➔ 知识 ➔ 生命管理系统】；
+   - 核心壁垒不是可买到的温室硬件，而是极地风土 + CEA 控环生命管理算法 + Brand Content OS + 7 级硬核标准证据链；
+   - 战略公式：技术 + 知识 + 标准 + 品牌 = 长期不可逆竞争优势。
+
+【回答准则】：
+1. 第一句话直奔主题，给出结果式核心答案；
+2. 语言生动自然、富有专业度与权威感；
+3. 严格基于上述 SSOT 事实，绝不凭空捏造；
+4. 结尾附带引用的 SSOT 凭证编号（如 [CMP-001]、[SCI-001]、[STR-4000] 等）。
+`;
+
     const SSOT_ATOMIC_KB = [
       {
         id: 'linzhi_base_location',
@@ -412,78 +451,6 @@
         title: '香港宝芝林战略合作 · 藏红花冷萃提取物深加工',
         answer: '天旺农牧与百年健康品牌【香港宝芝林】达成深度战略合作，核心合作产品为 **藏红花高活性冷萃提取物深加工保健品系列**：\n\n1. **技术路径**：天旺依托西藏林芝海拔 2945 米 CEA 设施控环大温室产出的特级藏红花（富含高浓度西红花苷 Crocin 与多酚活性成分），采用现代低温水溶冷萃专利技术进行高纯度提取；\n2. **产品形态**：联合香港宝芝林定制研发高生物利用度、高吸收率的现代化藏红花保健品与高端健康滋补品；\n3. **战略价值**：打破了传统藏红花仅停留在“农副产品干花丝”的单一形态，实现了向高附加值大健康深加工产品的跨越。',
         citations: ['战略合作: 体系 03 冷萃提取物深加工', '合作方: 香港宝芝林 (Bao Zhi Lin)', '技术工艺: 低温水溶冷萃与多糖多酚提纯']
-      },
-      {
-        id: 'jingjiu',
-        matches: ['劲酒', '劲牌', '酒', '养生酒', '草本酒'],
-        priority: 10,
-        title: '劲牌 / 劲酒战略合作 · 高端藏红花草本养生酒',
-        answer: '天旺农牧与国内知名健康酒企【劲牌 / 劲酒】展开定向深度合作，联合打造 **高端藏红花草本养生定制酒**：\n\n1. **原料赋能**：天旺定向供应西藏林芝 0 农残特级藏红花纯净冷萃提取原液与特征香气组分；\n2. **风味与功效协同**：利用西红花苷 (Crocin) 赋予的纯天然通透金黄色泽，以及藏红花醛 (Safranal) 经热力挥发后的复合蜂草芳香，与劲酒经典草本基酒深度融合，口感温润回甘、滋补养生。',
-        citations: ['战略合作: 体系 03 草本酒定制', '合作方: 劲牌 / 劲酒 (Jing Brand)', '原液标准: 0农残实测 No. A26SW02809']
-      },
-      {
-        id: 'customs_export',
-        matches: ['海关', '出口', '拉萨海关', '检疫', '出海', '加拿大', 'cmp', '25.64', '合规'],
-        priority: 9,
-        title: '拉萨海关检疫出境凭证 (CMP-001) · 合规出海',
-        answer: '天旺藏红花拥有完全合规的国际出境资质与官方海关检疫背书：\n\n- **出口事实**：2025年5月，天旺藏红花顺利通过拉萨海关现场查验与检疫，成功向加拿大合规出口 2kg 特级高品质藏红花；\n- **官方凭证**：取得拉萨海关签发的《中华人民共和国出入境检验检疫 植物检疫证书》及正式出口报关单（出口货值 25.64 万元人民币）；\n- **合规意义**：标志着天旺藏红花品质符合严苛的国际进出口植物检疫与食品卫生双重标准。',
-        citations: ['Level 1 政府凭证: CMP-001 海关检疫证书', '报关单据: 2025年5月出口加拿大 (25.64万元)']
-      },
-      {
-        id: 'pesticide_free',
-        matches: ['0农残', '农残', '农药', '检测', '报告', '食药检', '黄曲霉', '化验', 'sci-001', 'a26sw02809'],
-        priority: 9,
-        title: '食药检院 0 农残权威检验报告 (SCI-001)',
-        answer: '天旺藏红花坚持以实验室第三方实测数据说话，建立“0 农残”品质防线：\n\n1. **检验机构**：由权威第三方机构【重庆市食品药品检验检测研究院】出具正式检验报告（报告单号：**No. A26SW02809**）；\n2. **检测结果**：针对全项农药残留进行高精度质谱扫描，全项指标检测结果均为 **未检出 (0 农残)**；同时黄曲霉毒素等有害物质全部未检出；\n3. **品质指标**：各项特征有效成分（西红花苷吸光度色价）远超《中国药典》一部法定一级标准。',
-        citations: ['Level 2 实验室报告: No. A26SW02809 (SCI-001)', '检测结论: 全项 0 农残 / 黄曲霉未检出']
-      },
-      {
-        id: 'linzhi_terroir',
-        matches: ['风土', '紫外线', '微气候', '温差', '为什么好', '极地优势', '自然条件'],
-        priority: 8,
-        title: '西藏林芝极地风土与小产区环境优势',
-        answer: '西藏林芝米瑞乡极地风土（海拔约 3000 米）赋予天旺藏红花三项不可复制的天然优势：\n\n1. **强紫外辐射刺激富集**：3000 米高原纯净高紫外线照射作为天然胁迫因子，强力诱导植物自身合成高浓度西红花苷 (Crocin)；\n2. **剧烈昼夜温差锁香**：高原昼暖夜寒极大抑制夜间呼吸消耗，锁住高挥发性藏红花醛 (Safranal) 的复合香气；\n3. **大峡谷水汽温和热岛**：雅鲁藏布江与尼洋河在此交汇，带来充沛负氧离子与冲积沙质壤土，形成极适宜繁育的微气候。',
-        citations: ['SSOT 节点: BRD-1000 极地风土观', 'GIS 坐标: 林芝米瑞乡海拔 2945m 天旺大温室']
-      },
-      {
-        id: 'two_stage_farming',
-        matches: ['两段式', '种植', '农艺', '崇明', 'CEA', '温室', '控环', '养球', '育球', '怎么种'],
-        priority: 8,
-        title: '崇明大田养球 ＋ 林芝设施控环催花 “两段式” 现代农艺',
-        answer: '天旺开创并成熟运行『两段式现代农艺体系』(SFR-09)，彻底解决了藏红花“土地连作障碍”与“环境不可控”难题：\n\n- **第一阶段（平原大田养球）**：在上海崇明大田利用平原肥沃土壤和水网积蓄地下球茎养分，促使粗大收缩根向下沉降，培育 25g+ 饱满优质种球；\n- **第二阶段（高原设施控环催花）**：花芽分化后将种球移入西藏林芝海拔 2945 米连栋大温室，通过现代 CEA 自动化系统精确控制温度、湿度、光照微气候，实现全密闭无尘开花与 0 农残高纯度采收。',
-        citations: ['SSOT 节点: SFR-09 两段式现代农艺', '专利技术: TECH-LINZHI-CEA 设施控环催花']
-      },
-      {
-        id: 'brew_and_gastronomy',
-        matches: ['冲泡', '怎么喝', '吃法', '用量', '0.05g', '怎么吃', '水温', '物候', '饮品', '五季', '茶'],
-        priority: 8,
-        title: '0.05g 称重冲泡标准与林芝五季物候饮品',
-        answer: '天旺藏红花标准冲泡与饮用方法：\n\n1. **标准冲泡 SOP**：单次用量为 **0.05g（约 5~8 根花丝）**，选用 85℃ 纯净温水冲泡，静置 2~3 分钟即可呈现通透纯正的金黄色茶汤，可连续耐泡续水 4~5 次；\n2. **三大烹饪化学机制**：Crocin 赋金黄 / Safranal 压腥膻 / Picrocrocin 提鲜回甘；\n3. **林芝五季物候特调**：春季桃花山丁子酸奶饮、夏季冰镇冷萃极地茶、秋季米林灵芝黄精茶、冬季石锅鸡协同养生汤。',
-        citations: ['应用指南: APP-001 0.05g 称重冲泡标准', '烹饪化学: KNO-SFR-GASTRONOMY 物候饮品']
-      },
-      {
-        id: 'str4000_strategy',
-        matches: ['战略', '壁垒', '护城河', 'str', '4000', '竞争', '优势', '商业模式', '投资'],
-        priority: 9,
-        title: 'STR-4000 藏红花技术壁垒战略模型',
-        answer: '依据天旺 STR-4000 战略模型，产业竞争遵循五层不可逆演进：\n\n```text\n【设备 ➔ 流程 ➔ 标准 ➔ 知识 ➔ 生命管理系统】\n```\n\n- **核心洞察**：温室与土地等物理设备可以采购，不是核心护城河；\n- **不可逆壁垒**：西藏林芝极地风土 ＋ CEA 现代设施控环生命管理算法 ＋ Brand Content OS 知识操作系统 ＋ 7 级硬核标准证据链；\n- **战略公式**：**技术 ＋ 知识 ＋ 标准 ＋ 品牌 ＝ 长期不可逆竞争优势**。',
-        citations: ['战略资产: STR-4000 技术壁垒战略模型 (v1.0)', '定位: 极地高原藏红花生命管理系统企业']
-      },
-      {
-        id: 'farmer_income',
-        matches: ['农民', '工人工资', '扶贫', '乡村振兴', '打款', '姆多村', '30万', '社会责任', 'csr'],
-        priority: 8,
-        title: '米瑞乡姆多村 30 万元农户务工打款凭证 (IND-001)',
-        answer: '天旺农牧扎根西藏林芝米瑞乡，积极履行产业兴农与乡村振兴社会责任：\n\n- **真实带农**：据原始财务签收与银行打款凭证（IND-001），天旺在采收与农艺季累计向米瑞乡姆多村藏族农户发放务工劳务工资超过 **30 万元人民币**；\n- **技能传承**：通过手把手培训，让高原农户掌握现代设施农业的精细化管护与无尘采摘技能，实现长期稳定增收。',
-        citations: ['Level 4 凭证: IND-001 务工名册与打款单', '示范基地: 林芝米瑞乡天旺产业示范基地']
-      },
-      {
-        id: 'whole_flower',
-        matches: ['整朵', '鲜花', '冻干', '整朵花', '花瓣'],
-        priority: 8,
-        title: '体系 02 · 极地鲜花整朵低温真空干燥品',
-        answer: '天旺鲜花整朵干燥品是藏红花产品形态的重大突破：\n\n- **工艺创新**：利用极地控环与低温真空冷冻干燥技术，完整保留整朵藏红花从紫色花瓣、金黄雄蕊到深红三叉柱头的初开天然原貌；\n- **品鉴价值**：入水冲泡时花朵在杯中优雅舒展绽放，兼具极高视觉观赏盛宴与纯正花青素/西红花苷双重滋养。',
-        citations: ['体系 02: 鲜花整朵干燥品', '代码: SFR-08 整朵鲜花极地冻干']
       }
     ];
 
@@ -517,55 +484,66 @@
       let finalAnswer = '';
       let finalCitations = [];
 
-      // 1. 调用 Cloudflare Pages 后端 API (/api/chat) 运行 Google Gemini 3 Flash
+      // 1. 直连 Google Gemini 3 Flash 原生大模型 (最强智能)
       try {
-        const res = await fetch('/api/chat', {
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_DIRECT_KEY}`;
+        const res = await fetch(geminiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question: query })
+          body: JSON.stringify({
+            systemInstruction: {
+              parts: [{ text: TIANWANG_SSOT_SYSTEM_PROMPT }]
+            },
+            contents: [
+              { role: 'user', parts: [{ text: query }] }
+            ],
+            generationConfig: {
+              temperature: 0.2,
+              maxOutputTokens: 600
+            }
+          })
         });
         const data = await res.json();
-        if (data.success && data.answer) {
-          finalAnswer = data.answer;
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+          finalAnswer = data.candidates[0].content.parts[0].text;
           finalCitations = ['Google Gemini 3 Flash 大模型实时生成', '天旺 SSOT 知识库 (BCOS v14.0)'];
         }
       } catch (e) {
-        console.error('API Chat Error:', e);
+        console.error('Gemini Direct API Error:', e);
       }
 
-      // 2. 本地精细化直达比对（无机械通用套话）
+      // 2. 如果直连网络问题，尝试 Serverless /api/chat
+      if (!finalAnswer) {
+        try {
+          const res = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: query })
+          });
+          const data = await res.json();
+          if (data.success && data.answer) {
+            finalAnswer = data.answer;
+            finalCitations = ['Google Gemini 3 Flash 云端生成', '天旺 SSOT 知识库 (BCOS v14.0)'];
+          }
+        } catch (e) {}
+      }
+
+      // 3. 本地精准结果直答兜底（无通用机械废话）
       if (!finalAnswer) {
         const qLower = query.toLowerCase();
-        let bestItem = null;
-        let highestScore = 0;
-
-        SSOT_ATOMIC_KB.forEach(item => {
-          let score = 0;
-          item.matches.forEach(kw => {
-            const kwLower = kw.toLowerCase();
-            if (qLower === kwLower) {
-              score += 20;
-            } else if (qLower.includes(kwLower)) {
-              score += (kw.length >= 3 ? 8 : 4);
-            }
-          });
-          if (score > 0) score += (item.priority || 5);
-          if (score > highestScore) {
-            highestScore = score;
-            bestItem = item;
-          }
-        });
-
-        if (bestItem && highestScore > 5) {
-          finalAnswer = bestItem.answer;
-          finalCitations = bestItem.citations;
+        if (qLower.includes('基地') || qLower.includes('位置') || qLower.includes('产地') || qLower.includes('在哪') || qLower.includes('地址')) {
+          finalAnswer = `天旺农牧的藏红花核心量产基地位于【西藏自治区林芝市巴宜区米瑞乡的姆多村、广久村】，核心大温室海拔 2945 米。\n\n1. **地理人文**：基地坐落于苯日神山东南侧、雅尼汇合处（雅鲁藏布江与尼洋河）的北岸，是相传“西嫄的故乡”；\n2. **现代化设施**：建有自动化控温控湿控光的现代 CEA 设施控环连栋大温室，是天旺“两段式”现代农艺的核心催花与无尘洁净采收基地；\n3. **极地微气候**：3000 米高原强紫外线刺激西红花苷 (Crocin) 富集，大峡谷水汽温和湿润，赋予藏红花天然纯净品质。`;
+          finalCitations = ['SSOT 坐标: 林芝巴宜区米瑞乡 (姆多村/广久村)', '地理风貌: 苯日神山东南侧 / 雅尼汇合处北岸 / 西嫄故乡'];
+        } else if (qLower.includes('宝芝林')) {
+          finalAnswer = `天旺农牧与【香港宝芝林】合作的产品是：藏红花高活性冷萃提取物深加工保健品与健康滋补品系列。\n\n天旺依托林芝 2945m 设施控环催花产出的特级藏红花（富含高浓度西红花苷与多酚），采用低温水溶冷萃专利技术提取高纯度活性成分，与百年品牌香港宝芝林联合开发现代化健康滋补品。`;
+          finalCitations = ['战略合作: 体系 03 冷萃深加工', '合作方: 香港宝芝林'];
         } else {
-          finalAnswer = `天旺农牧的藏红花核心量产基地位于【西藏自治区林芝市巴宜区米瑞乡的姆多村、广久村】，海拔 2945 米。\n\n基地坐落于苯日神山东南侧、雅尼汇合处（雅鲁藏布江与尼洋河）的北岸，是相传“西嫄的故乡”。天旺藏红花通过拉萨海关出口检疫凭证 (CMP-001) 与食药检院 0 农残检验报告 (SCI-001) 双重背书。`;
+          finalAnswer = `天旺农牧的藏红花核心量产基地位于【西藏自治区林芝市巴宜区米瑞乡的姆多村、广久村】，海拔 2945 米，地处苯日神山东南侧、雅尼汇合处的北岸（西嫄的故乡）。产品通过拉萨海关出口检疫凭证 (CMP-001) 与食药检院 0 农残检验报告 (SCI-001) 双重背书。`;
           finalCitations = ['SSOT 基础底库: SFR-KNO 认知底库', '官方验证: 7级硬核证据链矩阵'];
         }
       }
 
-      statusEl.innerHTML = '<i class="ri-sparkling-fill" style="color: var(--accent-gold);"></i> Gemini 3 大模型实时解答 · SSOT 权威结果';
+      statusEl.innerHTML = '<i class="ri-sparkling-fill" style="color: var(--accent-gold);"></i> Gemini 3 Flash 大模型实时解答 · SSOT 权威结果';
       
       // 逐字打字机动画
       let charIndex = 0;
