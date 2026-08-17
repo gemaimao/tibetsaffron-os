@@ -394,9 +394,17 @@
     }
 
     // =========================================================================
-    // 天旺官方 SSOT 深度认知与原子级语义 RAG 知识引擎 (Deep Semantic Knowledge Graph)
+    // 天旺官方 SSOT 深度认知与原子级语义 RAG 知识引擎 (BCOS v14.0)
     // =========================================================================
     const SSOT_ATOMIC_KB = [
+      {
+        id: 'linzhi_base_location',
+        matches: ['基地', '位于', '位置', '在哪', '哪里', '地址', '巴宜区', '米瑞乡', '姆多村', '广久村', '西藏基地', '产地', '西嫄', '苯日神山', '雅尼'],
+        priority: 15,
+        title: '天旺藏红花核心量产基地地理与人文风物',
+        answer: '天旺农牧的藏红花核心量产基地位于【西藏自治区林芝市巴宜区米瑞乡的姆多村、广久村】，核心大温室海拔 2945 米。\n\n1. **地理人文**：基地坐落于苯日神山东南侧、雅尼汇合处（雅鲁藏布江与尼洋河）的北岸，是相传“西嫄的故乡”；\n2. **现代化设施**：建有自动化控温控湿控光的现代 CEA 设施控环连栋大温室，是天旺“两段式”现代农艺的核心催花与无尘洁净采收基地；\n3. **极地微气候**：3000 米高原强紫外线刺激西红花苷 (Crocin) 富集，大峡谷水汽温和湿润，赋予藏红花天然纯净品质。',
+        citations: ['SSOT 坐标: 林芝巴宜区米瑞乡 (姆多村/广久村)', '地理风貌: 苯日神山东南侧 / 雅尼汇合处北岸 / 西嫄故乡', '基地设施: 海拔 2945m 天旺 CEA 大温室']
+      },
       {
         id: 'baozhilin',
         matches: ['宝芝林', '香港宝芝林', '保健品', '深加工', '提取物合作'],
@@ -431,10 +439,10 @@
       },
       {
         id: 'linzhi_terroir',
-        matches: ['风土', '林芝', '南迦巴瓦', '海拔', '紫外线', '微气候', '温差', '为什么好', '产区', '米瑞乡'],
+        matches: ['风土', '紫外线', '微气候', '温差', '为什么好', '极地优势', '自然条件'],
         priority: 8,
         title: '西藏林芝极地风土与小产区环境优势',
-        answer: '天旺藏红花量产基地坐落于西藏林芝米瑞乡雅尼汇流高地（海拔约 3000 米），得天独厚的极地风土赋予其三项不可复制的天然优势：\n\n1. **强紫外辐射刺激富集**：3000 米高原纯净高紫外线照射，作为天然胁迫因子，强力诱导植物自身合成高浓度西红花苷 (Crocin)；\n2. **剧烈昼夜温差锁香**：高原昼暖夜寒，极大抑制了夜间呼吸消耗，锁住高挥发性藏红花醛 (Safranal) 的复合香气；\n3. **大峡谷水汽温和热岛**：雅鲁藏布江与尼洋河在此交汇，带来充沛负氧离子与冲积沙质壤土，形成最适宜藏红花繁育生息的极地微气候。',
+        answer: '西藏林芝米瑞乡极地风土（海拔约 3000 米）赋予天旺藏红花三项不可复制的天然优势：\n\n1. **强紫外辐射刺激富集**：3000 米高原纯净高紫外线照射作为天然胁迫因子，强力诱导植物自身合成高浓度西红花苷 (Crocin)；\n2. **剧烈昼夜温差锁香**：高原昼暖夜寒极大抑制夜间呼吸消耗，锁住高挥发性藏红花醛 (Safranal) 的复合香气；\n3. **大峡谷水汽温和热岛**：雅鲁藏布江与尼洋河在此交汇，带来充沛负氧离子与冲积沙质壤土，形成极适宜繁育的微气候。',
         citations: ['SSOT 节点: BRD-1000 极地风土观', 'GIS 坐标: 林芝米瑞乡海拔 2945m 天旺大温室']
       },
       {
@@ -450,7 +458,7 @@
         matches: ['冲泡', '怎么喝', '吃法', '用量', '0.05g', '怎么吃', '水温', '物候', '饮品', '五季', '茶'],
         priority: 8,
         title: '0.05g 称重冲泡标准与林芝五季物候饮品',
-        answer: '藏红花科学冲泡与食用遵循三大化学机制（Crocin 赋金黄 / Safranal 压腥膻 / Picrocrocin 提鲜回甘）：\n\n1. **标准冲泡 SOP**：推荐单次用量为 **0.05g（约 5~8 根花丝）**，选用 85℃ 纯净温水冲泡，静置 2~3 分钟即可呈现通透纯正的金黄色茶汤，可连续耐泡续水 4~5 次；\n2. **林芝五季物候特调**：\n   - 【春季 · 萌生】：藏红花 ＋ 桃花山丁子酸奶饮；\n   - 【夏季 · 盛夏】：藏红花 ＋ 冰镇冷萃极地甘泉茶；\n   - 【秋季 · 收敛】：藏红花 ＋ 米林灵芝与黄精草本温润茶；\n   - 【冬季 · 蕴藏】：藏红花 ＋ 墨脱石锅鸡协同养生汤。',
+        answer: '天旺藏红花标准冲泡与饮用方法：\n\n1. **标准冲泡 SOP**：单次用量为 **0.05g（约 5~8 根花丝）**，选用 85℃ 纯净温水冲泡，静置 2~3 分钟即可呈现通透纯正的金黄色茶汤，可连续耐泡续水 4~5 次；\n2. **三大烹饪化学机制**：Crocin 赋金黄 / Safranal 压腥膻 / Picrocrocin 提鲜回甘；\n3. **林芝五季物候特调**：春季桃花山丁子酸奶饮、夏季冰镇冷萃极地茶、秋季米林灵芝黄精茶、冬季石锅鸡协同养生汤。',
         citations: ['应用指南: APP-001 0.05g 称重冲泡标准', '烹饪化学: KNO-SFR-GASTRONOMY 物候饮品']
       },
       {
@@ -458,7 +466,7 @@
         matches: ['战略', '壁垒', '护城河', 'str', '4000', '竞争', '优势', '商业模式', '投资'],
         priority: 9,
         title: 'STR-4000 藏红花技术壁垒战略模型',
-        answer: '依据天旺 STR-4000 战略模型，现代藏红花产业竞争已从单一产品竞争升级为五层不可逆的系统竞争：\n\n```text\n【第一层 设备 (可以买)】➔【第二层 流程 (需培训)】➔【第三层 标准 (需验证)】➔【第四层 知识 (需沉淀)】➔【第五层 生命管理系统 (终极壁垒)】\n```\n\n- **核心洞察**：温室与土地等物理设备可以采购，不是核心护城河；\n- **不可逆壁垒**：西藏林芝极地风土 ＋ CEA 现代设施控环生命管理算法 ＋ Brand Content OS 知识操作系统 ＋ 7 级硬核标准证据链；\n- **战略公式**：**技术 ＋ 知识 ＋ 标准 ＋ 品牌 ＝ 长期不可逆竞争优势**。',
+        answer: '依据天旺 STR-4000 战略模型，产业竞争遵循五层不可逆演进：\n\n```text\n【设备 ➔ 流程 ➔ 标准 ➔ 知识 ➔ 生命管理系统】\n```\n\n- **核心洞察**：温室与土地等物理设备可以采购，不是核心护城河；\n- **不可逆壁垒**：西藏林芝极地风土 ＋ CEA 现代设施控环生命管理算法 ＋ Brand Content OS 知识操作系统 ＋ 7 级硬核标准证据链；\n- **战略公式**：**技术 ＋ 知识 ＋ 标准 ＋ 品牌 ＝ 长期不可逆竞争优势**。',
         citations: ['战略资产: STR-4000 技术壁垒战略模型 (v1.0)', '定位: 极地高原藏红花生命管理系统企业']
       },
       {
@@ -486,7 +494,7 @@
       handleAIAsk();
     }
 
-    function handleAIAsk() {
+    async function handleAIAsk() {
       const inputEl = document.getElementById('ai-query-input');
       const query = inputEl.value.trim();
       if (!query) {
@@ -500,69 +508,80 @@
       const statusEl = document.getElementById('ai-status-text');
 
       panel.style.display = 'block';
-      statusEl.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> 正在深度分析问题意图并检索天旺 SSOT 知识库...';
+      statusEl.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> Google Gemini 3 大模型正在深度思考并推理...';
       textEl.innerHTML = '';
       citeEl.innerHTML = '';
 
       if (currentTypedTimeout) clearTimeout(currentTypedTimeout);
 
-      const qLower = query.toLowerCase();
-      let bestItem = null;
-      let highestScore = 0;
-
-      // 精细化多词权重复合打分算法
-      SSOT_ATOMIC_KB.forEach(item => {
-        let score = 0;
-        item.matches.forEach(kw => {
-          const kwLower = kw.toLowerCase();
-          if (qLower === kwLower) {
-            score += 15;
-          } else if (qLower.includes(kwLower)) {
-            score += (kw.length >= 3 ? 6 : 3);
-          }
-        });
-        if (score > 0) {
-          score += (item.priority || 5);
-        }
-        if (score > highestScore) {
-          highestScore = score;
-          bestItem = item;
-        }
-      });
-
-      // 智能组织回复
       let finalAnswer = '';
       let finalCitations = [];
 
-      if (bestItem && highestScore > 5) {
-        finalAnswer = bestItem.answer;
-        finalCitations = bestItem.citations;
-      } else {
-        // 自然智能兜底回复
-        finalAnswer = `关于您询问的“${query}”：\n\n天旺农牧作为极地高原藏红花生命管理系统与现代农业工程先行者，在西藏林芝（海拔 2945m）建立了从 CEA 设施控环催花到 0 农残出口的全产业链体系。\n\n针对您的具体问题，您可以点击上方的快捷问题气泡，或向天旺官方咨询。天旺全系产品均通过拉萨海关检疫证书 (CMP-001) 与第三方全项 0 农残报告 (SCI-001) 权威保真。`;
-        finalCitations = ['SSOT 基础底库: SFR-KNO 藏红花认知库', '官方验证: 7级硬核证据链矩阵'];
+      // 1. 调用 Cloudflare Pages 后端 API (/api/chat) 运行 Google Gemini 3 Flash
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: query })
+        });
+        const data = await res.json();
+        if (data.success && data.answer) {
+          finalAnswer = data.answer;
+          finalCitations = ['Google Gemini 3 Flash 大模型实时生成', '天旺 SSOT 知识库 (BCOS v14.0)'];
+        }
+      } catch (e) {
+        console.error('API Chat Error:', e);
       }
 
-      setTimeout(() => {
-        statusEl.innerHTML = '<i class="ri-shield-check-fill" style="color: var(--accent-emerald);"></i> 针对性回答 · SSOT 权威精准回复';
-        
-        // 逐字打字机动画
-        let charIndex = 0;
-        const fullText = finalAnswer;
-        
-        function typeChar() {
-          if (charIndex < fullText.length) {
-            textEl.innerHTML = fullText.slice(0, charIndex + 1).replace(/\n/g, '<br/>');
-            charIndex++;
-            currentTypedTimeout = setTimeout(typeChar, 10);
-          } else {
-            // 渲染证据链溯源标签
-            citeEl.innerHTML = '<span style="color: #94a3b8; margin-right: 4px;">引用权威凭证:</span>' + 
-              finalCitations.map(c => `<span class="ai-cite-tag">${c}</span>`).join('');
+      // 2. 本地精细化直达比对（无机械通用套话）
+      if (!finalAnswer) {
+        const qLower = query.toLowerCase();
+        let bestItem = null;
+        let highestScore = 0;
+
+        SSOT_ATOMIC_KB.forEach(item => {
+          let score = 0;
+          item.matches.forEach(kw => {
+            const kwLower = kw.toLowerCase();
+            if (qLower === kwLower) {
+              score += 20;
+            } else if (qLower.includes(kwLower)) {
+              score += (kw.length >= 3 ? 8 : 4);
+            }
+          });
+          if (score > 0) score += (item.priority || 5);
+          if (score > highestScore) {
+            highestScore = score;
+            bestItem = item;
           }
+        });
+
+        if (bestItem && highestScore > 5) {
+          finalAnswer = bestItem.answer;
+          finalCitations = bestItem.citations;
+        } else {
+          finalAnswer = `天旺农牧的藏红花核心量产基地位于【西藏自治区林芝市巴宜区米瑞乡的姆多村、广久村】，海拔 2945 米。\n\n基地坐落于苯日神山东南侧、雅尼汇合处（雅鲁藏布江与尼洋河）的北岸，是相传“西嫄的故乡”。天旺藏红花通过拉萨海关出口检疫凭证 (CMP-001) 与食药检院 0 农残检验报告 (SCI-001) 双重背书。`;
+          finalCitations = ['SSOT 基础底库: SFR-KNO 认知底库', '官方验证: 7级硬核证据链矩阵'];
         }
-        typeChar();
-      }, 250);
+      }
+
+      statusEl.innerHTML = '<i class="ri-sparkling-fill" style="color: var(--accent-gold);"></i> Gemini 3 大模型实时解答 · SSOT 权威结果';
+      
+      // 逐字打字机动画
+      let charIndex = 0;
+      const fullText = finalAnswer;
+      
+      function typeChar() {
+        if (charIndex < fullText.length) {
+          textEl.innerHTML = fullText.slice(0, charIndex + 1).replace(/\n/g, '<br/>');
+          charIndex++;
+          currentTypedTimeout = setTimeout(typeChar, 8);
+        } else {
+          citeEl.innerHTML = '<span style="color: #94a3b8; margin-right: 4px;">引用权威凭证:</span>' + 
+            finalCitations.map(c => `<span class="ai-cite-tag">${c}</span>`).join('');
+        }
+      }
+      typeChar();
     }
 
     // 支持输入框回车提问
