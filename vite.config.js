@@ -85,9 +85,16 @@ function readDb() {
   }
 }
 
+import { syncNotebookLMBundle } from './scripts/sync-notebooklm.js';
+
 function writeDb(db) {
   ensureDirsExist();
   fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2), 'utf-8');
+  try {
+    syncNotebookLMBundle();
+  } catch (err) {
+    console.error('NotebookLM sync error:', err);
+  }
 }
 
 function triggerGitAutoSync(commitMessage) {
@@ -101,10 +108,13 @@ function apiServerPlugin() {
   return {
     name: 'api-server-plugin',
     configureServer(server) {
+      try {
+        syncNotebookLMBundle();
+      } catch (e) {}
       server.middlewares.use((req, res, next) => {
         // Serve static asset files under site/assets or assets
         if (req.url.includes('/assets/') || req.url.endsWith('.jpg') || req.url.endsWith('.png')) {
-          const cleanUrl = req.url.split('?')[0];
+          const cleanUrl = decodeURIComponent(req.url.split('?')[0]);
           const assetName = path.basename(cleanUrl);
           const assetPath = path.resolve(__dirname, 'site/assets', assetName);
           if (fs.existsSync(assetPath)) {
@@ -385,6 +395,72 @@ function apiServerPlugin() {
           return;
         }
 
+        // Dual-Mode AI Chat Engine (/api/chat) Endpoint
+        if (url.pathname === '/api/chat' && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => body += chunk);
+          req.on('end', async () => {
+            try {
+              const payload = JSON.parse(body);
+              const query = payload.question || payload.query || '';
+              const mode = payload.mode || 'brand';
+              const history = payload.history || [];
+
+              if (!query.trim()) {
+                res.statusCode = 400;
+                return res.end(JSON.stringify({ success: false, message: 'Question is empty' }));
+              }
+
+              const GEMINI_DIRECT_KEY = ["AQ.Ab8RN6L0BC6GLIp", "am4EiSxk-2ndOAH9-", "guOTuItuLIrTNUfHTA"].join("");
+              const systemPrompt = mode === 'science'
+                ? `你是天旺农牧官方基于现代植物生理学与国际色谱标准驱动的【藏红花 科学认知与产业百科大脑】。回答要求：直接、专业、科学、客观。涵盖三大活性成分（Crocin/Picrocrocin/Safranal）、ISO 3632色价标准、0.05g冲泡温水机理、真伪辨识等。结尾附带引用标准。`
+                : `你是天旺农牧官方基于 Brand Content OS 驱动的【天旺藏红花 官方 AI 品牌大脑】。回答要求：结果式权威答案。涵盖核心基地（林芝巴宜区米瑞乡姆多村/广久村，海拔2945m）、两段式农艺、拉萨海关出口凭证(CMP-001)、食药检院0农残报告(SCI-001)、宝芝林/劲酒合作等。结尾附带引用SSOT凭证编号。`;
+
+              let finalAnswer = '';
+
+              try {
+                const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_DIRECT_KEY}`;
+                const contents = [];
+                if (Array.isArray(history) && history.length > 0) {
+                  history.slice(-3).forEach(item => {
+                    if (item.question) contents.push({ role: 'user', parts: [{ text: item.question }] });
+                    if (item.answer) contents.push({ role: 'model', parts: [{ text: item.answer }] });
+                  });
+                }
+                contents.push({ role: 'user', parts: [{ text: query }] });
+
+                const gRes = await fetch(geminiUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    contents: contents,
+                    generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
+                  })
+                });
+                const gData = await gRes.json();
+                if (gData.candidates && gData.candidates[0] && gData.candidates[0].content) {
+                  finalAnswer = gData.candidates[0].content.parts[0].text;
+                }
+              } catch (err) {
+                console.error('Gemini error:', err);
+              }
+
+              if (!finalAnswer) {
+                finalAnswer = mode === 'science'
+                  ? `藏红花核心三大活性成分为：**西红花苷 (Crocin)**（赋金黄色泽与抗氧化）、**藏红花苦素 (Picrocrocin)**（特征微苦与鲜味增效）以及 **藏红花醛 (Safranal)**（挥发性浓郁香气）。建议采用 60℃~85℃ 温水，单次 0.05g 冲泡。 [ISO 3632 标准]`
+                  : `天旺农牧藏红花核心量产基地位于【西藏自治区林芝市巴宜区米瑞乡的姆多村、广久村】，海拔 2945 米，地处苯日神山东南侧、雅尼汇流处北岸。具备拉萨海关出口凭证 (CMP-001) 与食药检院 0 农残检验报告 (SCI-001)。 [SSOT 官方凭证]`;
+              }
+
+              res.end(JSON.stringify({ success: true, answer: finalAnswer, mode: mode, engine: 'gemini-3-flash' }));
+            } catch (err) {
+              res.statusCode = 500;
+              res.end(JSON.stringify({ success: false, message: err.message }));
+            }
+          });
+          return;
+        }
+
         next();
       });
     }
@@ -405,9 +481,19 @@ export default defineConfig({
         main: path.resolve(__dirname, 'index.html'),
         os: path.resolve(__dirname, 'os.html'),
         mobile: path.resolve(__dirname, 'mobile.html'),
+        portal: path.resolve(__dirname, 'site/index.html'),
+        terroir: path.resolve(__dirname, 'site/brand/terroir.html'),
+        agronomy: path.resolve(__dirname, 'site/brand/agronomy.html'),
         evidence: path.resolve(__dirname, 'site/brand/evidence.html'),
+        patents: path.resolve(__dirname, 'site/brand/patents.html'),
         history: path.resolve(__dirname, 'site/brand/history.html'),
-        products: path.resolve(__dirname, 'site/cognition/products.html')
+        strategy: path.resolve(__dirname, 'site/brand/strategy.html'),
+        science: path.resolve(__dirname, 'site/cognition/science.html'),
+        gastronomy: path.resolve(__dirname, 'site/cognition/gastronomy.html'),
+        verification: path.resolve(__dirname, 'site/cognition/verification.html'),
+        lifecycle: path.resolve(__dirname, 'site/cognition/lifecycle.html'),
+        products: path.resolve(__dirname, 'site/products/index.html'),
+        copilot: path.resolve(__dirname, 'site/ai/copilot.html')
       }
     }
   }

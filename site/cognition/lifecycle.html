@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>藏红花全年生长周期与地下繁育机制全景 · 天旺农牧</title>
+  <!-- Google Fonts & Remixicon -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-card: #111726;
+      --bg-card-hover: #192338;
+      --border-color: #1e293b;
+      --border-highlight: rgba(245, 158, 11, 0.4);
+      --accent-gold: #f59e0b;
+      --accent-gold-light: #fbbf24;
+      --accent-gold-glow: rgba(245, 158, 11, 0.35);
+      --accent-purple: #a855f7;
+      --accent-blue: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-red: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.75; overflow-x: hidden; }
+
+    /* Navigation Header */
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 40px; background: rgba(7,9,14,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); position: fixed; width: 100%; top: 0; z-index: 1000; }
+    .logo { font-size: 18px; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo img { height: 34px; width: 34px; border-radius: 6px; object-fit: cover; background: #fff; padding: 2px; }
+    .nav-actions { display: flex; gap: 12px; align-items: center; }
+    .btn-back { background: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+    .btn-back:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+    .container { max-width: 1200px; margin: 110px auto 80px; padding: 0 24px; }
+    
+    /* Header Section */
+    .header-tag { font-size: 12px; font-weight: 800; color: var(--accent-gold); background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); padding: 4px 14px; border-radius: 20px; display: inline-block; margin-bottom: 16px; letter-spacing: 0.5px; font-family: monospace; }
+    .page-title { font-size: 40px; font-weight: 900; font-family: 'Noto Serif SC', serif; margin-bottom: 14px; line-height: 1.3; background: linear-gradient(135deg, #ffffff 40%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .page-intro { font-size: 16.5px; color: var(--text-muted); margin-bottom: 36px; line-height: 1.8; max-width: 980px; }
+
+    /* Interactive Animation Section */
+    .interactive-section { background: var(--bg-card); border: 1px solid var(--border-highlight); border-radius: 24px; padding: 32px; margin-bottom: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative; }
+    .interactive-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px; }
+    .interactive-title { font-size: 22px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 10px; font-family: 'Noto Serif SC', serif; }
+    .interactive-title i { color: var(--accent-gold); }
+    
+    .control-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .sound-btn { background: rgba(245,158,11,0.15); border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+    .sound-btn:hover { background: var(--accent-gold); color: #000; }
+    
+    /* Stage Captions */
+    .stage-caption-box { height: 42px; width: 100%; margin: 12px 0 16px; position: relative; text-align: center; overflow: hidden; background: rgba(7,9,14,0.6); border-radius: 10px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; }
+    .cap { position: absolute; inset: 0; opacity: 0; font-size: 15px; line-height: 40px; animation: 48s infinite ease-in-out; color: #cbd5e1; }
+    .cap b { color: var(--accent-gold-light); font-weight: 800; }
+    .cap .sep { color: #64748b; margin: 0 10px; }
+    .cap .desc { color: #94a3b8; }
+    #cap1{animation-name:c1}#cap2{animation-name:c2}#cap3{animation-name:c3}#cap4{animation-name:c4}
+    @keyframes c1{0%,23%{opacity:1}25%,100%{opacity:0}}
+    @keyframes c2{0%,25%{opacity:0}27%,48%{opacity:1}50%,100%{opacity:0}}
+    @keyframes c3{0%,50%{opacity:0}52%,73%{opacity:1}75%,100%{opacity:0}}
+    @keyframes c4{0%,75%{opacity:0}77%,98%{opacity:1}100%{opacity:0}}
+
+    /* SVG wrap and animations */
+    .svg-container { width: 100%; border: 1px solid #334155; border-radius: 16px; overflow: hidden; background: #fffdf8; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    svg { display: block; width: 100%; height: auto; }
+    
+    .anim { animation-duration: 48s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
+    #sky { animation-name: sky; }
+    @keyframes sky { 0%,20%{fill:#d9e9f1} 35%{fill:#f0ead6} 55%{fill:#f5dfb4} 73%{fill:#eedbc2} 90%{fill:#e8d7d1} 100%{fill:#d9e9f1} }
+    #sun { animation-name: sun; transform-origin: center; }
+    @keyframes sun { 0%{transform:translate(110px,105px)} 25%{transform:translate(200px,70px)} 50%{transform:translate(350px,38px)} 75%{transform:translate(480px,95px)} 100%{transform:translate(110px,105px)} }
+    .snow { animation: 48s infinite linear snow; }
+    @keyframes snow { 0%{opacity:0;transform:translateY(-20px)} 2%,18%{opacity:.8} 24%,100%{opacity:0;transform:translate(-20px,190px)} }
+    #heat { animation: 48s infinite heat; }
+    @keyframes heat { 0%,48%{opacity:0} 54%,70%{opacity:.55} 76%,100%{opacity:0} }
+    
+    .plant { --x:400px; }
+    .leaf { transform-origin:0 0; animation: 48s infinite ease-in-out leaf; }
+    @keyframes leaf {
+      0%{transform:scaleY(.82);opacity:1} 20%{transform:scaleY(1.24);opacity:1} 38%{transform:scaleY(1.24);opacity:1}
+      46%{transform:scaleY(1.08) rotate(var(--fall));opacity:1} 54%{transform:scaleY(.12) rotate(var(--fall));opacity:0}
+      75%{transform:scaleY(.05);opacity:0} 82%{transform:scaleY(.42);opacity:1} 88%{transform:scaleY(.62);opacity:1}
+      96%{transform:scaleY(.98);opacity:1} 100%{transform:scaleY(.82);opacity:1}
+    }
+    .blade { animation: 48s infinite leafcol; }
+    @keyframes leafcol { 0%,43%{fill:#5d9c52;stroke:#4a8440} 48%{fill:#b4a443;stroke:#958735} 53%,100%{fill:#5d9c52;stroke:#4a8440} }
+    .mother { transform-origin:0 22px; animation: 48s infinite mother; }
+    @keyframes mother { 0%,25%{transform:scale(1);opacity:1} 40%{transform:scale(.84);opacity:.9} 50%{transform:scale(.75);opacity:.4} 60%,97%{opacity:0} 100%{transform:scale(1);opacity:1} }
+    .daughter { transform-origin:0 22px; animation: 48s infinite daughter; }
+    @keyframes daughter { 0%{transform:scale(.25);opacity:.9} 25%{transform:scale(.72);opacity:1} 45%,62%{transform:scale(1);opacity:1} 67%,97%{opacity:0} 100%{transform:scale(.25);opacity:.9} }
+    .newc { transform-origin:0 22px; animation: 48s infinite newc; }
+    @keyframes newc { 0%,58%{opacity:0} 63%,97%{opacity:1} 100%{opacity:0} }
+    .bud { transform-origin:0 15px; animation: 48s infinite bud; }
+    @keyframes bud { 0%,57%{opacity:0;transform:scale(.2)} 62%,73%{opacity:1;transform:scale(1)} 76%,100%{opacity:0} }
+    .flower { transform-origin:0 0; animation: 48s infinite flower; }
+    @keyframes flower { 0%,82%{opacity:0;transform:translateY(30px) scaleY(.1)} 87%{opacity:1;transform:translateY(5px) scaleY(.82)} 91%,95.5%{opacity:1;transform:translateY(0) scaleY(1)} 99.2%,100%{opacity:0;transform:translateY(-30px)} }
+    .stigma { transform-origin:0 -45px; animation: 48s infinite stigma; }
+    @keyframes stigma { 0%,89%{opacity:0;transform:scaleY(.1)} 92%,96%{opacity:1;transform:scaleY(1)} 97.2%,100%{opacity:0;transform:scaleY(.1)} }
+    .petals { transform-origin:0 -32px; animation: 48s infinite petals; }
+    @keyframes petals { 0%,87%{transform:scaleY(.35)} 91%,100%{transform:scaleY(1)} }
+    #pointer { animation: 48s infinite linear pointer; }
+    @keyframes pointer { 0%{transform:translateX(50px)} 100%{transform:translateX(750px)} }
+
+    .anim-footnote { margin-top: 14px; font-size: 13px; color: var(--text-muted); text-align: center; line-height: 1.8; }
+    .anim-footnote b { color: var(--accent-gold); }
+
+    /* Infographic Diagram Section */
+    .infographic-section { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 24px; padding: 36px; margin-bottom: 50px; }
+    .infographic-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+    .infographic-title { font-size: 26px; font-weight: 800; font-family: 'Noto Serif SC', serif; color: #fff; }
+    .infographic-desc { font-size: 14.5px; color: var(--text-muted); max-width: 800px; margin-top: 6px; }
+    
+    .diagram-preview-wrapper { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid var(--border-color); background: #000; box-shadow: 0 15px 40px rgba(0,0,0,0.8); cursor: pointer; transition: border-color 0.3s; }
+    .diagram-preview-wrapper:hover { border-color: var(--accent-gold); }
+    .diagram-img { width: 100%; height: auto; display: block; object-fit: contain; }
+    .diagram-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%); display: flex; align-items: flex-end; justify-content: space-between; padding: 24px; pointer-events: none; }
+    .diagram-overlay-hint { background: rgba(7,9,14,0.85); border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(8px); }
+
+    /* 4 Season Grid Cards */
+    .season-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 50px; }
+    .season-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 28px; transition: transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
+    .season-box:hover { transform: translateY(-3px); border-color: var(--accent-gold); }
+    .season-badge { font-family: monospace; font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 6px; display: inline-block; margin-bottom: 14px; }
+    .badge-winter { background: rgba(56,189,248,0.15); color: var(--accent-blue); border: 1px solid rgba(56,189,248,0.3); }
+    .badge-spring { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.3); }
+    .badge-summer { background: rgba(249,115,22,0.15); color: #f97316; border: 1px solid rgba(249,115,22,0.3); }
+    .badge-autumn { background: rgba(168,85,247,0.15); color: var(--accent-purple); border: 1px solid rgba(168,85,247,0.3); }
+
+    .season-box h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; color: #fff; display: flex; align-items: center; gap: 8px; }
+    .season-box p { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 16px; }
+    
+    .season-details { background: rgba(7,9,14,0.6); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; }
+    .season-detail-row { display: flex; font-size: 12.5px; margin-bottom: 6px; line-height: 1.6; }
+    .season-detail-row:last-child { margin-bottom: 0; }
+    .detail-label { color: var(--accent-gold); font-weight: 700; width: 85px; flex-shrink: 0; }
+    .detail-val { color: #cbd5e1; }
+
+    /* Mechanism Highlights */
+    .mechanism-box { background: linear-gradient(135deg, rgba(20,28,45,0.9), rgba(11,15,25,0.95)); border: 1px solid var(--border-highlight); border-radius: 20px; padding: 32px; margin-bottom: 50px; }
+    .mechanism-box h3 { font-size: 24px; font-weight: 800; font-family: 'Noto Serif SC', serif; color: #fff; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .mechanism-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .mechanism-card { background: rgba(7,9,14,0.65); border: 1px solid var(--border-color); border-radius: 14px; padding: 20px; }
+    .mechanism-card h4 { font-size: 16px; font-weight: 700; color: var(--accent-gold-light); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .mechanism-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
+
+    /* Fullscreen Modal Lightbox */
+    .lightbox-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(16px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+    .lightbox-modal.active { display: flex; }
+    .lightbox-content { max-width: 95vw; max-height: 90vh; position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--accent-gold); box-shadow: 0 25px 80px rgba(0,0,0,0.9); }
+    .lightbox-img { max-width: 100%; max-height: 85vh; display: block; object-fit: contain; }
+    .lightbox-close { position: absolute; top: 16px; right: 16px; background: rgba(7,9,14,0.8); border: 1px solid var(--accent-gold); color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; transition: all 0.2s; }
+    .lightbox-close:hover { background: var(--accent-gold); color: #000; }
+
+    /* Footer */
+    footer { padding: 40px; text-align: center; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); background: #040609; }
+
+    @media (max-width: 900px) {
+      .season-grid, .mechanism-grid { grid-template-columns: 1fr; }
+      nav { padding: 14px 20px; }
+      .page-title { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="/" class="logo">
+      <img src="/assets/logo.jpg" alt="天旺农牧 Logo" />
+      <span>天旺农牧 Tianwang Agricultural</span>
+    </a>
+    <div class="nav-actions">
+      <a href="/os" class="btn-back" target="_blank" style="border-color: rgba(168,85,247,0.5); color: #c084fc;">
+        <i class="ri-dashboard-3-line"></i> 知识库 OS 控制台
+      </a>
+      <a href="/site/brand/agronomy.html" class="btn-back" style="border-color: rgba(56,189,248,0.4); color: #38bdf8;">
+        <i class="ri-plant-line"></i> 两段式现代农艺
+      </a>
+      <a href="/" class="btn-back">
+        <i class="ri-arrow-left-line"></i> 返回官网首页
+      </a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <span class="header-tag">PHENOLOGY & LIFE CYCLE · SFR-KNO-02</span>
+    <h1 class="page-title">藏红花全生命周期与地下繁育机制全景</h1>
+    <p class="page-intro">
+      藏红花（<i>Crocus sativus L.</i>）为三倍体无性繁殖植物。其独具一格的“反季节物候”规律与地下球茎的“母球耗竭、子球接力”无性克隆机制，构成了天旺农牧两段式现代农艺的根本底层科学逻辑。
+    </p>
+
+    <!-- 1. 三株生命周期动态交互画布 -->
+    <div class="interactive-section">
+      <div class="interactive-header">
+        <div class="interactive-title">
+          <i class="ri-film-line"></i>
+          <span>三株藏红花四季物候动态演化图 (Live 48s Cycle)</span>
+        </div>
+        <div class="control-bar">
+          <button id="sound" class="sound-btn">
+            <i class="ri-volume-up-line"></i> 开启晨曦音景
+          </button>
+        </div>
+      </div>
+
+      <!-- 四季字幕轮播 -->
+      <div class="stage-caption-box">
+        <div class="cap" id="cap1">❄ <b>冬长 12–2月</b><span class="sep">｜</span><span class="desc">耐寒常绿 · 叶片进行光合作用 · 地下新子球迅速膨大积累营养</span></div>
+        <div class="cap" id="cap2">🍂 <b>春枯 3–5月</b><span class="sep">｜</span><span class="desc">新球茎充分发育成熟 · 母球养分耗尽干瘪 · 地上绿叶逐渐枯黄倒伏</span></div>
+        <div class="cap" id="cap3">☀ <b>夏眠 6–8月</b><span class="sep">｜</span><span class="desc">地上部分完全枯隐消失 · 地下球茎休眠 · 内部悄然完成花芽生理分化</span></div>
+        <div class="cap" id="cap4">🌺 <b>秋花 9–11月</b><span class="sep">｜</span><span class="desc">花芽迅速萌动抽薹 · 花朵高于叶片盛开 · 采收特级柱头后叶片继续生长</span></div>
+      </div>
+
+      <!-- 动态 SVG 视图 -->
+      <div class="svg-container">
+        <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" aria-label="三株藏红花生命周期动画">
+          <defs>
+            <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#7a5638"/><stop offset="1" stop-color="#4e3423"/></linearGradient>
+            <radialGradient id="corm" cx=".38" cy=".3" r=".9"><stop stop-color="#ead0a9"/><stop offset=".65" stop-color="#c69a63"/><stop offset="1" stop-color="#9a7040"/></radialGradient>
+            <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#bd98d5"/><stop offset="1" stop-color="#8252a4"/></linearGradient>
+            <pattern id="dots" width="24" height="18" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="1.4" fill="#3d2818" opacity=".45"/><circle cx="17" cy="12" r="1.1" fill="#9b7650" opacity=".4"/></pattern>
+            <g id="plantTemplate">
+              <!-- ground anchor is y=0; underground begins below -->
+              <g class="mother"><ellipse cy="22" rx="31" ry="28" fill="url(#corm)" stroke="#8a6238" stroke-width="1.5"/><path d="M-25 10q25-16 50 0M-22 32q22 12 44 0" stroke="#a57c4c" fill="none" opacity=".55"/><path d="M-8 49q-3 12-8 18M0 50v18M8 49q3 12 8 18" stroke="#c9a876" stroke-width="2" fill="none"/></g>
+              <g class="daughter"><ellipse cx="-32" cy="27" rx="16" ry="14" fill="url(#corm)" stroke="#8a6238"/><ellipse cx="32" cy="27" rx="16" ry="14" fill="url(#corm)" stroke="#8a6238"/></g>
+              <g class="newc"><ellipse cy="23" rx="29" ry="25" fill="url(#corm)" stroke="#8a6238" stroke-width="1.5"/><g class="bud"><ellipse cy="15" rx="6" ry="10" fill="#e9ddc9" stroke="#a98762"/></g></g>
+              <!-- six leaves: during autumn they remain shorter than the flower -->
+              <g>
+                <g class="leaf" style="--fall:-16deg"><path class="blade" d="M0 0C-15-25-28-62-34-105Q-35-114-28-115Q-17-74-6-30Z" stroke-width="1.3"/></g>
+                <g class="leaf" style="--fall:16deg"><path class="blade" d="M0 0C15-25 28-62 34-105Q35-114 28-115Q17-74 6-30Z" stroke-width="1.3"/></g>
+                <g class="leaf" style="--fall:-8deg"><path class="blade" d="M0 0C-8-28-14-58-17-88Q-18-96-12-97Q-6-56-2-24Z" stroke-width="1.2"/></g>
+                <g class="leaf" style="--fall:8deg"><path class="blade" d="M0 0C8-28 14-58 17-88Q18-96 12-97Q6-56 2-24Z" stroke-width="1.2"/></g>
+              </g>
+              <!-- flower stem is deliberately taller than autumn leaves -->
+              <g class="flower">
+                <path d="M0 0V-88" stroke="#6f9d5d" stroke-width="4" stroke-linecap="round"/>
+                <g class="petals">
+                  <path d="M0-86C-24-88-40-107-42-137C-43-151-35-156-26-148C-12-136-3-108 0-86Z" fill="url(#petal)" stroke="#754691"/>
+                  <path d="M0-86C24-88 40-107 42-137C43-151 35-156 26-148C12-136 3-108 0-86Z" fill="url(#petal)" stroke="#754691"/>
+                  <path d="M0-86C-10-102-12-125-7-146C-3-157 3-157 7-146C12-125 10-102 0-86Z" fill="#9b70bb"/>
+                </g>
+                <g class="stigma">
+                  <path d="M0-92C-7-112-16-129-22-144" stroke="#d4442a" stroke-width="4" fill="none" stroke-linecap="round"/>
+                  <path d="M0-92V-153" stroke="#e04e30" stroke-width="4" fill="none" stroke-linecap="round"/>
+                  <path d="M0-92C7-112 16-129 22-144" stroke="#c9341c" stroke-width="4" fill="none" stroke-linecap="round"/>
+                </g>
+              </g>
+            </g>
+          </defs>
+          <rect id="sky" class="anim" width="800" height="380" fill="#d9e9f1"/>
+          <g id="sun" class="anim"><circle r="25" fill="#f2c14e" opacity=".35"/><circle r="16" fill="#f2b53a"/></g>
+          <path d="M0 340Q130 290 260 335T520 330T800 345V380H0Z" fill="#b8c8a8" opacity=".72"/>
+          <g fill="#fff"><circle class="snow" cx="160" r="3"/><circle class="snow" cx="330" r="2.4" style="animation-delay:-5s"/><circle class="snow" cx="600" r="3" style="animation-delay:-10s"/></g>
+          <g id="heat" stroke="#e8b96a" stroke-width="2.4" fill="none" opacity="0"><path d="M140 210q14-8 28 0q14 8 28 0"/><path d="M620 190q14-8 28 0q14 8 28 0"/></g>
+          <!-- soil profile -->
+          <rect y="380" width="800" height="65" fill="#6b4a33"/><rect y="380" width="800" height="65" fill="url(#dots)"/>
+          <rect y="445" width="800" height="50" fill="#8d7a63"/><rect y="495" width="800" height="65" fill="url(#soil)"/>
+          <path d="M0 445H800M0 495H800" stroke="#4d3827" stroke-width="2" stroke-dasharray="10 6"/>
+          <line x2="800" y1="380" y2="380" stroke="#5d4030" stroke-width="3"/>
+          <g font-size="11" fill="#e8dcc8" opacity=".82"><text x="18" y="402">腐殖表土层</text><text x="18" y="463">砂砾排水层</text><text x="18" y="516">黏质底土层</text></g>
+          <!-- Three plants. Slightly different scale gives a natural stand -->
+          <g class="plant" transform="translate(250 380) scale(.86)"><use href="#plantTemplate"/></g>
+          <g class="plant" transform="translate(400 380)"><use href="#plantTemplate"/></g>
+          <g class="plant" transform="translate(550 380) scale(.9)"><use href="#plantTemplate"/></g>
+          <!-- month timeline -->
+          <g>
+            <rect x="50" y="522" width="700" height="26" rx="13" fill="#efe7d6" stroke="#d9ccb2"/>
+            <rect x="50" y="522" width="175" height="4" rx="2" fill="#5b7fa6"/><rect x="225" y="522" width="175" height="4" fill="#a08a2e"/><rect x="400" y="522" width="175" height="4" fill="#c07a2a"/><rect x="575" y="522" width="175" height="4" rx="2" fill="#8a5cab"/>
+            <g font-size="11.5" fill="#7a6a55" text-anchor="middle"><text x="79" y="539">12月</text><text x="137" y="539">1月</text><text x="196" y="539">2月</text><text x="254" y="539">3月</text><text x="312" y="539">4月</text><text x="371" y="539">5月</text><text x="429" y="539">6月</text><text x="487" y="539">7月</text><text x="546" y="539">8月</text><text x="604" y="539">9月</text><text x="662" y="539">10月</text><text x="721" y="539">11月</text></g>
+            <g id="pointer"><polygon points="0,518 -7,506 7,506" fill="#d4442a"/></g>
+          </g>
+        </svg>
+      </div>
+      <div class="anim-footnote">
+        <b>冬长 → 春枯 → 夏眠 → 秋花</b> · 三株共享同一季节节律，花高于叶绽放采收后，地上叶片继续完成下一代球茎的养分蓄积接力。
+      </div>
+    </div>
+
+    <!-- 2. 藏红花生长周期和机制示意图展示与高清灯箱 -->
+    <div class="infographic-section">
+      <div class="infographic-header">
+        <div>
+          <h2 class="infographic-title">藏红花全周期生长演进与地下生理机制全景图</h2>
+          <p class="infographic-desc">点击下方图谱可开启 4K 超清灯箱视图，详细审视藏红花从母球休眠、花芽分化、花叶共生到新球接力的完整生理机制链条。</p>
+        </div>
+      </div>
+
+      <div class="diagram-preview-wrapper" id="diagramWrapper" title="点击放大查看高清图谱">
+        <img src="/assets/藏红花生长周期和机制示意图.jpg" alt="藏红花生长周期和机制示意图" class="diagram-img" id="diagramImg" />
+        <div class="diagram-overlay">
+          <div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px;">藏红花生长机制与阶段特征架构图</div>
+            <div style="font-size: 12.5px; color: #cbd5e1;">涵盖物候日历、地下球茎生长、收缩根拉拽深度与两段式农艺关键节点</div>
+          </div>
+          <div class="diagram-overlay-hint">
+            <i class="ri-zoom-in-line"></i> 点击查看 4K 原图
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 四季物候演进深度解析卡片 -->
+    <div class="season-grid">
+      <!-- 冬长 -->
+      <div class="season-box">
+        <span class="season-badge badge-winter">STAGE 01 · 12月 ~ 2月</span>
+        <h3><i class="ri-snowflake-line" style="color: var(--accent-blue);"></i> 冬长 · 耐寒常绿与新球发育</h3>
+        <p>藏红花具备极强抗寒能力。在冬季严寒环境下，狭长的绿色细叶持续进行高效光合作用，制造碳水化合物源源不断输送给基部新发育的子球茎。</p>
+        <div class="season-details">
+          <div class="season-detail-row">
+            <span class="detail-label">地上部表征：</span>
+            <span class="detail-val">深绿带白条纹线状叶片直立旺盛，抗寒霜冻。</span>
+          </div>
+          <div class="season-detail-row">
+            <span class="detail-label">地下部机制：</span>
+            <span class="detail-val">母球顶端分生组织萌发新子球，粗壮收缩根向下扎根。</span>
+          </div>
+          <div class="season-detail-row">
+            <span class="detail-label">农艺管理：</span>
+            <span class="detail-val">崇明大田冬灌防冻，合理追施磷钾肥以壮大子球体积。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 春枯 -->
+      <div class="season-box">
+        <span class="season-badge badge-spring">STAGE 02 · 3月 ~ 5月</span>
+        <h3><i class="ri-sun-cloudy-line" style="color: #eab308;"></i> 春枯 · 养分回流与母球耗竭</h3>
+        <p>随着春季气温逐渐回升，新一代子球茎迅速膨大成熟，形成坚实蜡质外皮；老母球养分彻底转运耗竭，地上叶片由绿转黄并逐渐枯萎脱落。</p>
+        <div class="season-details">
+          <div class="season-detail-row">
+            <span class="detail-label">地上部表征：</span>
+            <span class="detail-val">叶片自叶尖向下逐渐黄化倒伏，至5月中下旬完全枯干。</span>
+          </div>
+          <div class="season-detail-row">
+            <span class="detail-label">地下部机制：</span>
+            <span class="detail-val">母球萎缩成扁平网状残体，子球达25g+达到生理成熟。</span>
+          </div>
+          <div class="season-detail-row">
+            <span class="detail-label">农艺管理：</span>
+            <span class="detail-val">控水控湿，5月上旬开沟起球，严格杀菌风干后入库。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 夏眠 -->
+      <div class="season-box">
+        <span class="season-badge badge-summer">STAGE 03 · 6月 ~ 8月</span>
+        <h3><i class="ri-temp-hot-line" style="color: #f97316;"></i> 夏眠 · 外表休眠与内部花芽分化</h3>
+        <p>地表无任何枝叶，处于外观“休眠期”。但在球茎顶芽内部，藏红花正在经历至关重要的花芽生理分化过程（由营养生长转向生殖生长）。</p>
+        <div class="season-details">
+          <div class="season-detail-row">
+            <span class="detail-label">地上部表征：</span>
+            <span class="detail-val">无地上器官（休眠无叶状态）。</span>
+          </div>
+          <div class="season-detail-row">
+            <span class="detail-label">地下部机制：</span>
+            <span class="detail-val">顶芽内部先后分化出花原基、花被、雄蕊及3裂鲜红雌蕊柱头。</span>
+          </div>
+          <div class="season-detail-row">
+            <span class="detail-label">农艺管理：</span>
+            <span class="detail-val">仓储避光通风，控温 23℃~27℃ 促进花芽高效率分化。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 秋花 -->
+      <div class="season-box">
+        <span class="season-badge badge-autumn">STAGE 04 · 9月 ~ 11月</span>
+        <h3><i class="ri-flower-line" style="color: var(--accent-purple);"></i> 秋花 · 抽薹盛放与极地采收</h3>
+        <p>秋季气温下降至 15℃ 左右诱导花茎迅速抽薹破苞。紫花金蕊破土而出，花高于叶。盛花期进行每日人工物理采摘并迅速剥离特级红色柱头。</p>
+        <div class="season-details">
+          <div class="season-detail-row">
+            <span class="detail-label">地上部表征：</span>
+            <span class="detail-val">高雅紫花破苞绽放，3条深红花丝高出花被，叶片随之萌出。</span>
+          </div>
+          <div class="season-detail-row">
+            <span class="detail-label">地下部机制：</span>
+            <span class="detail-val">花朵开放消耗球茎顶芽储存养分，采花后迅速萌发根系。</span>
+          </div>
+          <div class="season-detail-row">
+            <span class="detail-label">农艺管理：</span>
+            <span class="detail-val">林芝 2945m 设施内无水催花、洁净采摘，采花后运回崇明大田复壮。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 生物机制三大核心科学支柱 -->
+    <div class="mechanism-box">
+      <h3><i class="ri-dna-line" style="color: var(--accent-gold);"></i> 藏红花繁育与生理机制三大核心支柱</h3>
+      <div class="mechanism-grid">
+        <div class="mechanism-card">
+          <h4><i class="ri-recycle-line"></i> 1. 母球耗竭与子球克隆接力</h4>
+          <p>
+            藏红花为天然三倍体植物（$2n=3x=24$），花粉败育无法结出有效种子。其繁衍完全依赖地下球茎无性克隆。上一代母球将毕生养分全部献给新子球后彻底消亡，形成世代接力循环。
+          </p>
+        </div>
+        <div class="mechanism-card">
+          <h4><i class="ri-arrow-down-circle-line"></i> 2. 收缩根（Contractile Root）力学</h4>
+          <p>
+            幼嫩子球在母球顶部萌发后容易裸露地表。藏红花进化出独特的粗壮肉质“收缩根”，通过细胞纵向缩短产生强大拉力，将新球茎向下牵拉回地下最佳 10~15cm 安全土层。
+          </p>
+        </div>
+        <div class="mechanism-card">
+          <h4><i class="ri-contrast-drop-2-line"></i> 3. 温光信号诱导花芽生理分化</h4>
+          <p>
+            夏季高温促使休眠顶芽完成形态分化；秋季骤降的气温（昼夜温差 10℃~15℃）作为自然环境信号，触发花原基迅速纵向拉伸抽薹，开出高品质紫花与极浓郁西红花苷花丝。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Modal Lightbox -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose">&times;</button>
+      <img src="/assets/藏红花生长周期和机制示意图.jpg" alt="4K 藏红花生长周期和机制示意图" class="lightbox-img" />
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 天旺农牧 (Tianwang Agricultural Co., Ltd.) 版权所有 | 知识底层 Powered by Brand Content OS v14.0</p>
+  </footer>
+
+  <script>
+    // Audio synthesizer for Morning Dawn Soundscape
+    let ctx, master, timer, playing = false;
+    const btn = document.getElementById('sound');
+    
+    function tone(freq, when, dur, gain = 0.05) {
+      if (!ctx) return;
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(freq, when);
+      g.gain.setValueAtTime(0, when);
+      g.gain.linearRampToValueAtTime(gain, when + 0.35);
+      g.gain.exponentialRampToValueAtTime(0.001, when + dur);
+      o.connect(g);
+      g.connect(master);
+      o.start(when);
+      o.stop(when + dur + 0.1);
+    }
+
+    function startMusic() {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.55;
+      master.connect(ctx.destination);
+      const notes = [261.63, 329.63, 392, 523.25, 392, 329.63, 293.66, 369.99];
+      let i = 0;
+      const play = () => {
+        const t = ctx.currentTime + 0.05;
+        tone(notes[i % notes.length], t, 3.2, 0.055);
+        if (i % 2 === 0) tone(notes[(i + 2) % notes.length] / 2, t, 4, 0.025);
+        i++;
+      };
+      play();
+      timer = setInterval(play, 3000);
+      playing = true;
+      btn.innerHTML = '<i class="ri-volume-mute-line"></i> 晨曦 · 关闭声音';
+      btn.style.background = 'var(--accent-gold)';
+      btn.style.color = '#000';
+    }
+
+    btn.onclick = () => {
+      if (!playing) {
+        startMusic();
+      } else {
+        clearInterval(timer);
+        if (ctx) ctx.close();
+        playing = false;
+        btn.innerHTML = '<i class="ri-volume-up-line"></i> 开启晨曦音景';
+        btn.style.background = 'rgba(245,158,11,0.15)';
+        btn.style.color = 'var(--accent-gold)';
+      }
+    };
+
+    // Lightbox modal functionality
+    const diagramWrapper = document.getElementById('diagramWrapper');
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    diagramWrapper.onclick = () => {
+      lightboxModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    lightboxClose.onclick = (e) => {
+      e.stopPropagation();
+      lightboxModal.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    lightboxModal.onclick = (e) => {
+      if (e.target === lightboxModal) {
+        lightboxModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    };
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
+        lightboxModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+</body>
+</html>

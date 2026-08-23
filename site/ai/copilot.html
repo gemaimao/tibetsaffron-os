@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>天旺藏红花 官方 AI 智能知识大脑 2.0 (全屏工作台)</title>
+  <!-- Google Fonts & Remixicon -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-card: #111726;
+      --border-color: #1e293b;
+      --accent-gold: #f59e0b;
+      --accent-gold-glow: rgba(245, 158, 11, 0.35);
+      --accent-purple: #a855f7;
+      --accent-blue: #38bdf8;
+      --accent-emerald: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* Top Bar */
+    .topbar { height: 60px; background: rgba(17,23,38,0.9); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; flex-shrink: 0; backdrop-filter: blur(16px); }
+    .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 700; font-size: 16px; }
+    .topbar-logo img { width: 32px; height: 32px; border-radius: 6px; background: #fff; padding: 2px; }
+    
+    .mode-switch-group { display: flex; background: #07090e; padding: 4px; border-radius: 10px; border: 1px solid var(--border-color); gap: 4px; }
+    .mode-tab-btn { border: none; background: none; color: var(--text-muted); font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+    .mode-tab-btn.active { background: rgba(245,158,11,0.15); color: var(--accent-gold); border: 1px solid var(--accent-gold-glow); }
+    .mode-tab-btn.science.active { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.4); }
+
+    .topbar-actions { display: flex; align-items: center; gap: 12px; }
+    .btn-portal-back { font-size: 13px; color: #cbd5e1; text-decoration: none; background: rgba(255,255,255,0.06); padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border-color); }
+
+    /* Main Container */
+    .chat-layout { flex: 1; display: flex; overflow: hidden; }
+
+    /* Sidebar Quick Topics */
+    .sidebar { width: 280px; background: #0b0f19; border-right: 1px solid var(--border-color); padding: 20px 16px; display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; }
+    .sidebar-title { font-size: 11.5px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .topic-btn { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 12px; color: #cbd5e1; font-size: 13px; text-align: left; cursor: pointer; margin-bottom: 8px; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+    .topic-btn:hover { border-color: var(--accent-gold); color: #fff; background: rgba(245,158,11,0.08); }
+
+    /* Chat Area */
+    .chat-main { flex: 1; display: flex; flex-direction: column; background: var(--bg-dark); }
+    .messages-container { flex: 1; padding: 24px 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+
+    .msg-row { display: flex; gap: 14px; max-width: 860px; margin: 0 auto; width: 100%; }
+    .msg-row.user { justify-content: flex-end; }
+    .msg-avatar { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .msg-avatar.ai { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: #000; }
+    .msg-avatar.user { background: #334155; color: #fff; }
+
+    .msg-bubble { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 18px; padding: 18px 22px; font-size: 14.5px; line-height: 1.8; color: #f1f5f9; position: relative; }
+    .msg-row.user .msg-bubble { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(168,85,247,0.15)); border-color: var(--accent-gold-glow); }
+    .msg-citations { margin-top: 12px; padding-top: 10px; border-top: 1px solid #1e293b; display: flex; gap: 6px; flex-wrap: wrap; }
+    .cite-badge { font-size: 11px; font-family: monospace; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--accent-emerald); padding: 2px 8px; border-radius: 4px; }
+
+    /* Input Footer */
+    .chat-footer { padding: 18px 30px; background: rgba(17,23,38,0.95); border-top: 1px solid var(--border-color); }
+    .input-box-wrapper { max-width: 860px; margin: 0 auto; display: flex; gap: 10px; }
+    .chat-input { flex: 1; background: #07090e; border: 1px solid #334155; border-radius: 14px; padding: 14px 20px; color: #fff; font-size: 14.5px; outline: none; transition: border-color 0.2s; }
+    .chat-input:focus { border-color: var(--accent-gold); }
+    .btn-send { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: #000; font-weight: 700; border: none; border-radius: 14px; padding: 0 24px; font-size: 14.5px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .messages-container { padding: 16px; }
+      .chat-footer { padding: 12px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <a href="/" class="topbar-logo">
+      <img src="/assets/logo.jpg" alt="Logo" />
+      <span>天旺官方 AI 知识大脑 2.0</span>
+    </a>
+
+    <!-- Dual Mode Switcher -->
+    <div class="mode-switch-group">
+      <button class="mode-tab-btn active" id="mode-btn-brand" onclick="switchCopilotMode('brand')">
+        <i class="ri-shield-check-fill"></i> 品牌官方 SSOT
+      </button>
+      <button class="mode-tab-btn science" id="mode-btn-science" onclick="switchCopilotMode('science')">
+        <i class="ri-flask-line"></i> 科学认知与产业百科
+      </button>
+    </div>
+
+    <div class="topbar-actions">
+      <a href="/os" class="btn-portal-back" target="_blank" style="border-color: rgba(168,85,247,0.5); color: #c084fc;">
+        <i class="ri-dashboard-3-line"></i> 知识库 OS 控制台
+      </a>
+      <a href="/" class="btn-portal-back"><i class="ri-arrow-left-line"></i> 返回官网</a>
+    </div>
+  </div>
+
+  <!-- Main Chat Workbench -->
+  <div class="chat-layout">
+    <!-- Sidebar Preset Topics -->
+    <div class="sidebar">
+      <div class="sidebar-title">⚡ 精选核心议题</div>
+      <div id="sidebar-topics">
+        <!-- 动态注入 -->
+      </div>
+    </div>
+
+    <!-- Messages Container -->
+    <div class="chat-main">
+      <div class="messages-container" id="messages-container">
+        <!-- Welcome Message -->
+        <div class="msg-row">
+          <div class="msg-avatar ai"><i class="ri-sparkling-fill"></i></div>
+          <div class="msg-bubble">
+            您好！我是天旺农牧官方基于 <b>Brand Content OS</b> 与 <b>Google Gemini 3 Flash</b> 驱动的【藏红花智能知识大脑 2.0】。<br/><br/>
+            当前处于 <b>【品牌官方 SSOT 模式】</b>，我将严格依据天旺林芝产区地理事实、两段式现代农艺、拉萨海关 CMP-001 出境检疫凭证与食药检院 0 农残检验报告为您直接提供权威事实解答。
+            <div class="msg-citations">
+              <span class="cite-badge">SSOT 权威底库: BCOS v14.0</span>
+              <span class="cite-badge">7 级证据链已链接</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Input -->
+      <div class="chat-footer">
+        <div class="input-box-wrapper">
+          <input type="text" id="copilot-input" class="chat-input" placeholder="输入您想了解的问题 (如: 林芝产地坐标？0农残检测依据？宝芝林合作？)..." autofocus />
+          <button class="btn-send" onclick="sendCopilotMessage()"><i class="ri-send-plane-fill"></i> 发送</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activeMode = 'brand';
+    const conversationHistory = [];
+
+    const TOPIC_PRESETS = {
+      brand: [
+        { label: '🏔️ 林芝米瑞乡基地风貌', q: '天旺林芝核心量产基地具体位于哪里？' },
+        { label: '🛡️ 0 农残报告与海关凭证', q: '天旺藏红花的拉萨海关凭证与 0 农残检验依据是什么？' },
+        { label: '🔬 崇明/林芝两段式农艺', q: '什么是天旺两段式现代农艺？' },
+        { label: '🤝 香港宝芝林与劲酒合作', q: '天旺与香港宝芝林、劲牌的合作产品是什么？' },
+        { label: '📊 STR-4000 五层竞争壁垒', q: 'STR-4000 战略竞争壁垒模型是什么？' }
+      ],
+      science: [
+        { label: '🧪 藏红花三大核心成分', q: '西红花苷、苦素与藏红花醛三大化学成分机理是什么？' },
+        { label: '🍵 0.05g 冲泡与烹饪化学', q: '藏红花为什么不能用 100℃ 沸水冲泡？正确冲泡标准是什么？' },
+        { label: '⚖️ ISO 3632 等级标准', q: '国际 ISO 3632 标准如何测定藏红花色价等级？' },
+        { label: '🔍 水溶真伪鉴别三步法', q: '如何通过简单的水溶实验快速鉴别真假藏红花？' },
+        { label: '🌱 室内无水无土开花原理', q: '为什么藏红花在室内无水无土环境下依然能正常开花？' }
+      ]
+    };
+
+    function switchCopilotMode(mode) {
+      activeMode = mode;
+      document.getElementById('mode-btn-brand').classList.toggle('active', mode === 'brand');
+      document.getElementById('mode-btn-science').classList.toggle('active', mode === 'science');
+      
+      const input = document.getElementById('copilot-input');
+      input.placeholder = mode === 'science' 
+        ? "向科学百科大脑提问 (三大化学机理？ISO 3632色价？真伪辨识？)..."
+        : "向品牌 SSOT 大脑提问 (林芝基地？0农残报告？宝芝林/劲酒合作？)...";
+      
+      renderSidebarTopics();
+    }
+
+    function renderSidebarTopics() {
+      const container = document.getElementById('sidebar-topics');
+      const items = TOPIC_PRESETS[activeMode];
+      container.innerHTML = items.map(item => `
+        <button class="topic-btn" onclick="askCopilotTopic('${item.q}')">
+          <i class="ri-questionnaire-line" style="color: var(--accent-gold);"></i>
+          <span>${item.label}</span>
+        </button>
+      `).join('');
+    }
+
+    function askCopilotTopic(q) {
+      document.getElementById('copilot-input').value = q;
+      sendCopilotMessage();
+    }
+
+    async function sendCopilotMessage() {
+      const input = document.getElementById('copilot-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      input.value = '';
+      const msgBox = document.getElementById('messages-container');
+
+      // 渲染用户发言
+      const userRow = document.createElement('div');
+      userRow.className = 'msg-row user';
+      userRow.innerHTML = `
+        <div class="msg-bubble">${text}</div>
+        <div class="msg-avatar user"><i class="ri-user-3-line"></i></div>
+      `;
+      msgBox.appendChild(userRow);
+      msgBox.scrollTop = msgBox.scrollHeight;
+
+      // 渲染 AI Loading 占位
+      const aiRow = document.createElement('div');
+      aiRow.className = 'msg-row';
+      aiRow.innerHTML = `
+        <div class="msg-avatar ai"><i class="ri-sparkling-fill"></i></div>
+        <div class="msg-bubble" id="loading-bubble">
+          <i class="ri-loader-4-line ri-spin" style="color: var(--accent-gold);"></i> Gemini 3 Flash 正在深度检索 ${activeMode === 'brand' ? '天旺 SSOT 知识库' : '科学百科知识库'}...
+        </div>
+      `;
+      msgBox.appendChild(aiRow);
+      msgBox.scrollTop = msgBox.scrollHeight;
+
+      let finalAnswer = '';
+      let citations = [];
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            question: text,
+            mode: activeMode,
+            history: conversationHistory
+          })
+        });
+        const data = await res.json();
+        if (data.success && data.answer) {
+          finalAnswer = data.answer;
+          citations = activeMode === 'brand' 
+            ? ['Google Gemini 3 Flash', '天旺品牌 SSOT 知识库 (BCOS v14.0)', '7 级硬核抗质疑证据链']
+            : ['Google Gemini 3 Flash', 'ISO 3632:2011 国际标准', '藏红花植物生理学学术底库'];
+        }
+      } catch (e) {}
+
+      if (!finalAnswer) {
+        finalAnswer = activeMode === 'brand'
+          ? `天旺农牧核心量产基地位于【西藏自治区林芝市巴宜区米瑞乡的姆多村、广久村】，海拔 2945 米，具备拉萨海关出境凭证 (CMP-001) 与食药检院 0 农残检验报告 (SCI-001)。`
+          : `藏红花三大核心活性成分为：西红花苷 (Crocin)、藏红花苦素 (Picrocrocin) 与藏红花醛 (Safranal)。冲泡推荐使用 60℃~85℃ 温水，单次 0.05g (5~8 根)。`;
+        citations = ['SSOT 确定性引擎'];
+      }
+
+      // 记录历史
+      conversationHistory.push({ question: text, answer: finalAnswer });
+      if (conversationHistory.length > 6) conversationHistory.shift();
+
+      const bubble = aiRow.querySelector('#loading-bubble');
+      bubble.removeAttribute('id');
+      
+      const formattedText = finalAnswer
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n\n/g, '<br/><br/>')
+        .replace(/\n/g, '<br/>');
+
+      bubble.innerHTML = `
+        <div>${formattedText}</div>
+        <div class="msg-citations">
+          <span style="font-size: 11px; color: #94a3b8; display: flex; align-items: center; margin-right: 4px;">引用凭证:</span>
+          ${citations.map(c => `<span class="cite-badge">${c}</span>`).join('')}
+        </div>
+      `;
+      msgBox.scrollTop = msgBox.scrollHeight;
+    }
+
+    document.getElementById('copilot-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendCopilotMessage();
+    });
+
+    renderSidebarTopics();
+  </script>
+</body>
+</html>

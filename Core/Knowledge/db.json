@@ -1,114 +1,201 @@
 {
   "assets": [
     {
-      "id": "asset-kno-sfr-master",
-      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380sfr",
-      "module_id": "mod-kno",
-      "asset_code": "KNO-SFR-MASTER",
-      "title": "SFR-KNO 藏红花深度认知知识库 34 Master 骨架 (v14.0)",
-      "subtitle": "Saffron Deep Cognition Skeleton & 9 Master Domains",
-      "summary": "面向泛兴趣受众与消费者的藏红花深度认知底库。涵盖 9 大 Master 知识族、34 Master 骨架与真假识别专题。",
-      "content": "# SFR-KNO 藏红花深度认知知识库 (v14.0)\n\n## 9 大 Master 深度认知知识族\n1. **01 本体认知**: 藏红花究竟是什么？\n2. **02 生命与繁育**: 它是怎样活着与延续下一代的？\n3. **03 生产方式**: 它是怎样被生产出来的？\n4. **04 全球产区**: 世界哪里种？为什么不同？\n5. **05 加工与品质**: 它如何从花变成商品？\n6. **06 标准与真假**: 怎么判断它是什么、好不好？\n7. **07 历史文化**: 为什么人类长期重视它？\n8. **08 传统与研究**: 藏红花今天发生了什么？\n9. **09 消费与使用**: 买回来后怎么保存、使用与理解？",
-      "quote": "产地证明你是谁，检测证明你是什么。",
-      "status": "Published",
-      "version": "v14.0",
-      "created_at": "2026-08-08T14:54:46.429Z",
-      "updated_at": "2026-08-08T14:54:46.429Z",
-      "tag_ids": [
-        "tag-sfr-kno",
-        "tag-ssot"
-      ]
-    },
-    {
-      "id": "asset-dat-evidence-layer",
-      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380dat",
+      "id": "asset-cmp-001",
+      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380cmp",
       "module_id": "mod-dat",
-      "asset_code": "DAT-EVIDENCE-LAYER",
-      "title": "Evidence & Data Layer 双重证据缺口矩阵与 7 级效力层级",
-      "subtitle": "Dual Evidence Gap Matrix & 7-Level Proof Hierarchy",
-      "summary": "建立天旺实测证据 (Tianwang Evidence) 与行业通用证据 (Category Evidence) 双矩阵，支持文案反向抗质疑检索。",
-      "content": "# Evidence & Data Layer (证据与数据层)\n\n## 7 级证据效力层级 (Proof Hierarchy)\n- **Level 1 政府官方文件**: 拉萨海关检疫证书与出口报关单 (CMP-001)、商标专利证 (CMP-002)\n- **Level 2 第三方实验室数据**: 食药检院 0农残报告 (No. A26SW02809)、HPLC 色价峰图 (SCI-001)\n- **Level 3 长期与动力学实验**: 水温溶出动力学曲线 (SCI-002)、24个月避光稳定性 (SCI-003)\n- **Level 4 企业原始记录**: 姆多村农户务工名册与 30万元工资签收单 (IND-001)\n- **Level 5 现场高清视觉**: 米瑞乡 4K 采摘 RAW 盘视频 (VIS-001)\n- **Level 6 体外研究证据**: DPPH/ABTS 自由基清除 (SCI-004 降级，严禁宣称人体抗衰老)\n- **Level 7 企业应用 SOP**: 星级餐厅 0.05g 克重卡 (APP-001)",
-      "quote": "拒绝盲目营销，建立“事实/数据 ➔ 证据链 ➔ 科学解释 ➔ 消费者认知”反向抗质疑链条。",
+      "asset_code": "CMP-001",
+      "title": "拉萨海关《植物检疫证书》与出口报关单 (出口加拿大 25.64 万元)",
+      "subtitle": "Lhasa Customs Phytosanitary Certificate & Export Declaration",
+      "summary": "2025年5月通过拉萨海关现场严格查验与检疫，成功向加拿大合规出口 2kg 特级藏红花，出口货值 25.64 万元人民币（单克 128.2 元）。",
+      "content": "### 一、硬核事实数据\n- **出证机构**: 中华人民共和国拉萨海关\n- **签发时间**: 2025 年 5 月\n- **出口目的地**: 加拿大 (Canada)\n- **出口净重**: 2.00 kg (特级红色柱头花丝)\n- **出口货值**: 256,400.00 元人民币 (折合 128.2 元/克)\n- **检疫结论**: 经现场查验与实验室全项检验，未检出检疫性有害生物，签发正本《植物检疫证书》，完成正式电子报关出境。\n\n### 二、深度背景机理\n藏红花为国际高价值管控农产品，国际主流海关对植物微生物、重金属及来源追溯具有最高级别准入门槛。天旺藏红花在拉萨海关完成检疫通关，证明了林芝产区在标准化采收、干燥分级及检疫合规全链条达到国际通关标准，打破了国际上对中国藏红花缺乏正规出海资质的偏见。\n\n### 三、可直接装配的通稿标准段落\n“作为西藏极地特色农业高质量发展的代表，天旺藏红花于2025年5月顺利通过拉萨海关现场严格查验与检疫，成功完成向加拿大的合规出口（海关凭证 CMP-001）。首批出口特级藏红花净重 2kg，出口货值达 25.64 万元人民币，标志着天旺从源头种植到出境标准已完全打通国际高端供应链通道。”",
+      "quote": "拉萨海关出口凭证 CMP-001：合规出海，货值见证极地品质。",
       "status": "Published",
-      "version": "v14.0",
+      "version": "v2.0",
+      "ownership": "PARTNER_EVIDENCE",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "天旺藏红花有没有出口资质？",
+        "海关检疫依据是什么？",
+        "拉萨海关凭证单号与出口货值是多少？"
+      ],
+      "target_scenarios": [
+        "出海战略发布会",
+        "政府合规申报",
+        "投资人尽调材料",
+        "电商详情页资质背书"
+      ],
       "created_at": "2026-08-08T14:54:46.429Z",
-      "updated_at": "2026-08-08T14:54:46.429Z",
+      "updated_at": "2026-08-19T12:45:00.000Z",
       "tag_ids": [
         "tag-evidence",
-        "tag-metrics"
+        "tag-compliance",
+        "tag-export"
       ]
     },
     {
-      "id": "asset-kno-sfr-gastronomy",
-      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380gas",
-      "module_id": "mod-kno",
-      "asset_code": "KNO-SFR-GASTRONOMY",
-      "title": "藏红花美食烹饪化学与林芝五季时令物候饮品体系 (v1.0)",
-      "subtitle": "Saffron Gastronomy, Culinary Chemistry & Linzhi 5-Season Drinks",
-      "summary": "涵盖全球四大经典藏红花料理化学原理、林芝五季物候特调饮品体系与工布在地美食（石锅焖饭/松茸蒸蛋/天麻鱼汤）。",
-      "content": "# 藏红花美食烹饪化学与林芝五季时令物候体系\n\n## 烹饪化学三大作用机制\n1. **水溶金黄视觉赋色**: Crocin 水溶极佳，赋予金黄鲜艳汤色；\n2. **挥发性香气协同**: Safranal 热力挥发，压制牛羊肉与海鲜腥膻，提供蜂草复合芳香；\n3. **抑腥提鲜与回甘**: Picrocrocin 微苦回甘，作为鲜味协同增效剂 (Umami Enhancer)。",
-      "quote": "Crocin 赋金黄，Safranal 压腥膻，Picrocrocin 提鲜回甘。",
+      "id": "asset-sci-001",
+      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380sci",
+      "module_id": "mod-dat",
+      "asset_code": "SCI-001",
+      "title": "重庆市食品药品检验检测研究院 0 农残检验报告 (No. A26SW02809)",
+      "subtitle": "Chongqing IFDC Zero-Pesticide Official Test Report",
+      "summary": "重庆食药检院出具正式检验报告（No. A26SW02809），全项质谱扫描多菌灵等农药残留全项未检出，黄曲霉毒素未检出，色价实测超 246。",
+      "content": "### 一、硬核事实数据\n- **检测机构**: 重庆市食品药品检验检测研究院 (国家级 CMA/CNAS 认证)\n- **检验报告单号**: No. A26SW02809\n- **送检样品**: 西藏天旺农牧 2025 季特级藏红花柱头花丝\n- **检测结论**:\n  1. **多菌灵 (Carbendazim)**: 未检出 (检出限 0.01 mg/kg，物理级 0 农残)；\n  2. **60余项有机磷与拟除虫菊酯扫描**: 全项未检出；\n  3. **黄曲霉毒素 B1/B2/G1/G2**: 全项未检出；\n  4. **440nm 紫外吸光度 (西红花苷色价)**: 实测高达 246 (远超药典 180 与 ISO 一级品 200)。\n\n### 二、深度农艺机理\n传统大田种植为防止 Fusarium 菌引起的球茎腐烂，常频繁喷洒化学杀菌剂。天旺依托“两段式”农艺，在海拔 2945m 室内 CEA 洁净架上悬空开花，彻底隔绝土壤病原菌与雨水，整个催花采收期严禁使用任何化学农药，从根本上实现了化学零添加与物理级洁净。\n\n### 三、可直接装配的通稿标准段落\n“依据国家权威机构重庆市食品药品检验检测研究院出具的正式检验报告（No. A26SW02809），天旺西藏林芝藏红花在全项高精度质谱扫描中，多菌灵等农残全项未检出，黄曲霉毒素未检出，西红花苷色价实测高达 246（远超 ISO 一级品 200 门槛）。产地证明你是谁，检测证明你是什么，天旺用第三方实验室数据筑牢 0 农残品质防线。”",
+      "quote": "重庆食药检院 No. A26SW02809 报告：全项 0 农残，色价超 246。",
       "status": "Published",
-      "version": "v1.0",
+      "version": "v2.0",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "天旺宣传的 0 农残有检测报告吗？",
+        "报告编号是多少？哪家机构测的？",
+        "西红花苷色价实测数值是多少？"
+      ],
+      "target_scenarios": [
+        "抗质疑公关回应",
+        "包装说明书",
+        "展厅实验室展板",
+        "AI 智脑标准答案"
+      ],
       "created_at": "2026-08-08T14:54:46.429Z",
-      "updated_at": "2026-08-08T14:54:46.429Z",
+      "updated_at": "2026-08-19T12:45:00.000Z",
       "tag_ids": [
-        "tag-sfr-kno",
+        "tag-evidence",
+        "tag-zero-pesticide",
+        "tag-lab-test"
+      ]
+    },
+    {
+      "id": "asset-ind-001",
+      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380ind",
+      "module_id": "mod-dat",
+      "asset_code": "IND-001",
+      "title": "林芝米瑞乡姆多村 30 万元农民工务工工资财务打款凭证",
+      "subtitle": "Linzhi Miri Village Rural Revitalization Payroll Proof",
+      "summary": "天旺农牧年度累计向西藏林芝巴宜区米瑞乡姆多村村民发放采收分选务工工资 30 万元人民币，深度践行高原乡村振兴。",
+      "content": "### 一、硬核事实数据\n- **支付主体**: 西藏天旺农牧有限公司\n- **受款对象**: 西藏自治区林芝市巴宜区米瑞乡姆多村农户及采收务工人员\n- **年度累计打款金额**: 300,000.00 元人民币\n- **带动效益**: 开展藏红花标准化采收、花丝分选技能培训 200 余人次，让本地农户实现家门口标准化就业增收。\n\n### 二、可直接装配的通稿标准段落\n“天旺农牧依托西藏林芝米瑞乡基地，常年开展藏红花标准化农艺与采摘分选技术培训。依据原始财务打款凭证（IND-001），年度累计向姆多村及周边农户发放务工工资 30 万元人民币，让高原特色现代农业发展红利直接惠及当地村民，践行乡村振兴实体承诺。”",
+      "quote": "年发放 30 万元务工工资，以特色产业赋能高原乡村振兴。",
+      "status": "Published",
+      "version": "v2.0",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "天旺在当地乡村振兴有具体数据吗？",
+        "带动了多少农户务工？"
+      ],
+      "target_scenarios": [
+        "政府汇报材料",
+        "乡村振兴专题报道",
+        "ESG 责任报告"
+      ],
+      "created_at": "2026-08-08T14:54:46.429Z",
+      "updated_at": "2026-08-19T12:45:00.000Z",
+      "tag_ids": [
+        "tag-evidence",
+        "tag-rural-revitalization"
+      ]
+    },
+    {
+      "id": "asset-sfr-09",
+      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380sfr09",
+      "module_id": "mod-kno",
+      "asset_code": "SFR-09",
+      "title": "崇明平原大田养球 ＋ 林芝设施控环催花 两段式现代农艺体系",
+      "subtitle": "Two-Stage Agronomy: Chongming Corm Cultivation x Linzhi CEA Flowering",
+      "summary": "空间解耦繁育与开花：崇明大田积蓄养分培育 25g+ 壮硕母球；林芝海拔 2945m 智能温室无尘无土催花与 0 农残采收。",
+      "content": "### 一、两段地理与农艺参数\n- **第一阶段（上海崇明）**: 11月~次年5月，在冲积平原肥沃土壤繁育 25g+ 优质母球，粗大收缩根（Contractile Roots）向下深扎积蓄充沛多糖与淀粉；\n- **第二阶段（西藏林芝）**: 8月休眠期移入海拔 2945 米连栋 CEA 温室，9~11月在温控 15℃~18℃、RH 65%~75%、PAR 散射光 $250\\ \\mu\\text{mol/m}^2/\\text{s}$ 环境下无土悬空抽薹开花。\n\n### 二、科学机理\n藏红花为“球茎即电池”型植物，开花全过程依靠球茎前期积蓄养分，不吸外水不上肥料。两段式农艺将营养生长与生殖生长完美解耦，规避了西藏露地冻土烂球风险，并在林芝 3000m 强紫外线与大温差下最大化激发西红花苷与藏红花醛的合成。\n\n### 三、可直接装配的通稿标准段落\n“天旺农牧打破传统农业看天吃饭的局限，独创‘崇明大田养球 ＋ 林芝设施控环催花’两段式现代农艺（SFR-09）。第一阶段在崇明利用肥沃水网培育 25g+ 壮硕种球积蓄充沛养分；第二阶段移入西藏林芝海拔 2945 米连栋大温室，通过自动化精密调控光、温、水、气，在完全无土无水的无尘环境下完成洁净开花与采收，从农艺根本上实现了 0 农残与高色价的双重飞跃。”",
+      "quote": "崇明大田养球积蓄养分，林芝设施控环催花成就 0 农残极地品质。",
+      "status": "Published",
+      "version": "v2.0",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "什么是两段式现代农艺？",
+        "为什么藏红花不在西藏直接露地种植？",
+        "崇明和林芝分别负责什么阶段？"
+      ],
+      "target_scenarios": [
+        "农业科技白皮书",
+        "产品详情页种植说明",
+        "媒体专访通稿"
+      ],
+      "created_at": "2026-08-08T14:54:46.429Z",
+      "updated_at": "2026-08-19T12:45:00.000Z",
+      "tag_ids": [
+        "tag-agronomy",
+        "tag-cea",
         "tag-ssot"
       ]
     },
     {
-      "id": "asset-1786201248548",
-      "uuid": "uuid-1786201248548",
-      "module_id": "mod-kno",
-      "asset_code": "KNO-1847",
-      "title": "[附件上传] image.jpg",
-      "subtitle": "Mobile Capture",
-      "summary": "文件名称: image.jpg\n大小: 3431.8 KB\n格式: image/jpeg\n\n已成功选择文件，准备上传。",
-      "content": "文件名称: image.jpg\n大小: 3431.8 KB\n格式: image/jpeg\n\n已成功选择文件，准备上传。",
-      "quote": "",
-      "status": "Draft",
-      "version": "v1.0",
-      "created_at": "2026-08-08T15:00:48.548Z",
-      "updated_at": "2026-08-08T15:00:48.548Z",
+      "id": "asset-str-4000",
+      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380str4",
+      "module_id": "mod-brd",
+      "asset_code": "STR-4000",
+      "title": "STR-4000 藏红花技术壁垒战略模型与五层不可逆竞争体系",
+      "subtitle": "Strategic Moat Model: Technical, Standard & Knowledge Asset Architecture",
+      "summary": "五层不可逆竞争模型：物理资产 ➔ 运营资产 ➔ 标准体系 ➔ 知识资产 ➔ 生命管理系统。战略公式：技术 + 知识 + 标准 + 品牌 = 长期不可逆竞争优势。",
+      "content": "### 一、五层不可逆竞争模型\n1. **Layer 1 物理资产 (Equipment)**: 温室硬件、土地、仓储（可花钱购买，无壁垒）；\n2. **Layer 2 运营资产 (Process)**: 两段式农艺规程、SOP 流程（需要团队时间训练）；\n3. **Layer 3 标准资产 (Standard)**: 7 级证据链、拉萨海关出口资质、0农残报告（合规准入门槛）；\n4. **Layer 4 知识资产 (Knowledge)**: Brand Content OS、34 Master 骨架底库、反向抗质疑知识图谱（企业核心数字资产）；\n5. **Layer 5 生命管理系统 (System)**: 极地风土算法 ＋ 自动化 CEA 控环生命工程系统（长期不可复制的最高壁垒）。\n\n### 二、战略公式与企业定位\n- **战略公式**: `技术 + 知识 + 标准 + 品牌 = 长期不可逆竞争优势`\n- **企业定位升级**: 从传统的“农业种植企业”全面升级为“**生命管理系统企业**”与“**极地藏红花生命科学工程企业**”。",
+      "quote": "技术 ≠ 竞争力；技术 ＋ 知识 ＋ 标准 ＋ 品牌 ＝ 长期不可逆竞争优势。",
+      "status": "Published",
+      "version": "v2.0",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "天旺的核心战略竞争壁垒是什么？",
+        "STR-4000 五层竞争模型包含什么？",
+        "为什么硬件温室不构成核心壁垒？"
+      ],
+      "target_scenarios": [
+        "融资路演 PPT",
+        "战略合作谈判定调",
+        "企业定位与对外公关宣发"
+      ],
+      "created_at": "2026-08-08T14:54:46.429Z",
+      "updated_at": "2026-08-19T12:45:00.000Z",
       "tag_ids": [
-        "tag-mobile-ingest"
+        "tag-strategy",
+        "tag-moat",
+        "tag-positioning"
       ]
     },
     {
-      "id": "asset-1786201354768",
-      "uuid": "uuid-1786201354768",
-      "module_id": "mod-kno",
-      "asset_code": "KNO-2852",
-      "title": "藏红花白皮书插图",
-      "subtitle": "Mobile Capture",
-      "summary": "这张图片可以用作藏红花白皮书以后的插图。",
-      "content": "这张图片可以用作藏红花白皮书以后的插图。",
-      "quote": "",
-      "status": "Draft",
-      "version": "v1.0",
-      "created_at": "2026-08-08T15:02:34.768Z",
-      "updated_at": "2026-08-08T15:02:34.769Z",
+      "id": "asset-prod-extract-01",
+      "uuid": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380prod01",
+      "module_id": "mod-com",
+      "asset_code": "PROD-EXTRACT-01",
+      "title": "香港宝芝林 ＆ 劲牌/劲酒 藏红花深加工战略合作商业资产",
+      "subtitle": "Strategic Co-branding with Bao Zhi Lin & Jing Brand",
+      "summary": "联合百年老字号【香港宝芝林】开发藏红花水溶冷萃高活性保健品；联合【劲牌 / 劲酒】定向供应冷萃原液开发高端藏红花草本养生酒。",
+      "content": "### 一、合作主体与产品形态\n1. **香港宝芝林战略合作**:\n   - 依托天旺林芝特级极地藏红花，采用低温水溶冷萃专利技术提取高纯度西红花苷与活性多糖；\n   - 联合定制开发高生物利用度、高吸收率的高端藏红花保健品与健康滋补品矩阵。\n2. **劲牌 / 劲酒定制合作**:\n   - 天旺作为核心草本原料供应商，定向输出高纯度纯净冷萃原液；\n   - 联合调配高端藏红花草本养生酒，实现极地草本精粹与现代白酒酿造科技的深度融合。\n\n### 二、可直接装配的通稿标准段落\n“打破藏红花仅停留在初级农副产品干花丝的单一形态，天旺农牧依托低温冷萃提纯技术，与百年健康品牌【香港宝芝林】达成深度战略合作，联合推出高活性藏红花冷萃提取物深加工健康保健品系列；同时与中国草本健康白酒龙头【劲牌 / 劲酒】合作定制高端藏红花草本养生酒，全面打通藏红花向大健康与现代消费品跃迁的商业通路。”",
+      "quote": "携手宝芝林与劲牌，开启藏红花高活性深加工大健康时代。",
+      "status": "Published",
+      "version": "v2.0",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "天旺和香港宝芝林合作了什么产品？",
+        "天旺和劲酒合作了什么产品？",
+        "深加工产品的技术路径是什么？"
+      ],
+      "target_scenarios": [
+        "商务招商推介会",
+        "品牌跨界发布会",
+        "产品商业矩阵宣传"
+      ],
+      "created_at": "2026-08-08T14:54:46.429Z",
+      "updated_at": "2026-08-19T12:45:00.000Z",
       "tag_ids": [
-        "tag-mobile-ingest"
-      ]
-    },
-    {
-      "id": "asset-1786201387493",
-      "uuid": "uuid-1786201387493",
-      "module_id": "mod-kno",
-      "asset_code": "KNO-7424",
-      "title": "[附件上传] 2024年艺术装置  燃烧人.pdf",
-      "subtitle": "Mobile Capture",
-      "summary": "文件名称: 2024年艺术装置  燃烧人.pdf\n大小: 2118.0 KB\n格式: application/pdf\n\n已成功选择文件，准备上传。",
-      "content": "文件名称: 2024年艺术装置  燃烧人.pdf\n大小: 2118.0 KB\n格式: application/pdf\n\n已成功选择文件，准备上传。",
-      "quote": "",
-      "status": "Draft",
-      "version": "v1.0",
-      "created_at": "2026-08-08T15:03:07.493Z",
-      "updated_at": "2026-08-08T15:03:07.493Z",
-      "tag_ids": [
-        "tag-mobile-ingest"
+        "tag-commercial",
+        "tag-partnership",
+        "tag-deep-processing"
       ]
     }
   ],

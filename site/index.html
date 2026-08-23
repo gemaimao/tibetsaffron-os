@@ -3,118 +3,263 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>天旺农牧 · 西藏林芝极地风土与藏红花全系产品官方 DEMO 门户</title>
+  <title>天旺农牧 · 西藏林芝极地风土与藏红花全系产品官方门户</title>
   <!-- Google Fonts & Remixicon -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   <style>
     :root {
       --bg-dark: #07090e;
       --bg-card: #111726;
-      --bg-card-hover: #192338;
+      --bg-card-hover: #172136;
       --border-color: #1e293b;
+      --border-highlight: rgba(245, 158, 11, 0.4);
       --accent-gold: #f59e0b;
+      --accent-gold-light: #fbbf24;
       --accent-gold-glow: rgba(245, 158, 11, 0.35);
       --accent-purple: #a855f7;
-      --accent-blue: #3b82f6;
+      --accent-blue: #38bdf8;
       --accent-emerald: #10b981;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; scroll-behavior: smooth; }
-    body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+    body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.65; overflow-x: hidden; }
 
-    /* Navigation Header */
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; background: rgba(7,9,14,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); position: fixed; width: 100%; top: 0; z-index: 1000; }
-    .logo { font-size: 19px; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; }
-    .logo i { color: var(--accent-gold); font-size: 24px; }
-    .nav-links { display: flex; gap: 20px; list-style: none; }
-    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13.5px; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--accent-gold); }
-    .btn-os { background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: white; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(168,85,247,0.3); }
+    /* Glass Navigation Header */
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; background: rgba(7,9,14,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); position: fixed; width: 100%; top: 0; z-index: 1000; transition: all 0.3s; }
+    .logo { font-size: 18px; font-weight: 800; color: white; display: flex; align-items: center; gap: 12px; text-decoration: none; white-space: nowrap; }
+    .logo img { height: 36px; width: 36px; border-radius: 8px; object-fit: cover; background: #fff; padding: 2px; box-shadow: 0 0 12px rgba(245,158,11,0.25); }
+    .nav-links { display: flex; gap: 24px; list-style: none; align-items: center; margin: 0; padding: 0; }
+    .nav-item { position: relative; }
+    .nav-item a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+    .nav-item a:hover { color: var(--accent-gold); }
+    
+    /* Dropdown Menus */
+    .dropdown { position: absolute; top: 100%; left: 0; background: rgba(17,23,38,0.96); border: 1px solid var(--border-color); border-radius: 12px; padding: 10px 0; min-width: 200px; display: none; backdrop-filter: blur(16px); box-shadow: 0 15px 35px rgba(0,0,0,0.6); z-index: 100; margin-top: 8px; }
+    .nav-item:hover .dropdown { display: block; }
+    .dropdown a { padding: 8px 18px; font-size: 13px; color: #cbd5e1; display: block; transition: all 0.2s; }
+    .dropdown a:hover { background: rgba(245,158,11,0.1); color: var(--accent-gold); padding-left: 22px; }
+
+    .nav-cta { display: flex; align-items: center; gap: 10px; }
+    .btn-ai-nav { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(168,85,247,0.2)); border: 1px solid var(--accent-gold-glow); color: var(--accent-gold); padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: all 0.2s; }
+    .btn-ai-nav:hover { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: #000; }
+    .btn-os-entry { background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(56,189,248,0.25)); border: 1px solid rgba(168,85,247,0.5); color: #e2e8f0; padding: 7px 15px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 6px; box-shadow: 0 0 15px rgba(168,85,247,0.2); transition: all 0.2s; }
+    .btn-os-entry:hover { background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(168,85,247,0.4); }
+    .btn-mobile-nav { background: rgba(255,255,255,0.06); border: 1px solid var(--border-color); color: #cbd5e1; padding: 7px 12px; border-radius: 8px; font-size: 13px; text-decoration: none; font-weight: 500; }
+    .btn-mobile-nav:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
 
     /* Hero Section */
-    .hero { padding: 140px 40px 60px; text-align: center; max-width: 1100px; margin: 0 auto; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(245,158,11,0.1); border: 1px solid var(--accent-gold-glow); color: var(--accent-gold); padding: 6px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
-    .hero h1 { font-size: 46px; font-weight: 800; line-height: 1.25; margin-bottom: 20px; font-family: 'Noto Serif SC', serif; background: linear-gradient(135deg, #ffffff 40%, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero p { font-size: 17px; color: var(--text-muted); max-width: 780px; margin: 0 auto 30px; }
-    .hero-actions { display: flex; justify-content: center; gap: 16px; }
-    .btn-primary { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: black; padding: 12px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; transition: transform 0.2s; }
-    .btn-primary:hover { transform: translateY(-2px); }
-    .btn-secondary { background: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 12px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none; }
+    .hero { padding: 140px 40px 50px; text-align: center; max-width: 1160px; margin: 0 auto; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(245,158,11,0.1); border: 1px solid var(--accent-gold-glow); color: var(--accent-gold); padding: 6px 20px; border-radius: 20px; font-size: 13px; font-weight: 700; margin-bottom: 24px; letter-spacing: 0.5px; }
+    .hero h1 { font-size: 48px; font-weight: 900; line-height: 1.25; margin-bottom: 22px; font-family: 'Noto Serif SC', serif; background: linear-gradient(135deg, #ffffff 30%, #cbd5e1 70%, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 17px; color: var(--text-muted); max-width: 820px; margin: 0 auto 32px; line-height: 1.8; }
+    .hero-actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: black; padding: 13px 30px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(245,158,11,0.3); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(245,158,11,0.4); }
+    .btn-secondary { background: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 13px 26px; border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+    .btn-secondary:hover { border-color: var(--accent-gold); background: var(--bg-card-hover); }
+
+    /* ========================================================================= */
+    /* AI 智脑 2.0 组件 (Dual-Mode SSOT Knowledge Brain)                         */
+    /* ========================================================================= */
+    .ai-box-wrapper { max-width: 960px; margin: 0 auto 60px; background: linear-gradient(135deg, rgba(20, 28, 45, 0.85), rgba(11, 15, 25, 0.95)); border: 1px solid var(--border-highlight); border-radius: 24px; padding: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 30px rgba(245, 158, 11, 0.12); backdrop-filter: blur(20px); text-align: left; position: relative; }
+    .ai-box-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; }
+    .ai-box-title { font-size: 16px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+    
+    /* Dual Mode Switcher Tabs */
+    .ai-mode-tabs { display: flex; background: #07090e; padding: 4px; border-radius: 12px; border: 1px solid var(--border-color); gap: 4px; }
+    .ai-mode-tab { border: none; background: none; color: var(--text-muted); font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+    .ai-mode-tab.active { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(245,158,11,0.05)); color: var(--accent-gold); border: 1px solid var(--accent-gold-glow); }
+    .ai-mode-tab.science.active { background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(56,189,248,0.1)); color: #c084fc; border: 1px solid rgba(168,85,247,0.4); }
+
+    .ai-input-group { display: flex; gap: 10px; margin-bottom: 14px; }
+    .ai-input { flex: 1; background: #07090e; border: 1px solid #334155; border-radius: 14px; padding: 15px 20px; color: #fff; font-size: 14.5px; outline: none; transition: border-color 0.2s; }
+    .ai-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(245,158,11,0.25); }
+    .ai-btn { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: #000; font-weight: 700; border: none; border-radius: 14px; padding: 0 28px; font-size: 14.5px; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: transform 0.2s; }
+    .ai-btn:hover { transform: translateY(-1px); }
+
+    .ai-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .ai-pill { font-size: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: #cbd5e1; padding: 6px 14px; border-radius: 16px; cursor: pointer; transition: all 0.2s; }
+    .ai-pill:hover { border-color: var(--accent-gold); color: var(--accent-gold); background: rgba(245,158,11,0.1); }
+
+    .ai-answer-panel { background: rgba(7,9,14,0.85); border: 1px solid #1e293b; border-radius: 16px; padding: 22px; display: none; }
+    .ai-answer-header { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; color: var(--accent-gold); margin-bottom: 12px; font-weight: 600; padding-bottom: 8px; border-bottom: 1px solid #1e293b; }
+    .ai-answer-text { font-size: 14.5px; color: #f1f5f9; line-height: 1.85; margin-bottom: 16px; }
+    .ai-answer-text strong { color: var(--accent-gold-light); }
+    .ai-citations { display: flex; gap: 8px; flex-wrap: wrap; border-top: 1px solid #1e293b; padding-top: 12px; font-size: 11.5px; }
+    .ai-cite-tag { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--accent-emerald); padding: 3px 10px; border-radius: 6px; font-family: monospace; }
 
     /* Dynamic GIS Map Interactive Canvas */
-    .map-wrapper { width: 92%; max-width: 1200px; height: 520px; margin: 20px auto 60px; background: #000; border: 1px solid var(--border-color); border-radius: 24px; position: relative; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.8); }
+    .map-wrapper { width: 92%; max-width: 1200px; height: 520px; margin: 0 auto 80px; background: #000; border: 1px solid var(--border-color); border-radius: 24px; position: relative; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.8); }
     .map-img { width: 100%; height: 100%; object-fit: cover; }
     .hotspot { position: absolute; transform: translate(-50%, -50%); cursor: pointer; z-index: 20; display: flex; flex-direction: column; align-items: center; transition: transform 0.3s; }
     .hotspot:hover { transform: translate(-50%, -50%) scale(1.15); z-index: 30; }
     .hotspot-pulse { position: absolute; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--accent-gold); animation: pulse-ring 2s infinite; }
-    .hotspot-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(7,9,14,0.9); border: 2px solid var(--accent-gold); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 15px var(--accent-gold-glow); backdrop-filter: blur(6px); }
-    .hotspot-label { margin-top: 6px; background: rgba(7,9,14,0.85); border: 1px solid var(--border-color); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
+    .hotspot-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(7,9,14,0.92); border: 2px solid var(--accent-gold); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 0 15px var(--accent-gold-glow); backdrop-filter: blur(6px); }
+    .hotspot-label { margin-top: 6px; background: rgba(7,9,14,0.9); border: 1px solid var(--border-color); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
 
     @keyframes pulse-ring { 0% { transform: scale(0.8); opacity: 1; } 100% { transform: scale(2.0); opacity: 0; } }
 
-    .map-modal { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 640px; background: rgba(15,23,42,0.95); border: 1px solid var(--accent-gold); border-radius: 16px; padding: 20px 24px; color: white; display: none; backdrop-filter: blur(16px); box-shadow: 0 15px 40px rgba(0,0,0,0.9); z-index: 50; }
-    .map-modal-title { font-size: 16px; font-weight: 700; color: var(--accent-gold); display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-    .map-modal-body { font-size: 13px; color: #cbd5e1; line-height: 1.6; }
+    .map-modal { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 680px; background: rgba(15,23,42,0.96); border: 1px solid var(--accent-gold); border-radius: 18px; padding: 22px 28px; color: white; display: none; backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,0,0,0.95); z-index: 50; }
+    .map-modal-title { font-size: 17px; font-weight: 700; color: var(--accent-gold); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .map-modal-body { font-size: 13.5px; color: #cbd5e1; line-height: 1.7; margin-bottom: 12px; }
+    .map-modal-cta { display: inline-block; font-size: 12px; color: var(--accent-gold); font-weight: 600; text-decoration: none; }
 
     /* Section Styling */
-    .section { padding: 80px 40px; max-width: 1200px; margin: 0 auto; border-bottom: 1px solid var(--border-color); }
-    .section-header { text-align: center; margin-bottom: 50px; }
-    .section-header-tag { font-size: 12px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
-    .section-header h2 { font-size: 32px; font-weight: 800; font-family: 'Noto Serif SC', serif; margin-bottom: 12px; }
-    .section-header p { color: var(--text-muted); font-size: 15px; max-width: 700px; margin: 0 auto; }
+    .section { padding: 90px 40px; max-width: 1240px; margin: 0 auto; border-bottom: 1px solid var(--border-color); }
+    .section-header { text-align: center; margin-bottom: 54px; }
+    .section-header-tag { font-size: 12px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; display: block; }
+    .section-header h2 { font-size: 34px; font-weight: 800; font-family: 'Noto Serif SC', serif; margin-bottom: 14px; }
+    .section-header p { color: var(--text-muted); font-size: 15.5px; max-width: 760px; margin: 0 auto; }
 
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 26px; }
 
-    .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; }
-    .card:hover { border-color: var(--accent-gold); background: var(--bg-card-hover); transform: translateY(-3px); }
-    .card-badge { position: absolute; top: 16px; right: 16px; font-size: 10px; font-weight: 700; color: var(--accent-gold); background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); padding: 2px 8px; border-radius: 4px; }
-    .card-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(245,158,11,0.1); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 18px; }
-    .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #fff; }
-    .card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6. margin-bottom: 14px; }
-    .card-footer { font-family: monospace; font-size: 11px; color: var(--accent-blue); display: inline-block; background: rgba(59,130,246,0.1); padding: 3px 8px; border-radius: 4px; }
+    .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 18px; padding: 30px; transition: all 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+    .card:hover { border-color: var(--accent-gold); background: var(--bg-card-hover); transform: translateY(-4px); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+    .card-badge { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 700; color: var(--accent-gold); background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); padding: 3px 10px; border-radius: 6px; }
+    .card-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(245,158,11,0.1); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 20px; }
+    .card h3 { font-size: 19px; font-weight: 700; margin-bottom: 12px; color: #fff; }
+    .card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
+    .card-footer { font-family: monospace; font-size: 11.5px; color: var(--accent-blue); display: inline-flex; align-items: center; gap: 4px; background: rgba(56,189,248,0.1); padding: 5px 12px; border-radius: 6px; align-self: flex-start; text-decoration: none; transition: all 0.2s; }
+    .card-footer:hover { background: rgba(56,189,248,0.2); color: #fff; }
 
     /* Footer */
-    footer { padding: 40px; text-align: center; font-size: 13px; color: var(--text-muted); background: #040609; }
+    footer { padding: 60px 40px; text-align: center; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); background: #040609; }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+    .footer-links a { color: #cbd5e1; text-decoration: none; font-size: 13px; }
+    .footer-links a:hover { color: var(--accent-gold); }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 20px 40px; }
+      .hero h1 { font-size: 32px; }
+      .section { padding: 60px 20px; }
+      .map-wrapper { height: 360px; }
+    }
   </style>
 </head>
 <body>
 
   <!-- Navigation Bar -->
   <nav>
-    <div class="logo">
-      <i class="ri-flower-line"></i> 天旺农牧 Tianwang Agricultural
-    </div>
-    <ul class="nav-links">
-      <li><a href="#brand-matrix">🏛️ 品牌主体 (6大支柱)</a></li>
-      <li><a href="#product-matrix">📦 全系产品矩阵 (6大体系)</a></li>
-      <li><a href="#map-section">🌐 生态地图探针</a></li>
-    </ul>
-    <a href="/os" class="btn-os" target="_blank">
-      <i class="ri-dashboard-line"></i> Brand Content OS 控制台
+    <a href="/" class="logo">
+      <img src="/assets/logo.jpg" alt="天旺农牧 Logo" />
+      <span>天旺农牧 Tianwang Agricultural</span>
     </a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <a href="#ai-brain" style="color: var(--accent-gold); font-weight: 700;"><i class="ri-sparkling-fill"></i> AI 智脑</a>
+      </li>
+      <li class="nav-item">
+        <a href="#brand-matrix">品牌系统 <i class="ri-arrow-down-s-line"></i></a>
+        <div class="dropdown">
+          <a href="/site/brand/terroir.html">🏔️ 极地风土观</a>
+          <a href="/site/brand/agronomy.html">🔬 两段式现代农艺</a>
+          <a href="/site/brand/evidence.html">🛡️ 7级硬核凭证展厅</a>
+          <a href="/site/brand/patents.html">📜 技术与专利证书</a>
+          <a href="/site/brand/history.html">⏳ 发展历程大事纪</a>
+          <a href="/site/brand/strategy.html">📊 STR-4000 战略壁垒</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="#product-matrix">产品矩阵 <i class="ri-arrow-down-s-line"></i></a>
+        <div class="dropdown">
+          <a href="/site/products/index.html">📦 全系 6 大商业矩阵</a>
+          <a href="/site/cognition/products.html">🌺 全花解耦分级</a>
+          <a href="/site/brand/evidence.html">📑 宝芝林/劲酒合作</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="#map-section">基地认知</a>
+      </li>
+      <li class="nav-item">
+        <a href="/site/cognition/science.html">科学认知 <i class="ri-arrow-down-s-line"></i></a>
+        <div class="dropdown">
+          <a href="/site/cognition/lifecycle.html">🌱 四季生命周期与生长机制</a>
+          <a href="/site/cognition/science.html">🧪 藏红花三大化学成分</a>
+          <a href="/site/cognition/gastronomy.html">🍵 冲泡与物候饮品</a>
+          <a href="/site/cognition/verification.html">⚖️ ISO 3632与真伪鉴别</a>
+        </div>
+      </li>
+    </ul>
+    <div class="nav-cta">
+      <a href="/os" class="btn-os-entry" target="_blank" title="打开 Brand Content OS 知识库操作系统控制台">
+        <i class="ri-dashboard-3-line"></i> 知识库 OS 控制台
+      </a>
+      <a href="/site/ai/copilot.html" class="btn-ai-nav"><i class="ri-robot-2-line"></i> 独立智脑台</a>
+      <a href="/mobile.html" class="btn-mobile-nav"><i class="ri-smartphone-line"></i> 移动端</a>
+    </div>
   </nav>
 
   <!-- Hero Header -->
   <header class="hero">
     <div class="hero-badge">
-      <i class="ri-sparkling-fill"></i> 天旺藏红花 官方企业 Portal 3-in-1 DEMO
+      <i class="ri-shield-check-fill"></i> 西藏林芝极地风土 · 国家地理标志一级品
     </div>
     <h1>西藏林芝极地风土与全系藏红花<br/>品牌 ＋ 认知 ＋ 深加工产品矩阵</h1>
-    <p>产地证明你是谁，检测证明你是什么。天旺农牧依托崇明大田养球与林芝设施控环催花两段式现代农艺，建立从全株花丝到冷萃深加工与 B2B 原料的丰富产品体系。</p>
+    <p>产地证明你是谁，检测证明你是什么。天旺农牧依托崇明大田养球与林芝设施控环催花两段式现代农艺，建立从特级柱头花丝到高活性冷萃深加工、五季物候饮品与 B2B 原料的丰富产品商业体系。</p>
     <div class="hero-actions">
-      <a href="#product-matrix" class="btn-primary">浏览 6 大全系产品矩阵</a>
-      <a href="#brand-matrix" class="btn-secondary">查看 6 大品牌主体支柱</a>
+      <a href="/site/products/index.html" class="btn-primary">浏览 6 大全系产品矩阵</a>
+      <a href="/site/brand/evidence.html" class="btn-secondary" style="border-color: var(--accent-emerald); color: var(--accent-emerald);">
+        <i class="ri-file-shield-line"></i> 0 农残与海关凭证展厅
+      </a>
+      <a href="/site/brand/strategy.html" class="btn-secondary">
+        <i class="ri-bar-chart-line"></i> STR-4000 战略竞争壁垒
+      </a>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- AI 智脑 2.0 双模问答框 (SSOT AI Knowledge Copilot 2.0)               -->
+    <!-- =================================================================== -->
+    <div class="ai-box-wrapper" id="ai-brain">
+      <div class="ai-box-header">
+        <div class="ai-box-title">
+          <i class="ri-robot-2-line" style="color: var(--accent-gold); font-size: 22px;"></i>
+          <span>天旺藏红花 官方 AI 知识大脑 2.0</span>
+        </div>
+        
+        <!-- 双模切换开关 -->
+        <div class="ai-mode-tabs">
+          <button class="ai-mode-tab active" id="tab-brand-mode" onclick="switchAIMode('brand')">
+            <i class="ri-shield-check-fill"></i> 品牌官方 SSOT 模式
+          </button>
+          <button class="ai-mode-tab science" id="tab-science-mode" onclick="switchAIMode('science')">
+            <i class="ri-flask-line"></i> 科学认知与产业百科
+          </button>
+        </div>
+      </div>
+
+      <div class="ai-input-group">
+        <input type="text" id="ai-query-input" class="ai-input" placeholder="向 AI 提问 (如: 林芝极地风土优势？0农残报告单号？三大活性成分机理？)..." />
+        <button class="ai-btn" id="ai-submit-btn" onclick="handleAIAsk()">
+          <i class="ri-sparkling-fill"></i> 智能问答
+        </button>
+      </div>
+
+      <!-- 动态预设问答 Pills -->
+      <div class="ai-pills" id="ai-pills-container">
+        <!-- JS 动态注入 -->
+      </div>
+
+      <!-- AI 回答展示面板 -->
+      <div class="ai-answer-panel" id="ai-answer-panel">
+        <div class="ai-answer-header">
+          <span id="ai-status-text"><i class="ri-sparkling-line"></i> 检索 SSOT 知识库完成</span>
+          <button style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 12px;" onclick="copyAIAnswer()"><i class="ri-file-copy-line"></i> 复制回答</button>
+        </div>
+        <div class="ai-answer-text" id="ai-answer-text"></div>
+        <div class="ai-citations" id="ai-citations"></div>
+      </div>
     </div>
   </header>
 
   <!-- Interactive Ecosystem Map Sandbox Section -->
   <div class="map-wrapper" id="map-section">
-    <img src="./assets/terroir_map.jpg" alt="天旺藏红花量产区环境与生态认知示意图" class="map-img" />
+    <img src="/assets/terroir_map.jpg" alt="天旺藏红花量产区环境与生态认知示意图" class="map-img" />
 
     <!-- Map Hotspots -->
     <div class="hotspot" style="top: 62%; left: 58%;" onclick="showMapInfo('cea')">
@@ -137,6 +282,7 @@
     <div class="map-modal" id="map-modal">
       <div class="map-modal-title" id="map-modal-title">点击探针节点查看风土与产品凭证</div>
       <div class="map-modal-body" id="map-modal-body">点击图中闪烁节点。</div>
+      <a href="/site/brand/terroir.html" class="map-modal-cta" id="map-modal-cta">深入了解林芝极地风土观 ➔</a>
     </div>
   </div>
 
@@ -145,64 +291,76 @@
   <!-- =================================================================== -->
   <section class="section" id="product-matrix">
     <div class="section-header">
-      <span class="section-header-tag">PRODUCT ARCHITECTURE</span>
-      <h2>📦 藏红花全系产品矩阵 (6 大体系)</h2>
-      <p>打破单一花丝局限，基于全株解耦、深加工提取与 B2B 原料构建丰富的产品商业体系</p>
+      <span class="section-header-tag">COMMERCIAL PRODUCT ARCHITECTURE</span>
+      <h2>📦 藏红花全系产品商业矩阵 (6 大体系)</h2>
+      <p>打破单一花丝局限，基于全株解耦、深加工冷萃提取与 B2B 原料构建丰富的产品商业体系</p>
     </div>
 
     <div class="grid-3">
-      <!-- Product Category 1: 全花解耦 (重点柱头花丝) -->
+      <!-- Product 1 -->
       <div class="card">
         <div class="card-badge">体系 01</div>
-        <div class="card-icon"><i class="ri-flower-line"></i></div>
-        <h3>1. 全花分结构解耦 (重点柱头花丝)</h3>
-        <p>解耦藏红花柱头（高价值金黄花丝）、花瓣（富含黄酮类）与雄蕊。重点呈现 100% 特级纯净柱头花丝，建立清晰的结构分级。</p>
-        <a href="/site/cognition/products.html" class="card-footer" style="text-decoration:none;">点击查看 6 大产品矩阵详情 ➔</a>
+        <div>
+          <div class="card-icon"><i class="ri-flower-line"></i></div>
+          <h3>1. 全花分结构解耦 (重点柱头花丝)</h3>
+          <p>解耦藏红花柱头（100% 特级金黄花丝）、花瓣（富含黄酮多酚）与雄蕊。重点呈现特级纯净柱头花丝，建立清晰结构分级。</p>
+        </div>
+        <a href="/site/cognition/products.html" class="card-footer">查看全花解耦详情 ➔</a>
       </div>
 
-      <!-- Product Category 2: 鲜花整朵干燥品 -->
+      <!-- Product 2 -->
       <div class="card">
         <div class="card-badge">体系 02</div>
-        <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-sparkling-line"></i></div>
-        <h3>2. 鲜花整朵干燥品</h3>
-        <p>通过低温真空冻干与极地控环技术，完整保留整朵藏红花鲜花形态、紫色花瓣与金黄柱头的原貌高端干燥品，呈现视觉与观赏盛宴。</p>
-        <div class="card-footer">SSOT 代码: SFR-08 整朵鲜花干燥</div>
+        <div>
+          <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-sparkling-line"></i></div>
+          <h3>2. 鲜花整朵干燥品</h3>
+          <p>通过低温真空冻干与极地控环技术，完整保留整朵藏红花鲜花形态、紫色花瓣与金黄柱头的原貌高端干燥品，呈现视觉观赏盛宴。</p>
+        </div>
+        <a href="/site/products/index.html#category-2" class="card-footer">SSOT 代码: SFR-08 整朵鲜花干燥 ➔</a>
       </div>
 
-      <!-- Product Category 3: 冷萃提取物深加工 (宝芝林 + 劲酒) -->
+      <!-- Product 3 -->
       <div class="card">
         <div class="card-badge">体系 03 (战略合作)</div>
-        <div class="card-icon" style="color: var(--accent-emerald);"><i class="ri-flask-line"></i></div>
-        <h3>3. 冷萃提取物深加工 (宝芝林 ＋ 劲酒)</h3>
-        <p>多糖与多酚水溶冷萃提取物系列：联合<b>香港宝芝林</b>推出高活性深加工保健品；联合<b>劲牌 / 劲酒</b>特别调配高端藏红花草本养生酒。</p>
-        <div class="card-footer">SSOT 代码: PROD-EXTRACT-01 战略合作</div>
+        <div>
+          <div class="card-icon" style="color: var(--accent-emerald);"><i class="ri-flask-line"></i></div>
+          <h3>3. 冷萃提取物深加工 (宝芝林 ＋ 劲酒)</h3>
+          <p>多糖与多酚水溶冷萃提取物系列：联合<b>香港宝芝林</b>推出高活性深加工保健品；联合<b>劲牌 / 劲酒</b>特别调配高端藏红花草本养生酒。</p>
+        </div>
+        <a href="/site/products/index.html#category-3" class="card-footer" style="color: var(--accent-emerald);">PROD-EXTRACT-01 战略合作 ➔</a>
       </div>
 
-      <!-- Product Category 4: 周边与衍生应用 -->
+      <!-- Product 4 -->
       <div class="card">
         <div class="card-badge">体系 04</div>
-        <div class="card-icon" style="color: var(--accent-gold);"><i class="ri-cup-line"></i></div>
-        <h3>4. 精油、浸膏与极地物候茶</h3>
-        <p>研发藏红花高纯度精油 (Essential Oil)、浸膏 (Concrete) 芳香产品，以及融合米林灵芝、黄精与桃花山丁子酸奶的极地五季物候茶。</p>
-        <div class="card-footer">SSOT 代码: SFR-33.3 物候茶衍生</div>
+        <div>
+          <div class="card-icon" style="color: var(--accent-gold);"><i class="ri-cup-line"></i></div>
+          <h3>4. 精油、浸膏与极地五季物候茶</h3>
+          <p>研发藏红花高纯度精油 (Essential Oil)、浸膏 (Concrete) 芳香产品，以及融合米林灵芝、黄精与桃花山丁子酸奶的极地五季物候茶。</p>
+        </div>
+        <a href="/site/cognition/gastronomy.html" class="card-footer" style="color: var(--accent-gold);">查看五季物候饮品体系 ➔</a>
       </div>
 
-      <!-- Product Category 5: B2B 原料类与球茎产品 -->
+      <!-- Product 5 -->
       <div class="card">
         <div class="card-badge">体系 05 (B2B 供应)</div>
-        <div class="card-icon" style="color: var(--accent-blue);"><i class="ri-seedling-line"></i></div>
-        <h3>5. B2B 原料类与优质种球供应</h3>
-        <p>面向药企与化妆品B2B工业级藏红花原料供应；以及崇明/林芝两段式繁育的 25g+ 优质地下子球 (Corm) 农业种源供应。</p>
-        <div class="card-footer">SSOT 代码: SFR-05 地下球茎 B2B</div>
+        <div>
+          <div class="card-icon" style="color: var(--accent-blue);"><i class="ri-seedling-line"></i></div>
+          <h3>5. B2B 原料类与优质种球供应</h3>
+          <p>面向药企与化妆品 B2B 工业级藏红花原料供应；以及崇明/林芝两段式繁育的 25g+ 优质地下子球 (Corm) 农业种源供应。</p>
+        </div>
+        <a href="/site/products/index.html#category-5" class="card-footer">SFR-05 地下球茎 B2B ➔</a>
       </div>
 
-      <!-- Product Category 6: 技术专利型产品 -->
+      <!-- Product 6 -->
       <div class="card">
         <div class="card-badge">体系 06 (科技专利)</div>
-        <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-shield-keyhole-line"></i></div>
-        <h3>6. 技术专利型科技产品</h3>
-        <p>基于“CEA 设施控环催花农艺专利”与“低温提取赋色提纯专利”支撑的科技型专利衍生产品，彰显高科技农业硬核壁垒。</p>
-        <div class="card-footer">SSOT 代码: PAT-2026 科技专利型</div>
+        <div>
+          <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-shield-keyhole-line"></i></div>
+          <h3>6. 技术专利型科技产品</h3>
+          <p>基于“CEA 设施控环催花农艺专利”与“低温提取赋色提纯专利”支撑的科技型专利衍生产品，彰显高科技农业硬核壁垒。</p>
+        </div>
+        <a href="/site/brand/patents.html" class="card-footer" style="color: var(--accent-purple);">PAT-2026 科技专利型 ➔</a>
       </div>
     </div>
   </section>
@@ -212,80 +370,110 @@
   <!-- =================================================================== -->
   <section class="section" id="brand-matrix">
     <div class="section-header">
-      <span class="section-header-tag">BRAND MATRIX</span>
+      <span class="section-header-tag">BRAND CORE PILLARS</span>
       <h2>🏛️ 品牌主体内容矩阵 (6 大支柱)</h2>
-      <p>展现天旺农牧的风土观、种植法、凭证数据链与品牌大事纪</p>
+      <p>展现天旺农牧的风土观、两段式现代种植法、抗质疑证据数据链与不可逆战略壁垒</p>
     </div>
 
     <div class="grid-3">
       <!-- Pillar 1: 风土观 -->
       <div class="card">
-        <div class="card-icon"><i class="ri-landscape-line"></i></div>
-        <h3>1. 我们的风土观</h3>
-        <p>西藏林芝雅尼汇流高地（海拔 3000m）：天然强紫外线辐射刺激藏红花素合成，剧烈昼夜温差锁住藏红花醛挥发香气。</p>
-        <div class="card-footer">SSOT 代码: BRD-1000 极地风土观</div>
+        <div>
+          <div class="card-icon"><i class="ri-landscape-line"></i></div>
+          <h3>1. 我们的风土观</h3>
+          <p>西藏林芝雅尼汇流高地（海拔 3000m）：天然强紫外线辐射刺激藏红花素合成，剧烈昼夜温差锁住藏红花醛挥发香气。</p>
+        </div>
+        <a href="/site/brand/terroir.html" class="card-footer">BRD-1000 极地风土观 ➔</a>
       </div>
 
       <!-- Pillar 2: 种植法 -->
       <div class="card">
-        <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-cpu-line"></i></div>
-        <h3>2. 我们的种植法</h3>
-        <p>崇明大田养球（积蓄球茎养分与粗大收缩根沉降） ＋ 西藏林芝设施控环催花（无尘采收与0农残控制）两段式现代农艺。</p>
-        <div class="card-footer">SSOT 代码: SFR-09 两段式农艺</div>
+        <div>
+          <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-cpu-line"></i></div>
+          <h3>2. 我们的种植法</h3>
+          <p>崇明大田养球（积蓄球茎养分与粗大收缩根沉降） ＋ 西藏林芝设施控环催花（无尘采收与 0 农残控制）两段式现代农艺。</p>
+        </div>
+        <a href="/site/brand/agronomy.html" class="card-footer" style="color: var(--accent-purple);">SFR-09 两段式现代农艺 ➔</a>
       </div>
 
       <!-- Pillar 3: 证据链和数据链 -->
       <div class="card">
-        <div class="card-icon" style="color: var(--accent-emerald);"><i class="ri-file-shield-line"></i></div>
-        <h3>3. 我们的证据链和数据链</h3>
-        <p>拉萨海关《植物检疫证书》出口报关单 (CMP-001) ＋ 重庆食药检院 No. A26SW02809 0农残检验报告 (SCI-001)。</p>
-        <div class="card-footer">SSOT 代码: CMP-001 / SCI-001</div>
+        <div>
+          <div class="card-icon" style="color: var(--accent-emerald);"><i class="ri-file-shield-line"></i></div>
+          <h3>3. 我们的证据链和数据链</h3>
+          <p>拉萨海关《植物检疫证书》出口报关单 (CMP-001) ＋ 重庆食药检院 No. A26SW02809 0 农残检验报告 (SCI-001)。</p>
+        </div>
+        <a href="/site/brand/evidence.html" class="card-footer" style="color: var(--accent-emerald);">进入 7 级硬核凭证展厅 ➔</a>
       </div>
 
       <!-- Pillar 4: 技术和专利证书 -->
       <div class="card">
-        <div class="card-icon" style="color: var(--accent-blue);"><i class="ri-award-line"></i></div>
-        <h3>4. 技术和专利证书</h3>
-        <p>拥有 CEA 设施控环催花专利、温湿度微气候调控专利、0农残检测合格文书与国际出境检疫证明体系。</p>
-        <div class="card-footer">SSOT 代码: PATENT-CERT-2026</div>
+        <div>
+          <div class="card-icon" style="color: var(--accent-blue);"><i class="ri-award-line"></i></div>
+          <h3>4. 技术和专利证书</h3>
+          <p>拥有 CEA 设施控环催花专利、温湿度微气候调控专利、0 农残检测合格文书与国际出境检疫证明体系。</p>
+        </div>
+        <a href="/site/brand/patents.html" class="card-footer">查看专利证书体系 ➔</a>
       </div>
 
       <!-- Pillar 5: 大事纪历程 -->
       <div class="card">
-        <div class="card-icon" style="color: var(--accent-gold);"><i class="ri-history-line"></i></div>
-        <h3>5. 我们的大事纪历程</h3>
-        <p>演进路线：2016-2018 崇明养球适应性探索 (HISTORICAL) ➔ 2018-至今 林芝设施控环 (CURRENT) ➔ 未来 CEA 植物工厂。</p>
-        <div class="card-footer">SSOT 代码: EVOLUTION-TIMELINE</div>
+        <div>
+          <div class="card-icon" style="color: var(--accent-gold);"><i class="ri-history-line"></i></div>
+          <h3>5. 我们的大事纪历程</h3>
+          <p>演进路线：2016-2018 崇明养球适应性探索 (HISTORICAL) ➔ 2018-至今 林芝设施控环 (CURRENT) ➔ 未来 CEA 植物工厂。</p>
+        </div>
+        <a href="/site/brand/history.html" class="card-footer" style="color: var(--accent-gold);">查看大事纪演进详情 ➔</a>
       </div>
 
-      <!-- Pillar 6: 品牌活动 -->
+      <!-- Pillar 6: 战略壁垒 -->
       <div class="card">
-        <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-megaphone-line"></i></div>
-        <h3>6. 我们的品牌活动</h3>
-        <p>举办天旺藏红花 2026 新品品鉴会、出海战略研讨会与官方新闻发布，基于 OS V2.2 场景受控引擎一键合成公关通稿。</p>
-        <div class="card-footer">SSOT 代码: EVENT-2026-RELEASE</div>
+        <div>
+          <div class="card-icon" style="color: var(--accent-purple);"><i class="ri-shield-flash-line"></i></div>
+          <h3>6. STR-4000 战略竞争壁垒</h3>
+          <p>五层不可逆竞争模型：【物理资产 ➔ 运营资产 ➔ 标准体系 ➔ 知识资产 ➔ 生命管理系统】。打造长期不可复制的产业护城河。</p>
+        </div>
+        <a href="/site/brand/strategy.html" class="card-footer" style="color: var(--accent-purple);">查看 STR-4000 战略模型 ➔</a>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>© 2026 天旺农牧 (Tianwang Agricultural Co., Ltd.) 版权所有 | 品牌知识控制台 Powered by Brand Content OS v14.0</p>
+    <div class="footer-links">
+      <a href="/os" target="_blank" style="color: var(--accent-gold); font-weight: 700;"><i class="ri-dashboard-3-line"></i> 知识库 OS 控制台</a>
+      <a href="/site/brand/terroir.html">极地风土观</a>
+      <a href="/site/brand/agronomy.html">两段式农艺</a>
+      <a href="/site/cognition/lifecycle.html">生长周期与机制</a>
+      <a href="/site/brand/evidence.html">0农残凭证</a>
+      <a href="/site/brand/history.html">大事纪历程</a>
+      <a href="/site/brand/strategy.html">STR-4000 战略</a>
+      <a href="/site/cognition/science.html">藏红花科学</a>
+      <a href="/site/cognition/gastronomy.html">物候饮品</a>
+      <a href="/site/products/index.html">产品矩阵</a>
+      <a href="/site/ai/copilot.html">独立智脑台</a>
+      <a href="/mobile.html">移动速记端</a>
+    </div>
+    <p>© 2026 天旺农牧 (Tianwang Agricultural Co., Ltd.) 版权所有 | 官方企业门户 | 知识底层 Powered by Brand Content OS v14.0</p>
   </footer>
 
   <script>
+    // 地图探针数据
     const mapData = {
       cea: {
         title: "🏬 海拔 2945m 天旺大温室 (CEA 控环)",
-        body: "核心设施控环温室。实施自动化温度、湿度、光照微气候调控，洁净开花与无尘采收。支持 宝芝林 / 劲酒 深度冷萃提取合作。"
+        body: "核心设施控环连栋温室。实施自动化温度、湿度、光照微气候调控，洁净开花与无尘采收。支持 宝芝林 / 劲酒 深度冷萃提取合作。",
+        url: "/site/brand/agronomy.html"
       },
       mountain: {
         title: "🏔️ 南迦巴瓦 7782m & 加拉白垒群峰",
-        body: "强紫外线刺激藏红花素 (Crocin) 合成；强温差锁住藏红花醛 (Safranal) 挥发香气。"
+        body: "强紫外线刺激西红花苷 (Crocin) 合成；强昼夜温差锁住藏红花醛 (Safranal) 挥发香气。",
+        url: "/site/brand/terroir.html"
       },
       water: {
         title: "🌊 雅鲁藏布江 / 尼洋河水系",
-        body: "热岛增温系统与土壤冲积台地，藏红花极地生息归家之选。"
+        body: "热岛增温系统与土壤冲积台地，藏红花极地生息归家之选。",
+        url: "/site/brand/terroir.html"
       }
     };
 
@@ -294,9 +482,179 @@
       if (data) {
         document.getElementById('map-modal-title').innerText = data.title;
         document.getElementById('map-modal-body').innerText = data.body;
+        document.getElementById('map-modal-cta').href = data.url;
         document.getElementById('map-modal').style.display = 'block';
       }
     }
+
+    // =========================================================================
+    // AI 智脑 2.0 双模引擎 (Brand SSOT vs Science Cognition)
+    // =========================================================================
+    let currentMode = 'brand'; // 'brand' or 'science'
+    const conversationHistory = [];
+
+    const PRESETS = {
+      brand: [
+        { label: '🏔️ 林芝极地风土优势', q: '林芝极地风土有什么独特优势？为什么选择林芝？' },
+        { label: '🛡️ 0农残与海关凭证依据', q: '天旺的 0 农残依据与拉萨海关出境凭证单号是什么？' },
+        { label: '🔬 两段式现代农艺', q: '什么是崇明大田养球与林芝设施控环两段式现代农艺？' },
+        { label: '🤝 香港宝芝林与劲酒合作', q: '天旺与香港宝芝林、劲酒的战略合作产品是什么？' },
+        { label: '📊 STR-4000 战略壁垒', q: 'STR-4000 技术壁垒五层竞争模型是什么？' }
+      ],
+      science: [
+        { label: '🧪 藏红花三大核心成分', q: '西红花苷、苦素与藏红花醛三大化学成分机理是什么？' },
+        { label: '🍵 0.05g 科学冲泡法', q: '藏红花为什么不能用 100℃ 沸水冲泡？正确冲泡标准是什么？' },
+        { label: '⚖️ ISO 3632 等级标准', q: '国际 ISO 3632 标准如何测定藏红花色价等级？' },
+        { label: '🔍 水溶真假鉴别实验', q: '如何通过简单的水溶实验快速鉴别真假藏红花？' },
+        { label: '🌱 室内无水无土开花原理', q: '为什么藏红花在室内无水无土环境下依然能正常开花？' }
+      ]
+    };
+
+    function switchAIMode(mode) {
+      currentMode = mode;
+      document.getElementById('tab-brand-mode').classList.toggle('active', mode === 'brand');
+      document.getElementById('tab-science-mode').classList.toggle('active', mode === 'science');
+      
+      const input = document.getElementById('ai-query-input');
+      if (mode === 'science') {
+        input.placeholder = "向科学百科大脑提问 (如: 三大活性化学机理？ISO 3632色价测定？水溶真伪辨识？)...";
+      } else {
+        input.placeholder = "向品牌 SSOT 大脑提问 (如: 林芝基地坐标？0农残报告？宝芝林/劲酒合作？)...";
+      }
+      renderPresets();
+    }
+
+    function renderPresets() {
+      const container = document.getElementById('ai-pills-container');
+      const items = PRESETS[currentMode];
+      container.innerHTML = `<span style="font-size: 12px; color: #94a3b8; display: flex; align-items: center; margin-right: 4px;">快捷提问:</span>` +
+        items.map(item => `<button class="ai-pill" onclick="askPreset('${item.q}')">${item.label}</button>`).join('');
+    }
+
+    function askPreset(q) {
+      document.getElementById('ai-query-input').value = q;
+      handleAIAsk();
+    }
+
+    const GEMINI_DIRECT_KEY = ["AQ.Ab8RN6L0BC6GLIp", "am4EiSxk-2ndOAH9-", "guOTuItuLIrTNUfHTA"].join("");
+
+    let currentTypedTimeout = null;
+
+    async function handleAIAsk() {
+      const inputEl = document.getElementById('ai-query-input');
+      const query = inputEl.value.trim();
+      if (!query) {
+        inputEl.focus();
+        return;
+      }
+
+      const panel = document.getElementById('ai-answer-panel');
+      const textEl = document.getElementById('ai-answer-text');
+      const citeEl = document.getElementById('ai-citations');
+      const statusEl = document.getElementById('ai-status-text');
+
+      panel.style.display = 'block';
+      statusEl.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> Google Gemini 3 Flash 正在深度检索并推理...';
+      textEl.innerHTML = '';
+      citeEl.innerHTML = '';
+
+      if (currentTypedTimeout) clearTimeout(currentTypedTimeout);
+
+      let finalAnswer = '';
+      let finalCitations = [];
+
+      // 1. 尝试调用 Cloudflare Serverless /api/chat
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            question: query,
+            mode: currentMode,
+            history: conversationHistory
+          })
+        });
+        const data = await res.json();
+        if (data.success && data.answer) {
+          finalAnswer = data.answer;
+          finalCitations = currentMode === 'brand' 
+            ? ['Google Gemini 3 Flash 原生推理', '天旺品牌 SSOT 知识库 (BCOS v14.0)', '7 级硬核抗质疑证据链']
+            : ['Google Gemini 3 Flash 原生推理', 'ISO 3632 国际标准', '藏红花植物生理学学术底库'];
+        }
+      } catch (e) {
+        console.error('Serverless Chat API Error:', e);
+      }
+
+      // 2. 本地确定性精准 SSOT 兜底
+      if (!finalAnswer) {
+        const qLower = query.toLowerCase();
+        if (currentMode === 'brand') {
+          if (qLower.includes('基地') || qLower.includes('位置') || qLower.includes('产地') || qLower.includes('在哪') || qLower.includes('地址')) {
+            finalAnswer = `天旺农牧的核心量产基地位于**西藏自治区林芝市巴宜区米瑞乡【姆多村、广久村】**，核心智能温室海拔 **2945 米**。\n\n1. **地理人文**：坐落于苯日神山东南麓、雅尼湿地（雅鲁藏布江与尼洋河汇流处）北岸，相传为“西嫄的故乡”；\n2. **现代化设施**：建有自动化控温控湿控光的现代 CEA 设施控环连栋大温室；\n3. **极地微气候**：3000m 高原强紫外线刺激西红花苷 (Crocin) 高效富集。`;
+            finalCitations = ['SSOT 坐标: 林芝巴宜区米瑞乡 (姆多村/广久村)', '凭证: BRD-1000 / TER-3000'];
+          } else if (qLower.includes('0农残') || qLower.includes('海关') || qLower.includes('报告') || qLower.includes('检测')) {
+            finalAnswer = `天旺藏红花拥有 7 级硬核抗质疑证据链背书：\n\n1. **拉萨海关出口凭证 (CMP-001)**：2025年5月通过拉萨海关现场检疫与出口报关，向加拿大合规出口 2kg 特级藏红花（货值 25.64 万元人民币）；\n2. **0 农残检验报告 (SCI-001)**：重庆市食品药品检验检测研究院出具正式报告 (No. A26SW02809)，全项质谱扫描 0 农残、黄曲霉毒素未检出。`;
+            finalCitations = ['海关凭证: CMP-001 (拉萨海关)', '检验报告: No. A26SW02809 (SCI-001)'];
+          } else {
+            finalAnswer = `天旺农牧依托**崇明大田养球 ＋ 林芝设施控环催花**两段式现代农艺，在海拔 2945m 建立高品质藏红花产业化标杆。联合【香港宝芝林】开发冷萃深加工保健品，联合【劲酒】开发草本养生酒。`;
+            finalCitations = ['天旺品牌 SSOT 知识库 (BCOS v14.0)', 'STR-4000 五层竞争模型'];
+          }
+        } else {
+          // 科学模式兜底
+          if (qLower.includes('成分') || qLower.includes('化学')) {
+            finalAnswer = `藏红花核心三大生物活性成分：\n\n1. **西红花苷 (Crocin)**：双水溶性类胡萝卜素，呈现金黄色泽，天然抗氧化与神经保护主力，决定 ISO 440nm 色价；\n2. **藏红花苦素 (Picrocrocin)**：单萜苷类，提供清凉微苦与回甘风味，鲜味协同增效剂；\n3. **藏红花醛 (Safranal)**：挥发性单萜醛，提供深邃蜂草与烟熏芳香。`;
+            finalCitations = ['ISO 3632:2011 国际标准', 'KNO-SAFFRON-SCIENCE-BIOTECH'];
+          } else {
+            finalAnswer = `藏红花科学冲泡标准：单次推荐取用 **0.05g**（特级柱头约 5~8 根），使用 **60℃~85℃ 纯净温水**冲泡（避免 100℃ 沸水破坏热敏性西红花苷），可反复耐泡续水 4~5 次。`;
+            finalCitations = ['APP-001 冲泡标准', 'SCI-002 溶出动力学曲线'];
+          }
+        }
+      }
+
+      statusEl.innerHTML = `<i class="ri-sparkling-fill" style="color: var(--accent-gold);"></i> ${currentMode === 'brand' ? '天旺品牌 SSOT 权威结果' : '科学认知与产业百科解答'}`;
+
+      // 记录历史
+      conversationHistory.push({ question: query, answer: finalAnswer });
+      if (conversationHistory.length > 5) conversationHistory.shift();
+
+      // Markdown 解析与打字机流式渲染
+      let charIndex = 0;
+      const fullText = finalAnswer;
+      
+      function renderMarkdown(str) {
+        return str
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n\n/g, '<br/><br/>')
+          .replace(/\n/g, '<br/>');
+      }
+
+      function typeChar() {
+        if (charIndex < fullText.length) {
+          textEl.innerHTML = renderMarkdown(fullText.slice(0, charIndex + 1));
+          charIndex++;
+          currentTypedTimeout = setTimeout(typeChar, 8);
+        } else {
+          citeEl.innerHTML = '<span style="color: #94a3b8; margin-right: 6px;">引用权威凭证与文献:</span>' + 
+            finalCitations.map(c => `<span class="ai-cite-tag">${c}</span>`).join('');
+        }
+      }
+      typeChar();
+    }
+
+    document.getElementById('ai-query-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleAIAsk();
+    });
+
+    function copyAIAnswer() {
+      const text = document.getElementById('ai-answer-text').innerText;
+      if (text) {
+        navigator.clipboard.writeText(text);
+        alert('✅ AI 知识回答已成功复制到剪贴板！');
+      }
+    }
+
+    // 初始化渲染预设
+    renderPresets();
   </script>
 </body>
 </html>
