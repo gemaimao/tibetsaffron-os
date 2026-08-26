@@ -1,7 +1,7 @@
 # 天旺藏红花 官方全量 SSOT 知识总库 (Google NotebookLM Master Source)
 
 **系统版本**: Brand Content OS v14.0 (V2.4 Atomic High-Granularity)
-**更新时间**: 2026-08-23T13:45:44.300Z
+**更新时间**: 2026-08-26T06:05:40.284Z
 **使用说明**: 该文件为天旺藏红花唯一权威可信源 (Single Source of Truth, SSOT)，汇总全部高颗粒度凭证、农艺参数、商业合作与科学机理。
 
 ---

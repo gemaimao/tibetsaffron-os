@@ -157,6 +157,11 @@ function apiServerPlugin() {
         if (req.url.startsWith('/api/media/')) {
           const filename = req.url.replace('/api/media/', '').split('?')[0];
           const filePath = path.resolve(MEDIA_DIR, decodeURIComponent(filename));
+          // 目录包含校验：防路径穿越读取任意文件
+          if (!filePath.startsWith(MEDIA_DIR + path.sep)) {
+            res.statusCode = 403;
+            return res.end('Forbidden');
+          }
           if (fs.existsSync(filePath)) {
             const ext = path.extname(filePath).toLowerCase();
             const mimeMap = {
@@ -411,7 +416,7 @@ function apiServerPlugin() {
                 return res.end(JSON.stringify({ success: false, message: 'Question is empty' }));
               }
 
-              const GEMINI_DIRECT_KEY = ["AQ.Ab8RN6L0BC6GLIp", "am4EiSxk-2ndOAH9-", "guOTuItuLIrTNUfHTA"].join("");
+              const GEMINI_DIRECT_KEY = process.env.GEMINI_API_KEY || "";
               const systemPrompt = mode === 'science'
                 ? `你是天旺农牧官方基于现代植物生理学与国际色谱标准驱动的【藏红花 科学认知与产业百科大脑】。回答要求：直接、专业、科学、客观。涵盖三大活性成分（Crocin/Picrocrocin/Safranal）、ISO 3632色价标准、0.05g冲泡温水机理、真伪辨识等。结尾附带引用标准。`
                 : `你是天旺农牧官方基于 Brand Content OS 驱动的【天旺藏红花 官方 AI 品牌大脑】。回答要求：结果式权威答案。涵盖核心基地（林芝巴宜区米瑞乡姆多村/广久村，海拔2945m）、两段式农艺、拉萨海关出口凭证(CMP-001)、食药检院0农残报告(SCI-001)、宝芝林/劲酒合作等。结尾附带引用SSOT凭证编号。`;

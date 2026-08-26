@@ -396,8 +396,8 @@
     // =========================================================================
     // 天旺官方 SSOT 深度认知与大模型 RAG 知识引擎 (BCOS v14.0)
     // =========================================================================
-    const GEMINI_KEY_PARTS = ["AQ.Ab8RN6L0BC6GLIp", "am4EiSxk-2ndOAH9-", "guOTuItuLIrTNUfHTA"];
-    const GEMINI_DIRECT_KEY = GEMINI_KEY_PARTS.join("");
+    // 密钥由服务端 /api/chat 提供（Cloudflare env），客户端不硬编码；此处仅支持注入实测
+    const GEMINI_DIRECT_KEY = (window.__APP_CONFIG && window.__APP_CONFIG.GEMINI_API_KEY) || "";
 
     const TIANWANG_SSOT_SYSTEM_PROMPT = `
 你是天旺农牧官方基于 Brand Content OS 知识操作系统驱动的【天旺藏红花 官方 AI 知识大脑】。
@@ -484,9 +484,10 @@
       let finalAnswer = '';
       let finalCitations = [];
 
-      // 1. 直连 Google Gemini 3 Flash 原生大模型 (最强智能)
+      // 1. 若有注入的客户端密钥，直连 Gemini；否则走服务端 /api/chat（默认、安全）
       try {
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_DIRECT_KEY}`;
+        if (GEMINI_DIRECT_KEY) {
+          const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_DIRECT_KEY}`;
         const res = await fetch(geminiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -507,6 +508,7 @@
         if (data.candidates && data.candidates[0] && data.candidates[0].content) {
           finalAnswer = data.candidates[0].content.parts[0].text;
           finalCitations = ['Google Gemini 3 Flash 大模型实时生成', '天旺 SSOT 知识库 (BCOS v14.0)'];
+        }
         }
       } catch (e) {
         console.error('Gemini Direct API Error:', e);

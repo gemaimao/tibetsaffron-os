@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "project": "藏红花回家 · 知识图谱关系边",
+  "relation_types": {
+    "validated_by": "被……验证",
+    "evidence_of": "是……的证据",
+    "supports": "支撑",
+    "models": "建模为",
+    "produced_by": "由……产出",
+    "expands": "拓展",
+    "derives_from": "源自",
+    "referenced_by": "被引用"
+  },
+  "relations": [
+    { "source": "asset-sfr-09", "target": "asset-sci-001", "type": "validated_by" },
+    { "source": "asset-sfr-09", "target": "asset-str-4000", "type": "supports" },
+    { "source": "asset-sci-001", "target": "asset-cmp-001", "type": "evidence_of" },
+    { "source": "asset-sci-001", "target": "asset-1787492744297", "type": "referenced_by" },
+    { "source": "asset-ind-001", "target": "asset-sfr-09", "type": "produced_by" },
+    { "source": "asset-ind-001", "target": "asset-sfr-09", "type": "evidence_of" },
+    { "source": "asset-str-4000", "target": "asset-sfr-09", "type": "models" },
+    { "source": "asset-prod-extract-01", "target": "asset-cmp-001", "type": "expands" },
+    { "source": "asset-prod-extract-01", "target": "asset-str-4000", "type": "supports" },
+    { "source": "asset-cmp-001", "target": "asset-sfr-09", "type": "evidence_of" }
+  ]
+}
