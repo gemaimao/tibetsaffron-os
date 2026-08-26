@@ -486,7 +486,7 @@ export default defineConfig({
         main: path.resolve(__dirname, 'index.html'),
         os: path.resolve(__dirname, 'os.html'),
         mobile: path.resolve(__dirname, 'mobile.html'),
-        portal: path.resolve(__dirname, 'site/index.html'),
+        portal: path.resolve(__dirname, 'portal.html'),
         terroir: path.resolve(__dirname, 'site/brand/terroir.html'),
         agronomy: path.resolve(__dirname, 'site/brand/agronomy.html'),
         evidence: path.resolve(__dirname, 'site/brand/evidence.html'),
