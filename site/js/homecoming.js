@@ -246,7 +246,7 @@ function initCesium() {
     const headingRad = Cesium.Math.toRadians(HERO_VIEW.heading);
     // 目标点（基地上空）——lookAt 会权威地将相机对准该点
     const heroTargetBase = Cesium.Cartesian3.fromDegrees(HERO_VIEW.lng, HERO_VIEW.lat, HERO_VIEW.targetH);
-    // 落地函数：采样真实地形高度后精确落位（地形加载后调用，保证贴合地面）
+    // 落地函数：采样真实地形高度后精确落位定格（保证相机权威定格在 KMZ 终点视角）
     const landHeroView = () => {
       let groundH = HERO_VIEW.targetH;
       try {
@@ -255,42 +255,29 @@ function initCesium() {
       } catch (e) {}
       const target = Cesium.Cartesian3.fromDegrees(HERO_VIEW.lng, HERO_VIEW.lat, groundH);
       viewer.camera.lookAt(target, new Cesium.HeadingPitchRange(headingRad, pitchRad, HERO_VIEW.range));
+      // 解锁矩阵变换，使视角保持在此终点姿态且允许自然微调
+      viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+      console.log("[homecoming] ✅ 已权威锁定并保持 KMZ 三维终点定位视角");
     };
-    console.log("[homecoming] KMZ 视角 >", "heading:", headingRad.toFixed(3), "pitch:", pitchRad.toFixed(3), "(俯角", (90 - HERO_VIEW.tilt).toFixed(2), "°) range:", HERO_VIEW.range);
 
-    // 太空起点
-    viewer.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(HERO_VIEW.lng, HERO_VIEW.lat, 18000000),
-      orientation: { heading: 0, pitch: -Math.PI / 2.2, roll: 0 }
+    // 初始化时直接定格到最终定位视角
+    landHeroView();
+
+    // 顺滑开场：从高空快速俯冲并精确定格在终点视角（2.5 秒极速完成）
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(HERO_VIEW.lng, HERO_VIEW.lat, 28000),
+      orientation: { heading: headingRad, pitch: pitchRad, roll: 0 },
+      duration: 2.5,
+      easingFunction: Cesium.EasingFunction.QUADRATIC_OUT,
+      complete: () => {
+        landHeroView();
+      }
     });
-    setTimeout(() => {
-      // 俯冲接近（可靠显示地球：垂直/大俯角）
-      viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(HERO_VIEW.lng, HERO_VIEW.lat, 42000),
-        orientation: { heading: headingRad, pitch: -Math.PI / 3, roll: 0 },
-        duration: 12,
-        easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
-        complete: () => {
-          // 定格：精确 KMZ 三维斜视角（权威 lookAt）
-          landHeroView();
-          console.log("[homecoming] 已定格 KMZ 三维定位视角");
-        }
-      });
-    }, 2200);
 
-    // 巡航联动：进入 S2 时飞向回家之路
-    window.addEventListener("homecoming:stage", (e) => {
-      const s = e.detail.stage;
-      if (s === 2) {
-        viewer.camera.flyTo({
-          destination: Cesium.Cartesian3.fromDegrees(105, 30.5, 4000000),
-          duration: 4
-        });
-      } else if (s === 5) {
-        viewer.camera.flyTo({
-          destination: Cesium.Cartesian3.fromDegrees(60, 20, 12000000),
-          duration: 6
-        });
+    // 当三维地形加载完成时，再次精确重设，确保地形起伏与视角完美贴合
+    viewer.scene.globe.tileLoadProgressEvent.addEventListener((remaining) => {
+      if (remaining === 0) {
+        landHeroView();
       }
     });
   } catch (err) {
