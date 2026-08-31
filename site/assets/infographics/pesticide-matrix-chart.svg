@@ -1,0 +1,34 @@
+<svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" style="background:#0b1120;border-radius:14px;border:1px solid rgba(212,160,23,0.25);font-family:'Inter',system-ui,sans-serif;">
+  <text x="30" y="36" fill="#f59e0b" font-size="15" font-weight="bold">大湾区 39 项农残高分辨质谱筛查矩阵 (WT10103260183295WT2)</text>
+  <text x="30" y="58" fill="#94a3b8" font-size="11">检测机构：深圳市计量质量检测研究院 (SMQ / CNAS L0579) ｜ 依据标准：GB 23200 系列</text>
+  
+  <g transform="translate(30, 80)">
+    <rect x="0" y="0" width="145" height="60" rx="8" fill="#111827" stroke="#10b981"/>
+    <text x="15" y="24" fill="#10b981" font-size="12" font-weight="bold">有机磷农药 (8项)</text>
+    <text x="15" y="46" fill="#94a3b8" font-size="11">敌敌畏、毒死蜱等: <tspan fill="#10b981">未检出</tspan></text>
+    
+    <rect x="155" y="0" width="145" height="60" rx="8" fill="#111827" stroke="#10b981"/>
+    <text x="170" y="24" fill="#10b981" font-size="12" font-weight="bold">拟除虫菊酯 (9项)</text>
+    <text x="170" y="46" fill="#94a3b8" font-size="11">氯氰菊酯、联苯等: <tspan fill="#10b981">未检出</tspan></text>
+    
+    <rect x="310" y="0" width="145" height="60" rx="8" fill="#111827" stroke="#10b981"/>
+    <text x="325" y="24" fill="#10b981" font-size="12" font-weight="bold">氨基甲酸酯 (7项)</text>
+    <text x="325" y="46" fill="#94a3b8" font-size="11">涕灭威、甲萘威等: <tspan fill="#10b981">未检出</tspan></text>
+    
+    <rect x="465" y="0" width="155" height="60" rx="8" fill="#111827" stroke="#10b981"/>
+    <text x="480" y="24" fill="#10b981" font-size="12" font-weight="bold">专用杀菌剂 (15项)</text>
+    <text x="480" y="46" fill="#94a3b8" font-size="11">克菌丹、多菌灵等: <tspan fill="#10b981">未检出</tspan></text>
+  </g>
+  
+  <g transform="translate(30, 160)">
+    <rect x="0" y="0" width="620" height="80" rx="10" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.3)"/>
+    <circle cx="40" cy="40" r="24" fill="rgba(16,185,129,0.2)"/>
+    <text x="40" y="46" fill="#10b981" font-size="18" font-weight="bold" text-anchor="middle">39</text>
+    <text x="80" y="32" fill="#10b981" font-size="14" font-weight="bold">全项低于定量限 (LOQ)，全部判定为“未检出”</text>
+    <text x="80" y="56" fill="#cbd5e1" font-size="11">保棉磷、联苯菊酯、乙酰甲胺磷、环氧乙烷、久效磷、甲胺磷等 39 项指标经高分辨率质谱扫描均达高标准纯净度。</text>
+  </g>
+  
+  <rect x="30" y="260" width="620" height="55" rx="6" fill="rgba(0,0,0,0.5)" stroke="rgba(255,255,255,0.08)"/>
+  <text x="45" y="282" fill="#94a3b8" font-size="10"><strong>合规红线规范：</strong>严禁脱离方法定量限宣称“绝对零农残”；科学表述为“39 项农残质谱全项未检出”。</text>
+  <text x="45" y="300" fill="#64748b" font-size="9.5">数据源：深圳市计量质量检测研究院 WT10103260183295WT2 ｜ 报告页码：Page 1~7</text>
+</svg>

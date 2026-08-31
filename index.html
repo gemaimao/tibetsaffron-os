@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>藏红花回家 · 天旺农牧 — 在这片土地重新开始生命</title>
+<title>藏红花实至名归 · 天旺农牧 — 在这片土地重新开始生命</title>
 <!-- Cesium（空间叙事维度）由 homecoming.js 动态加载：npmmirror → jsdelivr → unpkg 多源回退 -->
+<link rel="preload" href="/site/assets/tianwang-ecosystem-animated.gif" as="image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
 <style>
@@ -35,92 +36,92 @@
   .nav-links a{font-size:13px;color:var(--mist);text-decoration:none;letter-spacing:.5px;transition:color .2s;white-space:nowrap}
   .nav-links a:hover{color:var(--snow)}
   .nav-links .os-link{border:1px solid var(--line);padding:6px 14px;border-radius:18px}
-  .nav-links .os-link:hover{border-color:var(--gold);color:var(--gold-soft)}
-  @media (max-width:760px){.nav-links{gap:12px}.nav-links a:not(.os-link){display:none}.site-nav{padding:12px 18px}}
+  /* 导航 */
+  .site-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 36px;background:rgba(7,11,24,.75);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
+  .site-nav .brand{display:flex;align-items:center;gap:12px;color:var(--snow);text-decoration:none;font-weight:700;font-size:15px;letter-spacing:1px}
+  .site-nav .brand-logo{width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid rgba(212,160,23,.4)}
+  .site-nav .nav-links{display:flex;gap:22px;align-items:center}
+  .site-nav .nav-links a{color:var(--mist);text-decoration:none;font-size:13px;transition:color .2s}
+  .site-nav .nav-links a:hover{color:var(--gold-soft)}
+  .site-nav .os-link{color:var(--gold-soft)!important;padding:5px 12px;border:1px solid var(--line);border-radius:14px;background:rgba(212,160,23,.08)}
 
-  /* 认识回家导语 */
-  #intro{padding:70px 40px;background:var(--night-2);border-bottom:1px solid var(--line)}
-  .intro-inner{max-width:880px;margin:0 auto}
-  .intro-k{font-size:13px;color:var(--gold-soft);letter-spacing:4px;margin-bottom:16px}
-  .intro-text{font-family:'Noto Serif SC',serif;font-size:clamp(16px,2vw,21px);line-height:2;color:#d5dbe9}
-  .intro-more{display:inline-block;margin-top:22px;font-size:14px;color:var(--gold-soft);text-decoration:none;letter-spacing:1px}
-  .intro-more:hover{color:var(--snow)}
+  /* 左侧分段指示器（带文字） */
+  #stage-rail{position:fixed;left:28px;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;gap:10px}
+  .stage-dot{display:flex;align-items:center;gap:10px;background:rgba(7,11,24,.6);border:1px solid var(--line);color:var(--mist);padding:6px 12px;border-radius:16px;font-size:11.5px;cursor:pointer;backdrop-filter:blur(8px);transition:all .3s}
+  .stage-dot:hover{color:var(--snow);border-color:var(--gold)}
+  .stage-dot.active{color:var(--gold-soft);border-color:var(--gold);background:rgba(212,160,23,.18);font-weight:600}
+  /* 顶部全局导航 */
+  .site-nav{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;justify-content:space-between;padding:16px 36px;
+    background:rgba(7,11,24,.78);backdrop-filter:blur(14px);border-bottom:1px solid rgba(212,160,23,.15)}
+  .site-nav .brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;color:var(--gold-soft);text-decoration:none;letter-spacing:1px}
+  .brand-logo{height:28px;width:auto;border-radius:4px}
+  .nav-links{display:flex;gap:22px;align-items:center}
+  .nav-links a{color:#cdd5e3;text-decoration:none;font-size:13px;transition:color .2s}
+  .nav-links a:hover{color:var(--gold-soft)}
+  .nav-links .os-link{background:linear-gradient(135deg,rgba(212,160,23,.22),rgba(212,160,23,.08));border:1px solid rgba(212,160,23,.4);
+    padding:5px 14px;border-radius:16px;color:var(--gold-soft);font-weight:600;font-size:12px;letter-spacing:.5px}
+  .nav-links .os-link:hover{background:var(--gold);color:#070b18}
 
-  /* S0 开场 */
-  #hero{position:relative;height:100vh;overflow:hidden}
-  #hero-globe{position:absolute;inset:0}
-  #hero-globe.globe-fallback{background:radial-gradient(1200px 600px at 60% 40%,#16224a,#070b18)}
-  .hero-veil{position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 45%,transparent 20%,rgba(7,11,24,.62) 100%)}
-  .hero-title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(880px,92vw);text-align:center;z-index:5;display:flex;flex-direction:column;gap:14px}
-  .hero-line{font-family:'Noto Serif SC',serif;font-size:clamp(20px,3.1vw,34px);font-weight:700;line-height:1.8;
-    opacity:0;transform:translateY(24px);transition:opacity 1.5s cubic-bezier(.2,.7,.2,1),transform 1.5s cubic-bezier(.2,.7,.2,1);
-    text-shadow:0 3px 34px rgba(0,0,0,.9);letter-spacing:.01em}
-  .hero-line.show{opacity:1;transform:none}
-  .hero-line.gold{background:linear-gradient(120deg,#f7e7b0,#d4a017 60%,#b98a0e);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
-  .hero-line .dim{color:var(--mist);font-weight:400;font-size:.62em}
+  /* S0 开场：总命题 */
+  #hero{position:relative;width:100vw;height:100vh;overflow:hidden;background:#070b18}
+  #hero-globe{position:absolute;inset:0;z-index:1}
 
-  .hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:5;color:var(--mist);font-size:12px;letter-spacing:4px;animation:pulse 2.6s infinite}
-  @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+  /* 天旺藏红花生态图（俯冲着陆后平滑叠显，支持自由切换） */
+  .hero-ecosystem-overlay{
+    position:absolute;inset:0;z-index:2;
+    opacity:0;visibility:hidden;
+    transition:opacity 1.6s cubic-bezier(.2,.8,.2,1), visibility 1.6s;
+    display:flex;align-items:center;justify-content:center;
+    background:#070b18;overflow:hidden;
+  }
+  .hero-ecosystem-overlay.show{opacity:1;visibility:visible}
+  .hero-ecosystem-overlay img{
+    width:100%;height:100%;object-fit:cover;object-position:center center;
+    filter:brightness(0.92) contrast(1.05);
+    transform:scale(1.03);
+    transition:transform 8s ease-out;
+  }
+  .hero-ecosystem-overlay.show img{transform:scale(1.0)}
+  .ecosystem-badge{
+    position:absolute;bottom:32px;left:36px;z-index:4;
+    font-size:12px;color:var(--gold-soft);
+    background:rgba(7,11,24,.75);padding:6px 16px;border-radius:20px;
+    border:1px solid rgba(212,160,23,.3);backdrop-filter:blur(8px);
+    letter-spacing:1px;
+  }
+
+  /* 当生态图显示时，将开场总命题大字和遮罩完全渐隐淡出 */
+  .hero-title.hero-fade-out,
+  .hero-veil.hero-fade-out {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translate(-50%, -46%) scale(0.96);
+    transition: opacity 0.8s ease, visibility 0.8s, transform 0.8s ease;
+  }
+
+  /* 认识实至名归导语 */
+  #intro{padding:100px 40px 60px;display:flex;justify-content:center;background:radial-gradient(ellipse at 50% 0%,rgba(212,160,23,.06),transparent 60%)}
+  .intro-inner{max-width:740px;text-align:center}
+  .intro-k{font-size:clamp(22px,2.8vw,32px);color:var(--gold-soft);margin-bottom:20px;font-weight:700}
+  .intro-text{font-family:'Noto Serif SC',serif;font-size:clamp(15px,1.8vw,19px);line-height:2.1;color:#cdd5e3}
+  .intro-more{display:inline-block;margin-top:28px;font-size:13px;color:var(--gold-soft);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px}
+
+  /* 左侧分段指示器（带文字） */
+  #stage-rail{position:fixed;left:24px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:14px}
+  .stage-dot{display:flex;align-items:center;background:none;border:none;color:var(--mist);font-size:11px;cursor:pointer;padding:4px 0;transition:color .2s;white-space:nowrap}
+  .stage-dot::before{content:"";width:6px;height:6px;border-radius:50%;background:rgba(139,147,167,.4);margin-right:10px;transition:all .3s}
+  .stage-dot:hover{color:var(--snow)}
+  .stage-dot.active{color:var(--gold-soft);font-weight:600}
+  .stage-dot.active::before{background:var(--gold);box-shadow:0 0 10px var(--gold);transform:scale(1.4)}
 
   /* 叙事章节 (一问一答) */
   .stage-section{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:96px 40px}
-  .stage-section:nth-child(even){background:var(--night-2)}
-  .stage-section:nth-child(odd){background:var(--night)}
-
-  /* 叙事章节 · 一问一答（克制排版：字体/颜色/版式，不炫技） */
-  .stage-inner{width:min(880px,92vw);opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
   .stage-section.in-view .stage-inner{opacity:1;transform:none}
-
-  .qa-index{margin-bottom:24px;display:flex;align-items:center;gap:16px}
-  .qa-index .stage-no{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--gold-soft);letter-spacing:3px}
-  .qa-index .qa-rule{flex:0 0 44px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);opacity:.7}
-
-  .qa-question{font-family:'Noto Serif SC',serif;font-size:clamp(24px,3.4vw,40px);font-weight:700;line-height:1.5;color:var(--snow);max-width:20ch;position:relative}
-  .qa-question::before{content:"问";display:inline-block;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#070b18;
-    background:var(--gold);border-radius:5px;padding:2px 8px;margin-right:16px;vertical-align:.3em;letter-spacing:1px}
-  .qa-question[data-typed]::after{content:""}
-  .qa-question[data-typing]::after{content:"▍";display:inline-block;color:var(--gold-soft);margin-left:2px;animation:sblink 1s steps(2) infinite}
-  @keyframes sblink{50%{opacity:0}}
-
-  .qa-answer{margin-top:28px;opacity:0;transform:translateY(24px);transition:opacity .7s ease .5s,transform .7s ease .5s}
-  .stage-section.in-view .qa-answer{opacity:1;transform:none}
-  .qa-ans-line{font-family:'Noto Serif SC',serif;font-size:clamp(22px,2.8vw,32px);font-weight:900;line-height:1.3;color:var(--gold-soft)}
-  .qa-ans-line .qa-ans-sub{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--mist);letter-spacing:2px;margin-left:12px}
-  .stage-narrative{font-family:'Noto Serif SC',serif;font-size:clamp(15px,1.7vw,19px);line-height:2.0;color:#cdd5e3;margin-top:22px;max-width:680px}
-  .stage-tech{margin-top:26px;display:inline-block;font-size:12px;color:var(--mist);border-top:1px solid var(--line);padding-top:14px;letter-spacing:.5px}
-
-  /* 段落可视化容器（SVG / KG 等） */
-  .qa-visual{margin-top:38px;opacity:0;transform:translateY(24px);transition:opacity .8s ease .25s,transform .8s ease .25s}
-  .stage-section.in-view .qa-visual{opacity:1;transform:none}
-  .qa-visual svg{display:block;width:100%;height:auto;max-width:760px}
-  .qa-fig{margin:12px 0;max-width:760px}
-  .qa-fig img{width:100%;border-radius:12px;border:1px solid var(--line);display:block}
-  .qa-figcap{font-size:11.5px;color:var(--mist);text-align:center;margin-top:8px;letter-spacing:.5px}
-  .map-fig{margin-top:30px}
-  .qa-src{margin-top:14px;font-size:11px;color:var(--mist);letter-spacing:.3px;border-top:1px dashed rgba(139,147,167,.3);padding-top:10px}
-  .qa-src b{color:var(--gold-soft);font-weight:600;margin-right:6px}
-  .docs-fig{margin-top:26px}
-  .docs-quote{margin:0;padding:18px 22px;border-left:3px solid var(--gold);background:rgba(255,255,255,.02);
-    font-size:15px;color:#d9dfeb;line-height:2;letter-spacing:.2px}
-  .facility-fig{margin-top:30px}
-
-  /* 种植法演进 */
-  .evolve-wrap{display:flex;gap:12px;align-items:stretch}
-  @media (max-width:640px){.evolve-wrap{flex-direction:column}.evolve-arrow{text-align:center}}
-  .evolve-step{flex:1;border:1px solid var(--line);border-radius:12px;padding:16px 14px;background:rgba(255,255,255,.02);text-align:center}
-  .evolve-step b{display:block;font-family:'Noto Serif SC',serif;font-size:15px;color:var(--gold-soft);margin-bottom:6px}
-  .evolve-step span{font-size:11.5px;color:#cdd5e3;line-height:1.7;display:block}
-  .evolve-step.s3{background:rgba(212,160,23,.08);border-color:rgba(212,160,23,.5)}
-  .evolve-arrow{align-self:center;color:var(--gold-soft);font-size:18px}
 
   /* 时间轴 */
   .tl-line{stroke:url(#tlGrad);stroke-width:2;stroke-dasharray:1200;stroke-dashoffset:1200;transition:stroke-dashoffset 2.4s ease .35s}
   .stage-section.in-view .tl-line{stroke-dashoffset:0}
-  .tl-node{opacity:0;transform:translateY(12px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
-  .tl-node circle{fill:var(--gold)}
-  .stage-section.in-view .tl-node{opacity:1;transform:none}
-  .stage-section.in-view .tl-n1{transition-delay:.5s}
-  .stage-section.in-view .tl-n2{transition-delay:.9s}
   .stage-section.in-view .tl-n3{transition-delay:1.3s}
   .stage-section.in-view .tl-n4{transition-delay:1.7s}
   .stage-section.in-view .tl-n5{transition-delay:2.1s}
@@ -201,7 +202,7 @@
   .vin-cell h3{font-family:'Noto Serif SC',serif;font-size:15px;color:var(--gold-soft);margin-bottom:6px}
   .vin-cell p{font-size:11.5px;color:#cdd5e3;line-height:1.8}
 
-  /* S2 回家之路迷你地球 */
+  /* S2 实至名归之路迷你地球 */
   .route-globe{position:relative;width:100%;max-width:760px;height:340px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#0a0f1e}
   .route-globe.globe-fallback{background:radial-gradient(farthest-corner at 50% 40%,#16224a,#070b18)}
   .route-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px}
@@ -288,9 +289,9 @@
 
 <!-- 正式导航 -->
 <nav class="site-nav" aria-label="主导航">
-  <a class="brand serif" href="/"><img class="brand-logo" src="/site/assets/logo.jpg" alt="天旺农牧">林芝天旺农牧 ·"藏红花回家"白皮书</a>
+  <a class="brand serif" href="/"><img class="brand-logo" src="/site/assets/logo.jpg" alt="天旺农牧">林芝天旺农牧 · "藏红花实至名归"白皮书</a>
   <div class="nav-links">
-    <a href="#intro">认识回家</a>
+    <a href="#intro">认识实至名归</a>
     <a href="#s1">三大基础</a>
     <a href="#s4">两个结果</a>
     <a href="#supports">四大需求</a>
@@ -302,14 +303,22 @@
 <!-- S0 开场：总命题 -->
 <section id="hero">
   <div id="hero-globe"></div>
+  <div id="hero-ecosystem-overlay" class="hero-ecosystem-overlay">
+    <img src="/site/assets/tianwang-ecosystem-animated.gif" alt="天旺藏红花生态图动效">
+    <div class="ecosystem-badge serif">天旺藏红花 · 生态全景</div>
+  </div>
   <div class="hero-veil"></div>
   <div class="hero-title">
-    <p class="hero-line">名字指向一片土地，<span class="dim">不等于回家。</span></p>
-    <p class="hero-line">把它带到这片土地，<span class="dim">也不等于回家。</span></p>
-    <p class="hero-line">只有当它在这里适应环境、完成生命循环、形成稳定的生产和品质——</p>
-    <p class="hero-line gold">回家，才从一个文化想象，变成正在发生的现实。</p>
+    <p class="hero-line">名字指向一片土地，<span class="dim">不等于实至名归。</span></p>
+    <p class="hero-line">把它带到这片土地，<span class="dim">也不等于实至名归。</span></p>
+    <p class="hero-line">名至而实不归的历史已经延续了 265 年，</p>
+    <p class="hero-line gold">实至而令名真归的历史我们用了 10 年 —— 让藏红花实至名归。</p>
   </div>
-  <div class="hero-scroll serif">向下 · 五段回家之路</div>
+  <div class="hero-scroll serif">向下 · 五段实至名归之路</div>
+  <div class="hero-view-switch" id="hero-view-switch">
+    <button class="switch-btn active" id="btn-eco-view">🌱 生态图</button>
+    <button class="switch-btn" id="btn-3d-view">🌐 3D地球</button>
+  </div>
 </section>
 
 <!-- 左侧五段导航 -->
@@ -318,16 +327,21 @@
   <button class="stage-dot" data-idx="1">基础一 · 文化历史</button>
   <button class="stage-dot" data-idx="2">基础二 · 生态</button>
   <button class="stage-dot" data-idx="3">基础三 · 技术</button>
-  <button class="stage-dot" data-idx="4">结果一 · 生命回家</button>
+  <button class="stage-dot" data-idx="4">结果一 · 生命扎根</button>
   <button class="stage-dot" data-idx="5">结果二 · 新价值</button>
   <button class="stage-dot" data-idx="6">天旺的角色</button>
 </div>
 
-<!-- 认识回家 · 导语 -->
+<!-- 认识实至名归 · 导语 -->
 <section id="intro">
   <div class="intro-inner">
-    <p class="intro-k serif">认识 · 藏红花回家</p>
-    <p class="intro-text">藏红花回家，就是让一株顶着"藏红花"这个名字、走了几千年贸易路、却一直没真正在西藏长起来的植物，在今天的条件下回到西藏，生根、开花、繁衍，并最终成为这片土地的一份新产业。这件事不是凭空来的，它有一段 261 年的历史，也有实实在在的依据。</p>
+    <p class="intro-k serif">认识 · 让藏红花实至名归</p>
+    <p class="intro-text">
+      <strong>名至而实不归的历史，已经延续了 265 年。</strong><br>
+      自 1765 年《本草纲目拾遗》定名以来，西藏长期只作为茶马古道上的中转驿站——空承“藏红花”之盛名，极地山川却未见其真正扎根生息。<br><br>
+      <strong>实至而令名真归的历史，我们用了 10 年。</strong><br>
+      直到天旺扎根林芝米瑞 2945 米高原，以现代科技完成生命繁育、结出特级品质——从贸易虚名到道地实体，真正让藏红花实至名归。
+    </p>
     <a class="intro-more serif" href="#s1">往下，看它如何一步步成为可能 →</a>
   </div>
 </section>
@@ -339,7 +353,7 @@
     <h2 class="qa-question serif">名字为什么指向这里？</h2>
     <div class="qa-answer">
       <p class="qa-ans-line serif">曾经到过这里 <span class="qa-ans-sub">基础一 · 文化历史溯源</span></p>
-      <p class="stage-narrative">藏红花，即西土"鬱金香"（Crocus sativus），唐代经丝绸之路由西域、天竺朝贡入华：贞观十五年天竺进贡鬱金香、开元七年安国一次进贡三十斤——李白"兰陵美酒郁金香，玉碗盛来琥珀光"。此后，"藏红花"之名在中文语境中长期指向这片土地——**1765 年，赵学敏《本草纲目拾遗》首次提及"藏红花"**，此名自此与西藏结下长达 261 年的文化指向。261 年的回家准备里，有误读、有定论、有事实，却都难以产生"回家"的理念与行动。名字不是原产地证明，而是一种历史形成的文化指向与语言召唤。</p>
+      <p class="stage-narrative">藏红花，即西土"鬱金香"（Crocus sativus），唐代经丝绸之路由西域、天竺朝贡入华：贞观十五年天竺进贡鬱金香、开元七年安国一次进贡三十斤——李白"兰陵美酒郁金香，玉碗盛来琥珀光"。**1765 年，赵学敏《本草纲目拾遗》首次提及"藏红花"**，此名自此与西藏结下深厚渊源。**名至而实不归的历史已经延续了 265 年**：名字早早抵达，生命却未曾扎根；**实至而令名真归的历史我们用了 10 年**：天旺在林芝极地建立现代 CEA 基地，用连续八代繁育与特级品质铸就坚实的产业实体。</p>
       <div class="qa-src"><b>来源</b>赵学敏《本草纲目拾遗》（1765）首次记载"藏红花"；梁树风《唐代鬱金考述》（2023，KNO-7100）：贞观十五年天竺进贡、开元七年安国进贡三十斤（《唐會要》《新唐書》）</div>
       <div class="qa-visual" aria-label="藏红花命名史时间轴">
         <svg viewBox="0 0 760 190" role="img" aria-label="藏红花命名史时间轴">
@@ -351,8 +365,8 @@
           <g class="tl-node tl-n2"><circle cx="218" cy="92" r="5"/><text class="tl-year" x="218" y="122" text-anchor="middle">千年贸易</text><text class="tl-label" x="218" y="142" text-anchor="middle">丝路东传</text></g>
           <g class="tl-node tl-n3"><circle cx="366" cy="92" r="5"/><text class="tl-year" x="366" y="122" text-anchor="middle">历史记载</text><text class="tl-label" x="366" y="142" text-anchor="middle">藏医药记录</text></g>
           <g class="tl-node tl-n4"><circle cx="514" cy="92" r="5"/><text class="tl-year" x="514" y="122" text-anchor="middle">1765 年</text><text class="tl-label" x="514" y="142" text-anchor="middle">赵学敏《本草纲目拾遗》首提藏红花</text></g>
-          <g class="tl-node tl-n5"><circle cx="662" cy="92" r="5"/><text class="tl-year" x="662" y="122" text-anchor="middle">261 年·至今</text><text class="tl-label" x="662" y="142" text-anchor="middle">名字仍在召唤</text></g>
-          <text class="tl-caption" x="70" y="170">藏红花 · 261 年回家准备 · 误读 / 定论 / 事实</text>
+          <g class="tl-node tl-n5"><circle cx="662" cy="92" r="5"/><text class="tl-year" x="662" y="122" text-anchor="middle">265 年·天旺</text><text class="tl-label" x="662" y="142" text-anchor="middle">实至令名真归</text></g>
+          <text class="tl-caption" x="70" y="170">藏红花 · 265 年名至而实不归 · 10 年实至而令名真归</text>
         </svg>
       </div>
       <div class="qa-visual" aria-label="藏红花从西藏到内地的贸易传播路线">
@@ -372,25 +386,26 @@
       </div>
       <figure class="qa-fig docs-fig">
         <blockquote class="docs-quote serif">"藏红花还是一种三倍体植物……无法在野外生长或自行繁殖。它的存活依靠的是细心的人工培育。"</blockquote>
-        <figcaption class="qa-figcap">——《香料之书》· 藏红花 · （这也正是"回家"需要十年人工培育的原因）</figcaption>
+        <figcaption class="qa-figcap">——《香料之书》· 藏红花 · （这也正是让它扎根西藏需要十年人工培育的原因）</figcaption>
       </figure>
     </div>
   </div>
 </section>
 
+<!-- S2 第二段 -->
 <section class="stage-section" data-stage="2">
   <div class="stage-inner">
     <div class="qa-index"><span class="stage-no">贰</span></div>
     <h2 class="qa-question serif">土地为什么可能接纳它？</h2>
     <div class="qa-answer">
       <p class="qa-ans-line serif">今天种在这里 <span class="qa-ans-sub">基础二 · 生态优势与代偿</span></p>
-      <p class="stage-narrative">2016 年，藏红花种球从西班牙拉曼查来到中国，先放在崇明岛试种，让它在季风气候区落地；2018 年，这批已在崇明扎根的种球再赴西藏，来到林芝巴宜区米瑞乡的姆多村、广久村，海拔 2945 米、苯日神山东南麓、雅尼湿地北岸。两段式现代农艺，让藏红花真正种回西藏；强紫外线、昼夜温差、雅尼汇流微气候，这片土地承接了它。</p>
-      <div class="qa-visual" aria-label="回家之路（Cesium 三维航线）">
+      <p class="stage-narrative">2016 年，藏红花种球从西班牙拉曼查来到中国，先放在崇明岛试种，让它在季风气候区落地；2018 年，这批已在崇明扎根的种球再赴西藏，来到林芝巴宜区米瑞乡的姆多村、广久村，海拔 2945 米、苯日神山东南麓、雅尼湿地北岸。两段式现代农艺，让藏红花真正种在西藏；强紫外线、昼夜温差、雅尼汇流微气候，这片土地承接了它。</p>
+      <div class="qa-visual" aria-label="实至名归之路（Cesium 三维航线）">
         <div id="route-globe" class="route-globe"></div>
         <div class="route-legend">
           <span class="rt-pt c1">崇明养球</span><span class="rt-pt c2">米瑞基地 · 2945m</span><span class="rt-pt c3">雅尼汇流</span><span class="rt-pt c4">苯日神山</span>
         </div>
-        <div class="gen-note">两段式现代农艺 · 从平原到高原，藏红花真正种回西藏</div>
+        <div class="gen-note">两段式现代农艺 · 从平原到高原，藏红花真正种在西藏</div>
       </div>
       <figure class="qa-fig map-fig">
         <img src="/site/assets/tianwang-map.jpg" alt="天旺藏红花基地 · 米瑞乡功能区地图">
@@ -400,6 +415,7 @@
   </div>
 </section>
 
+<!-- S3 第三段 -->
 <section class="stage-section" data-stage="3">
   <div class="stage-inner">
     <div class="qa-index"><span class="stage-no">叁</span></div>
@@ -411,7 +427,7 @@
         <div class="evolve-wrap">
           <div class="evolve-step s1"><b>双试种</b><span>伊朗传统大田 ＋ 崇明两段式（2018）</span></div>
           <div class="evolve-arrow">→</div>
-          <div class="evolve-step s2"><b>两段式·定型</b><span>营养生长：大田＋保温防雨膜棚<br>休眠开花：温室</span></div>
+          <div class="evolve-step s2"><b>两段式·定型</b><span>营养生长：大田＋保温防雨膜棚<br>休眠开花：温室悬空抽薹</span></div>
           <div class="evolve-arrow">→</div>
           <div class="evolve-step s3"><b>一体式设施农业（今）</b><span>全周期一体式温室<br>· 土质培植基质 · 近真实 · 成本较低</span></div>
         </div>
@@ -436,10 +452,10 @@
           <!-- 中心 -->
           <g class="kg-node hub kn-1"><rect x="294" y="146" width="132" height="48" rx="12"/><text class="kg-label" x="360" y="167">天旺技术体系</text><text class="kg-sub" x="360" y="181">STR-4000</text></g>
           <!-- 环绕 -->
-          <g class="kg-node kn-2"><rect x="60" y="46" width="140" height="46" rx="10"/><text class="kg-label" x="130" y="66">两段式农艺</text><text class="kg-sub" x="130" y="80">崇明养球→米瑞开花</text></g>
+          <g class="kg-node kn-2"><rect x="60" y="46" width="140" height="46" rx="10"/><text class="kg-label" x="130" y="66">两段式农艺</text><text class="kg-sub" x="130" y="80">崇明壮球→米瑞催花</text></g>
           <g class="kg-node kn-3"><rect x="520" y="46" width="140" height="46" rx="10"/><text class="kg-label" x="590" y="66">CEA 控环</text><text class="kg-sub" x="590" y="80">温湿·光谱·悬空抽薹</text></g>
           <g class="kg-node kn-4"><rect x="60" y="246" width="140" height="46" rx="10"/><text class="kg-label" x="130" y="266">极地风土算法</text><text class="kg-sub" x="130" y="280">2945m 环境响应</text></g>
-          <g class="kg-node kn-5"><rect x="520" y="246" width="140" height="46" rx="10"/><text class="kg-label" x="590" y="266">物理级 0 农残</text><text class="kg-sub" x="590" y="280">采收与加工</text></g>
+          <g class="kg-node kn-5"><rect x="520" y="246" width="140" height="46" rx="10"/><text class="kg-label" x="590" y="266">物理级 0 农残</text><text class="kg-sub" x="590" y="280">洁净采收与加工</text></g>
           <g class="kg-node kn-6"><rect x="292" y="16" width="136" height="40" rx="10"/><text class="kg-label" x="360" y="33">物理设备</text><text class="kg-sub" x="360" y="46">五层壁垒</text></g>
           <g class="kg-node kn-6"><rect x="292" y="284" width="136" height="40" rx="10"/><text class="kg-label" x="360" y="301">生命管理系统</text><text class="kg-sub" x="360" y="314">标准·知识·品牌</text></g>
         </svg>
@@ -448,12 +464,13 @@
   </div>
 </section>
 
+<!-- S4 第四段 -->
 <section class="stage-section" id="s4" data-stage="4">
   <div class="stage-inner">
     <div class="qa-index"><span class="stage-no">肆</span></div>
     <h2 class="qa-question serif">生命如何证明它已经留下？</h2>
     <div class="qa-answer">
-      <p class="qa-ans-line serif">一代代生长在这里 <span class="qa-ans-sub">结果一 · 生命回家</span></p>
+      <p class="qa-ans-line serif">一代代生长在这里 <span class="qa-ans-sub">结果一 · 生命扎根与繁育延续</span></p>
       <p class="stage-narrative">八次种球迭代，是藏红花与西藏的八次相互确认：第一代是尝试，第二代是延续，第三、四代开始出现连续性……直到今天。三倍体不育的藏红花，把养分更多转向次生代谢——西红花苷（Crocin）高效富集。它们共同证明的不是产量增加，而是——这条生命线，没有断。</p>
       <div class="qa-visual" aria-label="藏红花生长机制与八代迭代">
         <figure class="qa-fig">
@@ -462,13 +479,13 @@
         </figure>
         <div class="gen-bar" aria-label="种球迭代时间线">
           <div class="gen-seg g1 lit"><b>首代</b><span>2016 拉曼查·购</span></div>
-          <div class="gen-seg g2 lit"><b>落地</b><span>2016-17 崇明试种</span></div>
-          <div class="gen-seg g3 lit"><b>赴藏</b><span>2018 回西藏</span></div>
+          <div class="gen-seg g2 lit"><b>落地</b><span>2016-17 崇明壮球</span></div>
+          <div class="gen-seg g3 lit"><b>赴藏</b><span>2018 扎根西藏</span></div>
           <div class="gen-seg g4 lit"><b>繁殖</b><span>阶段迭代</span></div>
           <div class="gen-seg g5 lit"><b>扩繁</b><span>连续繁殖</span></div>
           <div class="gen-seg g6 lit"><b>稳定</b><span>品质形成</span></div>
           <div class="gen-seg g7 lit"><b>返内地</b><span>2023 确认</span></div>
-          <div class="gen-seg g8 lit"><b>八代</b><span>适应现象·成分稳定</span></div>
+          <div class="gen-seg g8 lit"><b>八代</b><span>极地适应·成分稳定</span></div>
         </div>
         <div class="gen-note">八次生命循环 = 藏红花与西藏的八次相互确认 · 这条生命线没有断</div>
         <div style="margin-top:16px;text-align:center">
@@ -481,6 +498,7 @@
   </div>
 </section>
 
+<!-- S5 第五段 -->
 <section class="stage-section" data-stage="5">
   <div class="stage-inner">
     <div class="qa-index"><span class="stage-no">伍</span></div>
@@ -495,7 +513,7 @@
           <div class="pyr-seg pr-2"><span class="lvl">L2</span><span class="code">SCI-001</span><span class="desc">第三方实验室 · 0农残报告（色价 246）</span></div>
           <div class="pyr-seg pr-3"><span class="lvl">L3</span><span class="code">SCI-002/3</span><span class="desc">长期实验 · 溶出动力学 / 24月稳定性</span></div>
           <div class="pyr-seg pr-4"><span class="lvl">L4</span><span class="code">IND-001</span><span class="desc">企业记录 · 姆多村 30 万务工工资</span></div>
-          <div class="pyr-seg pr-5"><span class="lvl">L5</span><span class="code">VIS-001</span><span class="desc">现场影像 · 4K 采摘 RAW</span></div>
+          <div class="pyr-seg pr-5"><span class="lvl">L5</span><span class="code">VIS-001</span><span class="desc">现场影像 · 4K 采摘 RAW 实拍</span></div>
           <div class="pyr-seg pr-6"><span class="lvl">L6</span><span class="code">SCI-004</span><span class="desc">体外研究 · DPPH/ABTS（不作人体宣称）</span></div>
           <div class="pyr-seg pr-7"><span class="lvl">L7</span><span class="code">APP-001</span><span class="desc">应用 SOP · 星级餐厅 0.05g 克重卡</span></div>
         </div>
@@ -505,30 +523,31 @@
         <div class="vin-head"><span class="tr-tag">价值</span><span class="tr-title">这片土地的新价值，流向哪里</span></div>
         <div class="vin-grid">
           <div class="vin-cell"><h3>农户</h3><p>姆多村务工工资，直接增收（IND-001）</p></div>
-          <div class="vin-cell"><h3>合作方</h3><p>香港宝芝林 · 劲牌/劲酒 深加工</p></div>
-          <div class="vin-cell"><h3>市场</h3><p>高端健康消费 · 出海加拿大（单克128.2元）</p></div>
-          <div class="vin-cell"><h3>地方</h3><p>乡村振兴 · 地理标志 · 新质生产力</p></div>
+          <div class="vin-cell"><h3>合作方</h3><p>香港宝芝林 · 劲牌/劲酒 深加工联合研发</p></div>
+          <div class="vin-cell"><h3>市场</h3><p>高端健康消费 · 出海加拿大（单克 128.2 元）</p></div>
+          <div class="vin-cell"><h3>地方</h3><p>乡村振兴 · 地理标志 · 极地新质生产力</p></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- S6 第六段：天旺的角色 -->
 <section class="stage-section" id="role" data-stage="6">
   <div class="stage-inner">
     <div class="role-head">
       <div class="stage-badge" style="justify-content:center"><span class="stage-no">终</span></div>
-      <h2 class="stage-name serif">天旺，是"回家"的系统性实践者</h2>
+      <h2 class="stage-name serif">天旺，是“让藏红花实至名归”的系统性实践者</h2>
     </div>
     <div class="role-matrix">
-      <div class="matrix-cell"><b>文化回家</b><span>回应"藏红花"261 年的文化指向</span></div>
-      <div class="matrix-cell"><b>生态回家</b><span>探索西藏能否成为稳定生长的家园</span></div>
-      <div class="matrix-cell"><b>生命回家</b><span>八次生命循环，生命线没有断</span></div>
-      <div class="matrix-cell"><b>技术回家</b><span>CEA 控环让生态关系稳定下来</span></div>
-      <div class="matrix-cell"><b>价值回家</b><span>成为这片土地新的价值与丰饶</span></div>
+      <div class="matrix-cell"><b>文化立名</b><span>名至而实不归的历史延续了 265 年，以极地扎根回应盛名</span></div>
+      <div class="matrix-cell"><b>品质至实</b><span>实测 440nm 色价高达 246，超越 ISO 一级品与地标标准</span></div>
+      <div class="matrix-cell"><b>生命笃实</b><span>连续八轮生命循环繁育，极地生命谱系不断代</span></div>
+      <div class="matrix-cell"><b>科技筑实</b><span>CEA 控环与两段式农艺让极地生态稳定产出</span></div>
+      <div class="matrix-cell"><b>产业厚实</b><span>拉萨海关出口、39 项农残未检出、带动农户增收共富</span></div>
     </div>
-    <p class="role-quote serif">我们不是因为先到了，所以宣布它回家。<br>恰恰相反，我们用了近十年时间，去证明它是否真的能够回家。</p>
-    <p class="role-subquote serif">天旺不是第一个想让藏红花回家的人，<br>但它是第一个真正为之付出十年努力、并取得成功的企业。</p>
+    <p class="role-quote serif">名至而实不归的历史，已经延续了 265 年；<br>实至而令名真归的历史，我们用了整整 10 年。</p>
+    <p class="role-subquote serif">天旺不是第一个提及藏红花之名的人，<br>但它是第一个用十年科学实践让藏红花真正实至名归的企业。</p>
   </div>
 </section>
 
@@ -544,31 +563,31 @@
     <div class="sups-cell"><h3>市场</h3><p>获得利润——高端健康消费与出海，拉萨海关出口加拿大（单克 128.2 元）</p></div>
     <div class="sups-cell"><h3>发展</h3><p>求发展——以新质生产力激活西藏生态价值，转化为高价值生产力</p></div>
   </div>
-  <p class="sups-logic">天旺发现政策、产业、市场、发展这四个层面的需求，用十年努力换来的产出——生命回家、这片土地的新价值——去满足它们；而支撑它做到的，是文化、生态、技术这三样。</p>
+  <p class="sups-logic"><strong>从“名至而实不归”，到“实至而令名真归”——这不仅是历史断点的弥合，更是驱动这四大需求的根本产业动力。</strong><br>过去二百余年空承其名，无法化为实体生产力；今天因为“实至”，西藏极地的高品质实体产出才得以精准满足政策（乡村振兴民生共富）、产业（冷萃深加工与专利转化）、市场（高端消费与合规出海创汇）、发展（极地新质生产力）这四个层面的迫切需求；而支撑它做到的，正是文化、生态、技术这三样基础。</p>
   <div class="endorse-gallery" aria-label="政策与产业背书">
     <figure class="endorse"><img src="/site/assets/endorse-policy.jpg" alt="国家发改委在基地（政策背书）"><figcaption>国家发改委在基地考察 · 政策背书（2025.3）</figcaption></figure>
     <figure class="endorse"><img src="/site/assets/endorse-industry.jpg" alt="藏红花联合科研基地（产业/科研背书）"><figcaption>藏红花联合科研基地 · 林芝海关/党校在基地（产业与科研背书）</figcaption></figure>
   </div>
 </section>
 
-<!-- 蓝图呈现：藏红花回家 · 未来蓝图 -->
+<!-- 蓝图呈现：藏红花实至名归 · 未来蓝图 -->
 <section class="blueprint" id="blueprint">
   <div class="bp-head">
     <div class="bp-tag">未来蓝图</div>
-    <h2 class="bp-title serif">回家之后，它将如何成为新的价值？</h2>
+    <h2 class="bp-title serif">实至名归之后，它将如何创造更大的极地产业价值？</h2>
     <p class="bp-sub">天旺藏红花 CEA 基地 · 概念设计 —— 一个可能的蓝图呈现</p>
   </div>
   <figure class="bp-fig">
     <img src="/site/assets/cea-design.png" alt="天旺藏红花 CEA 基地概念设计蓝图">
   </figure>
-  <p class="bp-note serif">西藏林芝 · 藏红花 CEA 土培种植工厂全景示意图（海拔 2945m）<br>以现代农业科技，让"回家"从生态适应走向产业与价值。</p>
+  <p class="bp-note serif">西藏林芝 · 藏红花 CEA 现代种植工厂全景示意图（海拔 2945m）<br>以现代农业科技，让“实至名归”从品质立基走向产业繁荣与全球出海。</p>
 </section>
 
 <!-- 总纲：有需求 · 有产出 · 有可能 -->
 <section class="essence" id="essence">
   <p class="essence-cap">说到底，这是一件"有需求、有可能、有产出"的事。</p>
   <div class="essence-row"><span class="essence-k">有需求</span><span class="essence-v">政策、产业、市场、发展，四个层面都指向这里</span></div>
-  <div class="essence-row"><span class="essence-k">有产出</span><span class="essence-v">十年努力，换来生命回家和这片土地的新价值</span></div>
+  <div class="essence-row"><span class="essence-k">有产出</span><span class="essence-v">十年努力，换来藏红花实至名归和这片土地的新价值</span></div>
   <div class="essence-row"><span class="essence-k">有可能</span><span class="essence-v">因为抓住了文化、生态、技术这三样</span></div>
 </section>
 
@@ -599,7 +618,7 @@
       <a href="/os">知识库操作系统（OS）</a>
     </div>
   </div>
-  <div class="foot-bottom">藏红花回家 · 并成为这片土地新的价值 ｜ 天旺农牧 © 2026</div>
+  <div class="foot-bottom">藏红花实至名归 · 铸就西藏极地道地新产业 ｜ 天旺农牧 © 2026</div>
 </footer>
 
 <script type="module" src="/site/js/homecoming.js"></script>

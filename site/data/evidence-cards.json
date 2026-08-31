@@ -1,0 +1,261 @@
+{
+  "version": "2.1.0",
+  "project": "天旺藏红花证据档案库 (EVIDENCE CARDS SSOT With Visual Assets)",
+  "cards": [
+    {
+      "evidence_id": "EVD-001",
+      "evidence_type": "法定检测报告",
+      "source": "重庆市食品药品检验检测研究院",
+      "date": "2026-04-17",
+      "product": "西藏藏红花 (1g/瓶)",
+      "batch": "生产日期: 2025年10月，样品等级: 一级，到样量: 1.1kg",
+      "institution": "重庆市食品药品检验检测研究院 (国家法定质检机构)",
+      "method_or_standard": "DB54/T 0245-2021《地理标志产品 西藏藏红花》一级品标准、JJF 1070-2023、GB 5009 系列",
+      "raw_result": "西红花苷 440nm 吸光度吸光度色价实测 246；铅 ≤0.150mg/kg；镉 ≤0.099mg/kg；多菌灵残留量合格；黄曲霉毒素未检出；净含量检验合格。",
+      "visual_assets": [
+        "/site/assets/evidence/天旺农牧西藏藏红花-地理标志_p1.jpg",
+        "/site/assets/evidence/天旺农牧西藏藏红花-地理标志_p2.jpg"
+      ],
+      "supported_claims": [
+        "送检天旺藏红花样品符合 DB54/T 0245-2021《地理标志产品 西藏藏红花》一级品技术要求",
+        "色价实测 246，超过 ISO 3632 国际一级品 200 限值",
+        "重金属与多菌灵残留合格，黄曲霉毒素未检出"
+      ],
+      "prohibited_claims": [
+        "严禁宣称'市场上所有西藏藏红花均为一级品'",
+        "严禁使用'国家唯一指定'、'天下第一'等绝对化排他性词汇",
+        "不得将单批次检测结论泛化为无限期自动免检"
+      ],
+      "evidence_scope": "适用于该送检批次（2025年10月）天旺西藏藏红花产品品质定级与理化指标确认",
+      "legal_status": "Class A (法定公文/地标国标报告)",
+      "communication_value": "Dim-1 (核心信任状与防伪)",
+      "original_file": "天旺农牧西藏藏红花-地理标志.pdf",
+      "original_page": "Page 1~2 (检验报告 No. A26SW02809)"
+    },
+    {
+      "evidence_id": "EVD-002",
+      "evidence_type": "第三方权威资质检测报告",
+      "source": "深圳市计量质量检测研究院 (SMQ)",
+      "date": "2026-08-25",
+      "product": "藏红花 (30g 送样检验)",
+      "batch": "来样单号: 9349112，生产单位: 林芝天旺农牧产品有限公司",
+      "institution": "深圳市计量质量检测研究院 (SMQ，CNAS L0579 / 深圳市人民政府依法设立法定机构)",
+      "method_or_standard": "GB 23200.121-2026、GB 23200.113-2026 等国家食品安全标准农药残留高分辨率质谱检测方法",
+      "raw_result": "所检 39 项农药残留及化学品（保棉磷、联苯菊酯、涕灭威、乙酰甲胺磷、环氧乙烷、敌敌畏、毒死蜱、氯氰菊酯、甲胺磷、克菌丹等）实测值均低于测试方法定量限 (LOQ)，检测结果全项判定为'未检出'。",
+      "visual_assets": [
+        "/site/assets/evidence/天旺农牧藏红花检测报告-大湾区_p1.jpg",
+        "/site/assets/evidence/天旺农牧藏红花检测报告-大湾区_p3.jpg",
+        "/site/assets/evidence/天旺农牧藏红花检测报告-大湾区_p4.jpg",
+        "/site/assets/evidence/天旺农牧藏红花检测报告-大湾区_p5.jpg"
+      ],
+      "supported_claims": [
+        "经深圳计量质检院 39 项农残全项质谱检测，实测结果全部低于方法定量限，全部未检出",
+        "在所测 39 项高关注农药残留指标上达到高标准洁净安全级"
+      ],
+      "prohibited_claims": [
+        "严禁脱离检出限宣称'绝对零农残'或'自然界绝对纯净物'",
+        "严禁将 39 项检测范围等同于自然界所有已知化学物质",
+        "必须规范表述为'39 项质谱全项检测均低于方法定量限，全部未检出'"
+      ],
+      "evidence_scope": "适用于天旺林芝基地采收批次藏红花农残安全指标物理级证明",
+      "legal_status": "Class B (第三方权威资质检测报告)",
+      "communication_value": "Dim-2 (物理品质区隔物证)",
+      "original_file": "天旺农牧藏红花检测报告-大湾区.pdf",
+      "original_page": "Page 1~7 (报告编号: WT10103260183295WT2)"
+    },
+    {
+      "evidence_id": "EVD-003",
+      "evidence_type": "实验室科研测试",
+      "source": "苏州飞凡检测科技有限公司",
+      "date": "2025-10-20",
+      "product": "藏红花多糖压片糖果 10g (0.5gx20)",
+      "batch": "生产日期: 2025-08-25，代工厂: 佳裕健康科技，送检方: 林芝天旺农牧",
+      "institution": "苏州飞凡检测科技有限公司 (专业生物医药与功能食品评价实验室)",
+      "method_or_standard": "国家标准 GB/T 39649-2020 实验动物斑马鱼质量标准、GB/T 13267-1991 急性毒性测定；高糖环境诱导斑马鱼组织液葡萄糖测试模型",
+      "raw_result": "受试物最大安全浓度为 2000 μg/mL；在高糖诱导斑马鱼模型中，2000 μg/mL 样品处理组斑马鱼葡萄糖组织液含量较模型对照组降低 66.74% (P < 0.001)，颁发降血糖功效认证证书。",
+      "visual_assets": [
+        "/site/assets/evidence/藏红花多糖压片糖果-降血糖-证书_p1.jpg",
+        "/site/assets/evidence/藏红花多糖压片糖果-降血糖_p6.jpg",
+        "/site/assets/evidence/藏红花多糖压片糖果-降血糖_p7.jpg"
+      ],
+      "supported_claims": [
+        "在特定斑马鱼高糖生物模型实验条件下，藏红花多糖压片糖果显示出辅助降低组织液葡萄糖水平的生物活性反应 (降幅 66.74%)",
+        "通过飞凡检测针对斑马鱼生物模型的实验功效认证"
+      ],
+      "prohibited_claims": [
+        "严禁宣称'治疗糖尿病'、'降糖药物'等医疗或药品疗效",
+        "严禁直接将斑马鱼模型推导为人体现成临床功效",
+        "必须明确标注'基于斑马鱼生物模型实验科研数据，属于食品原料活性评价，不作人体治疗宣称'"
+      ],
+      "evidence_scope": "适用于天旺藏红花多糖提取物与压片糖果产品的基础生物学活性与科研质量控制评价",
+      "legal_status": "Class C (生物模型科研评价证书)",
+      "communication_value": "Dim-3 (科技深加工研发背书)",
+      "original_file": "藏红花多糖压片糖果-降血糖.pdf & 藏红花多糖压片糖果-降血糖-证书.pdf",
+      "original_page": "Page 1~8 (报告 FFZ202501145，证书校验码 14766127)"
+    },
+    {
+      "evidence_id": "EVD-004",
+      "evidence_type": "实验室科研测试",
+      "source": "苏州飞凡检测科技有限公司",
+      "date": "2025-10-27",
+      "product": "藏红花多酚压片糖果 10g (0.5gx20)",
+      "batch": "生产日期: 2025-08-25，代工厂: 佳裕健康科技，送检方: 林芝天旺农牧",
+      "institution": "苏州飞凡检测科技有限公司 (专业生物医药与功能食品评价实验室)",
+      "method_or_standard": "国家标准 GB/T 39649-2020 斑马鱼高尿酸模型（氧嗪酸钾+黄嘌呤诱导），别嘌呤醇为阳性对照",
+      "raw_result": "受试物最大安全浓度为 2000 μg/mL；在斑马鱼高尿酸模型中，2000 μg/mL 样品处理组尿酸检测值相比模型对照组减少 7.07% (P = 0.00705 < 0.01)，颁发降尿酸功效证书。",
+      "visual_assets": [
+        "/site/assets/evidence/藏红花多酚压片糖果-降尿酸-证书_p1.jpg",
+        "/site/assets/evidence/藏红花多酚压片糖果-降尿酸_p6.jpg",
+        "/site/assets/evidence/藏红花多酚压片糖果-降尿酸_p7.jpg"
+      ],
+      "supported_claims": [
+        "在特定斑马鱼高尿酸生物模型实验中，藏红花多酚压片糖果显示出降低尿酸的实验活性反应 (降幅 7.07%)",
+        "获得第三方专业机构斑马鱼实验条件下的降尿酸科研证书"
+      ],
+      "prohibited_claims": [
+        "严禁宣称'治疗痛风'、'根治高尿酸血症'或'替代降尿酸西药'",
+        "严禁将动物生物模型直接等同于人体临床治疗结果",
+        "必须明确标注'本数据来源于斑马鱼生物模型科研测试，属于食品活性筛选评价'"
+      ],
+      "evidence_scope": "适用于天旺藏红花多酚产品科研活性评价与原料研发机理阐述",
+      "legal_status": "Class C (生物模型科研评价证书)",
+      "communication_value": "Dim-3 (科技深加工研发背书)",
+      "original_file": "藏红花多酚压片糖果-降尿酸.pdf & 藏红花多酚压片糖果-降尿酸-证书.pdf",
+      "original_page": "Page 1~8 (报告 FFZ202501144，证书校验码 83942872)"
+    },
+    {
+      "evidence_id": "EVD-005",
+      "evidence_type": "第三方权威资质检测报告",
+      "source": "专业毒理学检测中心",
+      "date": "2025-10",
+      "product": "藏红花多糖压片糖果 / 藏红花多酚压片糖果",
+      "batch": "出厂检验批次",
+      "institution": "具备 CMA 资质的毒理学检验机构",
+      "method_or_standard": "GB 15193.3-2014 食品安全国家标准 急性经口毒性试验",
+      "raw_result": "经口最大给药剂量（LD50 > 5000 mg/kg），受试动物未见中毒反应与死亡，病理组织学检查无异常，依照我国食品安全性毒理学评价程序属于'实际无毒级'。",
+      "visual_assets": [
+        "/site/assets/evidence/藏红花多糖压片糖果-急性经口毒性试验检测报告_p1.jpg",
+        "/site/assets/evidence/藏红花多糖压片糖果-急性经口毒性试验检测报告_p2.jpg"
+      ],
+      "supported_claims": [
+        "产品急性经口毒理指标符合食品安全国家标准实际无毒级要求",
+        "具备食品级日常食用的安全性基石"
+      ],
+      "prohibited_claims": [
+        "严禁宣称'百无禁忌、无限量滥用'",
+        "须按食品标签标注推荐每日摄入量与适宜人群"
+      ],
+      "evidence_scope": "适用于天旺多糖、多酚全系列压片糖果日常食用安全性保障",
+      "legal_status": "Class B (第三方权威资质检测报告)",
+      "communication_value": "Dim-2 (物理品质区隔物证)",
+      "original_file": "藏红花多糖/多酚压片糖果-急性经口毒性试验检测报告.pdf",
+      "original_page": "Page 1~4"
+    },
+    {
+      "evidence_id": "EVD-006",
+      "evidence_type": "企业法定公文",
+      "source": "林芝天旺农牧产品有限公司",
+      "date": "2026-08-26",
+      "product": "天旺农牧全系 6 大产品矩阵（花丝/冻干花/多糖/多酚/咖啡/茶包）",
+      "batch": "企业法定公开公文 (2026.08.26)",
+      "institution": "林芝天旺农牧产品有限公司 (统一社会信用代码: 91540400MA6TCDCA38，法定代表人: 陈美霞)",
+      "method_or_standard": "企业法定公示、知识产权合规声明与防伪打假规则",
+      "raw_result": "确认 6 大产品矩阵；截至 2026.08.26 未设立任何面向销售的分支机构、未授权任何外部代理/分销商；位于西藏林芝巴宜区米瑞乡广久村路口天旺基地内的'藏红花科技馆'（坐标: N 29.476311°, E 94.554110°）是目前唯一直接面向市场的线下实体零售场所；官方核验专线: 13549044959。",
+      "visual_assets": [
+        "/site/assets/evidence/天旺农牧公告书PDF_p1.jpg",
+        "/site/assets/evidence/天旺农牧公告书PDF_p2.jpg",
+        "/site/assets/evidence/天旺农牧公告书PDF_p3.jpg"
+      ],
+      "supported_claims": [
+        "天旺农牧拥有明确的法人资质、产品谱系与基地实体",
+        "天旺基地藏红花科技馆为目前唯一直面消费者的正品线下实体",
+        "支持消费者通过官方专线与电子地图坐标精准核验真伪"
+      ],
+      "prohibited_claims": [
+        "任何声称'天旺总代/内部直供'的第三方渠道均属虚假冒用",
+        "本声明不针对'天旺米瑞'等其他独立注册品牌"
+      ],
+      "evidence_scope": "适用于天旺全系产品正品防伪验证、市场维权与消费者权益保护",
+      "legal_status": "Class A (法定公文/地标国标报告)",
+      "communication_value": "Dim-1 (核心信任状与防伪)",
+      "original_file": "天旺农牧公告书PDF.pdf",
+      "original_page": "Page 1~3"
+    },
+    {
+      "evidence_id": "EVD-007",
+      "evidence_type": "海关官方凭证",
+      "source": "中华人民共和国拉萨海关",
+      "date": "2025-05",
+      "product": "天旺西藏特级藏红花 (2kg)",
+      "batch": "出境检验检疫批次",
+      "institution": "中华人民共和国拉萨海关现场监管查验科",
+      "method_or_standard": "出入境检验检疫规程与海关植物检疫标准",
+      "raw_result": "签发《植物检疫证书》（编号 CMP-001）并完成正式报关，向加拿大出口 2kg 特级藏红花，出口货值 25.64 万元人民币（单克 128.2 元）。",
+      "visual_assets": [],
+      "supported_claims": [
+        "天旺藏红花具备完全合规的海关官方检疫出境与国际出口资质",
+        "成功出海加拿大高端消费市场，货值与品质获得国际准入互认"
+      ],
+      "prohibited_claims": [
+        "严禁虚构出口规模或夸大为全球最大出口商",
+        "以实际报关单据 2kg / 25.64 万元为准"
+      ],
+      "evidence_scope": "适用于证明天旺藏红花具备合规出海能力与国际高端市场定价认可",
+      "legal_status": "Class A (法定公文/地标国标报告)",
+      "communication_value": "Dim-4 (乡村振兴与出海创汇)",
+      "original_file": "拉萨海关植物检疫证书与出口报关单 (CMP-001)",
+      "original_page": "Page 1"
+    },
+    {
+      "evidence_id": "EVD-008",
+      "evidence_type": "财务台账凭证",
+      "source": "林芝天旺农牧财务中心与基地管理中心",
+      "date": "2025 年度",
+      "product": "藏红花设施农业栽培与采收用工",
+      "batch": "米瑞乡姆多村、广久村务工发放台账",
+      "institution": "林芝天旺农牧财务中心与村委会务工确认单",
+      "method_or_standard": "企业财务务工发放银行流水与现金签收台账",
+      "raw_result": "年度累计向林芝巴宜区米瑞乡本地务工农牧民发放采花与设施管护务工工资 30 万元人民币。",
+      "visual_assets": [],
+      "supported_claims": [
+        "天旺农牧在林芝米瑞基地实际开展常态化生产经营，提供本地就业岗位",
+        "年度向农牧民实际发放 30 万元务工报酬，实质带动乡村振兴与富民增收"
+      ],
+      "prohibited_claims": [
+        "客观如实表述务工带动力度，不作虚假政绩夸大"
+      ],
+      "evidence_scope": "适用于证明天旺极地产业扎根当地、服务乡村振兴与民生发展",
+      "legal_status": "Class D (企业法定真实经营台账)",
+      "communication_value": "Dim-4 (乡村振兴与出海创汇)",
+      "original_file": "企业财务务工记录 (IND-001)",
+      "original_page": "财务原始流水与确认单"
+    },
+    {
+      "evidence_id": "EVD-009",
+      "evidence_type": "HPLC 色谱质检报告",
+      "source": "专业质检分析中心",
+      "date": "2025-11",
+      "product": "天旺藏红花花丝西红花苷含量测定",
+      "batch": "HPLC 色谱送检批次",
+      "institution": "高效液相色谱测试实验室",
+      "method_or_standard": "《中国药典》一部 高效液相色谱法 (HPLC) 西红花苷-I、西红花苷-II 含量测定",
+      "raw_result": "HPLC 色谱峰型对称尖锐，西红花苷-I 与西红花苷-II 峰面积吸收显著，实测有效成分含量达标。",
+      "visual_assets": [
+        "/site/assets/evidence/天旺农牧藏红花苷含量检测_p1.jpg",
+        "/site/assets/evidence/天旺农牧藏红花苷含量检测_p2.jpg"
+      ],
+      "supported_claims": [
+        "HPLC 谱图证实天旺藏红花含有高丰度活性西红花苷-I 与西红花苷-II 组分",
+        "吸收峰型符合《中国药典》规定标准"
+      ],
+      "prohibited_claims": [
+        "严禁违规宣传超出色谱检测范围的非靶向功效"
+      ],
+      "evidence_scope": "适用于藏红花理化有效成分定量分析与科研质控证明",
+      "legal_status": "Class B (第三方权威资质检测报告)",
+      "communication_value": "Dim-2 (物理品质区隔物证)",
+      "original_file": "天旺农牧藏红花苷含量检测.pdf",
+      "original_page": "Page 1~5"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "version": "2.0.0",
+  "project": "天旺藏红花双向图谱关系库 (GRAPH RELATIONS SSOT)",
+  "forward_relations": [
+    {
+      "relation_type": "COGNITION_TO_EVIDENCE",
+      "cognition_id": "COG-PROD001-PROVE-01",
+      "description": "产品干花丝【数据证明·色价246】关联证据",
+      "evidence_id": "EVD-001",
+      "confidence": "1.0",
+      "verification_method": "重庆食药检院紫外分光光度法"
+    },
+    {
+      "relation_type": "COGNITION_TO_EVIDENCE",
+      "cognition_id": "COG-PROD001-PROVE-02",
+      "description": "产品干花丝【数据证明·39项农残未检出】关联证据",
+      "evidence_id": "EVD-002",
+      "confidence": "1.0",
+      "verification_method": "深圳计量院高分辨质谱"
+    },
+    {
+      "relation_type": "COGNITION_TO_EVIDENCE",
+      "cognition_id": "COG-PROD003-PROVE-01",
+      "description": "多糖压片糖果【数据证明·斑马鱼降糖66.74%】关联证据",
+      "evidence_id": "EVD-003",
+      "confidence": "1.0",
+      "verification_method": "苏州飞凡检测斑马鱼生物模型"
+    },
+    {
+      "relation_type": "COGNITION_TO_EVIDENCE",
+      "cognition_id": "COG-PROD004-PROVE-01",
+      "description": "多酚压片糖果【数据证明·斑马鱼降尿酸7.07%】关联证据",
+      "evidence_id": "EVD-004",
+      "confidence": "1.0",
+      "verification_method": "苏州飞凡检测斑马鱼生物模型"
+    },
+    {
+      "relation_type": "COGNITION_TO_EVIDENCE",
+      "cognition_id": "COG-PROD-SAFETY",
+      "description": "多糖/多酚压片糖果【数据证明·实际无毒级】关联证据",
+      "evidence_id": "EVD-005",
+      "confidence": "1.0",
+      "verification_method": "GB 15193.3 急性经口毒理"
+    },
+    {
+      "relation_type": "COGNITION_TO_EVIDENCE",
+      "cognition_id": "COG-BRAND-AUTH",
+      "description": "品牌防伪【看得见·科技馆唯一实体】关联证据",
+      "evidence_id": "EVD-006",
+      "confidence": "1.0",
+      "verification_method": "天旺农牧官方声明公示"
+    },
+    {
+      "relation_type": "COGNITION_TO_EVIDENCE",
+      "cognition_id": "COG-BRAND-EXPORT",
+      "description": "品牌出海【数据证明·出口加拿大25.64万】关联证据",
+      "evidence_id": "EVD-007",
+      "confidence": "1.0",
+      "verification_method": "拉萨海关检疫报关单"
+    },
+    {
+      "relation_type": "COGNITION_TO_EVIDENCE",
+      "cognition_id": "COG-BRAND-RURAL",
+      "description": "乡村振兴【为什么能做到·30万农户务工】关联证据",
+      "evidence_id": "EVD-008",
+      "confidence": "1.0",
+      "verification_method": "企业财务务工台账"
+    }
+  ],
+  "backward_relations": [
+    {
+      "relation_type": "FACT_TO_EVIDENCE",
+      "fact_id": "FACT-001",
+      "fact_summary": "统一社会信用代码 91540400MA6TCDCA38",
+      "supported_by_evidence_id": "EVD-006"
+    },
+    {
+      "relation_type": "FACT_TO_EVIDENCE",
+      "fact_id": "FACT-004",
+      "fact_summary": "科技馆唯一零售实体坐标 N 29.476311°, E 94.554110°",
+      "supported_by_evidence_id": "EVD-006"
+    },
+    {
+      "relation_type": "FACT_TO_EVIDENCE",
+      "fact_id": "FACT-006",
+      "fact_summary": "西藏藏红花地标 DB54/T 0245-2021 一级品符合性",
+      "supported_by_evidence_id": "EVD-001"
+    },
+    {
+      "relation_type": "FACT_TO_EVIDENCE",
+      "fact_id": "FACT-007",
+      "fact_summary": "39项农药残留质谱检测未检出",
+      "supported_by_evidence_id": "EVD-002"
+    },
+    {
+      "relation_type": "FACT_TO_EVIDENCE",
+      "fact_id": "FACT-008",
+      "fact_summary": "多糖斑马鱼高糖模型葡萄糖降低 66.74%",
+      "supported_by_evidence_id": "EVD-003"
+    },
+    {
+      "relation_type": "FACT_TO_EVIDENCE",
+      "fact_id": "FACT-009",
+      "fact_summary": "多酚斑马鱼高尿酸模型尿酸减少 7.07%",
+      "supported_by_evidence_id": "EVD-004"
+    },
+    {
+      "relation_type": "FACT_TO_EVIDENCE",
+      "fact_id": "FACT-010",
+      "fact_summary": "多糖/多酚经口毒理实际无毒级",
+      "supported_by_evidence_id": "EVD-005"
+    },
+    {
+      "relation_type": "FACT_TO_EVIDENCE",
+      "fact_id": "FACT-011",
+      "fact_summary": "拉萨海关出口加拿大 2kg 货值 25.64 万元",
+      "supported_by_evidence_id": "EVD-007"
+    }
+  ]
+}

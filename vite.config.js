@@ -416,48 +416,146 @@ function apiServerPlugin() {
                 return res.end(JSON.stringify({ success: false, message: 'Question is empty' }));
               }
 
-              const GEMINI_DIRECT_KEY = process.env.GEMINI_API_KEY || "";
+              const NVIDIA_DIRECT_KEY = body.nvidiaApiKey || body.nvidia_api_key || process.env.NVIDIA_API_KEY || process.env.NVIDIA_NIM_KEY || "";
+              const GEMINI_DIRECT_KEY = body.geminiApiKey || body.gemini_api_key || process.env.GEMINI_API_KEY || "";
+              const customModel = body.model || process.env.NVIDIA_MODEL || "google/gemma-2-27b-it";
+
               const systemPrompt = mode === 'science'
                 ? `你是天旺农牧官方基于现代植物生理学与国际色谱标准驱动的【藏红花 科学认知与产业百科大脑】。回答要求：直接、专业、科学、客观。涵盖三大活性成分（Crocin/Picrocrocin/Safranal）、ISO 3632色价标准、0.05g冲泡温水机理、真伪辨识等。结尾附带引用标准。`
                 : `你是天旺农牧官方基于 Brand Content OS 驱动的【天旺藏红花 官方 AI 品牌大脑】。回答要求：结果式权威答案。涵盖核心基地（林芝巴宜区米瑞乡姆多村/广久村，海拔2945m）、两段式农艺、拉萨海关出口凭证(CMP-001)、食药检院0农残报告(SCI-001)、宝芝林/劲酒合作等。结尾附带引用SSOT凭证编号。`;
 
               let finalAnswer = '';
+              let finalCitations = [];
 
-              try {
-                const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_DIRECT_KEY}`;
-                const contents = [];
-                if (Array.isArray(history) && history.length > 0) {
-                  history.slice(-3).forEach(item => {
-                    if (item.question) contents.push({ role: 'user', parts: [{ text: item.question }] });
-                    if (item.answer) contents.push({ role: 'model', parts: [{ text: item.answer }] });
+              // 1. 优先调用 NVIDIA NIM (Gemma)
+              if (NVIDIA_DIRECT_KEY) {
+                try {
+                  const messages = [{ role: 'system', content: systemPrompt }];
+                  if (Array.isArray(history) && history.length > 0) {
+                    history.slice(-3).forEach(item => {
+                      if (item.question) messages.push({ role: 'user', content: item.question });
+                      if (item.answer) messages.push({ role: 'assistant', content: item.answer });
+                    });
+                  }
+                  messages.push({ role: 'user', content: query });
+
+                  const nvidiaUrl = process.env.NVIDIA_BASE_URL || 'https://integrate.api.nvidia.com/v1/chat/completions';
+                  const nRes = await fetch(nvidiaUrl, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${NVIDIA_DIRECT_KEY}`
+                    },
+                    body: JSON.stringify({
+                      model: customModel,
+                      messages: messages,
+                      temperature: 0.2,
+                      max_tokens: 1024,
+                      top_p: 0.9
+                    })
                   });
-                }
-                contents.push({ role: 'user', parts: [{ text: query }] });
 
-                const gRes = await fetch(geminiUrl, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    systemInstruction: { parts: [{ text: systemPrompt }] },
-                    contents: contents,
-                    generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
-                  })
-                });
-                const gData = await gRes.json();
-                if (gData.candidates && gData.candidates[0] && gData.candidates[0].content) {
-                  finalAnswer = gData.candidates[0].content.parts[0].text;
+                  const nData = await nRes.json();
+                  if (nData.choices && nData.choices[0] && nData.choices[0].message) {
+                    finalAnswer = nData.choices[0].message.content;
+                    finalCitations = mode === 'brand' 
+                      ? [`NVIDIA NIM (${customModel})`, '天旺品牌 SSOT 知识库 (BCOS v14.0)', '7 级硬核抗质疑证据链']
+                      : [`NVIDIA NIM (${customModel})`, 'ISO 3632:2011 国际标准', '藏红花植物生理学学术底库'];
+                  }
+                } catch (err) {
+                  console.error('NVIDIA NIM error:', err);
                 }
-              } catch (err) {
-                console.error('Gemini error:', err);
+              }
+
+              // 2. 尝试 Google Gemini
+              if (!finalAnswer && GEMINI_DIRECT_KEY) {
+                try {
+                  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_DIRECT_KEY}`;
+                  const contents = [];
+                  if (Array.isArray(history) && history.length > 0) {
+                    history.slice(-3).forEach(item => {
+                      if (item.question) contents.push({ role: 'user', parts: [{ text: item.question }] });
+                      if (item.answer) contents.push({ role: 'model', parts: [{ text: item.answer }] });
+                    });
+                  }
+                  contents.push({ role: 'user', parts: [{ text: query }] });
+
+                  const gRes = await fetch(geminiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      systemInstruction: { parts: [{ text: systemPrompt }] },
+                      contents: contents,
+                      generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
+                    })
+                  });
+                  const gData = await gRes.json();
+                  if (gData.candidates && gData.candidates[0] && gData.candidates[0].content) {
+                    finalAnswer = gData.candidates[0].content.parts[0].text;
+                    finalCitations = mode === 'brand' 
+                      ? ['Google Gemini 2.0 Flash', '天旺品牌 SSOT 知识库 (BCOS v14.0)', '7 级硬核抗质疑证据链']
+                      : ['Google Gemini 2.0 Flash', 'ISO 3632:2011 国际标准', '藏红花植物生理学学术底库'];
+                  }
+                } catch (err) {
+                  console.error('Gemini error:', err);
+                }
               }
 
               if (!finalAnswer) {
-                finalAnswer = mode === 'science'
-                  ? `藏红花核心三大活性成分为：**西红花苷 (Crocin)**（赋金黄色泽与抗氧化）、**藏红花苦素 (Picrocrocin)**（特征微苦与鲜味增效）以及 **藏红花醛 (Safranal)**（挥发性浓郁香气）。建议采用 60℃~85℃ 温水，单次 0.05g 冲泡。 [ISO 3632 标准]`
-                  : `天旺农牧藏红花核心量产基地位于【西藏自治区林芝市巴宜区米瑞乡的姆多村、广久村】，海拔 2945 米，地处苯日神山东南侧、雅尼汇流处北岸。具备拉萨海关出口凭证 (CMP-001) 与食药检院 0 农残检验报告 (SCI-001)。 [SSOT 官方凭证]`;
+                const q = query.toLowerCase();
+                if (q.includes('真伪') || q.includes('辨别') || q.includes('真假') || q.includes('假') || q.includes('鉴别') || q.includes('水溶') || (q.includes('红花') && q.includes('区别'))) {
+                  finalAnswer = `**藏红花【水溶真伪鉴别三步法】与科学判定依据：**\n\n1. **看柱头形态**：正品藏红花（番红花柱头）顶端呈喇叭口展开、边缘有不规则锯齿，整体呈现深红至紫红色；假冒品多为菊科草红花或染色植物纤维，无喇叭口结构。\n2. **看水溶汤色**：正品藏红花含有高水溶性**西红花苷 (Crocin)**，入水后花丝周围缓缓释放金黄色丝状色带，整杯水呈现**清澈明亮的金黄色（绝非红色、浑浊色）**；若入水立即变深红或水质浑浊，必为人工色素染色假货。\n3. **看泡后花丝**：正品花丝冲泡 4~5 次依然保持完整有韧性，用手指碾压不碎不化；假货浸泡后迅速褪色、花丝发软碎烂。\n\n*注意：藏红花（鸢尾科，名贵滋补）与普通草红花（菊科，活血破瘀草药）为完全不同的植物科属、成分与功效。*`;
+                  finalCitations = ['ISO 3632:2011 国际检测标准', 'APP-001 科学真伪鉴别法', '重庆食药检院质检报告 No. A26SW02809'];
+                } else if (q.includes('宝芝林') || q.includes('香港宝芝林')) {
+                  finalAnswer = `**天旺农牧与【香港宝芝林】的合作产品与业务模式：**\n\n天旺农牧与百年老字号【香港宝芝林】达成深度战略合作，依托天旺林芝 2945m 极地 CEA 设施控环基地产出的特级纯净藏红花，联合开发**高活性水溶冷萃提取物深加工保健品与现代健康滋补品系列**。\n\n- **原料赋能**：天旺提供物理级 0 农残、440nm 色价高达 246 的极地特级原料；\n- **核心工艺**：采用低温水溶冷萃专利技术，最大化保留西红花苷 (Crocin) 与活性多酚；\n- **市场定位**：打通港澳及海外高端大健康滋补品市场。`;
+                  finalCitations = ['战略合作协议 CMP-003', '香港宝芝林联合研发矩阵', '天旺 0 农残特级原料背书'];
+                } else if (q.includes('劲酒') || q.includes('劲牌')) {
+                  finalAnswer = `**天旺农牧与【劲牌 / 劲酒】的工业供应链合作：**\n\n天旺农牧与保健酒龙头企业【劲牌 / 劲酒】达成原料定向供应合作，为劲牌定制供应**高纯度极地藏红花纯净冷萃原液与特级原料**，用于其高端草本健康养生酒系列的产品研发与工业化生产。\n\n天旺凭借拉萨海关检疫出境标准与重庆食药检院 0 农残全项检测，为大工业采购提供了稳定、合规、标准化的极地道地药材供应保障。`;
+                  finalCitations = ['劲牌定向原料供应协议 CMP-004', 'B2B 工业级原料标准', '拉萨海关 CMP-001 备案'];
+                } else if (q.includes('农残') || q.includes('0农残') || q.includes('检验') || q.includes('质检') || q.includes('报告') || q.includes('食药检院') || q.includes('重金属') || q.includes('安全')) {
+                  finalAnswer = `**天旺藏红花【物理级 0 农残】检测依据与权威报告：**\n\n1. **权威报告编号**：重庆市食品药品检验检测研究院正式检验报告 **No. A26SW02809** (SCI-001)；\n2. **检测结论**：全项质谱扫描多菌灵、百菌清等全部农药残留项目**全项未检出 (ND)**，黄曲霉毒素未检出，重金属指标远优于国家标准；\n3. **核心色价**：440nm 紫外分光光度计实测色价吸光度高达 **246**（远超 ISO 3632 国际一级品 >= 200 标准）；\n4. **0农残实现机理**：得益于天旺“林芝 2945 米 CEA 密闭大温室设施控环催花”，全程无水无土悬空抽薹，阻断土壤病虫害，实现物理级零施药。`;
+                  finalCitations = ['重庆食药检院 No. A26SW02809', 'ISO 3632 国际一级品认证', 'SCI-001 核心证据链'];
+                } else if (q.includes('海关') || q.includes('出口') || q.includes('加拿大') || q.includes('凭证') || q.includes('价格') || q.includes('多少钱') || q.includes('单克') || q.includes('值多少') || q.includes('cmp-001')) {
+                  finalAnswer = `**天旺藏红花【拉萨海关出境凭证 CMP-001】与国际出口事实：**\n\n1. **官方检疫凭证**：2025 年 5 月顺利通过中华人民共和国拉萨海关现场查验与检疫，正式签发《植物检疫证书》；\n2. **出海出口数据**：顺利向**加拿大合规出口 2kg 特级藏红花**，完成正式报关出口手续；\n3. **出口货值与单价**：出口总货值 **25.64 万元人民币**，折合单克出口单价高达 **128.2 元/克**；\n4. **行业意义**：标志着西藏林芝产区藏红花具备了国际顶尖检验检疫资质，实现了高原道地藏红花的国际化逆向出海。`;
+                  finalCitations = ['拉萨海关植物检疫证书 CMP-001', '商务部海关报关凭证 2025-05', '出口加拿大合同 25.64万元'];
+                } else if (q.includes('基地') || q.includes('位置') || q.includes('产地') || q.includes('米瑞') || q.includes('林芝') || q.includes('坐标') || q.includes('海拔') || q.includes('在哪') || q.includes('风土') || q.includes('西嫄')) {
+                  finalAnswer = `**天旺农牧【林芝米瑞乡核心量产基地】地理坐标与风土事实：**\n\n1. **具体位置**：西藏自治区林芝市巴宜区米瑞乡【姆多村、广久村】，核心连栋温室海拔 **2945 米**；\n2. **地理风貌**：背靠苯日神山东南麓，面向雅鲁藏布江与尼洋河汇流的雅尼湿地北岸，历史上相传为“西嫄的故乡”；\n3. **三大极地微气候优势**：\n   - **高强紫外线**：3000m 高原紫外辐射天然刺激西红花苷 (Crocin) 加速次生代谢合成；\n   - **大温差锁香**：昼暖夜寒的剧烈温差锁住高挥发性藏红花醛 (Safranal)；\n   - **雅尼热岛湿润**：雅鲁藏布大峡谷水汽通道形成温和湿润微气候，冲积沙质透气土壤。`;
+                  finalCitations = ['SSOT 产地坐标: 林芝米瑞乡 (姆多村/广久村)', '海拔高度: 2945米', '地理风貌: 苯日神山 / 雅尼湿地汇流'];
+                } else if (q.includes('两段式') || q.includes('农艺') || q.includes('崇明') || q.includes('种植') || q.includes('催花') || q.includes('养球') || q.includes('球茎') || q.includes('怎么种')) {
+                  finalAnswer = `**天旺农牧独创的【两段式现代农艺】生理机制与实施全流程：**\n\n“两段式现代农艺”解决了传统藏红花在单一产区易退化、易生病、气候不兼容的行业难题：\n\n- **第一阶段（上海崇明平原·大田养球）**：利用崇明东滩深厚肥沃土壤与平原温和水网气候，让收缩根深扎土壤，积蓄充足营养，培育繁殖出 **25g 以上的高活性壮硕优质母球**（球茎即电池）；\n- **第二阶段（西藏林芝极地·设施控环催花）**：每年 9~10 月将 25g+ 壮球移送至林芝海拔 2945 米连栋大温室，在精准控温、控湿、控光的无水无土悬空环境中抽薹洁净开花，利用 3000m 极地紫外线高效富集西红花苷，实现物理级 0 农残采收。`;
+                  finalCitations = ['AGR-001 两段式农艺体系', '植物生理学“球茎即电池”模型', 'CEA 设施控环催花专利'];
+                } else if (q.includes('冲泡') || q.includes('怎么喝') || q.includes('水温') || q.includes('几根') || q.includes('用法') || q.includes('怎么吃') || q.includes('烹饪') || q.includes('克重')) {
+                  finalAnswer = `**藏红花【极地科学品饮与烹饪应用标准 (APP-001)】：**\n\n1. **标准用量**：单人单次标准克重为 **0.05g（约 5~8 根特级柱头花丝）**；\n2. **冲泡水温**：务必使用 **60℃~85℃ 纯净温水**。**严禁使用 100℃ 滚开水**（高温会破坏热敏性的西红花苷 Crocin 活性）；\n3. **耐泡特性**：冲泡 3~5 分钟即可析出明亮金黄汤色，可反复续水 **4~5 次**，最后可将花丝一并嚼食；\n4. **烹饪应用三大机制**：\n   - **赋色**：水溶性西红花苷赋予西班牙海鲜饭、高原酥油茶通透的金黄色；\n   - **压膻**：挥发性藏红花醛 (Safranal) 有效掩盖牛羊肉腥膻味；\n   - **提鲜**：藏红花苦素 (Picrocrocin) 与食材氨基酸产生鲜味协同增效。`;
+                  finalCitations = ['APP-001 极地冲泡指南', 'ISO 3632 品饮规范', '食品感官与风味化学标准'];
+                } else if (q.includes('成分') || q.includes('西红花苷') || q.includes('苦素') || q.includes('藏红花醛') || q.includes('crocin') || q.includes('safranal') || q.includes('机理') || q.includes('药理')) {
+                  finalAnswer = `**藏红花三大核心特征活性化学成分及生理机理：**\n\n1. **西红花苷 (Crocin，藏红花素)**：罕见的天然双水溶性类胡萝卜素，呈现透亮金黄色，是抗氧化、清除自由基的核心主力，直接决定 ISO 3632 440nm 色价等级；\n2. **藏红花苦素 (Picrocrocin)**：单萜苷类成分，带来藏红花独特的清凉微苦特征口感，是天然的鲜味协同增效剂；\n3. **藏红花醛 (Safranal)**：由苦素在后熟干燥过程中裂解转化生成的单萜醛，具有强挥发性与热敏香气，赋予藏红花深邃的草本烟熏与蜂香特征香气。`;
+                  finalCitations = ['ISO 3632:2011 国际检测标准', 'KNO-SCIENCE 生物化学底库', '色谱质谱分析数据库'];
+                } else if (q.includes('iso') || q.includes('3632') || q.includes('色价') || q.includes('等级') || q.includes('标准')) {
+                  finalAnswer = `**国际标准【ISO 3632:2011】藏红花等级评定与天旺实测：**\n\n- **国际等级划分**：ISO 3632 依据 440nm 紫外吸光度 E(1%, 1cm) 测定西红花苷色价：\n  - **一级品 (Category I)**：色价 >= 200（国际最高标准）；\n  - **二级品 (Category II)**：色价 170 ~ 199；\n  - **三级品 (Category III)**：色价 120 ~ 169；\n- **天旺实测数据**：重庆市食药检院实测天旺林芝藏红花 440nm 色价吸光度高达 **246**，超出国际特级品门槛 23%，达到国际最高品质梯队。`;
+                  finalCitations = ['ISO 3632-1:2011 国际标准', '重庆食药检院 No. A26SW02809', '440nm 紫外分光光度法'];
+                } else if (q.includes('str') || q.includes('4000') || q.includes('壁垒') || q.includes('竞争') || q.includes('战略') || q.includes('优势')) {
+                  finalAnswer = `**天旺农牧【STR-4000 五层不可逆竞争壁垒模型】：**\n\n天旺农牧构建了行业领先的五层不可逆壁垒体系：\n1. **L1 物理设备层**：林芝 2945m 极地 CEA 设施控环大温室与环境调控硬件；\n2. **L2 运营流程层**：上海崇明 25g+ 壮球培育与林芝极地催花的两段式标准化 SOP；\n3. **L3 标准体系层**：拉萨海关出口检疫 CMP-001 与食药检院 0 农残认证；\n4. **L4 知识资产层**：Brand Content OS 全生命周期数字化知识产权与风土算法；\n5. **L5 生命管理系统层**：从种球生长代谢到分子级成分调控的生命系统工程。\n\n*核心壁垒公式：硬件可复制，但“极地风土算法 + 7级证据链 + 两段式生命管理”构建了长期不可逆竞争优势。*`;
+                  finalCitations = ['STR-4000 战略壁垒模型', 'BCOS v14.0 核心架构', '7级硬核证据链矩阵'];
+                } else if (q.includes('产品') || q.includes('矩阵') || q.includes('有哪些') || q.includes('买什么')) {
+                  finalAnswer = `**天旺农牧【6 大全产业链产品矩阵】：**\n\n1. **特级纯净柱头花丝 (全花解耦 100%)**：手工精选三根相连特级红丝，色价 246，0 农残；\n2. **鲜花整朵低温真空冻干**：完整保留花瓣、雄蕊与柱头形态，用于高端礼遇与极地花茶；\n3. **水溶冷萃高活性提取物**：与香港宝芝林等联合开发高浓度西红花苷口服滋补品；\n4. **极地草本五季物候茶 & 精油浸膏**：天然草本复配，滋养气血与嗅觉芳疗；\n5. **B2B 医药级原料与 25g+ 优选母球**：向劲牌等知名药企供应纯净冷萃原液及种球繁育支持；\n6. **CEA 设施控环催花专利型产品**：设施农业技术授权与极地现代农业整套解决方案输出。`;
+                  finalCitations = ['PROD-MATRIX 6大产品矩阵', '天旺官方产品白皮书', '拉萨海关出境备案 CMP-001'];
+                } else {
+                  finalAnswer = mode === 'science'
+                    ? `**关于藏红花科学认知的核心事实：**\n\n1. **特征成分**：西红花苷 (Crocin，赋金黄抗氧化)、藏红花苦素 (Picrocrocin，特征微苦与提鲜)、藏红花醛 (Safranal，挥发性深邃草本香)；\n2. **品饮准则**：推荐使用 60℃~85℃ 温水，单次 0.05g（5~8 根），绝不可使用 100℃ 沸水冲泡；\n3. **品质鉴别**：真品入水缓慢释放金黄透亮色带，水质清澈绝无红色浑浊，花丝久泡不碎烂。\n\n您可进一步提问：三大成分机理、ISO 3632 等级标准、0.05g 冲泡化学或水溶真伪鉴别法。`
+                    : `**天旺农牧藏红花官方核心事实总览：**\n\n1. **基地与风土**：核心量产基地位于【西藏自治区林芝市巴宜区米瑞乡姆多村、广久村】，海拔 2945 米，背靠苯日神山，面临雅尼汇流处；\n2. **两段式农艺**：上海崇明平原大田繁育 25g+ 壮球 ➔ 西藏林芝 2945m CEA 温室无土悬空控环催花；\n3. **权威背书凭证**：拉萨海关出口检疫证书 (CMP-001，合规出口加拿大) 与重庆食药检院全项 0 农残报告 (No. A26SW02809，色价高达 246)；\n4. **产业合作**：与香港宝芝林、劲牌/劲酒建立深加工与原料定制战略合作。\n\n您可进一步提问：林芝基地坐标、0农残检测报告、宝芝林合作产品、两段式农艺或真伪辨别法。`;
+                  finalCitations = mode === 'science'
+                    ? ['ISO 3632:2011 国际检测标准', 'APP-001 科学品饮指南', '藏红花植物生理学学术底库']
+                    : ['SSOT 权威底库: BCOS v14.0', '拉萨海关出口凭证 CMP-001', '重庆食药检院报告 No. A26SW02809'];
+                }
               }
 
-              res.end(JSON.stringify({ success: true, answer: finalAnswer, mode: mode, engine: 'gemini-3-flash' }));
+              res.end(JSON.stringify({
+                success: true,
+                answer: finalAnswer,
+                citations: finalCitations,
+                mode: mode,
+                engine: 'ssot-engine'
+              }));
             } catch (err) {
               res.statusCode = 500;
               res.end(JSON.stringify({ success: false, message: err.message }));

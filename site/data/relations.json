@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "project": "藏红花回家 · 知识图谱关系边",
+  "project": "藏红花实至名归 · 知识图谱关系边",
   "relation_types": {
     "validated_by": "被……验证",
     "evidence_of": "是……的证据",

@@ -3,53 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>0农残与海关凭证展厅 · 天旺农牧</title>
+  <title>天旺品牌证据矩阵与检测信息图库 · 天旺农牧知识库</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   <style>
     :root {
       --bg-dark: #07090e;
       --bg-card: #111726;
-      --border-color: #1e293b;
-      --accent-gold: #f59e0b;
+      --border-color: rgba(212,160,23,0.2);
+      --accent-gold: #d4a017;
+      --accent-gold-soft: #e8c766;
       --accent-emerald: #10b981;
-      --accent-blue: #3b82f6;
+      --accent-cyan: #22d3ee;
+      --accent-blue: #38bdf8;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
     body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.7; }
     nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; background: rgba(7,9,14,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); position: fixed; width: 100%; top: 0; z-index: 1000; }
-    .logo { font-size: 19px; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo i { color: var(--accent-gold); font-size: 24px; }
+    .logo { font-size: 17px; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo img { height: 32px; width: 32px; border-radius: 6px; object-fit: cover; }
     .btn-back { background: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
 
-    .container { max-width: 1100px; margin: 120px auto 80px; padding: 0 30px; }
-    .page-tag { font-size: 12px; font-weight: 700; color: var(--accent-emerald); background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 16px; }
-    .page-title { font-size: 38px; font-weight: 800; font-family: 'Noto Serif SC', serif; margin-bottom: 16px; line-height: 1.3; }
-    .page-intro { font-size: 17px; color: var(--text-muted); margin-bottom: 50px; line-height: 1.8; border-bottom: 1px solid var(--border-color); padding-bottom: 30px; }
+    .container { max-width: 1160px; margin: 110px auto 80px; padding: 0 30px; }
+    .page-tag { font-size: 11px; font-weight: 700; color: var(--accent-gold-soft); background: rgba(212,160,23,0.12); border: 1px solid rgba(212,160,23,0.3); padding: 4px 14px; border-radius: 20px; display: inline-block; margin-bottom: 16px; letter-spacing: 2px; }
+    .page-title { font-size: clamp(28px, 3.6vw, 42px); font-weight: 900; font-family: 'Noto Serif SC', serif; margin-bottom: 14px; line-height: 1.3; color: #fff; }
+    .page-intro { font-size: 16px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.9; border-bottom: 1px solid var(--border-color); padding-bottom: 24px; font-family: 'Noto Serif SC', serif; }
 
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-    .evidence-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; position: relative; }
-    .evidence-level { position: absolute; top: 24px; right: 24px; font-size: 11px; font-weight: 700; color: var(--accent-emerald); background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); padding: 3px 10px; border-radius: 6px; }
-    .evidence-title { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 14px; }
-    .evidence-body { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
-    .evidence-meta { font-family: monospace; font-size: 12px; color: var(--accent-gold); background: rgba(245,158,11,0.1); padding: 8px 14px; border-radius: 8px; }
+    /* 四层产品认知引导 */
+    .cognition-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 40px; }
+    @media (max-width: 768px) { .cognition-bar { grid-template-columns: 1fr 1fr; } }
+    .cog-item { background: rgba(17,23,38,0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px 14px; }
+    .cog-item b { display: block; font-size: 13px; color: var(--accent-gold-soft); margin-bottom: 4px; font-family: 'Noto Serif SC', serif; }
+    .cog-item span { font-size: 11.5px; color: #cbd5e1; line-height: 1.6; display: block; }
 
-    footer { padding: 40px; text-align: center; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); }
+    /* 权威实验信息图专区 */
+    .infographics-section { margin-bottom: 50px; background: rgba(15,23,42,0.6); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; }
+    .section-title { font-size: 22px; font-weight: 800; font-family: 'Noto Serif SC', serif; color: var(--accent-gold-soft); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .section-desc { font-size: 13.5px; color: var(--text-muted); margin-bottom: 24px; }
+    .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    @media (max-width: 860px) { .info-grid { grid-template-columns: 1fr; } }
+    .info-card { background: #0b1120; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; padding: 12px; }
+    .info-card img { width: 100%; height: auto; border-radius: 8px; display: block; }
+    .info-caption { font-size: 12px; color: var(--accent-gold-soft); margin-top: 10px; text-align: center; font-weight: 600; }
+
+    /* 证据卡片矩阵 */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
+    @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+    .evidence-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 28px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; gap: 10px; }
+    .evidence-code { font-family: monospace; font-size: 12px; font-weight: 700; color: var(--accent-cyan); background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.25); padding: 3px 10px; border-radius: 6px; }
+    .evidence-tier { font-size: 11px; font-weight: 600; color: var(--accent-gold-soft); background: rgba(212,160,23,0.12); padding: 3px 10px; border-radius: 6px; border: 1px solid rgba(212,160,23,0.25); }
+    
+    .evidence-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 12px; font-family: 'Noto Serif SC', serif; line-height: 1.4; }
+    .evidence-body { font-size: 13.5px; color: #cbd5e1; line-height: 1.8; margin-bottom: 16px; }
+    
+    .evidence-bounds { background: rgba(0,0,0,0.3); border: 1px dashed rgba(212,160,23,0.2); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 12px; line-height: 1.7; }
+    .bound-ok { color: var(--accent-emerald); margin-bottom: 6px; }
+    .bound-ok i { margin-right: 4px; }
+    .bound-no { color: #f87171; }
+    .bound-no i { margin-right: 4px; }
+
+    .evidence-preview { margin-bottom: 16px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: #000; }
+    .evidence-preview img { width: 100%; height: auto; max-height: 220px; object-fit: contain; display: block; }
+    .preview-label { font-size: 11px; color: #94a3b8; text-align: center; padding: 6px; background: rgba(0,0,0,0.5); }
+
+    .evidence-meta { font-family: monospace; font-size: 11.5px; color: var(--accent-gold-soft); background: rgba(212,160,23,0.08); padding: 8px 12px; border-radius: 8px; border-left: 3px solid var(--accent-gold); }
+
+    footer { padding: 40px; text-align: center; font-size: 12.5px; color: var(--text-muted); border-top: 1px solid var(--border-color); }
   </style>
 </head>
 <body>
   <nav>
     <a href="/" class="logo">
-      <img src="/assets/logo.jpg" alt="天旺农牧 Logo" style="height: 34px; width: 34px; border-radius: 6px; object-fit: cover; background: #fff; padding: 2px;" />
-      <span>天旺农牧 Tianwang Agricultural</span>
+      <img src="/site/assets/logo.jpg" alt="天旺农牧 Logo" />
+      <span>天旺农牧 · 证据知识库</span>
     </a>
     <div style="display: flex; gap: 10px; align-items: center;">
-      <a href="/os" class="btn-back" target="_blank" style="border-color: rgba(168,85,247,0.5); color: #c084fc;">
-        <i class="ri-dashboard-3-line"></i> 知识库 OS 控制台
+      <a href="/site/products/index.html" class="btn-back" style="border-color: rgba(56,189,248,0.4); color: var(--accent-blue);">
+        <i class="ri-box-3-line"></i> 6大产品认知
+      </a>
+      <a href="/os" class="btn-back" target="_blank" style="border-color: rgba(212,160,23,0.4); color: var(--accent-gold-soft);">
+        <i class="ri-database-2-line"></i> 知识库 OS
       </a>
       <a href="/" class="btn-back">
         <i class="ri-arrow-left-line"></i> 返回官网首页
@@ -58,47 +96,193 @@
   </nav>
 
   <div class="container">
-    <span class="page-tag">VERIFIED EVIDENCE GALLERY</span>
-    <h1 class="page-title">0 农残与海关凭证展厅</h1>
-    <p class="page-intro">捍卫“产地证明你是谁，检测证明你是什么”的科学防线。天旺农牧建立反向抗质疑证据链体系，拒绝盲目口头宣称，严格依原始文书与第三方测试数据为准。</p>
+    <span class="page-tag">TIANWANG EVIDENCE MATRIX</span>
+    <h1 class="page-title">天旺品牌证据矩阵与检测信息图库</h1>
+    <p class="page-intro">
+      <strong>名至而实不归的历史已经延续了 265 年，实至而令名真归的历史我们用了 10 年。</strong><br>
+      本矩阵坚持“客观事实、科学边界、法务合规”三位一体原则，忠实收录第三方检测报告图示、斑马鱼实验生物活性图、色价标准柱状图与 39 项质谱筛查矩阵。
+    </p>
 
+    <!-- 四层认知框架 -->
+    <div class="cognition-bar">
+      <div class="cog-item">
+        <b>① 看得见 (See)</b>
+        <span>全红柱头、金黄澄澈、科技馆地理坐标与包装溯源</span>
+      </div>
+      <div class="cog-item">
+        <b>② 感受得到 (Feel)</b>
+        <span>藏红花醛浓郁清香、微苦回甘、实际无毒级安全体感</span>
+      </div>
+      <div class="cog-item">
+        <b>③ 数据证明 (Prove)</b>
+        <span>色价 246、39 项质谱未检出、斑马鱼模型活性数据</span>
+      </div>
+      <div class="cog-item">
+        <b>④ 为什么能做到 (Why)</b>
+        <span>林芝 2945m 极地气候、CEA 控环、八代繁育生命谱系</span>
+      </div>
+    </div>
+
+    <!-- 权威实验与检测信息图展区 -->
+    <section class="infographics-section">
+      <h2 class="section-title"><i class="ri-bar-chart-box-fill"></i> 权威科研实验与检测矢量信息图 (Infographics)</h2>
+      <p class="section-desc">基于重庆食药检院、深圳计量质检院 (SMQ)、苏州飞凡检测等第三方权威报告数据严格绘制：</p>
+      
+      <div class="info-grid">
+        <div class="info-card">
+          <img src="/site/assets/infographics/zebrafish-glucose-chart.svg" alt="斑马鱼高糖生物模型组织液葡萄糖降低实验对比图">
+          <div class="info-caption">图 1: 斑马鱼生物模型·辅助降糖实验 (FFZ202501145 · 降低 66.74%)</div>
+        </div>
+
+        <div class="info-card">
+          <img src="/site/assets/infographics/zebrafish-uric-chart.svg" alt="斑马鱼高尿酸模型尿酸抑制实验对比图">
+          <div class="info-caption">图 2: 斑马鱼生物模型·降尿酸实验 (FFZ202501144 · 减少 7.07%)</div>
+        </div>
+
+        <div class="info-card">
+          <img src="/site/assets/infographics/crocin-color-benchmark.svg" alt="西红花苷 440nm 吸光度色价标准对比图">
+          <div class="info-caption">图 3: 西红花苷 440nm 色价标准对比 (天旺实测 246 超 ISO 一级)</div>
+        </div>
+
+        <div class="info-card">
+          <img src="/site/assets/infographics/pesticide-matrix-chart.svg" alt="大湾区 39 项农残高分辨质谱筛查矩阵图">
+          <div class="info-caption">图 4: 大湾区 39 项农残质谱全项扫描矩阵 (全项未检出)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 证据卡片矩阵 -->
     <div class="grid-2">
-      <!-- Evidence 1: 海关凭证 CMP-001 -->
+      <!-- Evidence 1: 地理标志 EVD-001 -->
       <div class="evidence-card">
-        <span class="evidence-level">Level 1 政府官方凭证</span>
-        <h3 class="evidence-title">拉萨海关《植物检疫证书》与出口报关单</h3>
-        <p class="evidence-body">2025年5月，天旺藏红花顺利通过拉萨海关现场检疫与出口报关，成功向加拿大出口 2kg 高品质藏红花，出口货值 25.64 万元人民币。这一官方凭证证明了天旺具备完全合规的国际出境与出海资质。</p>
-        <div class="evidence-meta">凭证编码: CMP-001 | 验证状态: VERIFIED (合规出海)</div>
+        <div>
+          <div class="card-top">
+            <span class="evidence-code">EVD-001</span>
+            <span class="evidence-tier">法律效力 Class A ｜ 核心信任状</span>
+          </div>
+          <h3 class="evidence-title">西藏藏红花·地理标志一级品认证</h3>
+          <p class="evidence-body">依据 DB54/T 0245-2021《地理标志产品 西藏藏红花》与 JJF 1070-2023，重庆市食品药品检验检测研究院对样品进行全面检验，判定重金属、理化与多菌灵残留全项符合西藏地理标志一级品要求。</p>
+          <div class="evidence-bounds">
+            <div class="bound-ok"><i class="ri-checkbox-circle-fill"></i><strong>支持结论</strong>：天旺送检产品符合西藏地理标志一级品国家行业标准。</div>
+            <div class="bound-no"><i class="ri-close-circle-fill"></i><strong>禁止宣称</strong>：不得宣称“国家唯一指定”等排他性夸大词汇。</div>
+          </div>
+          <div class="evidence-preview">
+            <img src="/site/assets/evidence/天旺农牧西藏藏红花-地理标志_p1.jpg" alt="西藏藏红花地理标志检验报告原件">
+            <div class="preview-label">重庆食药检院检验报告原件 (No. A26SW02809)</div>
+          </div>
+        </div>
+        <div class="evidence-meta">报告编号: No. A26SW02809 | 签发日期: 2026.04.17</div>
       </div>
 
-      <!-- Evidence 2: 0农残报告 SCI-001 -->
+      <!-- Evidence 2: 39 项质谱农残 EVD-002 -->
       <div class="evidence-card">
-        <span class="evidence-level">Level 2 实验室权威数据</span>
-        <h3 class="evidence-title">食药检院全项 0 农残权威检验报告</h3>
-        <p class="evidence-body">根据重庆市食品药品检验检测研究院出具的检验报告（No. A26SW02809），天旺藏红花样品经全项扫描，黄曲霉毒素未检出，农残检测指标达到全项“0 农残”极高标准，色价指标保持优异。</p>
-        <div class="evidence-meta">报告单号: No. A26SW02809 (SCI-001) | 0农残实测</div>
+        <div>
+          <div class="card-top">
+            <span class="evidence-code">EVD-002</span>
+            <span class="evidence-tier">法律效力 Class B ｜ 品质区隔物证</span>
+          </div>
+          <h3 class="evidence-title">大湾区 39 项农残全项质谱未检出</h3>
+          <p class="evidence-body">深圳市计量质量检测研究院 (SMQ) 采用国家食品安全高分辨率质谱检测标准（GB 23200 系列），对 39 项农药残留与化学品进行全面筛查，实测值均低于方法定量限，全部判定为“未检出”。</p>
+          <div class="evidence-bounds">
+            <div class="bound-ok"><i class="ri-checkbox-circle-fill"></i><strong>支持结论</strong>：39 项农药残留指标实测全部未检出，达高标准安全级。</div>
+            <div class="bound-no"><i class="ri-close-circle-fill"></i><strong>禁止宣称</strong>：严禁脱离检出限宣称“绝对零农残”或绝对真空纯净物。</div>
+          </div>
+          <div class="evidence-preview">
+            <img src="/site/assets/evidence/天旺农牧藏红花检测报告-大湾区_p1.jpg" alt="深圳计量质检院报告原件">
+            <div class="preview-label">深圳市计量质量检测研究院报告 (WT10103260183295WT2)</div>
+          </div>
+        </div>
+        <div class="evidence-meta">报告编号: WT10103260183295WT2 (SMQ) | 签发: 2026.08.25</div>
       </div>
 
-      <!-- Evidence 3: 乡村振兴打款单 IND-001 -->
+      <!-- Evidence 3: 斑马鱼降糖实验 EVD-003 -->
       <div class="evidence-card">
-        <span class="evidence-level">Level 4 财务记录</span>
-        <h3 class="evidence-title">米瑞乡姆多村 30 万农民工资金打款凭证</h3>
-        <p class="evidence-body">天旺农牧依托西藏林芝米瑞乡基地，大力推广标准化农艺培训与务工带动。据原始打款凭证（IND-001），年度累计向姆多村村民发放务工工资 30 万元人民币，让特色产业成果惠及高原农户。</p>
-        <div class="evidence-meta">凭证编码: IND-001 | 财务核实打款凭证</div>
+        <div>
+          <div class="card-top">
+            <span class="evidence-code">EVD-003</span>
+            <span class="evidence-tier">法律效力 Class C ｜ 科技研发背书</span>
+          </div>
+          <h3 class="evidence-title">藏红花多糖·斑马鱼生物模型辅助降糖实验</h3>
+          <p class="evidence-body">苏州飞凡检测依据国标 GB/T 39649-2020 建立斑马鱼高糖生物模型。在 2000 μg/mL 最大安全浓度下，藏红花多糖压片糖果处理组组织液血糖降低 66.74% (P &lt; 0.001)，获科研功效认证证书。</p>
+          <div class="evidence-bounds">
+            <div class="bound-ok"><i class="ri-checkbox-circle-fill"></i><strong>支持结论</strong>：在斑马鱼实验模型条件下具有辅助降低血糖活性的表现。</div>
+            <div class="bound-no"><i class="ri-close-circle-fill"></i><strong>禁止宣称</strong>：严禁宣称降糖药品疗效、严禁自动推导人体临床等效。</div>
+          </div>
+          <div class="evidence-preview">
+            <img src="/site/assets/evidence/藏红花多糖压片糖果-降血糖-证书_p1.jpg" alt="斑马鱼辅助降血糖功效认证证书">
+            <div class="preview-label">飞凡检测辅助降血糖功效认证证书 (证书校验码: 14766127)</div>
+          </div>
+        </div>
+        <div class="evidence-meta">报告单号: FFZ202501145 | 证书校验码: 14766127 (2025.10.20)</div>
       </div>
 
-      <!-- Evidence 4: 设施控环农艺专利 -->
+      <!-- Evidence 4: 斑马鱼降尿酸实验 EVD-004 -->
       <div class="evidence-card">
-        <span class="evidence-level">Level 3 技术专利</span>
-        <h3 class="evidence-title">西藏林芝 CEA 设施控环催花专利</h3>
-        <p class="evidence-body">天旺拥有西藏林芝 CEA 设施控环催花农艺与无尘采收专利技术。严格区分：设施控环为投入品管理提供必要条件，0农残检测结果以第三方报告 No. A26SW02809 为准。</p>
-        <div class="evidence-meta">专利编码: TECH-LINZHI-CEA | 现行控制体系</div>
+        <div>
+          <div class="card-top">
+            <span class="evidence-code">EVD-004</span>
+            <span class="evidence-tier">法律效力 Class C ｜ 科技研发背书</span>
+          </div>
+          <h3 class="evidence-title">藏红花多酚·斑马鱼生物模型降尿酸实验</h3>
+          <p class="evidence-body">苏州飞凡检测依据国标建立斑马鱼高尿酸模型（氧嗪酸钾+黄嘌呤诱导）。在 2000 μg/mL 浓度下，藏红花多酚压片糖果处理组尿酸值减少 7.07% (P = 0.00705 &lt; 0.01)，获降尿酸功效证书。</p>
+          <div class="evidence-bounds">
+            <div class="bound-ok"><i class="ri-checkbox-circle-fill"></i><strong>支持结论</strong>：在特定斑马鱼高尿酸模型实验中显示出降低尿酸的活性反应。</div>
+            <div class="bound-no"><i class="ri-close-circle-fill"></i><strong>禁止宣称</strong>：严禁宣称治疗痛风、严禁夸大为人体临床等效结果。</div>
+          </div>
+          <div class="evidence-preview">
+            <img src="/site/assets/evidence/藏红花多酚压片糖果-降尿酸-证书_p1.jpg" alt="斑马鱼降尿酸功效认证证书">
+            <div class="preview-label">飞凡检测降尿酸功效认证证书 (证书校验码: 83942872)</div>
+          </div>
+        </div>
+        <div class="evidence-meta">报告单号: FFZ202501144 | 证书校验码: 83942872 (2025.10.27)</div>
+      </div>
+
+      <!-- Evidence 5: 急性经口毒理 EVD-005 -->
+      <div class="evidence-card">
+        <div>
+          <div class="card-top">
+            <span class="evidence-code">EVD-005</span>
+            <span class="evidence-tier">法律效力 Class B ｜ 安全基石</span>
+          </div>
+          <h3 class="evidence-title">多糖/多酚压片糖果·急性经口实际无毒级</h3>
+          <p class="evidence-body">依据食品安全国家标准 GB 15193.3，实验动物经口给予最大剂量（LD50 &gt; 5000 mg/kg），未见急性毒性反应与死亡，依照我国食品安全性毒理学评价程序属于“实际无毒级”。</p>
+          <div class="evidence-bounds">
+            <div class="bound-ok"><i class="ri-checkbox-circle-fill"></i><strong>支持结论</strong>：产品符合食品安全国家标准经口毒理实际无毒级。</div>
+            <div class="bound-no"><i class="ri-close-circle-fill"></i><strong>禁止宣称</strong>：不得宣称百无禁忌、无限量滥用，须按标签建议食用。</div>
+          </div>
+          <div class="evidence-preview">
+            <img src="/site/assets/evidence/藏红花多糖压片糖果-急性经口毒性试验检测报告_p1.jpg" alt="急性经口毒性试验检测报告原件">
+            <div class="preview-label">急性经口毒理检验报告原件 (实际无毒级)</div>
+          </div>
+        </div>
+        <div class="evidence-meta">毒理标准: GB 15193.3 | 评级: 实际无毒级 (LD50 &gt; 5000mg/kg)</div>
+      </div>
+
+      <!-- Evidence 6: 官方维权声明 EVD-006 -->
+      <div class="evidence-card">
+        <div>
+          <div class="card-top">
+            <span class="evidence-code">EVD-006</span>
+            <span class="evidence-tier">法律效力 Class A ｜ 正品防伪与法务合规</span>
+          </div>
+          <h3 class="evidence-title">天旺官方销售授权声明与唯一零售实体</h3>
+          <p class="evidence-body">林芝天旺农牧官方声明：截至 2026 年 8 月，未设立任何销售分公司、未授权任何外部代理/分销商。位于西藏林芝巴宜区米瑞乡天旺基地内的“藏红花科技馆”是目前唯一面向消费者的线下实体零售场所。</p>
+          <div class="evidence-bounds">
+            <div class="bound-ok"><i class="ri-checkbox-circle-fill"></i><strong>支持结论</strong>：官方唯一零售实体经 GPS 坐标注册，支持官方电话核验。</div>
+            <div class="bound-no"><i class="ri-close-circle-fill"></i><strong>禁止宣称</strong>：任何声称“天旺总代/内部直供”的第三方渠道均为假冒。</div>
+          </div>
+          <div class="evidence-preview">
+            <img src="/site/assets/evidence/天旺农牧公告书PDF_p1.jpg" alt="天旺农牧官方声明公告书原件">
+            <div class="preview-label">林芝天旺农牧产品有限公司官方公告书 (2026.08.26)</div>
+          </div>
+        </div>
+        <div class="evidence-meta">坐标: N 29.476311°, E 94.554110° | 专线: 13549044959</div>
       </div>
     </div>
   </div>
 
   <footer>
-    <p>© 2026 天旺农牧 (Tianwang Agricultural Co., Ltd.) 版权所有 | 品牌知识控制台 Powered by Brand Content OS v14.0</p>
+    让藏红花实至名归 · 天旺品牌证据知识库 © 2026 林芝天旺农牧产品有限公司
   </footer>
 </body>
 </html>

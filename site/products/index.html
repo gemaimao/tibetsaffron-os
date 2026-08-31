@@ -3,58 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>藏红花全系 6 大产品商业矩阵 · 天旺农牧</title>
+  <title>藏红花全系 6 大产品认知矩阵 · 天旺农牧</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   <style>
     :root {
       --bg-dark: #07090e;
       --bg-card: #111726;
-      --border-color: #1e293b;
-      --accent-gold: #f59e0b;
+      --border-color: rgba(212,160,23,0.2);
+      --accent-gold: #d4a017;
+      --accent-gold-soft: #e8c766;
       --accent-purple: #a855f7;
       --accent-blue: #38bdf8;
       --accent-emerald: #10b981;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
     body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.75; }
     nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 40px; background: rgba(7,9,14,0.9); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); position: fixed; width: 100%; top: 0; z-index: 1000; }
     .logo { font-size: 18px; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo img { height: 34px; width: 34px; border-radius: 6px; object-fit: cover; background: #fff; padding: 2px; }
+    .logo img { height: 32px; width: 32px; border-radius: 6px; object-fit: cover; }
     .btn-back { background: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
     .btn-back:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
 
-    .container { max-width: 1100px; margin: 120px auto 80px; padding: 0 30px; }
-    .page-tag { font-size: 12px; font-weight: 700; color: var(--accent-gold); background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); padding: 4px 14px; border-radius: 20px; display: inline-block; margin-bottom: 16px; }
-    .page-title { font-size: 40px; font-weight: 900; font-family: 'Noto Serif SC', serif; margin-bottom: 16px; line-height: 1.3; }
-    .page-intro { font-size: 17px; color: var(--text-muted); margin-bottom: 48px; line-height: 1.8; border-bottom: 1px solid var(--border-color); padding-bottom: 30px; }
+    .container { max-width: 1160px; margin: 110px auto 80px; padding: 0 30px; }
+    .page-tag { font-size: 11px; font-weight: 700; color: var(--accent-gold-soft); background: rgba(212,160,23,0.12); border: 1px solid rgba(212,160,23,0.3); padding: 4px 14px; border-radius: 20px; display: inline-block; margin-bottom: 16px; letter-spacing: 2px; }
+    .page-title { font-size: clamp(28px, 3.6vw, 42px); font-weight: 900; font-family: 'Noto Serif SC', serif; margin-bottom: 16px; line-height: 1.3; color: #fff; }
+    .page-intro { font-size: 16px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.9; border-bottom: 1px solid var(--border-color); padding-bottom: 24px; font-family: 'Noto Serif SC', serif; }
 
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; margin-bottom: 50px; }
-    .prod-full-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; position: relative; }
-    .prod-badge { position: absolute; top: 22px; right: 22px; font-size: 11px; font-weight: 700; color: var(--accent-gold); background: rgba(245,158,11,0.1); padding: 3px 10px; border-radius: 6px; }
-    .prod-full-card h3 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
-    .prod-full-card p { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 18px; }
-    .prod-specs { background: #0f172a; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-size: 12.5px; color: #cbd5e1; }
-    .prod-specs div { margin-bottom: 4px; }
-    .prod-meta { font-family: monospace; font-size: 11.5px; color: var(--accent-blue); background: rgba(56,189,248,0.1); padding: 4px 10px; border-radius: 6px; display: inline-block; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; margin-bottom: 50px; }
+    @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+    
+    .prod-full-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+    .prod-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; gap: 10px; }
+    .prod-badge { font-size: 11px; font-weight: 700; color: var(--accent-gold-soft); background: rgba(212,160,23,0.12); border: 1px solid rgba(212,160,23,0.3); padding: 3px 10px; border-radius: 6px; }
+    .prod-sku { font-family: monospace; font-size: 11.5px; color: var(--accent-blue); background: rgba(56,189,248,0.1); padding: 3px 8px; border-radius: 6px; }
+    .prod-title { font-size: 21px; font-weight: 700; color: #fff; margin-bottom: 14px; font-family: 'Noto Serif SC', serif; }
 
-    footer { padding: 40px; text-align: center; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); }
-    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+    /* 四层产品认知小卡 */
+    .cog-box { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .cog-layer { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 10px 14px; font-size: 12.5px; line-height: 1.7; }
+    .cog-layer b { display: inline-flex; align-items: center; gap: 4px; color: var(--accent-gold-soft); margin-right: 6px; font-family: 'Noto Serif SC', serif; font-size: 12px; }
+    .cog-layer.layer-see b { color: #38bdf8; }
+    .cog-layer.layer-feel b { color: #f59e0b; }
+    .cog-layer.layer-prove b { color: #10b981; }
+    .cog-layer.layer-why b { color: #c084fc; }
+    .cog-layer p { margin: 0; color: #cbd5e1; display: inline; }
+
+    .evidence-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; border-top: 1px dashed rgba(212,160,23,0.2); padding-top: 12px; }
+    .ev-link { font-family: monospace; font-size: 11px; color: var(--accent-gold-soft); background: rgba(212,160,23,0.08); border: 1px solid var(--border-color); padding: 3px 8px; border-radius: 4px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+    .ev-link:hover { border-color: var(--accent-gold); color: #fff; }
+
+    footer { padding: 40px; text-align: center; font-size: 12.5px; color: var(--text-muted); border-top: 1px solid var(--border-color); }
   </style>
 </head>
 <body>
   <nav>
     <a href="/" class="logo">
-      <img src="/assets/logo.jpg" alt="天旺农牧 Logo" />
-      <span>天旺农牧 Tianwang Agricultural</span>
+      <img src="/site/assets/logo.jpg" alt="天旺农牧 Logo" />
+      <span>天旺农牧 · 产品与认知知识库</span>
     </a>
     <div style="display: flex; gap: 10px; align-items: center;">
+      <a href="/site/brand/evidence.html" class="btn-back" style="border-color: rgba(212,160,23,0.4); color: var(--accent-gold-soft);">
+        <i class="ri-shield-check-line"></i> 品牌证据矩阵
+      </a>
       <a href="/os" class="btn-back" target="_blank" style="border-color: rgba(168,85,247,0.5); color: #c084fc;">
-        <i class="ri-dashboard-3-line"></i> 知识库 OS 控制台
+        <i class="ri-database-2-line"></i> 知识库 OS
       </a>
       <a href="/" class="btn-back">
         <i class="ri-arrow-left-line"></i> 返回官网首页
@@ -63,87 +80,217 @@
   </nav>
 
   <div class="container">
-    <span class="page-tag">COMMERCIAL PRODUCT MATRIX · 6 CATEGORIES</span>
-    <h1 class="page-title">藏红花全系 6 大产品商业矩阵</h1>
-    <p class="page-intro">打破单一花丝的狭隘认知，天旺依托全株解耦、深加工水溶冷萃提取（香港宝芝林/劲酒）、衍生体验品、B2B 原料与专利型产品，构建高附加值商业闭环。</p>
+    <span class="page-tag">PRODUCT COGNITION MATRIX · 6 PILLARS</span>
+    <h1 class="page-title">藏红花全系 6 大产品认知矩阵</h1>
+    <p class="page-intro">
+      <strong>名至而实不归的历史已经延续了 265 年，实至而令名真归的历史我们用了 10 年。</strong><br>
+      天旺构建以“看得见、感受得到、数据证明、为什么天旺能够做到”为核心的四层产品认知体系，全系 6 大产品均与权威检测报告与原始凭证形成闭环追溯。
+    </p>
 
     <div class="grid-2">
-      <!-- 体系 1 -->
-      <div class="prod-full-card" id="category-1">
-        <span class="prod-badge">体系 01 · 核心</span>
-        <h3>1. 全花分结构解耦 (重点柱头花丝)</h3>
-        <p>将整朵藏红花拆解为柱头（高价值纯净花丝）、花瓣（富含黄酮类多酚）与雄蕊。重点提供 100% 极地特级纯净红色柱头花丝。</p>
-        <div class="prod-specs">
-          <div>• <b>分级标准</b>: ISO 一级品 (440nm 色价 >240)</div>
-          <div>• <b>纯净指标</b>: 重庆食药检院全项 0 农残认证</div>
+      <!-- 1. 干花丝 -->
+      <div class="prod-full-card" id="PROD-001">
+        <div>
+          <div class="prod-header">
+            <span class="prod-badge">PROD-001 ｜ 道地原材</span>
+            <span class="prod-sku">1g/瓶、2g/瓶、高端礼盒</span>
+          </div>
+          <h3 class="prod-title">天旺西藏特级藏红花干花丝</h3>
+          <div class="cog-box">
+            <div class="cog-layer layer-see">
+              <b><i class="ri-eye-line"></i>看得见:</b>
+              <p>100% 全红柱头无黄根、三丝相连、深紫红油润；温水冲泡缓缓释放清澈琥珀金黄汤，绝无混浊红汤。</p>
+            </div>
+            <div class="cog-layer layer-feel">
+              <b><i class="ri-hand-heart-line"></i>感受得到:</b>
+              <p>干草与清甜花果复合香气；入口微苦而后清甘顺滑；连续续水 4~5 次依然汤色金黄、花丝挺立。</p>
+            </div>
+            <div class="cog-layer layer-prove">
+              <b><i class="ri-file-list-3-line"></i>数据证明:</b>
+              <p>重庆食药检院 440nm 色价实测 246（超 ISO 一级品 200 限值）；深圳计量院 39 项农残全项质谱未检出；出口加拿大单克 128.2 元。</p>
+            </div>
+            <div class="cog-layer layer-why">
+              <b><i class="ri-lightbulb-line"></i>为什么能做到:</b>
+              <p>林芝米瑞 2945m 极地强紫外线刺激西红花苷富集；CEA 一体式温室控环无水无土悬空抽薹采收；八代生命循环繁育谱系。</p>
+            </div>
+          </div>
         </div>
-        <span class="prod-meta">SSOT 节点: SFR-01 ~ SFR-04 全花解耦</span>
+        <div class="evidence-links">
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-001 地标一级品</a>
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-002 39项未检出</a>
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-007 海关报关单</a>
+        </div>
       </div>
 
-      <!-- 体系 2 -->
-      <div class="prod-full-card" id="category-2">
-        <span class="prod-badge" style="color: var(--accent-purple); background: rgba(168,85,247,0.1);">体系 02 · 观赏</span>
-        <h3>2. 鲜花整朵低温冻干品</h3>
-        <p>采用极地控环与真空低温冻干技术，完整锁住整朵藏红花紫瓣与金黄柱头的自然形态，提供视觉盛宴与高端观赏冲泡礼遇。</p>
-        <div class="prod-specs">
-          <div>• <b>工艺特征</b>: -40℃ 真空升华冻干</div>
-          <div>• <b>应用场景</b>: 顶级私宴、茶席与观赏冲泡</div>
+      <!-- 2. 鲜花冻干 -->
+      <div class="prod-full-card" id="PROD-002">
+        <div>
+          <div class="prod-header">
+            <span class="prod-badge">PROD-002 ｜ 原态滋补</span>
+            <span class="prod-sku">独立真空舱装、私宴礼盒</span>
+          </div>
+          <h3 class="prod-title">天旺藏红花鲜花整朵低温真空冻干品</h3>
+          <div class="cog-box">
+            <div class="cog-layer layer-see">
+              <b><i class="ri-eye-line"></i>看得见:</b>
+              <p>完整保留六片紫色花瓣、金黄雄蕊与鲜红三叉柱头；-40℃ 真空冻干脉络清晰，入水如鲜花绽放。</p>
+            </div>
+            <div class="cog-layer layer-feel">
+              <b><i class="ri-hand-heart-line"></i>感受得到:</b>
+              <p>兼具花瓣花青素轻柔花香与柱头深邃芳香，茶席私宴观赏与品饮俱佳。</p>
+            </div>
+            <div class="cog-layer layer-prove">
+              <b><i class="ri-file-list-3-line"></i>数据证明:</b>
+              <p>鲜花采后 2 小时极速入舱锁住热敏挥发组分；基地全流程无尘洁净控环。</p>
+            </div>
+            <div class="cog-layer layer-why">
+              <b><i class="ri-lightbulb-line"></i>为什么能做到:</b>
+              <p>米瑞基地田间到冻干舱零运输损耗；设施农业洁净抽薹无泥沙附着。</p>
+            </div>
+          </div>
         </div>
-        <span class="prod-meta">SSOT 节点: SFR-08 冻干整花原貌</span>
+        <div class="evidence-links">
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-001 地标检验</a>
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-002 纯净质检</a>
+        </div>
       </div>
 
-      <!-- 体系 3 -->
-      <div class="prod-full-card" id="category-3">
-        <span class="prod-badge" style="color: var(--accent-emerald); background: rgba(16,185,129,0.1);">体系 03 · 战略深加工</span>
-        <h3>3. 冷萃提取物深加工 (宝芝林 ＋ 劲酒)</h3>
-        <p>多糖/多酚水溶冷萃提取物系列：联合<b>香港宝芝林</b>开发高活性深加工保健品；联合<b>劲牌 / 劲酒</b>特别调配高端藏红花草本养生酒。</p>
-        <div class="prod-specs">
-          <div>• <b>香港宝芝林</b>: 高吸收率大健康滋补保健系列</div>
-          <div>• <b>劲牌 / 劲酒</b>: 草本调配健康酒定向原料供应</div>
+      <!-- 3. 多糖压片糖果 -->
+      <div class="prod-full-card" id="PROD-003">
+        <div>
+          <div class="prod-header">
+            <span class="prod-badge">PROD-003 ｜ 深度研发</span>
+            <span class="prod-sku">10g (0.5g×20片)/盒 (含宝芝林联名)</span>
+          </div>
+          <h3 class="prod-title">天旺藏红花多糖压片糖果</h3>
+          <div class="cog-box">
+            <div class="cog-layer layer-see">
+              <b><i class="ri-eye-line"></i>看得见:</b>
+              <p>片形光洁坚实、色泽淡雅；独立铝箔避光泡罩，随身便携随时嚼食。</p>
+            </div>
+            <div class="cog-layer layer-feel">
+              <b><i class="ri-hand-heart-line"></i>感受得到:</b>
+              <p>微酸微甜草本清香，无中药苦涩，崩解迅速、体感温和。</p>
+            </div>
+            <div class="cog-layer layer-prove">
+              <b><i class="ri-file-list-3-line"></i>数据证明:</b>
+              <p>苏州飞凡检测斑马鱼高糖模型实验：2000 μg/mL 浓度下组织液葡萄糖降低 66.74% (P &lt; 0.001，实验模型活性)；经口毒理实际无毒级。</p>
+            </div>
+            <div class="cog-layer layer-why">
+              <b><i class="ri-lightbulb-line"></i>为什么能做到:</b>
+              <p>联合百年老字号香港宝芝林，水溶低温冷萃技术定向富集多糖活性组分；GMP 洁净车间生产。</p>
+            </div>
+          </div>
         </div>
-        <span class="prod-meta" style="color: var(--accent-emerald);">SSOT 节点: PROD-EXTRACT-01 战略合作</span>
+        <div class="evidence-links">
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-003 斑马鱼降糖实验</a>
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-005 实际无毒级</a>
+        </div>
       </div>
 
-      <!-- 体系 4 -->
-      <div class="prod-full-card" id="category-4">
-        <span class="prod-badge" style="color: var(--accent-gold); background: rgba(245,158,11,0.1);">体系 04 · 衍生</span>
-        <h3>4. 精油、浸膏与极地五季物候茶</h3>
-        <p>研发高纯度藏红花精油 (Essential Oil) 与浸膏 (Concrete) 芳香产品，以及融合米林灵芝、黄精与桃花山丁子酸奶的时令物候饮品。</p>
-        <div class="prod-specs">
-          <div>• <b>芳香衍生</b>: 超临界 CO₂ 萃取天然单萜精油</div>
-          <div>• <b>物候茶饮</b>: 春季桃花/夏季冷萃/秋季灵芝/冬季暖汤</div>
+      <!-- 4. 多酚压片糖果 -->
+      <div class="prod-full-card" id="PROD-004">
+        <div>
+          <div class="prod-header">
+            <span class="prod-badge">PROD-004 ｜ 深度研发</span>
+            <span class="prod-sku">10g (0.5g×20片)/盒 (含宝芝林联名)</span>
+          </div>
+          <h3 class="prod-title">天旺藏红花多酚压片糖果</h3>
+          <div class="cog-box">
+            <div class="cog-layer layer-see">
+              <b><i class="ri-eye-line"></i>看得见:</b>
+              <p>天然多酚类黄酮温润原色；双层医药级密封避光，确保活性不衰减。</p>
+            </div>
+            <div class="cog-layer layer-feel">
+              <b><i class="ri-hand-heart-line"></i>感受得到:</b>
+              <p>清凉适口、草本清芬，咀嚼后口腔伴有微苦甘润的舒适体感。</p>
+            </div>
+            <div class="cog-layer layer-prove">
+              <b><i class="ri-file-list-3-line"></i>数据证明:</b>
+              <p>苏州飞凡检测斑马鱼高尿酸模型实验：2000 μg/mL 浓度下尿酸值减少 7.07% (P = 0.00705 &lt; 0.01，实验模型活性)；经口毒理实际无毒级。</p>
+            </div>
+            <div class="cog-layer layer-why">
+              <b><i class="ri-lightbulb-line"></i>为什么能做到:</b>
+              <p>从高紫外线极地全花中提取黄酮与多酚复合体；科学配比稳定固化。</p>
+            </div>
+          </div>
         </div>
-        <span class="prod-meta">SSOT 节点: SFR-33.3 物候茶衍生品</span>
+        <div class="evidence-links">
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-004 斑马鱼降尿酸实验</a>
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-005 实际无毒级</a>
+        </div>
       </div>
 
-      <!-- 体系 5 -->
-      <div class="prod-full-card" id="category-5">
-        <span class="prod-badge" style="color: var(--accent-blue); background: rgba(56,189,248,0.1);">体系 05 · B2B 工业</span>
-        <h3>5. B2B 原料类与优质种球供应</h3>
-        <p>面向药企与高端化妆品工业级藏红花 Raw Material 稳定供应；以及崇明/林芝两段式培育的 25g+ 优质地下子球 (Corm) 农业种源供应。</p>
-        <div class="prod-specs">
-          <div>• <b>工业级原料</b>: 医药级提取物长协供应</div>
-          <div>• <b>农业种源</b>: 25g+ 繁育壮硕优质母球</div>
+      <!-- 5. 咖啡 -->
+      <div class="prod-full-card" id="PROD-005">
+        <div>
+          <div class="prod-header">
+            <span class="prod-badge">PROD-005 ｜ 新消费衍生</span>
+            <span class="prod-sku">挂耳包 / 冻干速溶粉 (10包/盒)</span>
+          </div>
+          <h3 class="prod-title">天旺极地藏红花草本咖啡</h3>
+          <div class="cog-box">
+            <div class="cog-layer layer-see">
+              <b><i class="ri-eye-line"></i>看得见:</b>
+              <p>深褐咖啡粉中点缀金黄藏红花冷萃冻干微粒，萃取泛起细腻金黄油脂。</p>
+            </div>
+            <div class="cog-layer layer-feel">
+              <b><i class="ri-hand-heart-line"></i>感受得到:</b>
+              <p>阿拉比卡坚果香与藏红花草本醛香交融，醇厚不涩，微苦焦糖回甘。</p>
+            </div>
+            <div class="cog-layer layer-prove">
+              <b><i class="ri-file-list-3-line"></i>数据证明:</b>
+              <p>黄金风味比复合调制；第三方食品安全全项理化与卫生检测合格。</p>
+            </div>
+            <div class="cog-layer layer-why">
+              <b><i class="ri-lightbulb-line"></i>为什么能做到:</b>
+              <p>发挥藏红花醛天然风味调和与去异提鲜机理，打造高原特色提神饮品。</p>
+            </div>
+          </div>
         </div>
-        <span class="prod-meta">SSOT 节点: SFR-05 地下球茎 B2B</span>
+        <div class="evidence-links">
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-001 道地品质</a>
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-006 官方正品</a>
+        </div>
       </div>
 
-      <!-- 体系 6 -->
-      <div class="prod-full-card" id="category-6">
-        <span class="prod-badge" style="color: var(--accent-purple); background: rgba(168,85,247,0.1);">体系 06 · 科技</span>
-        <h3>6. 技术专利型科技产品</h3>
-        <p>基于 CEA 设施控环催花农艺专利与低温水溶冷萃提纯专利支撑的科技型衍生产品，彰显高科技农业硬核壁垒。</p>
-        <div class="prod-specs">
-          <div>• <b>专利背书</b>: ZL202410889211.X 等发明专利</div>
-          <div>• <b>标准定位</b>: 推动藏红花从传统农业向生命工程跃迁</div>
+      <!-- 6. 茶包 -->
+      <div class="prod-full-card" id="PROD-006">
+        <div>
+          <div class="prod-header">
+            <span class="prod-badge">PROD-006 ｜ 新消费衍生</span>
+            <span class="prod-sku">三角玉米纤维茶包 (15袋/盒)</span>
+          </div>
+          <h3 class="prod-title">天旺藏红花极地物候养生茶包</h3>
+          <div class="cog-box">
+            <div class="cog-layer layer-see">
+              <b><i class="ri-eye-line"></i>看得见:</b>
+              <p>透明玉米纤维三角茶包，红柱头、米林灵芝与黄精原材清晰可见，沸水 30 秒金黄透亮。</p>
+            </div>
+            <div class="cog-layer layer-feel">
+              <b><i class="ri-hand-heart-line"></i>感受得到:</b>
+              <p>草本清香四溢、甘醇温润，四时物候调养，久泡不浑不涩。</p>
+            </div>
+            <div class="cog-layer layer-prove">
+              <b><i class="ri-file-list-3-line"></i>数据证明:</b>
+              <p>原料全部来自林芝米瑞道地合作基地，农残重金属符合国家代用茶标准。</p>
+            </div>
+            <div class="cog-layer layer-why">
+              <b><i class="ri-lightbulb-line"></i>为什么能做到:</b>
+              <p>依托雅鲁藏布大峡谷本草资源，以藏红花为核心协同配伍高原食药同源原材。</p>
+            </div>
+          </div>
         </div>
-        <span class="prod-meta">SSOT 节点: PAT-2026 科技专利型</span>
+        <div class="evidence-links">
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-001 道地品质</a>
+          <a href="/site/brand/evidence.html" class="ev-link"><i class="ri-shield-check-fill"></i>EVD-008 乡村振兴</a>
+        </div>
       </div>
     </div>
   </div>
 
   <footer>
-    <p>© 2026 天旺农牧 (Tianwang Agricultural Co., Ltd.) 版权所有 | 知识底层 Powered by Brand Content OS v14.0</p>
+    让藏红花实至名归 · 天旺产品认知知识库 © 2026 林芝天旺农牧产品有限公司
   </footer>
 </body>
 </html>

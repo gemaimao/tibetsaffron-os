@@ -1,9 +1,9 @@
 /* ============================================================
- * homecoming.js — 藏红花回家 · 官网（白皮书网页演示版）
+ * homecoming.js — 藏红花实至名归 · 官网（白皮书网页演示版）
  * ------------------------------------------------------------
  * S0 开场：Cesium 地球俯冲青藏高原（空间维度）
- * S1~S5：五段叙事（Cesium / SVG / KG 轮换，Phase A 先占位）
- * S6：天旺的角色收束
+ * S1~S5：五段叙事（溯名之源 / 极地至境 / 筑实之基 / 名实相合 / 铸就实效）
+ * S6：天旺的角色收束（实至名归的系统筑基者）
  * 滚动：IntersectionObserver 分段激活 + 左侧五段导航指示
  *
  * 加固（2026-08-19）：
@@ -98,6 +98,9 @@ function showStaticFallback() {
     <path d="M560 200 L600 288 L560 288 Z M760 520 L800 428 L840 520 Z" fill="url(#snow)" opacity="0.9"/>
     <text x="1120" y="210" font-family="'Noto Serif SC',serif" font-size="20" fill="#e8c766" text-anchor="middle">米瑞 · 2945m</text>
   </svg>`;
+  setTimeout(() => {
+    transitionToEcosystemImage();
+  }, 1200);
 }
 
 /* ---------- S0 · Cesium 开场 ---------- */
@@ -264,17 +267,31 @@ function initCesium() {
     landHeroView();
 
     // 顺滑开场：从高空快速俯冲并精确定格在终点视角（2.5 秒极速完成）
+    const triggerEcosystemTransition = () => {
+      if (_ecosystemTransitionTriggered) return;
+      _ecosystemTransitionTriggered = true;
+      landHeroView();
+      setTimeout(() => {
+        transitionToEcosystemImage();
+      }, 800);
+    };
+
     viewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(HERO_VIEW.lng, HERO_VIEW.lat, 28000),
       orientation: { heading: headingRad, pitch: pitchRad, roll: 0 },
       duration: 2.5,
       easingFunction: Cesium.EasingFunction.QUADRATIC_OUT,
       complete: () => {
-        landHeroView();
+        triggerEcosystemTransition();
       }
     });
 
-    // 当三维地形加载完成时，再次精确重设，确保地形起伏与视角完美贴合
+    // 兜底定时器：4.5 秒后若仍未完成过渡，强行触发生态动效切换
+    setTimeout(() => {
+      triggerEcosystemTransition();
+    }, 4500);
+
+    // 当三维地形加载完成时，再次精确重设
     viewer.scene.globe.tileLoadProgressEvent.addEventListener((remaining) => {
       if (remaining === 0) {
         landHeroView();
@@ -286,7 +303,7 @@ function initCesium() {
   }
 }
 
-/* ---------- S2 回家之路 · 迷你 Cesium 地球 ---------- */
+/* ---------- S2 实至名归之路 · 迷你 Cesium 地球 ---------- */
 let _routeInit = false;
 function initRouteGlobe() {
   const el = document.getElementById("route-globe");
@@ -307,7 +324,7 @@ function initRouteGlobe() {
     });
     viewer.scene.globe.enableLighting = false;
 
-    // 回家航线
+    // 赴藏航线
     const flat = [];
     routeCoords.forEach(c => flat.push(c[0], c[1]));
     viewer.entities.add({
@@ -336,7 +353,7 @@ function initRouteGlobe() {
     }, 600);
     setTimeout(() => { try { viewer.resize(); } catch (e) {} }, 400);
   } catch (e) {
-    console.warn("[homecoming] 回家之路迷你地球初始化失败：", e && e.message);
+    console.warn("[homecoming] 实至名归之路迷你地球初始化失败：", e && e.message);
     el.classList.add("globe-fallback");
   }
 }
@@ -479,9 +496,75 @@ async function loadData() {
     Homecoming.stages = anchors.stages || [];
     window.__homecomingData = { anchors: Homecoming.anchors, routes: Homecoming.routes, relations };
     console.log(`[homecoming] 数据就绪：${Homecoming.anchors.length} 锚点, ${(relations.relations || []).length} 关系边`);
-    ensureRouteGlobe(); // 数据就绪后初始化 S2 回家之路迷你地球
+    ensureRouteGlobe(); // 数据就绪后初始化 S2 实至名归之路迷你地球
   } catch (e) {
     console.warn("[homecoming] 数据加载失败:", e.message);
+  }
+}
+
+/* ---------- 视角与天旺生态图动效切换 ---------- */
+let _ecosystemTransitionTriggered = false;
+
+function transitionToEcosystemImage() {
+  const overlay = document.getElementById("hero-ecosystem-overlay");
+  const switcher = document.getElementById("hero-view-switch");
+  const heroTitle = document.querySelector(".hero-title");
+  const heroVeil = document.querySelector(".hero-veil");
+  const btnEco = document.getElementById("btn-eco-view");
+  const btn3d = document.getElementById("btn-3d-view");
+
+  if (overlay) {
+    overlay.classList.add("show");
+  }
+  if (heroTitle) {
+    heroTitle.style.opacity = "0";
+    heroTitle.style.visibility = "hidden";
+    heroTitle.style.pointerEvents = "none";
+  }
+  if (heroVeil) {
+    heroVeil.style.opacity = "0";
+    heroVeil.style.visibility = "hidden";
+  }
+  if (switcher) {
+    switcher.classList.add("show");
+  }
+  if (btnEco) btnEco.classList.add("active");
+  if (btn3d) btn3d.classList.remove("active");
+  console.log("[homecoming] 🌿 已顺滑切换至【天旺生态图·动效】（文字已淡出）");
+}
+
+function showCesiumView() {
+  const overlay = document.getElementById("hero-ecosystem-overlay");
+  const heroTitle = document.querySelector(".hero-title");
+  const heroVeil = document.querySelector(".hero-veil");
+  const btnEco = document.getElementById("btn-eco-view");
+  const btn3d = document.getElementById("btn-3d-view");
+
+  if (overlay) {
+    overlay.classList.remove("show");
+  }
+  if (heroTitle) {
+    heroTitle.style.opacity = "";
+    heroTitle.style.visibility = "";
+    heroTitle.style.pointerEvents = "";
+  }
+  if (heroVeil) {
+    heroVeil.style.opacity = "";
+    heroVeil.style.visibility = "";
+  }
+  if (btnEco) btnEco.classList.remove("active");
+  if (btn3d) btn3d.classList.add("active");
+  console.log("[homecoming] 🌐 已切换至【3D Cesium 三维视角】");
+}
+
+function initViewSwitcher() {
+  const btnEco = document.getElementById("btn-eco-view");
+  const btn3d = document.getElementById("btn-3d-view");
+  if (btnEco) {
+    btnEco.addEventListener("click", () => transitionToEcosystemImage());
+  }
+  if (btn3d) {
+    btn3d.addEventListener("click", () => showCesiumView());
   }
 }
 
@@ -490,6 +573,7 @@ window.addEventListener("DOMContentLoaded", () => {
   playHeroTitle();
   initScrollBinding();
   initRail();
+  initViewSwitcher();
   loadData();
   loadCesiumWithFallback(0);
 });

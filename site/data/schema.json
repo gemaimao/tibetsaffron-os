@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "天旺藏红花知识库五层关系模型 Schema (PRODUCT × FACT × EVIDENCE × COGNITION × COMMUNICATION)",
+  "version": "2.0.0",
+  "description": "天旺藏红花 SSOT 数据体系，解耦原始文件、客观事实、证据实体、认知体验与传播资产，实现严谨可追溯图谱检索。",
+  "definitions": {
+    "ProductCard": {
+      "type": "object",
+      "required": ["product_id", "product_name", "category", "sku_type", "cognition_layers", "supported_evidence_ids"],
+      "properties": {
+        "product_id": { "type": "string" },
+        "product_name": { "type": "string" },
+        "category": { "type": "string" },
+        "sku_type": { "type": "string" },
+        "cognition_layers": {
+          "type": "object",
+          "required": ["see", "feel", "prove", "why_tianwang"],
+          "properties": {
+            "see": { "type": "array", "items": { "type": "string" } },
+            "feel": { "type": "array", "items": { "type": "string" } },
+            "prove": { "type": "array", "items": { "type": "string" } },
+            "why_tianwang": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "supported_evidence_ids": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "EvidenceCard": {
+      "type": "object",
+      "required": [
+        "evidence_id", "evidence_type", "source", "date", "product", "batch",
+        "institution", "method_or_standard", "raw_result", "supported_claims",
+        "prohibited_claims", "evidence_scope", "legal_status", "communication_value",
+        "original_file", "original_page"
+      ],
+      "properties": {
+        "evidence_id": { "type": "string" },
+        "evidence_type": { "type": "string", "enum": ["法定检测报告", "实验室科研测试", "海关官方凭证", "企业法定公文", "财务台账凭证", "发明专利证书"] },
+        "source": { "type": "string" },
+        "date": { "type": "string" },
+        "product": { "type": "string" },
+        "batch": { "type": "string" },
+        "institution": { "type": "string" },
+        "method_or_standard": { "type": "string" },
+        "raw_result": { "type": "string" },
+        "supported_claims": { "type": "array", "items": { "type": "string" } },
+        "prohibited_claims": { "type": "array", "items": { "type": "string" } },
+        "evidence_scope": { "type": "string" },
+        "legal_status": { "type": "string", "enum": ["Class A (法定公文/地标国标报告)", "Class B (第三方权威资质检测报告)", "Class C (生物模型科研评价证书)", "Class D (企业法定真实经营台账)"] },
+        "communication_value": { "type": "string", "enum": ["Dim-1 (核心信任状与防伪)", "Dim-2 (物理品质区隔物证)", "Dim-3 (科技深加工研发背书)", "Dim-4 (乡村振兴与出海创汇)"] },
+        "original_file": { "type": "string" },
+        "original_page": { "type": "string" }
+      }
+    },
+    "CommunicationAsset": {
+      "type": "object",
+      "required": ["asset_id", "asset_type", "headline", "approved_content", "bound_evidence_ids", "bound_fact_ids", "compliance_rule"],
+      "properties": {
+        "asset_id": { "type": "string" },
+        "asset_type": { "type": "string", "enum": ["参数事实卡", "合规答疑卡", "展厅物料展板", "包装溯源文案"] },
+        "headline": { "type": "string" },
+        "approved_content": { "type": "string" },
+        "bound_evidence_ids": { "type": "array", "items": { "type": "string" } },
+        "bound_fact_ids": { "type": "array", "items": { "type": "string" } },
+        "compliance_rule": { "type": "string" }
+      }
+    }
+  }
+}
