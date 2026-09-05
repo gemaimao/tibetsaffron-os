@@ -1119,3 +1119,264 @@
   position: relative;
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9);
 }
+
+/* --------------------------------------------------------------------------
+   6. 顶奢松露/香槟级【极地四感品鉴仪式】(The Alpine Tasting Ritual)
+   -------------------------------------------------------------------------- */
+.tasting-ritual-section {
+  max-width: 1200px;
+  margin: 55px auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 10;
+}
+
+.ritual-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 28px;
+}
+
+@media (max-width: 960px) {
+  .ritual-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .ritual-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ritual-step-card {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.7) 0%, rgba(7, 11, 24, 0.92) 100%);
+  border: 1px solid rgba(212, 160, 23, 0.2);
+  border-radius: 18px;
+  padding: 24px 20px;
+  backdrop-filter: blur(14px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.ritual-step-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(251, 191, 36, 0.6);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.25);
+}
+
+.ritual-step-no {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  color: #fbbf24;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ritual-step-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ritual-step-icon.gold { color: #fbbf24; border-color: rgba(251, 191, 36, 0.35); background: rgba(251, 191, 36, 0.1); }
+.ritual-step-icon.purple { color: #c084fc; border-color: rgba(192, 132, 252, 0.35); background: rgba(192, 132, 252, 0.1); }
+.ritual-step-icon.crimson { color: #fb7185; border-color: rgba(244, 63, 94, 0.35); background: rgba(244, 63, 94, 0.1); }
+.ritual-step-icon.emerald { color: #34d399; border-color: rgba(52, 211, 153, 0.35); background: rgba(52, 211, 153, 0.1); }
+
+.ritual-step-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.ritual-step-desc {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  flex: 1;
+}
+
+.ritual-step-tip {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 11px;
+  color: #e2e8f0;
+  border-left: 2px solid #fbbf24;
+}
+
+/* --------------------------------------------------------------------------
+   7. 专属极地溯源数字护照 (Polar Passport System)
+   -------------------------------------------------------------------------- */
+.passport-banner {
+  background: linear-gradient(135deg, rgba(88, 28, 135, 0.3) 0%, rgba(136, 19, 55, 0.25) 50%, rgba(212, 160, 23, 0.2) 100%);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  border-radius: 20px;
+  padding: 26px 32px;
+  margin-top: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 800px) {
+  .passport-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.passport-info h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 19px;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 800px) {
+  .passport-info h3 {
+    justify-content: center;
+  }
+}
+
+.passport-info p {
+  font-size: 12.5px;
+  color: #cbd5e1;
+}
+
+.passport-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(4, 6, 13, 0.7);
+  border: 1px solid rgba(212, 160, 23, 0.35);
+  padding: 6px 10px;
+  border-radius: 26px;
+}
+
+.passport-search-box input {
+  background: none;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 12.5px;
+  padding: 6px 12px;
+  width: 220px;
+}
+
+.passport-search-box input::placeholder {
+  color: #64748b;
+}
+
+.passport-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 13, 0.88);
+  backdrop-filter: blur(14px);
+  z-index: 2600;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.passport-modal.active {
+  display: flex;
+}
+
+.passport-dialog {
+  background: linear-gradient(180deg, #090e1d 0%, #060912 100%);
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  border-radius: 22px;
+  max-width: 680px;
+  width: 100%;
+  padding: 32px;
+  color: #fff;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 30px rgba(212, 160, 23, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   8. 交互式 KG 知识图谱迷你浏览器 (Interactive Knowledge Graph Mini-Explorer)
+   -------------------------------------------------------------------------- */
+.kg-mini-explorer {
+  margin-top: 32px;
+  background: #04060d;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.kg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.kg-nodes-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  margin-bottom: 18px;
+}
+
+.kg-node-chip {
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.6);
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kg-node-chip:hover, .kg-node-chip.active {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(212, 160, 23, 0.2));
+  border-color: #fbbf24;
+  color: #fef08a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(212, 160, 23, 0.2);
+}
+
+.kg-details-card {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 18px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

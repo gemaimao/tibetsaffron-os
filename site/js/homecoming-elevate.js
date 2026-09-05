@@ -443,6 +443,138 @@ export function initEvidenceCascade() {
 }
 
 // =========================================================================
+// 5. 专属极地数字护照查询系统 (Polar Passport System)
+// =========================================================================
+export function initPolarPassport() {
+  const modal = document.getElementById("passport-modal");
+  const dialog = document.getElementById("passport-dialog-content");
+
+  window.verifyPolarPassport = (inputCode) => {
+    const code = (inputCode || document.getElementById("passport-search-input")?.value || "").trim().toUpperCase();
+    const targetCode = code || "TW-2025-NZ2945";
+
+    if (!modal || !dialog) return;
+
+    dialog.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:16px; margin-bottom:20px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="background:linear-gradient(135deg,#c084fc,#fb7185,#fbbf24); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:20px; font-weight:800;">
+            POLAR PASSPORT · 极地溯源护照
+          </span>
+          <span style="font-size:11px; background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#34d399; padding:2px 8px; border-radius:10px; font-weight:700;">
+            ✓ 官方防伪已核验
+          </span>
+        </div>
+        <button onclick="closePolarPassport()" style="background:none; border:none; color:#94a3b8; font-size:24px; cursor:pointer;">&times;</button>
+      </div>
+
+      <div style="background:#04060d; border:1px solid rgba(212,160,23,0.3); border-radius:14px; padding:20px; margin-bottom:20px; font-size:13px; line-height:1.7;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+          <div><span style="color:#64748b;">溯源识别码：</span> <strong style="color:#fbbf24; font-family:monospace;">${targetCode}</strong></div>
+          <div><span style="color:#64748b;">采收年份：</span> <strong style="color:#fff;">2025 年秋季 (极地初花期)</strong></div>
+          <div><span style="color:#64748b;">专属产区基地：</span> <strong style="color:#fff;">西藏林芝米瑞乡 (海拔 2945m)</strong></div>
+          <div><span style="color:#64748b;">种球培育源：</span> <strong style="color:#fff;">上海崇明东滩 (25g+ 特级母球)</strong></div>
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:12px;">
+          <div style="margin-bottom:6px;"><span style="color:#64748b;">法定理化检测：</span> <span style="color:#38bdf8;">重庆食药检院 No. A26SW02809 (440nm 色价实测 246)</span></div>
+          <div style="margin-bottom:6px;"><span style="color:#64748b;">农残质谱筛查：</span> <span style="color:#34d399;">深圳计量院 SMQ WT10103260183295WT2 (39 项全未检出)</span></div>
+          <div><span style="color:#64748b;">出境检疫备案：</span> <span style="color:#c084fc;">拉萨海关《植物检疫证书》CMP-001 (逆向出口加拿大)</span></div>
+        </div>
+      </div>
+
+      <div style="font-size:12px; color:#94a3b8; line-height:1.6; margin-bottom:24px;">
+        ★ <strong>极地尊享说明：</strong> 天旺藏红花每一瓶产品均拥有唯一的极地风土与质检数据档案，直连官方单一年份溯源数据库，杜绝一切中间商掺假可能。
+      </div>
+
+      <div style="text-align:right;">
+        <button onclick="closePolarPassport()" style="background:linear-gradient(135deg, #d4a017, #f59e0b); border:none; color:#04060d; font-weight:800; padding:9px 26px; border-radius:20px; cursor:pointer; font-size:13px;">完成查验</button>
+      </div>
+    `;
+
+    modal.classList.add("active");
+  };
+
+  window.closePolarPassport = () => {
+    if (modal) modal.classList.remove("active");
+  };
+}
+
+// =========================================================================
+// 6. 交互式轻量 KG 知识图谱浏览器 (Interactive Knowledge Graph Mini-Explorer)
+// =========================================================================
+const KG_NODES = [
+  {
+    id: "kg-1",
+    name: "🏔️ 林芝 2945m 极地风土",
+    type: "terroir",
+    desc: "西藏林芝巴宜区米瑞乡姆多村，海拔 2945 米，背靠苯日神山、面朝雅尼湿地。3000m 极地强紫外辐射驱动次生代谢合成，昼夜大温差锁住高挥发性藏红花醛 (Safranal)。",
+    links: ["两段式现代农艺", "西红花苷 246 色价", "米瑞科技馆实体"]
+  },
+  {
+    id: "kg-2",
+    name: "🌱 两段式现代农艺 (AGR-001)",
+    type: "agronomy",
+    desc: "第一阶段：上海崇明平原大田繁育 25g+ 壮硕母球（球茎即电池）；第二阶段：每年9~10月移送西藏林芝 2945m 连栋大温室，无水无土悬空抽薹开花，物理级零施药阻断病害。",
+    links: ["林芝 2945m 极地风土", "39 项农残全未检出", "重庆地标一级品质检"]
+  },
+  {
+    id: "kg-3",
+    name: "🧪 三大特征植物化学分子",
+    type: "chemistry",
+    desc: "西红花苷 (Crocin，决定 440nm 色价与金黄抗氧化)、藏红花苦素 (Picrocrocin，清凉微苦与鲜味协同增效)、藏红花醛 (Safranal，蜂草深邃芳香)。三大分子构成不可替代的风味与药效基石。",
+    links: ["440nm 吸光度色价 246", "斑马鱼生物模型科研", "科学品饮水温 60~85℃"]
+  },
+  {
+    id: "kg-4",
+    name: "📜 八大核心法定证据链 (EVD)",
+    type: "evidence",
+    desc: "重庆食药检院 (No. A26SW02809)、深圳 SMQ 39项质谱未检出、苏州飞凡斑马鱼降糖 66.74%/降尿酸 7.07%、拉萨海关检疫 CMP-001 等 8 级公章报告构筑坚不可摧的公信力壁垒。",
+    links: ["深圳计量院 SMQ 质检", "重庆地标一级品质检", "拉萨海关出海凭证"]
+  },
+  {
+    id: "kg-5",
+    name: "🤝 产业合作矩阵 (宝芝林/劲牌)",
+    type: "industry",
+    desc: "联合百年老字号【香港宝芝林】开发高活性多糖与多酚深加工产品；为保健酒龙头【劲牌 / 劲酒】定制定向供应极地特级藏红花冷萃原液与工业级原料。",
+    links: ["藏红花多糖产品", "藏红花多酚产品", "纯净冷萃养生茶包"]
+  }
+];
+
+export function initKnowledgeGraphExplorer() {
+  const strip = document.getElementById("kg-nodes-strip");
+  const details = document.getElementById("kg-details-card");
+  if (!strip || !details) return;
+
+  strip.innerHTML = KG_NODES.map((node, idx) => `
+    <button class="kg-node-chip ${idx === 0 ? 'active' : ''}" data-id="${node.id}" onclick="selectKgNode('${node.id}')">
+      ${node.name}
+    </button>
+  `).join("");
+
+  window.selectKgNode = (id) => {
+    document.querySelectorAll(".kg-node-chip").forEach(c => {
+      c.classList.toggle("active", c.getAttribute("data-id") === id);
+    });
+    const node = KG_NODES.find(n => n.id === id) || KG_NODES[0];
+    details.innerHTML = `
+      <div style="font-size:14px; font-weight:700; color:#fbbf24; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <span>${node.name}</span>
+        <span style="font-size:10.5px; background:rgba(255,255,255,0.08); color:#cbd5e1; padding:2px 8px; border-radius:10px;">SSOT 核心图谱节点</span>
+      </div>
+      <div style="font-size:12.5px; color:#e2e8f0; line-height:1.65; margin-bottom:12px;">
+        ${node.desc}
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; font-size:11.5px; color:#94a3b8; flex-wrap:wrap;">
+        <span style="color:#64748b;">🔗 强关联知识节点：</span>
+        ${node.links.map(l => `<span style="background:rgba(168,85,247,0.15); color:#e9d5ff; border:1px solid rgba(168,85,247,0.3); padding:2px 8px; border-radius:6px;">${l}</span>`).join("")}
+      </div>
+    `;
+  };
+
+  selectKgNode("kg-1");
+}
+
+// =========================================================================
 // 全局启动初始化
 // =========================================================================
 export function initAllElevateFeatures() {
@@ -450,6 +582,8 @@ export function initAllElevateFeatures() {
   initWaterTestSandbox();
   initProductEngine();
   initEvidenceCascade();
+  initPolarPassport();
+  initKnowledgeGraphExplorer();
 }
 
 if (typeof window !== "undefined") {
