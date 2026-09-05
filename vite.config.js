@@ -410,94 +410,165 @@ function apiServerPlugin() {
               const query = payload.question || payload.query || '';
               const mode = payload.mode || 'brand';
               const history = payload.history || [];
+              const provider = payload.provider || 'amd';
 
               if (!query.trim()) {
                 res.statusCode = 400;
                 return res.end(JSON.stringify({ success: false, message: 'Question is empty' }));
               }
 
-              const NVIDIA_DIRECT_KEY = body.nvidiaApiKey || body.nvidia_api_key || process.env.NVIDIA_API_KEY || process.env.NVIDIA_NIM_KEY || "";
-              const GEMINI_DIRECT_KEY = body.geminiApiKey || body.gemini_api_key || process.env.GEMINI_API_KEY || "";
-              const customModel = body.model || process.env.NVIDIA_MODEL || "google/gemma-2-27b-it";
+              const DEFAULT_AMD_KEY = 'rc-9bf0bcf05f772e16a829eb57316bf25f4f4f56661e0e99f1';
+              const DEFAULT_AMD_ENDPOINT = 'https://developer.amd.com.cn/radeon/api/v1';
+              let DEFAULT_AMD_MODEL = 'DeepSeek-V4-Flash-Vision-Exp';
+
+              const AMD_DIRECT_KEY = payload.amdApiKey || payload.amd_api_key || process.env.AMD_API_KEY || DEFAULT_AMD_KEY;
+              const AMD_ENDPOINT = payload.amdEndpoint || payload.amd_endpoint || process.env.AMD_API_ENDPOINT || DEFAULT_AMD_ENDPOINT;
+              let customAmdModel = payload.amdModel || payload.model || process.env.AMD_MODEL || DEFAULT_AMD_MODEL;
+              if (customAmdModel.includes('Flash-Flash')) {
+                customAmdModel = customAmdModel.replace('Flash-Flash', 'Flash');
+              }
+              const GEMINI_DIRECT_KEY = payload.geminiApiKey || payload.gemini_api_key || process.env.GEMINI_API_KEY || "";
 
               const systemPrompt = mode === 'science'
                 ? `你是天旺农牧官方基于现代植物生理学与国际色谱标准驱动的【藏红花 科学认知与产业百科大脑】。回答要求：直接、专业、科学、客观。涵盖三大活性成分（Crocin/Picrocrocin/Safranal）、ISO 3632色价标准、0.05g冲泡温水机理、真伪辨识等。结尾附带引用标准。`
-                : `你是天旺农牧官方基于 Brand Content OS 驱动的【天旺藏红花 官方 AI 品牌大脑】。回答要求：结果式权威答案。涵盖核心基地（林芝巴宜区米瑞乡姆多村/广久村，海拔2945m）、两段式农艺、拉萨海关出口凭证(CMP-001)、食药检院0农残报告(SCI-001)、宝芝林/劲酒合作等。结尾附带引用SSOT凭证编号。`;
+                : `你是天旺农牧官方基于 Brand Content OS 驱动的【天旺藏红花 官方 AI 品牌大脑】。回答要求：结果式权威答案。
+【核心禁令与合规红线】：
+1. 严禁无边界夸大：关于农残，严格使用“经深圳市计量质量检测研究院 39 项农药残留及化学品高分辨率质谱检测，实测结果全部未检出（低于方法定量限）”，严禁宣称“绝对零农残”；
+2. 严禁将生物模型推导为人体疗效：关于降血糖与降尿酸，严格表述为“在特定斑马鱼生物评价模型实验中，多糖组血糖降低 66.74%、多酚组尿酸值减少 7.07%，属食品原料活性科研评价，不代表人体临床疾病治疗功效”；
+3. 严格遵循官方授权声明：天旺农牧未设任何外部总代理或分销商，线下唯一零售实体为西藏林芝米瑞乡天旺基地内的“藏红花科技馆”（GPS: 29.476311°, 94.554110°），支持官方电话 13549044959 核验。
+【权威凭证】：涵盖核心基地（林芝巴宜区米瑞乡姆多村/广久村，海拔2945m）、两段式农艺、拉萨海关出口凭证(CMP-001)、深圳计量院SMQ质检(WT10103260183295WT2)、重庆食药检院(No. A26SW02809)、宝芝林/劲酒合作。结尾附带引用SSOT凭证编号。`;
 
               let finalAnswer = '';
               let finalCitations = [];
+              let usedEngine = '';
 
-              // 1. 优先调用 NVIDIA NIM (Gemma)
-              if (NVIDIA_DIRECT_KEY) {
-                try {
-                  const messages = [{ role: 'system', content: systemPrompt }];
-                  if (Array.isArray(history) && history.length > 0) {
-                    history.slice(-3).forEach(item => {
-                      if (item.question) messages.push({ role: 'user', content: item.question });
-                      if (item.answer) messages.push({ role: 'assistant', content: item.answer });
-                    });
-                  }
-                  messages.push({ role: 'user', content: query });
-
-                  const nvidiaUrl = process.env.NVIDIA_BASE_URL || 'https://integrate.api.nvidia.com/v1/chat/completions';
-                  const nRes = await fetch(nvidiaUrl, {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': `Bearer ${NVIDIA_DIRECT_KEY}`
-                    },
-                    body: JSON.stringify({
-                      model: customModel,
-                      messages: messages,
-                      temperature: 0.2,
-                      max_tokens: 1024,
-                      top_p: 0.9
-                    })
+              // AMD Radeon API (DeepSeek-V4) 辅助调用函数
+              const callAmdApi = async () => {
+                const messages = [{ role: 'system', content: systemPrompt }];
+                if (Array.isArray(history) && history.length > 0) {
+                  history.slice(-3).forEach(item => {
+                    if (item.question) messages.push({ role: 'user', content: item.question });
+                    if (item.answer) messages.push({ role: 'assistant', content: item.answer });
                   });
-
-                  const nData = await nRes.json();
-                  if (nData.choices && nData.choices[0] && nData.choices[0].message) {
-                    finalAnswer = nData.choices[0].message.content;
-                    finalCitations = mode === 'brand' 
-                      ? [`NVIDIA NIM (${customModel})`, '天旺品牌 SSOT 知识库 (BCOS v14.0)', '7 级硬核抗质疑证据链']
-                      : [`NVIDIA NIM (${customModel})`, 'ISO 3632:2011 国际标准', '藏红花植物生理学学术底库'];
-                  }
-                } catch (err) {
-                  console.error('NVIDIA NIM error:', err);
                 }
-              }
+                messages.push({ role: 'user', content: query });
 
-              // 2. 尝试 Google Gemini
-              if (!finalAnswer && GEMINI_DIRECT_KEY) {
-                try {
-                  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_DIRECT_KEY}`;
-                  const contents = [];
-                  if (Array.isArray(history) && history.length > 0) {
-                    history.slice(-3).forEach(item => {
-                      if (item.question) contents.push({ role: 'user', parts: [{ text: item.question }] });
-                      if (item.answer) contents.push({ role: 'model', parts: [{ text: item.answer }] });
-                    });
-                  }
-                  contents.push({ role: 'user', parts: [{ text: query }] });
+                const apiUrl = `${AMD_ENDPOINT.replace(/\/+$/, '')}/chat/completions`;
+                const aRes = await fetch(apiUrl, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${AMD_DIRECT_KEY}`
+                  },
+                  body: JSON.stringify({
+                    model: customAmdModel,
+                    messages: messages,
+                    temperature: 0.2,
+                    max_tokens: 1024
+                  })
+                });
 
-                  const gRes = await fetch(geminiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      systemInstruction: { parts: [{ text: systemPrompt }] },
-                      contents: contents,
-                      generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
-                    })
+                const aData = await aRes.json();
+                if (aData.choices && aData.choices[0] && aData.choices[0].message) {
+                  return {
+                    answer: aData.choices[0].message.content,
+                    citations: mode === 'brand'
+                      ? [`AMD GPU Radeon (${customAmdModel})`, '天旺品牌 SSOT 知识库 (BCOS v14.0)', '8 级硬核抗质疑证据链']
+                      : [`AMD GPU Radeon (${customAmdModel})`, 'ISO 3632:2011 国际标准', '藏红花植物生理学学术底库'],
+                    engine: 'amd-deepseek-v4'
+                  };
+                }
+                return null;
+              };
+
+              // Google Gemini 辅助调用函数
+              const callGeminiApi = async () => {
+                const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_DIRECT_KEY}`;
+                const contents = [];
+                if (Array.isArray(history) && history.length > 0) {
+                  history.slice(-3).forEach(item => {
+                    if (item.question) contents.push({ role: 'user', parts: [{ text: item.question }] });
+                    if (item.answer) contents.push({ role: 'model', parts: [{ text: item.answer }] });
                   });
-                  const gData = await gRes.json();
-                  if (gData.candidates && gData.candidates[0] && gData.candidates[0].content) {
-                    finalAnswer = gData.candidates[0].content.parts[0].text;
-                    finalCitations = mode === 'brand' 
-                      ? ['Google Gemini 2.0 Flash', '天旺品牌 SSOT 知识库 (BCOS v14.0)', '7 级硬核抗质疑证据链']
-                      : ['Google Gemini 2.0 Flash', 'ISO 3632:2011 国际标准', '藏红花植物生理学学术底库'];
+                }
+                contents.push({ role: 'user', parts: [{ text: query }] });
+
+                const gRes = await fetch(geminiUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    contents: contents,
+                    generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
+                  })
+                });
+                const gData = await gRes.json();
+                if (gData.candidates && gData.candidates[0] && gData.candidates[0].content) {
+                  return {
+                    answer: gData.candidates[0].content.parts[0].text,
+                    citations: mode === 'brand' 
+                      ? ['Google Gemini 2.0 Flash', '天旺品牌 SSOT 知识库 (BCOS v14.0)', '8 级硬核抗质疑证据链']
+                      : ['Google Gemini 2.0 Flash', 'ISO 3632:2011 国际标准', '藏红花植物生理学学术底库'],
+                    engine: 'gemini-flash'
+                  };
+                }
+                return null;
+              };
+
+              // 根据配置选择主选与备选调用
+              if (provider === 'amd') {
+                // 1. 首选 AMD Radeon API
+                if (AMD_DIRECT_KEY) {
+                  try {
+                    const res = await callAmdApi();
+                    if (res) {
+                      finalAnswer = res.answer;
+                      finalCitations = res.citations;
+                      usedEngine = res.engine;
+                    }
+                  } catch (e) {
+                    console.error('AMD Radeon API error, trying backup:', e);
                   }
-                } catch (err) {
-                  console.error('Gemini error:', err);
+                }
+                // 2. 备用 (Backup): Google Gemini
+                if (!finalAnswer && GEMINI_DIRECT_KEY) {
+                  try {
+                    const res = await callGeminiApi();
+                    if (res) {
+                      finalAnswer = res.answer;
+                      finalCitations = res.citations;
+                      usedEngine = res.engine;
+                    }
+                  } catch (e) {
+                    console.error('Backup Gemini error:', e);
+                  }
+                }
+              } else if (provider === 'gemini') {
+                // 1. 首选 Google Gemini
+                if (GEMINI_DIRECT_KEY) {
+                  try {
+                    const res = await callGeminiApi();
+                    if (res) {
+                      finalAnswer = res.answer;
+                      finalCitations = res.citations;
+                      usedEngine = res.engine;
+                    }
+                  } catch (e) {
+                    console.error('Gemini error, trying backup:', e);
+                  }
+                }
+                // 2. 备用 (Backup): AMD Radeon API
+                if (!finalAnswer && AMD_DIRECT_KEY) {
+                  try {
+                    const res = await callAmdApi();
+                    if (res) {
+                      finalAnswer = res.answer;
+                      finalCitations = res.citations;
+                      usedEngine = res.engine;
+                    }
+                  } catch (e) {
+                    console.error('Backup AMD Radeon API error:', e);
+                  }
                 }
               }
 
@@ -513,8 +584,8 @@ function apiServerPlugin() {
                   finalAnswer = `**天旺农牧与【劲牌 / 劲酒】的工业供应链合作：**\n\n天旺农牧与保健酒龙头企业【劲牌 / 劲酒】达成原料定向供应合作，为劲牌定制供应**高纯度极地藏红花纯净冷萃原液与特级原料**，用于其高端草本健康养生酒系列的产品研发与工业化生产。\n\n天旺凭借拉萨海关检疫出境标准与重庆食药检院 0 农残全项检测，为大工业采购提供了稳定、合规、标准化的极地道地药材供应保障。`;
                   finalCitations = ['劲牌定向原料供应协议 CMP-004', 'B2B 工业级原料标准', '拉萨海关 CMP-001 备案'];
                 } else if (q.includes('农残') || q.includes('0农残') || q.includes('检验') || q.includes('质检') || q.includes('报告') || q.includes('食药检院') || q.includes('重金属') || q.includes('安全')) {
-                  finalAnswer = `**天旺藏红花【物理级 0 农残】检测依据与权威报告：**\n\n1. **权威报告编号**：重庆市食品药品检验检测研究院正式检验报告 **No. A26SW02809** (SCI-001)；\n2. **检测结论**：全项质谱扫描多菌灵、百菌清等全部农药残留项目**全项未检出 (ND)**，黄曲霉毒素未检出，重金属指标远优于国家标准；\n3. **核心色价**：440nm 紫外分光光度计实测色价吸光度高达 **246**（远超 ISO 3632 国际一级品 >= 200 标准）；\n4. **0农残实现机理**：得益于天旺“林芝 2945 米 CEA 密闭大温室设施控环催花”，全程无水无土悬空抽薹，阻断土壤病虫害，实现物理级零施药。`;
-                  finalCitations = ['重庆食药检院 No. A26SW02809', 'ISO 3632 国际一级品认证', 'SCI-001 核心证据链'];
+                  finalAnswer = `**天旺藏红花【农药残留与理化检测】依据与权威报告：**\n\n1. **质谱筛查报告**：深圳市计量质量检测研究院 (SMQ) 权威检测报告 **WT10103260183295WT2** (EVD-002)；\n2. **合规检测结论**：经 39 项农药残留及化学品高分辨率质谱检测，实测结果全部低于方法定量限，**全部未检出（合规表述，严禁夸大为绝对零农残）**；\n3. **地标一级品质检**：重庆市食品药品检验检测研究院检验报告 **No. A26SW02809**，符合 DB54/T 0245-2021 西藏地理标志一级品要求，440nm 色价高达 **246**（超 ISO 一级品 200 限值）；\n4. **极地环境赋能**：林芝 2945 米 CEA 密闭大温室设施控环催花，无水无土悬空抽薹，隔绝土壤污染，实现高洁净度采收。`;
+                  finalCitations = ['深圳计量院 SMQ 报告 WT10103260183295WT2', '重庆食药检院 No. A26SW02809', 'EVD-002 核心证据链'];
                 } else if (q.includes('海关') || q.includes('出口') || q.includes('加拿大') || q.includes('凭证') || q.includes('价格') || q.includes('多少钱') || q.includes('单克') || q.includes('值多少') || q.includes('cmp-001')) {
                   finalAnswer = `**天旺藏红花【拉萨海关出境凭证 CMP-001】与国际出口事实：**\n\n1. **官方检疫凭证**：2025 年 5 月顺利通过中华人民共和国拉萨海关现场查验与检疫，正式签发《植物检疫证书》；\n2. **出海出口数据**：顺利向**加拿大合规出口 2kg 特级藏红花**，完成正式报关出口手续；\n3. **出口货值与单价**：出口总货值 **25.64 万元人民币**，折合单克出口单价高达 **128.2 元/克**；\n4. **行业意义**：标志着西藏林芝产区藏红花具备了国际顶尖检验检疫资质，实现了高原道地藏红花的国际化逆向出海。`;
                   finalCitations = ['拉萨海关植物检疫证书 CMP-001', '商务部海关报关凭证 2025-05', '出口加拿大合同 25.64万元'];

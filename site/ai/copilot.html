@@ -98,7 +98,7 @@
     <div class="topbar-actions">
       <!-- LLM Engine Badge / Config Button -->
       <button class="btn-portal-back" onclick="openModelSettingsModal()" id="llm-engine-badge" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8; display: flex; align-items: center; gap: 6px; cursor: pointer;">
-        <i class="ri-cpu-line"></i> <span id="current-engine-label">模型引擎: NVIDIA / Gemini / SSOT</span>
+        <i class="ri-cpu-line"></i> <span id="current-engine-label">模型引擎: AMD Radeon / Gemini / SSOT</span>
       </button>
       <a href="/os" class="btn-portal-back" target="_blank" style="border-color: rgba(168,85,247,0.5); color: #c084fc;">
         <i class="ri-dashboard-3-line"></i> 知识库 OS 控制台
@@ -120,17 +120,19 @@
       <div style="margin-bottom: 16px;">
         <label style="display: block; font-size: 13px; color: #cbd5e1; margin-bottom: 6px; font-weight: 600;">首选 LLM 引擎服务商：</label>
         <select id="setting-provider-select" onchange="onProviderChange()" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 13.5px; outline: none;">
-          <option value="nvidia">🟢 英伟达 NVIDIA NIM (Gemma 4-31B / Gemma 2-27B)</option>
-          <option value="gemini">🔵 谷歌 Google Gemini (2.0 / 2.5 Flash)</option>
+          <option value="amd">🔴 AMD GPU (Radeon API / DeepSeek-V4)</option>
+          <option value="gemini">🌐 谷歌 Google Gemini (2.0 / 2.5 Flash)</option>
           <option value="ssot">⚡ 天旺 SSOT 确定性引擎 (免Key / 极速离线)</option>
         </select>
       </div>
 
-      <div id="nvidia-config-box" style="margin-bottom: 16px;">
-        <label style="display: block; font-size: 13px; color: #cbd5e1; margin-bottom: 6px;">NVIDIA API Key：</label>
-        <input type="password" id="setting-nvidia-key" placeholder="nvapi-xxxxxxxxxxxxxxxxxxxxxxxx" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 13px; outline: none; margin-bottom: 8px;" />
-        <label style="display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px;">指定模型型号 (可选)：</label>
-        <input type="text" id="setting-nvidia-model" placeholder="google/gemma-2-27b-it 或 google/gemma-3-27b-it" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 12.5px; outline: none;" />
+      <div id="amd-config-box" style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 13px; color: #cbd5e1; margin-bottom: 6px;">AMD Radeon API Key：</label>
+        <input type="password" id="setting-amd-key" placeholder="rc-9bf0bcf05f772e16a829eb57316bf25f4f4f56661e0e99f1" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 13px; outline: none; margin-bottom: 8px;" />
+        <label style="display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px;">指定模型型号：</label>
+        <input type="text" id="setting-amd-model" placeholder="DeepSeek-V4-Flash-Vision-Exp" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 12.5px; outline: none; margin-bottom: 8px;" />
+        <label style="display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px;">API Endpoint：</label>
+        <input type="text" id="setting-amd-endpoint" placeholder="https://developer.amd.com.cn/radeon/api/v1" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 12.5px; outline: none;" />
       </div>
 
       <div id="gemini-config-box" style="margin-bottom: 16px; display: none;">
@@ -166,7 +168,7 @@
         <div class="msg-row">
           <div class="msg-avatar ai"><i class="ri-sparkling-fill"></i></div>
           <div class="msg-bubble">
-            您好！我是天旺农牧官方基于 <b>Brand Content OS</b> 与 <b>大模型 (NVIDIA Gemma / Gemini)</b> 驱动的【藏红花智能知识大脑 2.0】。<br/><br/>
+            您好！我是天旺农牧官方基于 <b>Brand Content OS</b> 与 <b>大模型 (AMD Radeon DeepSeek / Gemini)</b> 驱动的【藏红花智能知识大脑 2.0】。<br/><br/>
             当前处于 <b>【品牌官方 SSOT 模式】</b>，我将严格依据天旺林芝产区地理事实、两段式现代农艺、拉萨海关 CMP-001 出境检疫凭证与食药检院 0 农残检验报告为您直接提供权威事实解答。
             <div class="msg-citations">
               <span class="cite-badge">SSOT 权威底库: BCOS v14.0</span>
@@ -348,13 +350,18 @@
         };
       }
     // =========================================================================
-    // AI 模型引擎配置管理 (NVIDIA NIM / Google Gemini / SSOT)
+    // AI 模型引擎配置管理 (AMD Radeon / Google Gemini / SSOT)
     // =========================================================================
+    const DEFAULT_AMD_API_KEY = 'rc-9bf0bcf05f772e16a829eb57316bf25f4f4f56661e0e99f1';
+    const DEFAULT_AMD_MODEL = 'DeepSeek-V4-Flash-Vision-Exp';
+    const DEFAULT_AMD_ENDPOINT = 'https://developer.amd.com.cn/radeon/api/v1';
+
     function getStoredLLMConfig() {
       return {
-        provider: localStorage.getItem('TIANWANG_LLM_PROVIDER') || 'nvidia',
-        nvidiaKey: localStorage.getItem('TIANWANG_NVIDIA_KEY') || '',
-        nvidiaModel: localStorage.getItem('TIANWANG_NVIDIA_MODEL') || 'google/gemma-2-27b-it',
+        provider: localStorage.getItem('TIANWANG_LLM_PROVIDER') || 'amd',
+        amdKey: localStorage.getItem('TIANWANG_AMD_KEY') || DEFAULT_AMD_API_KEY,
+        amdModel: localStorage.getItem('TIANWANG_AMD_MODEL') || DEFAULT_AMD_MODEL,
+        amdEndpoint: localStorage.getItem('TIANWANG_AMD_ENDPOINT') || DEFAULT_AMD_ENDPOINT,
         geminiKey: localStorage.getItem('TIANWANG_GEMINI_KEY') || ''
       };
     }
@@ -363,27 +370,28 @@
       const cfg = getStoredLLMConfig();
       const label = document.getElementById('current-engine-label');
       if (!label) return;
-      if (cfg.provider === 'nvidia') {
-        const shortModel = (cfg.nvidiaModel || '').replace('google/', '').replace('nvidia/', '');
-        label.innerHTML = `<span style="color:#10b981">🟢 NVIDIA</span> (${cfg.nvidiaKey ? '已配Key' : 'Gemma'})`;
+      if (cfg.provider === 'amd') {
+        label.innerHTML = '<span style="color:#ef4444">🔴 AMD Radeon</span> (DeepSeek-V4)';
       } else if (cfg.provider === 'gemini') {
-        label.innerHTML = `<span style="color:#38bdf8">🔵 Gemini</span> (${cfg.geminiKey ? '已配Key' : 'Flash'})`;
+        label.innerHTML = '<span style="color:#38bdf8">🌐 Gemini</span> (' + (cfg.geminiKey ? '已配Key' : 'Flash') + ')';
       } else {
-        label.innerHTML = `<span style="color:#f59e0b">⚡ SSOT 极速引擎</span>`;
+        label.innerHTML = '<span style="color:#f59e0b">⚡ SSOT 极速引擎</span>';
       }
     }
 
     function openModelSettingsModal() {
       const cfg = getStoredLLMConfig();
       const provEl = document.getElementById('setting-provider-select');
-      const nKeyEl = document.getElementById('setting-nvidia-key');
-      const nModEl = document.getElementById('setting-nvidia-model');
+      const aKeyEl = document.getElementById('setting-amd-key');
+      const aModEl = document.getElementById('setting-amd-model');
+      const aEndEl = document.getElementById('setting-amd-endpoint');
       const gKeyEl = document.getElementById('setting-gemini-key');
       const modal = document.getElementById('model-settings-modal');
 
       if (provEl) provEl.value = cfg.provider;
-      if (nKeyEl) nKeyEl.value = cfg.nvidiaKey;
-      if (nModEl) nModEl.value = cfg.nvidiaModel;
+      if (aKeyEl) aKeyEl.value = cfg.amdKey;
+      if (aModEl) aModEl.value = cfg.amdModel;
+      if (aEndEl) aEndEl.value = cfg.amdEndpoint;
       if (gKeyEl) gKeyEl.value = cfg.geminiKey;
       onProviderChange();
       if (modal) {
@@ -398,33 +406,35 @@
 
     function onProviderChange() {
       const provEl = document.getElementById('setting-provider-select');
-      const provider = provEl ? provEl.value : 'nvidia';
-      const nBox = document.getElementById('nvidia-config-box');
+      const provider = provEl ? provEl.value : 'amd';
+      const aBox = document.getElementById('amd-config-box');
       const gBox = document.getElementById('gemini-config-box');
-      if (nBox) nBox.style.display = (provider === 'nvidia') ? 'block' : 'none';
+      if (aBox) aBox.style.display = (provider === 'amd') ? 'block' : 'none';
       if (gBox) gBox.style.display = (provider === 'gemini') ? 'block' : 'none';
     }
 
     function saveModelSettings() {
       const provEl = document.getElementById('setting-provider-select');
-      const nKeyEl = document.getElementById('setting-nvidia-key');
-      const nModEl = document.getElementById('setting-nvidia-model');
+      const aKeyEl = document.getElementById('setting-amd-key');
+      const aModEl = document.getElementById('setting-amd-model');
+      const aEndEl = document.getElementById('setting-amd-endpoint');
       const gKeyEl = document.getElementById('setting-gemini-key');
 
-      const provider = provEl ? provEl.value : 'nvidia';
-      const nvidiaKey = nKeyEl ? nKeyEl.value.trim() : '';
-      const nvidiaModel = (nModEl && nModEl.value.trim()) ? nModEl.value.trim() : 'google/gemma-2-27b-it';
+      const provider = provEl ? provEl.value : 'amd';
+      const amdKey = (aKeyEl && aKeyEl.value.trim()) ? aKeyEl.value.trim() : DEFAULT_AMD_API_KEY;
+      const amdModel = (aModEl && aModEl.value.trim()) ? aModEl.value.trim() : DEFAULT_AMD_MODEL;
+      const amdEndpoint = (aEndEl && aEndEl.value.trim()) ? aEndEl.value.trim() : DEFAULT_AMD_ENDPOINT;
       const geminiKey = gKeyEl ? gKeyEl.value.trim() : '';
 
       localStorage.setItem('TIANWANG_LLM_PROVIDER', provider);
-      localStorage.setItem('TIANWANG_NVIDIA_KEY', nvidiaKey);
-      localStorage.setItem('TIANWANG_NVIDIA_MODEL', nvidiaModel);
+      localStorage.setItem('TIANWANG_AMD_KEY', amdKey);
+      localStorage.setItem('TIANWANG_AMD_MODEL', amdModel);
+      localStorage.setItem('TIANWANG_AMD_ENDPOINT', amdEndpoint);
       localStorage.setItem('TIANWANG_GEMINI_KEY', geminiKey);
 
       updateEngineLabel();
       closeModelSettingsModal();
     }
-
     // 暴露至全局 window 保证任何绑定方式均可响应
     window.openModelSettingsModal = openModelSettingsModal;
     window.closeModelSettingsModal = closeModelSettingsModal;
@@ -497,11 +507,15 @@
             mode: activeMode,
             history: conversationHistory
           };
-          if (llmCfg.provider === 'nvidia') {
-            if (llmCfg.nvidiaKey) payload.nvidiaApiKey = llmCfg.nvidiaKey;
-            if (llmCfg.nvidiaModel) payload.model = llmCfg.nvidiaModel;
+          payload.provider = llmCfg.provider;
+          if (llmCfg.provider === 'amd') {
+            payload.amdApiKey = llmCfg.amdKey;
+            payload.amdModel = llmCfg.amdModel;
+            payload.amdEndpoint = llmCfg.amdEndpoint;
           } else if (llmCfg.provider === 'gemini') {
             if (llmCfg.geminiKey) payload.geminiApiKey = llmCfg.geminiKey;
+            // AMD 作为备用 Key
+            payload.amdApiKey = llmCfg.amdKey;
           }
 
           const res = await fetch('/api/chat', {

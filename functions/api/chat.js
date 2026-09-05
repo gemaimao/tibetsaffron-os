@@ -5,7 +5,10 @@
  * Integrates Google Gemini 3 Flash LLM with Tianwang Saffron SSOT Knowledge Context
  */
 
-// GEMINI API Key configured via Cloudflare Pages Environment Variables (GEMINI_API_KEY)
+// Default AMD Radeon API / Gemini configurations
+const DEFAULT_AMD_API_KEY = "rc-9bf0bcf05f772e16a829eb57316bf25f4f4f56661e0e99f1";
+const DEFAULT_AMD_ENDPOINT = "https://developer.amd.com.cn/radeon/api/v1";
+const DEFAULT_AMD_MODEL = "DeepSeek-V4-Flash-Vision-Exp";
 const GEMINI_API_KEY = "";
 
 // =========================================================================
@@ -205,6 +208,7 @@ export async function onRequestPost(context) {
     const query = body.question || body.query || '';
     const mode = body.mode || 'brand';
     const history = body.history || [];
+    const provider = body.provider || 'amd';
 
     if (!query.trim()) {
       return new Response(JSON.stringify({ success: false, message: 'Question is empty' }), {
@@ -213,49 +217,134 @@ export async function onRequestPost(context) {
       });
     }
 
-    const apiKey = (env && env.GEMINI_API_KEY) || GEMINI_API_KEY;
+    const amdApiKey = body.amdApiKey || (env && env.AMD_API_KEY) || DEFAULT_AMD_API_KEY;
+    const amdEndpoint = body.amdEndpoint || (env && env.AMD_API_ENDPOINT) || DEFAULT_AMD_ENDPOINT;
+    let amdModel = body.amdModel || (env && env.AMD_MODEL) || DEFAULT_AMD_MODEL;
+    if (amdModel.includes('Flash-Flash')) {
+      amdModel = amdModel.replace('Flash-Flash', 'Flash');
+    }
+
+    const geminiApiKey = body.geminiApiKey || (env && env.GEMINI_API_KEY) || GEMINI_API_KEY;
     const systemPrompt = (mode === 'science') ? TIANWANG_SCIENCE_COGNITION_PROMPT : TIANWANG_BRAND_SSOT_PROMPT;
 
-    if (apiKey) {
-      try {
-        const contents = [];
-        if (Array.isArray(history) && history.length > 0) {
-          history.slice(-3).forEach(item => {
-            if (item.question) contents.push({ role: 'user', parts: [{ text: item.question }] });
-            if (item.answer) contents.push({ role: 'model', parts: [{ text: item.answer }] });
-          });
-        }
-        contents.push({ role: 'user', parts: [{ text: query }] });
-
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-        const response = await fetch(geminiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: systemPrompt }] },
-            contents: contents,
-            generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
-          })
+    // 1. AMD Radeon API 调用辅助函数
+    const callAmd = async () => {
+      if (!amdApiKey) return null;
+      const messages = [{ role: 'system', content: systemPrompt }];
+      if (Array.isArray(history) && history.length > 0) {
+        history.slice(-3).forEach(item => {
+          if (item.question) messages.push({ role: 'user', content: item.question });
+          if (item.answer) messages.push({ role: 'assistant', content: item.answer });
         });
-
-        const data = await response.json();
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-          const text = data.candidates[0].content.parts[0].text;
-          return new Response(JSON.stringify({
-            success: true,
-            answer: text,
-            mode: mode,
-            citations: mode === 'brand' 
-              ? ['Google Gemini 2.0 Flash', '天旺品牌 SSOT 知识库 (BCOS v14.0)', '7 级硬核抗质疑证据链']
-              : ['Google Gemini 2.0 Flash', 'ISO 3632:2011 国际标准', '藏红花植物生理学学术底库'],
-            engine: 'gemini-flash'
-          }), {
-            headers: { 'Content-Type': 'application/json' }
-          });
-        }
-      } catch (geminiErr) {
-        console.error('Gemini API call failed, falling back to deterministic SSOT engine:', geminiErr);
       }
+      messages.push({ role: 'user', content: query });
+
+      const apiUrl = `${amdEndpoint.replace(/\/+$/, '')}/chat/completions`;
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${amdApiKey}`
+        },
+        body: JSON.stringify({
+          model: amdModel,
+          messages: messages,
+          temperature: 0.2,
+          max_tokens: 1024
+        })
+      });
+      const data = await response.json();
+      if (data.choices && data.choices[0] && data.choices[0].message) {
+        return {
+          answer: data.choices[0].message.content,
+          citations: mode === 'brand'
+            ? [`AMD GPU Radeon (${amdModel})`, '天旺品牌 SSOT 知识库 (BCOS v14.0)', '8 级硬核抗质疑证据链']
+            : [`AMD GPU Radeon (${amdModel})`, 'ISO 3632:2011 国际标准', '藏红花植物生理学学术底库'],
+          engine: 'amd-deepseek-v4'
+        };
+      }
+      return null;
+    };
+
+    // 2. Google Gemini 调用辅助函数
+    const callGemini = async () => {
+      if (!geminiApiKey) return null;
+      const contents = [];
+      if (Array.isArray(history) && history.length > 0) {
+        history.slice(-3).forEach(item => {
+          if (item.question) contents.push({ role: 'user', parts: [{ text: item.question }] });
+          if (item.answer) contents.push({ role: 'model', parts: [{ text: item.answer }] });
+        });
+      }
+      contents.push({ role: 'user', parts: [{ text: query }] });
+
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`;
+      const response = await fetch(geminiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: systemPrompt }] },
+          contents: contents,
+          generationConfig: { temperature: 0.2, maxOutputTokens: 800 }
+        })
+      });
+      const data = await response.json();
+      if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+        return {
+          answer: data.candidates[0].content.parts[0].text,
+          citations: mode === 'brand' 
+            ? ['Google Gemini 2.0 Flash', '天旺品牌 SSOT 知识库 (BCOS v14.0)', '8 级硬核抗质疑证据链']
+            : ['Google Gemini 2.0 Flash', 'ISO 3632:2011 国际标准', '藏红花植物生理学学术底库'],
+          engine: 'gemini-flash'
+        };
+      }
+      return null;
+    };
+
+    let llmResult = null;
+
+    if (provider === 'amd') {
+      // 首选 AMD GPU (Radeon API)
+      try {
+        llmResult = await callAmd();
+      } catch (err) {
+        console.error('AMD Radeon API call failed, trying backup:', err);
+      }
+      // 备用 (Backup): Google Gemini
+      if (!llmResult && geminiApiKey) {
+        try {
+          llmResult = await callGemini();
+        } catch (geminiErr) {
+          console.error('Gemini backup call failed:', geminiErr);
+        }
+      }
+    } else if (provider === 'gemini') {
+      // 首选 Google Gemini
+      try {
+        llmResult = await callGemini();
+      } catch (geminiErr) {
+        console.error('Gemini call failed, trying backup:', geminiErr);
+      }
+      // 备用 (Backup): AMD Radeon API
+      if (!llmResult && amdApiKey) {
+        try {
+          llmResult = await callAmd();
+        } catch (err) {
+          console.error('AMD backup call failed:', err);
+        }
+      }
+    }
+
+    if (llmResult) {
+      return new Response(JSON.stringify({
+        success: true,
+        answer: llmResult.answer,
+        mode: mode,
+        citations: llmResult.citations,
+        engine: llmResult.engine
+      }), {
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
     // SSOT 智能确定性语义匹配

@@ -7,7 +7,10 @@
 <!-- Cesium（空间叙事维度）由 homecoming.js 动态加载：npmmirror → jsdelivr → unpkg 多源回退 -->
 <link rel="preload" href="/site/assets/tianwang-ecosystem-animated.gif" as="image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
+<!-- Remix Icon 图标库与全新藏红花紫·红·金三色提升样式 -->
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="/site/css/homecoming-elevate.css">
 <style>
   :root{
     --night:#070b18; --night-2:#0c1326; --night-3:#101a33;
@@ -292,13 +295,36 @@
   <a class="brand serif" href="/"><img class="brand-logo" src="/site/assets/logo.jpg" alt="天旺农牧">林芝天旺农牧 · "藏红花实至名归"白皮书</a>
   <div class="nav-links">
     <a href="#intro">认识实至名归</a>
-    <a href="#s1">三大基础</a>
-    <a href="#s4">两个结果</a>
-    <a href="#supports">四大需求</a>
-    <a href="#blueprint">未来蓝图</a>
-    <a class="os-link" href="/os" title="品牌内容知识库操作系统">知识库系统</a>
+    <a href="javascript:void(0)" onclick="openGazetteDrawer('all')" style="color: #fbbf24;"><i class="ri-government-line"></i> 官方公报</a>
+    <a href="#scientific-dashboard">科研仪表</a>
+    <a href="#trust-bento">防伪真伪</a>
+    <a href="#product-engine">产品要素</a>
+    <a href="#evidence-cascade">证据链</a>
+    <a href="/site/ai/copilot.html" style="color: #c084fc;"><i class="ri-sparkling-fill"></i> AI知识大脑</a>
+    <a class="os-link" href="/os" title="品牌内容知识库操作系统">知识库OS</a>
   </div>
 </nav>
+
+<!-- 核心区 1: 官方公报通栏跑马灯 -->
+<div class="official-bulletin-bar">
+  <span class="bulletin-badge">
+    <svg class="filament-icon" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+    </svg>
+    官方公报
+  </span>
+  <div class="bulletin-ticker">
+    <div class="bulletin-ticker-content" id="bulletin-ticker-content">
+      <span onclick="openGazetteDrawer('official')">【官方声明】天旺农牧维权声明：未设任何外部总代理，唯一线下零售实体为林芝米瑞乡藏红花科技馆</span>
+      <span onclick="openGazetteDrawer('quality')">【质检公示】深圳计量院 SMQ 39项农残质谱筛查公示：实测全项低于方法定量限/全部未检出</span>
+      <span onclick="openGazetteDrawer('quality')">【法定检验】重庆食药检院西藏地标一级品报告 No. A26SW02809 公示：440nm 色价吸光度高达 246</span>
+      <span onclick="openGazetteDrawer('agro')">【基地农事】林芝 2945m 极地大温室秋季抽薹采收批次已完成中华人民共和国拉萨海关出口溯源备案</span>
+    </div>
+  </div>
+  <button class="bulletin-action-btn" onclick="openGazetteDrawer('all')">
+    <i class="ri-file-shield-2-line"></i> 查看全部公报 / 验真
+  </button>
+</div>
 
 <!-- S0 开场：总命题 -->
 <section id="hero">
@@ -342,7 +368,262 @@
       <strong>实至而令名真归的历史，我们用了 10 年。</strong><br>
       直到天旺扎根林芝米瑞 2945 米高原，以现代科技完成生命繁育、结出特级品质——从贸易虚名到道地实体，真正让藏红花实至名归。
     </p>
-    <a class="intro-more serif" href="#s1">往下，看它如何一步步成为可能 →</a>
+    <a class="intro-more serif" href="#scientific-dashboard">往下，看它如何一步步成为可能 →</a>
+  </div>
+</section>
+
+<!-- ========================================================================
+     【紫 · 红 · 金】三色体系与三大标杆重塑五大核心功能区
+     ======================================================================== -->
+
+<!-- 核心区 2：Scientific Luxury 科研指标仪表盘 (色价 246 标尺 + 三大微观植物化学透镜) -->
+<section class="scientific-hero-dashboard" id="scientific-dashboard">
+  <div class="scientific-card">
+    <div class="scientific-header">
+      <div class="scientific-header-left">
+        <span class="saffron-badge purple" style="margin-bottom: 8px;">
+          <i class="ri-microscope-line"></i> 现代植物化学与色谱指标
+        </span>
+        <h3>极地藏红花 <span class="saffron-gradient-text">核心理化与生物活性指标</span> 仪表盘</h3>
+        <p>依据 ISO 3632-2 国际标准与 DB54/T 0245-2021 西藏地标 ｜ 重庆食药检院权威报告 No. A26SW02809</p>
+      </div>
+      <div class="scientific-header-right">
+        <span class="saffron-badge gold">
+          <i class="ri-award-line"></i> 特级超越 23%
+        </span>
+      </div>
+    </div>
+
+    <div class="scientific-grid">
+      <!-- 左：色价仪表盘 -->
+      <div class="gauge-box">
+        <div class="gauge-title">
+          <span>西红花苷 440nm 吸光度吸光度色价 (E 1%, 1cm)</span>
+          <span style="color: #fbbf24; font-family: monospace; font-size: 15px;">246 / 200</span>
+        </div>
+        <div class="gauge-bar-track">
+          <div class="gauge-bar-fill"></div>
+        </div>
+        <div class="gauge-marks">
+          <span>普通品 (120)</span>
+          <span>ISO 二级 (170)</span>
+          <span style="color: #60a5fa;">ISO 一级 / 地标基准 (200)</span>
+          <span class="gauge-mark-item active">天旺实测 246 ★</span>
+        </div>
+        <div style="margin-top: 18px; padding: 10px 14px; background: rgba(212,160,23,0.08); border-radius: 8px; border: 1px solid rgba(212,160,23,0.2); font-size: 12px; color: #fef08a; line-height: 1.5;">
+          <strong>★ 科学实测解析：</strong> 440nm 色价直接决定藏红花等级与抗氧化次生代谢物丰度。天旺林芝 2945m 极地强紫外线环境促使西红花苷急剧富集，实测色价高达 246。
+        </div>
+      </div>
+
+      <!-- 右：三大微观植物化学透镜 -->
+      <div class="chemical-lenses-box">
+        <div class="lens-item active">
+          <div class="lens-icon crocin">
+            <i class="ri-drop-line"></i>
+          </div>
+          <div class="lens-content">
+            <h4>西红花苷 (Crocin) <span class="saffron-badge gold" style="padding: 1px 6px; font-size: 10px;">金黄抗氧化</span></h4>
+            <p>罕见天然双水溶性类胡萝卜素，呈现明亮金黄色泽。决定 440nm 色价等级，强力清除自由基与氧化损伤保护主力。</p>
+          </div>
+        </div>
+
+        <div class="lens-item">
+          <div class="lens-icon picrocrocin">
+            <i class="ri-sparkling-2-line"></i>
+          </div>
+          <div class="lens-content">
+            <h4>藏红花苦素 (Picrocrocin) <span class="saffron-badge purple" style="padding: 1px 6px; font-size: 10px;">清凉微苦</span></h4>
+            <p>特征单萜苷类成分，赋予藏红花标志性的清凉微苦口感。食品感官科学中的天然“鲜味协同增效剂 (Umami Enhancer)”。</p>
+          </div>
+        </div>
+
+        <div class="lens-item">
+          <div class="lens-icon safranal">
+            <i class="ri-windy-line"></i>
+          </div>
+          <div class="lens-content">
+            <h4>藏红花醛 (Safranal) <span class="saffron-badge crimson" style="padding: 1px 6px; font-size: 10px;">蜂草幽香</span></h4>
+            <p>由苦素在烘干中裂解转化的热敏性单萜醛。林芝昼夜大温差锁住深邃的蜂草与烟熏木质芳香，遇 100℃ 易受热损耗，宜温水品饮。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 核心区 3：功能化信任中枢 Bento Grid (水溶鉴真实验台 + 39项农残质谱矩阵 + 科技馆核验) -->
+<section class="trust-bento-section" id="trust-bento">
+  <div class="section-headline">
+    <span class="saffron-badge gold" style="margin-bottom: 8px;"><i class="ri-shield-check-line"></i> 权威防伪与科学透明中枢</span>
+    <h2>让每一丝真假与品质，<span class="saffron-gradient-text">皆可经受科学实验与数据检验</span></h2>
+    <p>拒绝营销盲信，以实验室水溶机理、高分辨率质谱扫描与法定实体坐标铸就坚实信任防线</p>
+  </div>
+
+  <div class="bento-grid">
+    <!-- Bento 1: 水溶真伪鉴真实验台 -->
+    <div class="bento-card">
+      <div class="bento-card-badge"><i class="ri-flask-line"></i> 交互实验沙盒</div>
+      <div class="bento-card-title">水溶真伪鉴真实验台</div>
+      <div class="bento-card-desc">正品与劣质染色品在 70℃ 温水中的扩散机理存在本质差异，点击按钮启动动态模拟。</div>
+      
+      <div class="water-test-sandbox">
+        <div class="water-tubes-container">
+          <!-- 正品管 -->
+          <div class="tube-col authentic">
+            <div class="beaker-glass">
+              <div class="beaker-water" id="authentic-water"></div>
+            </div>
+            <span class="tube-label">天旺特级正品</span>
+          </div>
+          <!-- 伪劣管 -->
+          <div class="tube-col fake">
+            <div class="beaker-glass">
+              <div class="beaker-water" id="fake-water"></div>
+            </div>
+            <span class="tube-label">假冒染色品</span>
+          </div>
+        </div>
+
+        <button class="water-action-btn" id="water-test-btn">
+          <span>💧 注入 70℃ 纯净水进行真伪鉴别</span>
+        </button>
+        <div id="water-test-status" style="margin-top: 12px; font-size: 11px; color: #94a3b8; text-align: center; line-height: 1.5;">
+          点击上方按钮，模拟注入 70℃ 纯净温水，实时观察花丝水溶与色素析出机理。
+        </div>
+      </div>
+    </div>
+
+    <!-- Bento 2: 39项农残质谱筛查矩阵 -->
+    <div class="bento-card">
+      <div class="bento-card-badge" style="color: #34d399;"><i class="ri-check-double-line"></i> 深圳计量院 SMQ 报告</div>
+      <div class="bento-card-title">39 项农残高分辨质谱筛查</div>
+      <div class="bento-card-desc">报告号 WT10103260183295WT2 ｜ 经高分辨液质联用质谱筛查，全部指标均低于定量限 (LOQ)。</div>
+
+      <div class="mass-spec-list">
+        <div class="spec-category-pill">
+          <div class="spec-cat-name">有机磷类 (8项)</div>
+          <div class="spec-cat-val">敌敌畏、毒死蜱等: 未检出</div>
+        </div>
+        <div class="spec-category-pill">
+          <div class="spec-cat-name">拟除虫菊酯 (9项)</div>
+          <div class="spec-cat-val">氯氰菊酯等: 未检出</div>
+        </div>
+        <div class="spec-category-pill">
+          <div class="spec-cat-name">氨基甲酸酯 (7项)</div>
+          <div class="spec-cat-val">涕灭威、甲萘威等: 未检出</div>
+        </div>
+        <div class="spec-category-pill">
+          <div class="spec-cat-name">专用杀菌剂 (15项)</div>
+          <div class="spec-cat-val">多菌灵、百菌清等: 未检出</div>
+        </div>
+      </div>
+
+      <div style="background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.25); border-radius: 10px; padding: 12px; font-size: 11px; color: #a7f3d0; line-height: 1.5; margin-top: auto;">
+        <strong>合规红线规范：</strong>严格按照标准表述为“39 项质谱扫描全部未检出”，严禁脱离方法定量限宣称绝对零农残。
+      </div>
+    </div>
+
+    <!-- Bento 3: 官方唯一实体科技馆核验 -->
+    <div class="bento-card">
+      <div class="bento-card-badge" style="color: #c084fc;"><i class="ri-map-pin-user-line"></i> 官方实体防伪</div>
+      <div class="bento-card-title">西藏林芝藏红花科技馆</div>
+      <div class="bento-card-desc">天旺农牧未设任何外部总代理，米瑞乡天旺基地“藏红花科技馆”为线下唯一零售实体。</div>
+
+      <div class="geo-anchor-box">
+        <div class="geo-info-row">
+          <span class="geo-info-label">实体名称</span>
+          <span class="geo-info-val">西藏林芝藏红花科技馆</span>
+        </div>
+        <div class="geo-info-row">
+          <span class="geo-info-label">地理坐标</span>
+          <span class="geo-info-val" style="font-family: monospace;">29.476311° N, 94.554110° E</span>
+        </div>
+        <div class="geo-info-row">
+          <span class="geo-info-label">基地海拔</span>
+          <span class="geo-info-val">2945 米 (极地温室)</span>
+        </div>
+        <div class="geo-info-row">
+          <span class="geo-info-label">官方核验电话</span>
+          <span class="geo-info-val" style="color: #fbbf24;">13549044959</span>
+        </div>
+        <a class="geo-map-btn" href="https://uri.amap.com/marker?position=94.554110,29.476311&name=西藏林芝天旺藏红花科技馆" target="_blank" rel="noopener noreferrer">
+          <i class="ri-navigation-line"></i> 一键高德/百度地图官方定位导航
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 核心区 4：产品要素宣讲中枢 (4层穿透器 + 冲泡模拟器) -->
+<section class="product-engine-section" id="product-engine">
+  <div class="section-headline">
+    <span class="saffron-badge purple" style="margin-bottom: 8px;"><i class="ri-function-line"></i> 功能化产品要素宣讲中枢</span>
+    <h2>四层认知穿透：<span class="saffron-gradient-text">从微观理化到生物活性科研</span></h2>
+    <p>深度解构天旺四大产品矩阵的理化指标、活性分子、极地工法与斑马鱼科研评价</p>
+  </div>
+
+  <!-- 产品选择切换药丸 -->
+  <div class="product-selector-strip">
+    <button class="prod-select-pill active" data-prod="flower">🌸 特级柱头干花丝</button>
+    <button class="prod-select-pill" data-prod="polysaccharide">💊 藏红花高活性多糖 (宝芝林)</button>
+    <button class="prod-select-pill" data-prod="polyphenol">🧪 藏红花活性多酚 (宝芝林)</button>
+    <button class="prod-select-pill" data-prod="tea">🍵 纯净冷萃原液养生茶 (劲牌)</button>
+  </div>
+
+  <div class="product-workbench">
+    <!-- 左：产品主信息与冲泡模拟器 -->
+    <div class="prod-visual-col">
+      <div>
+        <div class="prod-title-badge" id="prod-badge">PROD-001 · 极地纯净特级品</div>
+        <h3 class="prod-main-title" id="prod-title">西藏天旺特级藏红花花丝</h3>
+        <p class="prod-main-desc" id="prod-desc">
+          采自林芝米瑞乡 2945m 极地 CEA 密闭大温室，无水无土悬空抽薹，纯物理级高洁净度，手工精选特级三柱头连体花丝。
+        </p>
+      </div>
+
+      <!-- 冲泡温度交互模拟器 -->
+      <div class="brewing-sim-box">
+        <div class="brewing-sim-title">
+          <span>🍵 极地科学冲泡温度模拟器 (APP-001)</span>
+          <span class="temp-val-display" id="temp-val-display">70℃</span>
+        </div>
+        <div class="temp-slider-row">
+          <span style="font-size: 11px; color:#64748b;">40℃</span>
+          <input type="range" id="brewing-temp-slider" min="40" max="100" value="70" step="1" />
+          <span style="font-size: 11px; color:#64748b;">100℃</span>
+        </div>
+        <div class="brewing-status-tip" id="brewing-status-tip">
+          <span style="color:#fbbf24">✨ 黄金温水区间 (70℃)：西红花苷活性完美激活，茶汤明澈金黄，蜂草幽香沁人，可续水 4~5 次！</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右：四层穿透详情 -->
+    <div>
+      <div class="penetration-tabs">
+        <button class="pen-tab-btn active" data-layer="l1">L1 理化指标</button>
+        <button class="pen-tab-btn" data-layer="l2">L2 活性分子</button>
+        <button class="pen-tab-btn" data-layer="l3">L3 极地工法</button>
+        <button class="pen-tab-btn" data-layer="l4">L4 斑马鱼科研活性</button>
+      </div>
+
+      <div class="pen-content-card" id="pen-content-card">
+        <!-- 动态注入 -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 核心区 5：两段式农艺交互机制与 8 大法定证据链瀑布流 (Agronomy & Evidence Cascade) -->
+<section class="evidence-cascade-section" id="evidence-cascade">
+  <div class="section-headline">
+    <span class="saffron-badge crimson" style="margin-bottom: 8px;"><i class="ri-file-list-3-line"></i> 八大权威证据链瀑布流</span>
+    <h2>用每一份带公章的检验报告，<span class="saffron-gradient-text">构筑坚不可摧的公信力壁垒</span></h2>
+    <p>重庆食药检院、深圳 SMQ 质谱、拉萨海关检疫、飞凡检测斑马鱼实验等法定凭证全项可查</p>
+  </div>
+
+  <div class="evidence-waterfall-grid" id="evidence-waterfall-grid">
+    <!-- 动态注入 8 大证据卡片 -->
   </div>
 </section>
 
@@ -621,6 +902,29 @@
   <div class="foot-bottom">藏红花实至名归 · 铸就西藏极地道地新产业 ｜ 天旺农牧 © 2026</div>
 </footer>
 
+<!-- 官方公报侧拉抽屉 -->
+<div id="gazette-overlay" class="gazette-overlay" onclick="closeGazetteDrawer()">
+  <div class="gazette-drawer" onclick="event.stopPropagation()">
+    <div class="gazette-header">
+      <h3><i class="ri-government-line"></i> 天旺农牧 · 官方公报与声明中心</h3>
+      <button class="gazette-close-btn" onclick="closeGazetteDrawer()">&times;</button>
+    </div>
+    <div class="gazette-tabs">
+      <button class="gazette-tab-btn active" data-cat="all" onclick="filterGazette('all')">全部公报</button>
+      <button class="gazette-tab-btn" data-cat="official" onclick="filterGazette('official')">官方公文/声明</button>
+      <button class="gazette-tab-btn" data-cat="quality" onclick="filterGazette('quality')">批次质检公示</button>
+      <button class="gazette-tab-btn" data-cat="agro" onclick="filterGazette('agro')">基地农事实录</button>
+    </div>
+    <div class="gazette-body" id="gazette-drawer-body"></div>
+  </div>
+</div>
+
+<!-- 证据链原件 Lightbox 查看弹窗 -->
+<div id="evidence-lightbox" class="evidence-lightbox" onclick="closeEvidenceLightbox()">
+  <div class="lightbox-dialog" id="lightbox-content" onclick="event.stopPropagation()"></div>
+</div>
+
+<script type="module" src="/site/js/homecoming-elevate.js"></script>
 <script type="module" src="/site/js/homecoming.js"></script>
 </body>
 </html>
