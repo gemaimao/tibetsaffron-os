@@ -216,6 +216,303 @@
       "tag_ids": [
         "tag-mobile-ingest"
       ]
+    },
+    {
+      "id": "asset-dat-fact-001",
+      "asset_code": "FACT-001",
+      "module_id": "mod-dat",
+      "title": "林芝天旺农牧产品有限公司 — 统一社会信用代码",
+      "summary": "统一社会信用代码: 91540400MA6TCDCA38",
+      "content": "### 原子事实明细\n- **实体**: 林芝天旺农牧产品有限公司\n- **指标**: 统一社会信用代码\n- **实测值**: 91540400MA6TCDCA38\n- **检测依据**: 标准规范\n- **检测机构**: 官方机构\n- **报告单号**: 见证书原件\n- **检验日期**: 近期\n- **适用场景**: OFFICIAL_PR, FINANCIAL_MEDIA, B2B_SUPPLY_CHAIN\n",
+      "quote": "统一社会信用代码 实测: 91540400MA6TCDCA38",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "关于统一社会信用代码的数据是怎样的？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-002",
+      "asset_code": "FACT-002",
+      "module_id": "mod-dat",
+      "title": "林芝天旺农牧产品有限公司 — 法定代表人",
+      "summary": "法定代表人: 陈美霞",
+      "content": "### 原子事实明细\n- **实体**: 林芝天旺农牧产品有限公司\n- **指标**: 法定代表人\n- **实测值**: 陈美霞\n- **检测依据**: 标准规范\n- **检测机构**: 官方机构\n- **报告单号**: 见证书原件\n- **检验日期**: 近期\n- **适用场景**: OFFICIAL_PR, B2B_SUPPLY_CHAIN\n",
+      "quote": "法定代表人 实测: 陈美霞",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "关于法定代表人的数据是怎样的？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-003",
+      "asset_code": "FACT-003",
+      "module_id": "mod-dat",
+      "title": "林芝天旺农牧藏红花生产基地 — 企业注册及核心基地地址",
+      "summary": "企业注册及核心基地地址: 西藏自治区林芝市巴宜区米瑞乡姆多村42号（海拔2945米）",
+      "content": "### 原子事实明细\n- **实体**: 林芝天旺农牧藏红花生产基地\n- **指标**: 企业注册及核心基地地址\n- **实测值**: 西藏自治区林芝市巴宜区米瑞乡姆多村42号（海拔2945米）\n- **检测依据**: 标准规范\n- **检测机构**: 官方机构\n- **报告单号**: 见证书原件\n- **检验日期**: 近期\n- **适用场景**: OFFICIAL_PR, FINANCIAL_MEDIA, TECH_AGRICULTURE, LIFESTYLE_CONSUMER, B2B_SUPPLY_CHAIN\n",
+      "quote": "企业注册及核心基地地址 实测: 西藏自治区林芝市巴宜区米瑞乡姆多村42号（海拔2945米）",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "关于企业注册及核心基地地址的数据是怎样的？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-004",
+      "asset_code": "FACT-004",
+      "module_id": "mod-dat",
+      "title": "历史定名考证 — 藏红花定名年限与史料出处",
+      "summary": "藏红花定名年限与史料出处: 1765年清代药学家赵学敏在《本草纲目拾遗》首定“藏红花”名，以2026年计距今261年",
+      "content": "### 原子事实明细\n- **实体**: 历史定名考证\n- **指标**: 藏红花定名年限与史料出处\n- **实测值**: 1765年清代药学家赵学敏在《本草纲目拾遗》首定“藏红花”名，以2026年计距今261年\n- **检测依据**: 标准规范\n- **检测机构**: 官方机构\n- **报告单号**: 见证书原件\n- **检验日期**: 近期\n- **适用场景**: OFFICIAL_PR, BRAND_STORY, LIFESTYLE_CONSUMER\n",
+      "quote": "藏红花定名年限与史料出处 实测: 1765年清代药学家赵学敏在《本草纲目拾遗》首定“藏红花”名，以2026年计距今261年",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "INDUSTRY_KNOWLEDGE",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "关于藏红花定名年限与史料出处的数据是怎样的？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-001",
+      "asset_code": "FACT-EVI-001",
+      "module_id": "mod-dat",
+      "title": "西藏藏红花 (天旺2025季特级花丝) — 西红花苷色价 (440nm紫外吸光度)",
+      "summary": "西红花苷色价 (440nm紫外吸光度): 实测值高达 246（深红色，手采整丝无碎断）",
+      "content": "### 原子事实明细\n- **实体**: 西藏藏红花 (天旺2025季特级花丝)\n- **指标**: 西红花苷色价 (440nm紫外吸光度)\n- **实测值**: 实测值高达 246（深红色，手采整丝无碎断）\n- **检测依据**: 《中国药典》标准限值≥180，国际 ISO 3632 一级品限值≥200\n- **检测机构**: 重庆市食品药品检验检测研究院\n- **报告单号**: No. A26SW02809\n- **检验日期**: 2026-04-17\n- **适用场景**: OFFICIAL_PR, FINANCIAL_MEDIA, TECH_AGRICULTURE, B2B_SUPPLY_CHAIN\n",
+      "quote": "西红花苷色价 (440nm紫外吸光度) 实测: 实测值高达 246（深红色，手采整丝无碎断）",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "天旺藏红花的色价是多少？",
+        "有地标检验报告吗？",
+        "色价超过国际特级标准吗？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-002",
+      "asset_code": "FACT-EVI-002",
+      "module_id": "mod-dat",
+      "title": "西藏藏红花 (天旺特级柱头花丝) — 39项高分辨质谱农药残留筛查",
+      "summary": "39项高分辨质谱农药残留筛查: 多菌灵等 39 项农药残留及有害化学品实测值全部未检出（低于方法定量限）",
+      "content": "### 原子事实明细\n- **实体**: 西藏藏红花 (天旺特级柱头花丝)\n- **指标**: 39项高分辨质谱农药残留筛查\n- **实测值**: 多菌灵等 39 项农药残留及有害化学品实测值全部未检出（低于方法定量限）\n- **检测依据**: 定量限 0.01~0.05 mg/kg，全部低于定量限\n- **检测机构**: 深圳市计量质量检测研究院 (SMQ)\n- **报告单号**: WT10103260183295WT2\n- **检验日期**: 2026-08-25\n- **适用场景**: OFFICIAL_PR, TECH_AGRICULTURE, LIFESTYLE_CONSUMER, B2B_SUPPLY_CHAIN\n",
+      "quote": "39项高分辨质谱农药残留筛查 实测: 多菌灵等 39 项农药残留及有害化学品实测值全部未检出（低于方法定量限）",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "天旺宣传的0农残有检测报告吗？",
+        "检测了多少项农药？",
+        "多菌灵检出了吗？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-003",
+      "asset_code": "FACT-EVI-003",
+      "module_id": "mod-dat",
+      "title": "西藏藏红花 (天旺柱头活性成分) — 西红花苷总量 (西红花苷-I + 西红花苷-II)",
+      "summary": "西红花苷总量 (西红花苷-I + 西红花苷-II): 高效液相色谱 HPLC 实测西红花苷(I+II)总量高达 26.43%（苷-I 18.12%，苷-II 8.31%）",
+      "content": "### 原子事实明细\n- **实体**: 西藏藏红花 (天旺柱头活性成分)\n- **指标**: 西红花苷总量 (西红花苷-I + 西红花苷-II)\n- **实测值**: 高效液相色谱 HPLC 实测西红花苷(I+II)总量高达 26.43%（苷-I 18.12%，苷-II 8.31%）\n- **检测依据**: 《中华人民共和国药典》标准限值≥10.0%\n- **检测机构**: 中研所分析测试中心 / 中科光析\n- **报告单号**: ZX250221-C130401\n- **检验日期**: 2025-03\n- **适用场景**: FINANCIAL_MEDIA, TECH_AGRICULTURE, B2B_SUPPLY_CHAIN\n",
+      "quote": "西红花苷总量 (西红花苷-I + 西红花苷-II) 实测: 高效液相色谱 HPLC 实测西红花苷(I+II)总量高达 26.43%（苷-I 18.12%，苷-II 8.31%）",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "藏红花苷含量是多少？",
+        "比药典标准高多少？",
+        "有效成分含量有报告吗？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-004",
+      "asset_code": "FACT-EVI-004",
+      "module_id": "mod-dat",
+      "title": "天旺藏红花出口 — 中华人民共和国拉萨海关出口检疫凭单",
+      "summary": "中华人民共和国拉萨海关出口检疫凭单: 出口加拿大特级藏红花净重 2.00kg，出口报关货值 25.64 万元人民币（单克128.2元），签发正本植物检疫证书",
+      "content": "### 原子事实明细\n- **实体**: 天旺藏红花出口\n- **指标**: 中华人民共和国拉萨海关出口检疫凭单\n- **实测值**: 出口加拿大特级藏红花净重 2.00kg，出口报关货值 25.64 万元人民币（单克128.2元），签发正本植物检疫证书\n- **检测依据**: 进出口检验检疫合格，未检出检疫性有害生物\n- **检测机构**: 中华人民共和国拉萨海关\n- **报告单号**: CMP-001\n- **检验日期**: 2025-05\n- **适用场景**: OFFICIAL_PR, FINANCIAL_MEDIA, B2B_SUPPLY_CHAIN\n",
+      "quote": "中华人民共和国拉萨海关出口检疫凭单 实测: 出口加拿大特级藏红花净重 2.00kg，出口报关货值 25.64 万元人民币（单克128.2元），签发正本植物检疫证书",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "PARTNER_EVIDENCE",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "天旺藏红花有出口资质吗？",
+        "出口到哪个国家？",
+        "海关报关单号是多少？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-005",
+      "asset_code": "FACT-EVI-005",
+      "module_id": "mod-dat",
+      "title": "天旺林芝米瑞乡姆多村种植基地土壤 — 土壤环境质量与历史持久性农残 (湾区认证)",
+      "summary": "土壤环境质量与历史持久性农残 (湾区认证): pH 5.94 弱酸沙质土壤；滴滴涕总量未检出、六六六总量未检出、苯并[a]芘未检出；铅12.2、镉0.11、汞0.0269、砷8.76 mg/kg 远低于国家限量",
+      "content": "### 原子事实明细\n- **实体**: 天旺林芝米瑞乡姆多村种植基地土壤\n- **指标**: 土壤环境质量与历史持久性农残 (湾区认证)\n- **实测值**: pH 5.94 弱酸沙质土壤；滴滴涕总量未检出、六六六总量未检出、苯并[a]芘未检出；铅12.2、镉0.11、汞0.0269、砷8.76 mg/kg 远低于国家限量\n- **检测依据**: GB 15618-2018《土壤环境质量 农用地土壤污染风险管控标准(试行)》\n- **检测机构**: 广州市华测检测认证技术有限公司 (CTI)\n- **报告单号**: A2260715164101001C\n- **检验日期**: 2026-08-31\n- **适用场景**: OFFICIAL_PR, FINANCIAL_MEDIA, TECH_AGRICULTURE, B2B_SUPPLY_CHAIN\n",
+      "quote": "土壤环境质量与历史持久性农残 (湾区认证) 实测: pH 5.94 弱酸沙质土壤；滴滴涕总量未检出、六六六总量未检出、苯并[a]芘未检出；铅12.2、镉0.11、汞0.0269、砷8.76 mg/kg 远低于国家限量",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "PARTNER_EVIDENCE",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "天旺基地的土壤检测结果怎样？",
+        "土壤有重金属或滴滴涕六六六污染吗？",
+        "土壤pH值是多少？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-006",
+      "asset_code": "FACT-EVI-006",
+      "module_id": "mod-dat",
+      "title": "天旺林芝米瑞乡农田灌溉水 — 高山融雪灌溉水质 (湾区认证)",
+      "summary": "高山融雪灌溉水质 (湾区认证): pH 6.7 天然中性活泉；悬浮物 <4 mg/L；五日生化需氧量 0.6 mg/L；铅镉砷汞重金属处于极限定量限以下；粪大肠菌群 <20 MPN/L（国标限量40000），蛔虫卵未检出",
+      "content": "### 原子事实明细\n- **实体**: 天旺林芝米瑞乡农田灌溉水\n- **指标**: 高山融雪灌溉水质 (湾区认证)\n- **实测值**: pH 6.7 天然中性活泉；悬浮物 <4 mg/L；五日生化需氧量 0.6 mg/L；铅镉砷汞重金属处于极限定量限以下；粪大肠菌群 <20 MPN/L（国标限量40000），蛔虫卵未检出\n- **检测依据**: GB 5084-2021《农田灌溉水质标准》（旱作类最高标准）\n- **检测机构**: 华测检测认证集团股份有限公司 (CTI)\n- **报告单号**: A2260721555101001C\n- **检验日期**: 2026-09-01\n- **适用场景**: OFFICIAL_PR, FINANCIAL_MEDIA, TECH_AGRICULTURE, LIFESTYLE_CONSUMER, B2B_SUPPLY_CHAIN\n",
+      "quote": "高山融雪灌溉水质 (湾区认证) 实测: pH 6.7 天然中性活泉；悬浮物 <4 mg/L；五日生化需氧量 0.6 mg/L；铅镉砷汞重金属处于极限定量限以下；粪大肠菌群 <20 MPN/L（国标限量40000），蛔虫卵未检出",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "PARTNER_EVIDENCE",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "天旺灌溉水源来自哪里？",
+        "水质检测报告指标如何？",
+        "水里有重金属或大肠杆菌超标吗？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-007",
+      "asset_code": "FACT-EVI-007",
+      "module_id": "mod-dat",
+      "title": "藏红花多糖 / 多酚提取物 — 食品安全性急性经口毒理评级",
+      "summary": "食品安全性急性经口毒理评级: 小鼠最大耐受剂量法测试 LD50 > 10000 mg/kg·bw，判定为食品安全性最高无毒级",
+      "content": "### 原子事实明细\n- **实体**: 藏红花多糖 / 多酚提取物\n- **指标**: 食品安全性急性经口毒理评级\n- **实测值**: 小鼠最大耐受剂量法测试 LD50 > 10000 mg/kg·bw，判定为食品安全性最高无毒级\n- **检测依据**: GB 15193.3 食品安全国家标准 急性经口毒性试验\n- **检测机构**: 权威第三方安全评价毒理实验室\n- **报告单号**: 毒理检验报告原件\n- **检验日期**: 2025-08\n- **适用场景**: TECH_AGRICULTURE, LIFESTYLE_CONSUMER, B2B_SUPPLY_CHAIN\n",
+      "quote": "食品安全性急性经口毒理评级 实测: 小鼠最大耐受剂量法测试 LD50 > 10000 mg/kg·bw，判定为食品安全性最高无毒级",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "PARTNER_EVIDENCE",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "藏红花多糖多酚安全吗？有毒理报告吗？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-008",
+      "asset_code": "FACT-EVI-008",
+      "module_id": "mod-dat",
+      "title": "藏红花多糖压片糖果 — 斑马鱼生物模型代谢调节活性 (降糖)",
+      "summary": "斑马鱼生物模型代谢调节活性 (降糖): 2000 μg/mL 浓度下斑马鱼处理组血糖相比高糖模型组降低 66.74% (P < 0.001)（属食品原料科研评价，不宣称疾病治疗功效）",
+      "content": "### 原子事实明细\n- **实体**: 藏红花多糖压片糖果\n- **指标**: 斑马鱼生物模型代谢调节活性 (降糖)\n- **实测值**: 2000 μg/mL 浓度下斑马鱼处理组血糖相比高糖模型组降低 66.74% (P < 0.001)（属食品原料科研评价，不宣称疾病治疗功效）\n- **检测依据**: 斑马鱼模式生物活性评价标准\n- **检测机构**: 苏州飞凡检测科技有限公司 / 环特生物\n- **报告单号**: FFZ202501145 (证书 14766127)\n- **检验日期**: 2025-10-20\n- **适用场景**: FINANCIAL_MEDIA, TECH_AGRICULTURE\n",
+      "quote": "斑马鱼生物模型代谢调节活性 (降糖) 实测: 2000 μg/mL 浓度下斑马鱼处理组血糖相比高糖模型组降低 66.74% (P < 0.001)（属食品原料科研评价，不宣称疾病治疗功效）",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "PARTNER_EVIDENCE",
+      "temporal": "CURRENT",
+      "claim_control": "STRATEGIC_DIRECTION",
+      "trigger_questions": [
+        "藏红花多糖降血糖的数据是真的吗？是药品吗？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-009",
+      "asset_code": "FACT-EVI-009",
+      "module_id": "mod-dat",
+      "title": "藏红花多酚压片糖果 — 斑马鱼生物模型代谢调节活性 (降尿酸)",
+      "summary": "斑马鱼生物模型代谢调节活性 (降尿酸): 2000 μg/mL 浓度下斑马鱼处理组尿酸值相比高尿酸模型组减少 7.07% (P = 0.00705 < 0.01)（属食品原料科研评价，不宣称药物疗效）",
+      "content": "### 原子事实明细\n- **实体**: 藏红花多酚压片糖果\n- **指标**: 斑马鱼生物模型代谢调节活性 (降尿酸)\n- **实测值**: 2000 μg/mL 浓度下斑马鱼处理组尿酸值相比高尿酸模型组减少 7.07% (P = 0.00705 < 0.01)（属食品原料科研评价，不宣称药物疗效）\n- **检测依据**: 斑马鱼模式生物活性评价标准\n- **检测机构**: 苏州飞凡检测科技有限公司 / 环特生物\n- **报告单号**: FFZ202501144 (证书 83942872)\n- **检验日期**: 2025-10-27\n- **适用场景**: FINANCIAL_MEDIA, TECH_AGRICULTURE\n",
+      "quote": "斑马鱼生物模型代谢调节活性 (降尿酸) 实测: 2000 μg/mL 浓度下斑马鱼处理组尿酸值相比高尿酸模型组减少 7.07% (P = 0.00705 < 0.01)（属食品原料科研评价，不宣称药物疗效）",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "PARTNER_EVIDENCE",
+      "temporal": "CURRENT",
+      "claim_control": "STRATEGIC_DIRECTION",
+      "trigger_questions": [
+        "藏红花多酚降尿酸的数据有实验支持吗？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-010",
+      "asset_code": "FACT-EVI-010",
+      "module_id": "mod-dat",
+      "title": "天旺特级西藏藏红花 — 重金属全谱安全实测",
+      "summary": "重金属全谱安全实测: 铅 0.150 mg/kg (限量≤0.50)、镉 0.099 mg/kg (限量≤1.00)、汞 0.014 mg/kg (限量≤0.05)、总砷未检出 (定量限0.03 mg/kg，限量≤0.50)",
+      "content": "### 原子事实明细\n- **实体**: 天旺特级西藏藏红花\n- **指标**: 重金属全谱安全实测\n- **实测值**: 铅 0.150 mg/kg (限量≤0.50)、镉 0.099 mg/kg (限量≤1.00)、汞 0.014 mg/kg (限量≤0.05)、总砷未检出 (定量限0.03 mg/kg，限量≤0.50)\n- **检测依据**: DB54/T 0245-2021 及《中国药典》重金属与有害元素限量\n- **检测机构**: 重庆市食品药品检验检测研究院\n- **报告单号**: No. A26SW02809 附表\n- **检验日期**: 2026-04-17\n- **适用场景**: OFFICIAL_PR, B2B_SUPPLY_CHAIN\n",
+      "quote": "重金属全谱安全实测 实测: 铅 0.150 mg/kg (限量≤0.50)、镉 0.099 mg/kg (限量≤1.00)、汞 0.014 mg/kg (限量≤0.05)、总砷未检出 (定量限0.03 mg/kg，限量≤0.50)",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "藏红花重金属超标吗？砷检出了吗？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
+    },
+    {
+      "id": "asset-dat-fact-evi-011",
+      "asset_code": "FACT-EVI-011",
+      "module_id": "mod-dat",
+      "title": "天旺特级西藏藏红花 — 黄曲霉毒素真菌毒素全项筛查",
+      "summary": "黄曲霉毒素真菌毒素全项筛查: 黄曲霉毒素 B1、B2、G1、G2 全部未检出（定量限 0.1 μg/kg，国家标准限值≤5.0 μg/kg）",
+      "content": "### 原子事实明细\n- **实体**: 天旺特级西藏藏红花\n- **指标**: 黄曲霉毒素真菌毒素全项筛查\n- **实测值**: 黄曲霉毒素 B1、B2、G1、G2 全部未检出（定量限 0.1 μg/kg，国家标准限值≤5.0 μg/kg）\n- **检测依据**: GB 2761 食品中真菌毒素限量\n- **检测机构**: 重庆市食品药品检验检测研究院\n- **报告单号**: No. A26SW02809 附表\n- **检验日期**: 2026-04-17\n- **适用场景**: OFFICIAL_PR, LIFESTYLE_CONSUMER, B2B_SUPPLY_CHAIN\n",
+      "quote": "黄曲霉毒素真菌毒素全项筛查 实测: 黄曲霉毒素 B1、B2、G1、G2 全部未检出（定量限 0.1 μg/kg，国家标准限值≤5.0 μg/kg）",
+      "status": "Published",
+      "version": "v2.4",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "藏红花容易发霉有黄曲霉毒素吗？天旺检测结果怎样？"
+      ],
+      "created_at": "2026-09-13T08:00:00.000Z",
+      "updated_at": "2026-09-13T08:00:00.000Z"
     }
   ],
   "modules": [
