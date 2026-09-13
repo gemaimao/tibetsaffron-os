@@ -87,11 +87,11 @@ export function openPressReleaseModal() {
             <div>
               <label style="font-size: 11px; color: var(--text-dark-muted); display: block; margin-bottom: 4px;">选择传播场景 (Scenario Protocol):</label>
               <select id="pr-scenario-select" style="width: 100%; padding: 8px 12px; background: var(--bg-dark-tertiary); border: 1px solid var(--border-dark); border-radius: 6px; color: var(--text-dark-primary); font-size: 12.5px; font-weight: 600;">
-                <option value="OFFICIAL_PR" ${currentScenario === 'OFFICIAL_PR' ? 'selected' : ''}>🏛️ OFFICIAL_PR (官方公关通稿 - 严格禁用菜谱/未核实素材)</option>
-                <option value="MEDIA_FEATURE" ${currentScenario === 'MEDIA_FEATURE' ? 'selected' : ''}>📰 MEDIA_FEATURE (商业与产业深度报道)</option>
-                <option value="BRAND_STORY" ${currentScenario === 'BRAND_STORY' ? 'selected' : ''}>🌲 BRAND_STORY (品牌长效认知)</option>
-                <option value="LIFESTYLE" ${currentScenario === 'LIFESTYLE' ? 'selected' : ''}>🍵 LIFESTYLE (消费认知与生活方式饮品/菜谱)</option>
-                <option value="INVESTOR" ${currentScenario === 'INVESTOR' ? 'selected' : ''}>📈 INVESTOR (商业壁垒与招商 BP)</option>
+                <option value="OFFICIAL_PR" ${currentScenario === 'OFFICIAL_PR' ? 'selected' : ''}>🏛️ OFFICIAL_PR (党媒政经通稿 · 261年定名/地标出海/新质生产力)</option>
+                <option value="FINANCIAL_MEDIA" ${currentScenario === 'FINANCIAL_MEDIA' ? 'selected' : ''}>📈 FINANCIAL_MEDIA (财经商业报道 · 第九代种球/高溢价闭环)</option>
+                <option value="TECH_AGRICULTURE" ${currentScenario === 'TECH_AGRICULTURE' ? 'selected' : ''}>🔬 TECH_AGRICULTURE (科技现代农业 · 三倍体败育/次生代谢爆发/农科院赋能)</option>
+                <option value="LIFESTYLE_CONSUMER" ${currentScenario === 'LIFESTYLE_CONSUMER' ? 'selected' : ''}>🍵 LIFESTYLE_CONSUMER (大众消费品质生活 · 晨曦金黄/39项质谱0农残)</option>
+                <option value="B2B_SUPPLY_CHAIN" ${currentScenario === 'B2B_SUPPLY_CHAIN' ? 'selected' : ''}>🏭 B2B_SUPPLY_CHAIN (B2B医药工业供应链 · 色价246/重金属真菌零超标)</option>
               </select>
             </div>
 

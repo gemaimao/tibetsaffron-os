@@ -30,34 +30,67 @@ export const V23_TEMPORAL_STATES = [
 
 export const SCENARIO_MATRIX = {
   OFFICIAL_PR: {
-    name: '官方公关通稿 (OFFICIAL_PR)',
-    tone: '权威、克制、事实驱动',
+    name: '党媒与政经新闻 (OFFICIAL_PR)',
+    tone: '权威、宏阔、事实与政策驱动',
     allowedEvidence: ['Level 1', 'Level 2', 'Level 4'],
-    forbiddenDomains: ['菜谱/日常烹饪', '未验证科学宣称', '非标产品测评']
+    forbiddenDomains: ['菜谱/日常烹饪', '未验证科学宣称', '非标产品测评'],
+    coreEvidences: ['No. A26SW02809 (色价246)', 'WT10103260183295WT2 (39项质谱0农残)', 'CMP-001 (拉萨海关出口凭单)']
   },
-  MEDIA_FEATURE: {
-    name: '深度产业特稿 (MEDIA_FEATURE)',
-    tone: '客观、商业逻辑严密、产业视角',
+  FINANCIAL_MEDIA: {
+    name: '财经与商业特稿 (FINANCIAL_MEDIA)',
+    tone: '客观、产业壁垒严密、高商业溢价',
     allowedEvidence: ['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'],
-    forbiddenDomains: ['虚假疗效', '营销口号滥用']
+    forbiddenDomains: ['虚假疗效', '空洞营销口号'],
+    coreEvidences: ['ZX250221-C130401 (西红花苷26.43%)', 'A2260715164101001C (华测土壤DDT零检出)', 'A2260721555101001C (华测高山水质)']
   },
-  BRAND_STORY: {
-    name: '品牌长效认知 (BRAND_STORY)',
-    tone: '人文、自然、敬畏风土',
-    allowedEvidence: ['Level 1', 'Level 2', 'Level 5'],
-    forbiddenDomains: ['夸大功效']
+  TECH_AGRICULTURE: {
+    name: '科技与现代农业 (TECH_AGRICULTURE)',
+    tone: '科学严谨、生理学与次生代谢机理',
+    allowedEvidence: ['Level 1', 'Level 2', 'Level 3'],
+    forbiddenDomains: ['玄学伪科学', '夸大功效'],
+    coreEvidences: ['三倍体败育次生代谢爆发机理', '林芝2945m极地温差光热', '中国农科院信息所数字化赋能']
   },
-  LIFESTYLE: {
-    name: '生活方式与日常 (LIFESTYLE)',
-    tone: '温和、体验感、日常物候',
-    allowedEvidence: ['Level 5', 'Level 7'],
-    forbiddenDomains: ['生硬硬广']
+  LIFESTYLE_CONSUMER: {
+    name: '大众消费与茶饮生活 (LIFESTYLE_CONSUMER)',
+    tone: '温润、真实、极简东方美学体验',
+    allowedEvidence: ['Level 2', 'Level 5'],
+    forbiddenDomains: ['生硬硬广', '医学疗效许诺'],
+    coreEvidences: ['晨曦金黄水溶透亮', '一柱三丝手工特级', '整朵干花天然花青素']
   },
-  INVESTOR: {
-    name: '投资人与商业BP (INVESTOR)',
-    tone: '数据导向、壁垒清晰、合规审慎',
+  B2B_SUPPLY_CHAIN: {
+    name: 'B2B医药原料与供应链 (B2B_SUPPLY_CHAIN)',
+    tone: '指标精确、全项合规、全流程可追溯',
     allowedEvidence: ['Level 1', 'Level 2', 'Level 3', 'Level 4'],
-    forbiddenDomains: ['空洞概念']
+    forbiddenDomains: ['模糊定性', '未附检测报告编号'],
+    coreEvidences: ['色价实测246', '全谱重金属总砷未检出', '黄曲霉真菌毒素零检出', 'CMP-001批次可溯']
+  }
+};
+
+export const SCENARIO_LEGO_BLOCKS = {
+  OFFICIAL_PR: {
+    headline: '跨越261年历史定名公案：天旺藏红花在西藏林芝实现规模化量产与合规出海',
+    leadNarrative: '清乾隆三十年（1765年），药学家赵学敏在《本草纲目拾遗》中首次定名“藏红花”，但西藏在历史上长期仅作为贸易中转驿站。历经十年产学研深耕，林芝天旺农牧依托两段式设施农业，成功繁育出第九代本土壮球。',
+    evidenceAnchor: '依据重庆市食品药品检验检测研究院依据西藏地理标志（DB54/T 0245-2021）检验，天旺藏红花色价实测高达 246（远超药典 180 标准）；深圳市计量质量检测研究院高分辨质谱筛查显示，39 项农药残留全部未检出。随着拉萨海关检疫通关凭证（CMP-001）的落地，特级藏红花成功出口海外，为高原特色生态资源向新质生产力转化走出了一条让藏红花真正“实至名归”的高质量发展之路。'
+  },
+  FINANCIAL_MEDIA: {
+    headline: '打破传统原料贸易模式：天旺农牧自研第九代种球资产，打通极地特色农业高溢价闭环',
+    leadNarrative: '长期以来，中国藏红花高端市场受制于进口原料价格波动与传统大田农残不稳的双重掣肘。西藏林芝天旺农牧通过“现代生物农业工业化 + 知识资产体系”重塑了行业价值分配格局。',
+    evidenceAnchor: '商业壁垒的建立源自技术与数据的双向沉淀：天旺耗时十年完成第九代本土种球复壮，掌握了高原逆境下开花时令精准调控与全花活性保留的核心农艺。第三方检测显示，天旺藏红花西红花苷总量高达 26.43%，达药典合格线 2.6 倍；由广州华测检测 (CTI) 出具的种植土壤与灌溉水质报告更坐实了产地生态溢价。天旺正加速从高品质花丝原料向深加工大健康突围，依托斑马鱼代谢活性模型开展全花多糖、多酚功能食品开发，打通“极地农业科技、高端功能消费、国际合规供应链”的高溢价闭环。'
+  },
+  TECH_AGRICULTURE: {
+    headline: '从三倍体败育到次生代谢爆发：天旺农牧破解极地可控环境农业（CEA）品质密码',
+    leadNarrative: '作为一种三倍体败育植物，藏红花（Crocus sativus L.）无法通过结籽繁育，这一生理特征促使其生命能量向“次生代谢生长”产生爆发式倾斜。天旺农牧联合中国农业科学院信息所，揭示了极地风土对次生代谢防御通路的激活机制。',
+    evidenceAnchor: '林芝米瑞乡 2945 米的高原强紫外线与 15℃ 昼夜温差，促使藏红花体内西红花苷与藏红花醛等抗逆性物质超量积累。结合“大田养球 + 室内暗室洁净催花”的两段式农法，天旺在开花期避开外部雨水与土壤致病镰刀菌的侵害，实现全花期物理零农残（深圳计量院 39 项高分辨质谱未检出），黄曲霉真菌毒素全项零检出。科技赋能使得西红花苷色价跃升至 246，标志着中国在极地可控环境农业（CEA）探索上取得了关键突破。'
+  },
+  LIFESTYLE_CONSUMER: {
+    headline: '一盏晨曦金黄的东方美学：天旺藏红花 11 项国家级质检护航的高原纯净滋养',
+    leadNarrative: '一朵来自林芝 2945 米高山的藏红花，藏着关于时间的治愈力量。正品藏红花并非泡出红汤，其珍贵的水溶性藏红花素溶于温水后，会如丝绸般慢慢漾开，化作一盏明亮、清澈、如初升朝阳般的晨曦金黄色。',
+    evidenceAnchor: '告别市面上来源不明、硫磺熏蒸与农药残留的担忧，天旺藏红花拥有 11 份国家级质检报告护航：经深圳计量质量检测研究院 39 项高精密农残筛查全部未检出，高山融雪活水灌溉，每一根都是纯手工挑选的特级深红柱头。无论是办公室午后取 5~8 根温水慢啜元气，还是品鉴保留整朵紫色花瓣天然花青素的“原朵干花”茶道美学，天旺藏红花用极地纯净风土，带来纯净安心的高原滋养。'
+  },
+  B2B_SUPPLY_CHAIN: {
+    headline: '特级色价246与全谱重金属极限达标：天旺农牧发布工业级西藏藏红花原料供应链白皮书',
+    leadNarrative: '面向制药企业、高端滋补品牌及美妆功效提取客户，林芝天旺农牧提供工业级高稳定度、全链条合规的西藏藏红花特级原料供应链解决方案。',
+    evidenceAnchor: '核心交付标准严控于技术证据链：依据重庆市食药检院检验（No. A26SW02809），产品完全符合 DB54/T 0245-2021 一级品地标要求，西红花苷吸光度（色价）高达 246；中研所测定西红花苷总量达 26.43%（远超药典 10% 门槛）；SMQ 质检 39 项农残全项未检出；铅、镉、汞含量处于极限低位，总砷未检出；黄曲霉毒素 B1/B2/G1/G2 全项未检出；具备拉萨海关出口检验检疫证书（CMP-001），支持按批次提供权威追溯报告。'
   }
 };
 
@@ -413,13 +446,26 @@ export const exportEngine = {
       return isReady && isNotForbidden;
     });
 
-    let content = `# ${eventTitle}\n\n`;
-    content += `**发布日期**: ${eventDate} | **地点**: ${eventLocation}\n`;
-    content += `**出席嘉宾**: ${eventAttendees}\n\n`;
-    content += `---\n\n`;
-    content += `## 【核心速览】\n${leaderSpeech}\n\n`;
+    const lego = SCENARIO_LEGO_BLOCKS[scenario];
+    const finalTitle = eventTitle && eventTitle !== '（待确认发布主题）' ? eventTitle : (lego ? lego.headline : '天旺藏红花 官方权威发布');
 
-    content += `## 【产业与风土事实】\n`;
+    let content = `# ${finalTitle}\n\n`;
+    content += `**发布日期**: ${eventDate} | **地点**: ${eventLocation}\n`;
+    if (eventAttendees && eventAttendees !== '（待确认出席人员与代表）') {
+      content += `**出席嘉宾**: ${eventAttendees}\n`;
+    }
+    content += `\n---\n\n`;
+
+    if (leaderSpeech && leaderSpeech !== '（待确认官方引语）') {
+      content += `## 【核心引语】\n${leaderSpeech}\n\n`;
+    }
+
+    if (lego) {
+      content += `## 【场景叙事与产业背景】\n${lego.leadNarrative}\n\n`;
+      content += `## 【11项检测权威证据链锚定】\n${lego.evidenceAnchor}\n\n`;
+    }
+
+    content += `## 【精选支撑素材库事实】\n`;
     const relevantAssets = validAssets.slice(0, 5);
     if (relevantAssets.length === 0) {
       content += `> *提示：暂无符合公开治理要求的核准素材（已过滤未核准草稿及禁用断言）。*\n\n`;
