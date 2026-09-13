@@ -70,3 +70,63 @@ if ('IntersectionObserver' in window) {
   }, { rootMargin: '-15% 0px -55% 0px', threshold: 0 });
   qsa('main > section[data-chapter]').forEach(section => observer.observe(section));
 }
+
+// 产地认知等关键动图全屏沉浸式灯箱 (Fullscreen Lightbox)
+function initLightbox() {
+  const zoomableElements = qsa('[data-zoomable]');
+  if (!zoomableElements.length) return;
+
+  let lightbox = qs('#global-lightbox');
+  if (!lightbox) {
+    lightbox = document.createElement('div');
+    lightbox.id = 'global-lightbox';
+    lightbox.className = 'lightbox-backdrop';
+    lightbox.setAttribute('role', 'dialog');
+    lightbox.setAttribute('aria-modal', 'true');
+    lightbox.setAttribute('aria-label', '全屏图像预览');
+    lightbox.hidden = true;
+    lightbox.innerHTML = `
+      <button class="lightbox-close" aria-label="关闭全屏预览">×</button>
+      <div class="lightbox-content">
+        <img class="lightbox-img" src="" alt="">
+        <p class="lightbox-caption"></p>
+      </div>
+    `;
+    document.body.appendChild(lightbox);
+
+    const closeBtn = lightbox.querySelector('.lightbox-close');
+    const close = () => {
+      lightbox.classList.remove('active');
+      setTimeout(() => { lightbox.hidden = true; }, 220);
+      document.body.style.overflow = '';
+    };
+
+    closeBtn?.addEventListener('click', close);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target.classList.contains('lightbox-content')) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !lightbox.hidden) close();
+    });
+  }
+
+  zoomableElements.forEach(el => {
+    el.addEventListener('click', () => {
+      const fullImg = lightbox.querySelector('.lightbox-img');
+      const caption = lightbox.querySelector('.lightbox-caption');
+      if (fullImg) fullImg.src = el.getAttribute('data-full-src') || el.src;
+      if (caption) caption.textContent = el.alt || '全屏图像预览';
+      lightbox.hidden = false;
+      requestAnimationFrame(() => {
+        lightbox.classList.add('active');
+      });
+      document.body.style.overflow = 'hidden';
+    });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLightbox);
+} else {
+  initLightbox();
+}
