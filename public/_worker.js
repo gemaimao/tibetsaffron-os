@@ -1,5 +1,6 @@
 /**
- * Cloudflare Pages Function: /api/chat
+ * Cloudflare Pages Advanced Worker: _worker.js
+ * Unified Intelligent AI Knowledge Brain powered by AMD Radeon DeepSeek-V4
  */
 
 const DEFAULT_AMD_API_KEY = "rc-9bf0bcf05f772e16a829eb57316bf25f4f4f56661e0e99f1";
@@ -45,7 +46,7 @@ const UNIFIED_SYSTEM_PROMPT = `你是林芝天旺农牧官方【天旺藏红花 
 =============================================================================
 1. EVD-001 [西藏地标一级品]：重庆市食品药品检验检测研究院检验报告（No. A26SW02809），440nm 色价实测高达 246；
 2. EVD-002 [39 项农残未检出]：深圳市计量质量检测研究院 (SMQ) 报告（WT10103260183295WT2），39 项农残全项未检出；
-3. EVD-003 [西红花苷含量超标]：中科光析HPLC报告（ZX250221-C130401），苷含量达 26.43%（药典合格线 2.64 倍）；
+3. EVD-003 [西红花苷含量超标]：中科光析HPLC报告（ZX250221-C130401），西红花苷(I+II)含量达 26.43%（药典合格线 2.64 倍）；
 4. EVD-004 [拉萨海关出境凭单 CMP-001]：向加拿大出口特级藏红花 2kg，出口货值 25.64 万元人民币；
 5. EVD-005 [种植基地土壤质检]：广州华测CTI报告（A2260715164101001C），弱酸沙质 pH 5.94，滴滴涕六六六未检出；
 6. EVD-006 [高山灌溉水质检测]：华测CTI报告（A2260721555101001C），pH 6.7，大肠菌群优于国标2000倍；
@@ -58,84 +59,96 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization"
 };
 
-export async function onRequestOptions() {
-  return new Response(null, { status: 204, headers: CORS_HEADERS });
-}
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
 
-export async function onRequestPost(context) {
-  try {
-    const { request, env } = context;
-    const body = await request.json().catch(() => ({}));
-    const query = String(body.question || body.query || "").trim().slice(0, 500);
-    const history = Array.isArray(body.history) ? body.history.slice(-3) : [];
-
-    if (!query) {
-      return new Response(JSON.stringify({ success: false, message: "Question is empty" }), {
-        status: 400,
-        headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
-      });
+    // 1. 处理 CORS 预检
+    if (request.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: CORS_HEADERS });
     }
 
-    const amdApiKey = (env && env.AMD_API_KEY) || body.amdApiKey || DEFAULT_AMD_API_KEY;
-    const amdEndpoint = (env && env.AMD_API_ENDPOINT) || body.amdEndpoint || DEFAULT_AMD_ENDPOINT;
-    let amdModel = (env && env.AMD_MODEL) || body.amdModel || DEFAULT_AMD_MODEL;
-    if (amdModel.includes("Flash-Flash")) amdModel = amdModel.replace("Flash-Flash", "Flash");
+    // 2. 处理 /api/chat 路径
+    if (url.pathname === "/api/chat" || url.pathname === "/api/chat/") {
+      if (request.method === "POST") {
+        try {
+          const body = await request.json().catch(() => ({}));
+          const query = String(body.question || body.query || "").trim().slice(0, 500);
+          const history = Array.isArray(body.history) ? body.history.slice(-3) : [];
 
-    const messages = [{ role: "system", content: UNIFIED_SYSTEM_PROMPT }];
-    history.forEach(item => {
-      if (item.question) messages.push({ role: "user", content: String(item.question).slice(0, 300) });
-      if (item.answer) messages.push({ role: "assistant", content: String(item.answer).slice(0, 500) });
-    });
-    messages.push({ role: "user", content: query });
+          if (!query) {
+            return new Response(JSON.stringify({ success: false, message: "Question is empty" }), {
+              status: 400,
+              headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
+            });
+          }
 
-    const apiUrl = `${amdEndpoint.replace(/\/+$/, "")}/chat/completions`;
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${amdApiKey}`
-      },
-      body: JSON.stringify({
-        model: amdModel,
-        messages: messages,
-        temperature: 0.25,
-        max_tokens: 1024
-      })
-    });
+          const amdApiKey = (env && env.AMD_API_KEY) || body.amdApiKey || DEFAULT_AMD_API_KEY;
+          const amdEndpoint = (env && env.AMD_API_ENDPOINT) || body.amdEndpoint || DEFAULT_AMD_ENDPOINT;
+          let amdModel = (env && env.AMD_MODEL) || body.amdModel || DEFAULT_AMD_MODEL;
+          if (amdModel.includes("Flash-Flash")) amdModel = amdModel.replace("Flash-Flash", "Flash");
 
-    const data = await amdRes.json();
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      const answerContent = data.choices[0].message.content;
-      let citations = ["AMD GPU Radeon (DeepSeek-V4)"];
-      let declarationType = "ai-general";
+          const messages = [{ role: "system", content: UNIFIED_SYSTEM_PROMPT }];
+          history.forEach(item => {
+            if (item.question) messages.push({ role: "user", content: String(item.question).slice(0, 300) });
+            if (item.answer) messages.push({ role: "assistant", content: String(item.answer).slice(0, 500) });
+          });
+          messages.push({ role: "user", content: query });
 
-      if (answerContent.includes("官方声明：本回答完全基于天旺农牧官方知识库与权威检测报告")) {
-        declarationType = "official-ssot";
-        citations.push("官方证据链支持 (Brand SSOT)");
-      } else {
-        citations.push("AI 智能综合生成 (World & Science)");
+          const apiUrl = `${amdEndpoint.replace(/\/+$/, "")}/chat/completions`;
+          const amdRes = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${amdApiKey}`
+            },
+            body: JSON.stringify({
+              model: amdModel,
+              messages: messages,
+              temperature: 0.25,
+              max_tokens: 1024
+            })
+          });
+
+          const data = await amdRes.json();
+          if (data.choices && data.choices[0] && data.choices[0].message) {
+            const answerContent = data.choices[0].message.content;
+            let citations = ["AMD GPU Radeon (DeepSeek-V4)"];
+            let declarationType = "ai-general";
+
+            if (answerContent.includes("官方声明：本回答完全基于天旺农牧官方知识库与权威检测报告")) {
+              declarationType = "official-ssot";
+              citations.push("官方证据链支持 (Brand SSOT)");
+            } else {
+              citations.push("AI 智能综合生成 (World & Science)");
+            }
+
+            return new Response(JSON.stringify({
+              success: true,
+              answer: answerContent,
+              citations: citations,
+              declarationType: declarationType,
+              engine: "amd-deepseek-v4"
+            }), {
+              headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
+            });
+          }
+
+          throw new Error("AMD API 返回格式异常");
+        } catch (err) {
+          return new Response(JSON.stringify({
+            success: false,
+            message: `智能算力请求异常: ${err.message}`,
+            engine: "error"
+          }), {
+            status: 502,
+            headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
+          });
+        }
       }
-
-      return new Response(JSON.stringify({
-        success: true,
-        answer: answerContent,
-        citations: citations,
-        declarationType: declarationType,
-        engine: "amd-deepseek-v4"
-      }), {
-        headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
-      });
     }
 
-    throw new Error("AMD API 返回格式异常");
-  } catch (err) {
-    return new Response(JSON.stringify({
-      success: false,
-      message: `智能算力请求异常: ${err.message}`,
-      engine: "error"
-    }), {
-      status: 502,
-      headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
-    });
+    // 3. 静态资源转发 (Cloudflare Pages 静态资产托管)
+    return env.ASSETS ? env.ASSETS.fetch(request) : new Response("Not found", { status: 404 });
   }
-}
+};

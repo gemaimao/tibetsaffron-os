@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "node scripts/compile-public-site.mjs && NODE_OPTIONS=\"--max-old-space-size=4096\" vite build && npx wrangler pages functions build --outdir=dist && mv dist/index.js dist/_worker.js",
+    "build": "node scripts/compile-public-site.mjs && NODE_OPTIONS=\"--max-old-space-size=4096\" vite build && cp public/_worker.js dist/_worker.js && cp public/_routes.json dist/_routes.json",
     "preview": "vite preview",
     "sync:notebooklm": "node scripts/sync-notebooklm.js",
     "website:generate": "node scripts/compile-public-site.mjs",
