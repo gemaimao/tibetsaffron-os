@@ -107,13 +107,13 @@
     </a>
 
     <!-- Unified Rules Indicator -->
-    <div class="rule-pill-container" title="系统总体逻辑规则">
+    <div class="rule-pill-container" title="智能问答分类">
       <div class="rule-pill-item brand">
-        <i class="ri-shield-check-fill"></i> 含【天旺】: 官方SSOT与凭证
+        <i class="ri-shield-check-fill"></i> 品牌和产品问答
       </div>
       <span class="rule-pill-divider">|</span>
       <div class="rule-pill-item general">
-        <i class="ri-sparkling-fill"></i> 不含【天旺】: 通用智能与深度科学
+        <i class="ri-sparkling-fill"></i> 藏红花认知问答
       </div>
     </div>
 
@@ -139,14 +139,14 @@
     <!-- Sidebar Preset Topics -->
     <div class="sidebar">
       <div class="sidebar-section-title brand">
-        <i class="ri-shield-check-fill"></i> 品牌官方事实 (含【天旺】)
+        <i class="ri-shield-check-fill"></i> 品牌和产品问答
       </div>
       <div id="sidebar-topics-brand">
         <!-- 动态注入 -->
       </div>
 
       <div class="sidebar-section-title general">
-        <i class="ri-sparkling-fill"></i> 广义科学与历史 (通用智能)
+        <i class="ri-sparkling-fill"></i> 藏红花认知问答
       </div>
       <div id="sidebar-topics-general">
         <!-- 动态注入 -->
@@ -161,9 +161,9 @@
           <div class="msg-avatar ai"><i class="ri-sparkling-fill"></i></div>
           <div class="msg-bubble">
             您好！我是天旺藏红花智能知识大脑。本系统已彻底接入 <b>AMD GPU (DeepSeek-V4)</b> 大语言模型进行端到端语义理解与事实推理。<br/><br/>
-            <strong>【全局统一问答总则】：</strong><br/>
-            1. <strong>提问明确提到【天旺】或【天旺农牧】</strong>：严格按品牌与产品逻辑，完全基于天旺官方 SSOT 知识库与 11 份检测报告作答，结尾附带<strong>【官方声明】</strong>；<br/>
-            2. <strong>提问未提及【天旺】</strong>：按通用智能逻辑，结合知识库深层机理、历史文献与全网世界知识做全面、专业、不减智的综合回答，结尾附带<strong>【AI智能生成声明】</strong>。
+            <strong>【两大问答体系】：</strong><br/>
+            1. <strong>品牌和产品问答</strong>：聚焦天旺品牌、林芝米瑞乡基地、两段式农艺及检测资质，完全基于官方知识库与权威证据作答，结尾附带<strong>【官方声明】</strong>；<br/>
+            2. <strong>藏红花认知问答</strong>：聚焦广义藏红花科学、植物生理学、生化机理、全球产区与历史考据，由大模型结合深度知识库综合推理，结尾附带<strong>【AI智能生成声明】</strong>。
             <div class="msg-citations">
               <span class="cite-badge model">AMD DeepSeek-V4 全真推理</span>
               <span class="cite-badge">天旺 11 项检测报告矩阵</span>
@@ -257,7 +257,7 @@
         <div class="msg-bubble" id="loading-bubble">
           <div style="display: flex; align-items: center; gap: 8px;">
             <i class="ri-loader-4-line ri-spin" style="color: var(--accent-gold); font-size: 16px;"></i> 
-            <span>正在通过 AMD DeepSeek-V4 进行智能推理 (${isBrandMention ? '已触发：天旺官方知识库与证据链' : '已触发：通用智能与深层科学机理'})...</span>
+            <span>正在通过 AMD DeepSeek-V4 进行智能推理 (${isBrandMention ? '已触发：品牌和产品问答' : '已触发：藏红花认知问答'})...</span>
           </div>
           <div class="live-timer-container">
             <i class="ri-time-line" style="color: var(--accent-gold);"></i>
@@ -307,8 +307,9 @@
             throw new Error('Static CDN 404');
           }
         } catch (initialErr) {
-          const tunnelGateway = 'https://textiles-jpeg-try-primary.trycloudflare.com/api/chat';
-          response = await fetch(tunnelGateway, {
+          // 当直接请求 /api/chat 发生异常或未匹配时，无缝降级到您已部署的专属云端 API 网关
+          const cloudGateway = 'https://tibetsaffron-os.longhulin.workers.dev/api/chat';
+          response = await fetch(cloudGateway, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: payload
