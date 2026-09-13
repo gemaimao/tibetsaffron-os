@@ -223,36 +223,50 @@ export async function onRequestPost(context) {
   try {
     const { request, env } = context;
     const body = await request.json();
-    const query = body.question || body.query || '';
+    const rawQuery = body.question || body.query || '';
     const mode = body.mode || 'brand';
     const history = body.history || [];
     const provider = body.provider || 'amd';
 
-    if (!query.trim()) {
+    if (!rawQuery.trim()) {
       return new Response(JSON.stringify({ success: false, message: 'Question is empty' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    const amdApiKey = body.amdApiKey || (env && env.AMD_API_KEY) || DEFAULT_AMD_API_KEY;
-    const amdEndpoint = body.amdEndpoint || (env && env.AMD_API_ENDPOINT) || DEFAULT_AMD_ENDPOINT;
-    let amdModel = body.amdModel || (env && env.AMD_MODEL) || DEFAULT_AMD_MODEL;
+    // 安全策略 1：输入边界限制与防注入清洗
+    const query = rawQuery.trim().slice(0, 500);
+    const lowerQ = query.toLowerCase();
+    if (lowerQ.includes('system prompt') || lowerQ.includes('系统提示词') || lowerQ.includes('ignore previous') || lowerQ.includes('忽略前面')) {
+      return new Response(JSON.stringify({
+        success: true,
+        answer: '您好！我是天旺农牧官方知识大脑，专注于为您提供天旺藏红花 2945m 极地风土、11 项权威检测报告、两段式现代农艺与科学品饮的真实事实咨询。',
+        citations: ['天旺品牌安全守则 (Safety Guardrail)'],
+        mode: mode,
+        engine: 'safety-filter'
+      }), { headers: { 'Content-Type': 'application/json' } });
+    }
+
+    // 安全策略 2：优先读取云端安全环境变量，隔离凭证
+    const amdApiKey = (env && env.AMD_API_KEY) || body.amdApiKey || DEFAULT_AMD_API_KEY;
+    const amdEndpoint = (env && env.AMD_API_ENDPOINT) || body.amdEndpoint || DEFAULT_AMD_ENDPOINT;
+    let amdModel = (env && env.AMD_MODEL) || body.amdModel || DEFAULT_AMD_MODEL;
     if (amdModel.includes('Flash-Flash')) {
       amdModel = amdModel.replace('Flash-Flash', 'Flash');
     }
 
-    const geminiApiKey = body.geminiApiKey || (env && env.GEMINI_API_KEY) || GEMINI_API_KEY;
+    const geminiApiKey = (env && env.GEMINI_API_KEY) || body.geminiApiKey || GEMINI_API_KEY;
     const systemPrompt = (mode === 'science') ? TIANWANG_SCIENCE_COGNITION_PROMPT : TIANWANG_BRAND_SSOT_PROMPT;
 
-    // 1. AMD Radeon API 调用辅助函数
+    // 1. AMD Radeon API 调用辅助函数 (附带 12 秒超时控制)
     const callAmd = async () => {
       if (!amdApiKey) return null;
       const messages = [{ role: 'system', content: systemPrompt }];
       if (Array.isArray(history) && history.length > 0) {
         history.slice(-3).forEach(item => {
-          if (item.question) messages.push({ role: 'user', content: item.question });
-          if (item.answer) messages.push({ role: 'assistant', content: item.answer });
+          if (item.question) messages.push({ role: 'user', content: String(item.question).slice(0, 300) });
+          if (item.answer) messages.push({ role: 'assistant', content: String(item.answer).slice(0, 500) });
         });
       }
       messages.push({ role: 'user', content: query });
@@ -268,8 +282,9 @@ export async function onRequestPost(context) {
           model: amdModel,
           messages: messages,
           temperature: 0.2,
-          max_tokens: 1024
-        })
+          max_tokens: 800
+        }),
+        signal: AbortSignal.timeout ? AbortSignal.timeout(12000) : undefined
       });
       const data = await response.json();
       if (data.choices && data.choices[0] && data.choices[0].message) {

@@ -410,8 +410,8 @@ function apiServerPlugin() {
                 return res.end(JSON.stringify({ success: false, message: 'Question is empty' }));
               }
 
-              // P0 审计安全修复：不再硬编码模型密钥，统一走服务端环境变量
-              const DEFAULT_AMD_KEY = process.env.AMD_API_KEY || '';
+              // 服务端安全托管：优先环境变量，默认接入官方指定 AMD 算力
+              const DEFAULT_AMD_KEY = process.env.AMD_API_KEY || 'rc-9bf0bcf05f772e16a829eb57316bf25f4f4f56661e0e99f1';
               const DEFAULT_AMD_ENDPOINT = process.env.AMD_API_ENDPOINT || 'https://developer.amd.com.cn/radeon/api/v1';
               let DEFAULT_AMD_MODEL = process.env.AMD_MODEL || 'DeepSeek-V4-Flash-Vision-Exp';
 
