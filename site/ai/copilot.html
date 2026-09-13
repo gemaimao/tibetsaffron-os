@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>天旺藏红花 官方 AI 智能知识大脑 2.0 (全屏工作台)</title>
+  <title>天旺官方 AI 知识大脑 2.0 (端到端智能工作台)</title>
   <!-- Google Fonts & Remixicon -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,51 +27,68 @@
     body { background-color: var(--bg-dark); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
     /* Top Bar */
-    .topbar { height: 60px; background: rgba(17,23,38,0.9); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; flex-shrink: 0; backdrop-filter: blur(16px); }
+    .topbar { height: 64px; background: rgba(17,23,38,0.92); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; flex-shrink: 0; backdrop-filter: blur(16px); }
     .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 700; font-size: 16px; }
-    .topbar-logo img { width: 32px; height: 32px; border-radius: 6px; background: #fff; padding: 2px; }
-    
-    .mode-switch-group { display: flex; background: #07090e; padding: 4px; border-radius: 10px; border: 1px solid var(--border-color); gap: 4px; }
-    .mode-tab-btn { border: none; background: none; color: var(--text-muted); font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
-    .mode-tab-btn.active { background: rgba(245,158,11,0.15); color: var(--accent-gold); border: 1px solid var(--accent-gold-glow); }
-    .mode-tab-btn.science.active { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.4); }
+    .topbar-logo img { width: 34px; height: 34px; border-radius: 6px; background: #fff; padding: 2px; }
 
-    .topbar-actions { display: flex; align-items: center; gap: 12px; }
-    .btn-portal-back { font-size: 13px; color: #cbd5e1; text-decoration: none; background: rgba(255,255,255,0.06); padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border-color); }
+    .rule-pill-container { display: flex; align-items: center; gap: 8px; background: #07090e; padding: 4px 12px; border-radius: 20px; border: 1px solid #1e293b; font-size: 12px; }
+    .rule-pill-item { display: flex; align-items: center; gap: 6px; }
+    .rule-pill-item.brand { color: var(--accent-gold); }
+    .rule-pill-item.general { color: #c084fc; }
+    .rule-pill-divider { color: #475569; }
+
+    .topbar-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-top-action { font-size: 12.5px; color: #cbd5e1; text-decoration: none; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 5px; cursor: pointer; transition: all 0.2s; }
+    .btn-top-action:hover { background: rgba(255,255,255,0.12); color: #fff; }
 
     /* Main Container */
     .chat-layout { flex: 1; display: flex; overflow: hidden; }
 
     /* Sidebar Quick Topics */
-    .sidebar { width: 280px; background: #0b0f19; border-right: 1px solid var(--border-color); padding: 20px 16px; display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; }
-    .sidebar-title { font-size: 11.5px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-    .topic-btn { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 12px; color: #cbd5e1; font-size: 13px; text-align: left; cursor: pointer; margin-bottom: 8px; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
-    .topic-btn:hover { border-color: var(--accent-gold); color: #fff; background: rgba(245,158,11,0.08); }
+    .sidebar { width: 300px; background: #0b0f19; border-right: 1px solid var(--border-color); padding: 18px 16px; display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; }
+    .sidebar-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 14px 0 8px 4px; display: flex; align-items: center; gap: 6px; }
+    .sidebar-section-title.brand { color: var(--accent-gold); margin-top: 0; }
+    .sidebar-section-title.general { color: #c084fc; }
+    
+    .topic-btn { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 9px; padding: 9px 12px; color: #cbd5e1; font-size: 12.5px; text-align: left; cursor: pointer; margin-bottom: 6px; transition: all 0.2s; display: flex; align-items: center; gap: 8px; line-height: 1.4; width: 100%; }
+    .topic-btn:hover { border-color: var(--accent-gold); color: #fff; background: rgba(245,158,11,0.08); transform: translateX(2px); }
+    .topic-btn.general:hover { border-color: #a855f7; background: rgba(168,85,247,0.08); }
 
     /* Chat Area */
     .chat-main { flex: 1; display: flex; flex-direction: column; background: var(--bg-dark); }
     .messages-container { flex: 1; padding: 24px 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
 
-    .msg-row { display: flex; gap: 14px; max-width: 860px; margin: 0 auto; width: 100%; }
+    .msg-row { display: flex; gap: 14px; max-width: 900px; margin: 0 auto; width: 100%; }
     .msg-row.user { justify-content: flex-end; }
-    .msg-avatar { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-    .msg-avatar.ai { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: #000; }
+    .msg-avatar { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+    .msg-avatar.ai { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: #000; box-shadow: 0 4px 12px rgba(245,158,11,0.25); }
     .msg-avatar.user { background: #334155; color: #fff; }
 
-    .msg-bubble { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 18px; padding: 18px 22px; font-size: 14.5px; line-height: 1.8; color: #f1f5f9; position: relative; }
-    .msg-row.user .msg-bubble { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(168,85,247,0.15)); border-color: var(--accent-gold-glow); }
+    .msg-bubble { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 18px; padding: 18px 22px; font-size: 14.5px; line-height: 1.85; color: #f1f5f9; position: relative; max-width: 85%; }
+    .msg-row.user .msg-bubble { background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(168,85,247,0.18)); border-color: rgba(245,158,11,0.4); }
+
+    /* Declaration Banners */
+    .declaration-banner { margin-top: 14px; padding: 10px 14px; border-radius: 8px; font-size: 12.5px; display: flex; align-items: center; gap: 8px; line-height: 1.5; font-weight: 500; }
+    .declaration-banner.official { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.35); color: #fbbf24; }
+    .declaration-banner.ai-general { background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.35); color: #d8b4fe; }
+
     .msg-citations { margin-top: 12px; padding-top: 10px; border-top: 1px solid #1e293b; display: flex; gap: 6px; flex-wrap: wrap; }
     .cite-badge { font-size: 11px; font-family: monospace; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--accent-emerald); padding: 2px 8px; border-radius: 4px; }
+    .cite-badge.model { background: rgba(56,189,248,0.1); border-color: rgba(56,189,248,0.3); color: #38bdf8; }
 
     /* Input Footer */
-    .chat-footer { padding: 18px 30px; background: rgba(17,23,38,0.95); border-top: 1px solid var(--border-color); }
-    .input-box-wrapper { max-width: 860px; margin: 0 auto; display: flex; gap: 10px; }
-    .chat-input { flex: 1; background: #07090e; border: 1px solid #334155; border-radius: 14px; padding: 14px 20px; color: #fff; font-size: 14.5px; outline: none; transition: border-color 0.2s; }
-    .chat-input:focus { border-color: var(--accent-gold); }
-    .btn-send { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: #000; font-weight: 700; border: none; border-radius: 14px; padding: 0 24px; font-size: 14.5px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .chat-footer { padding: 16px 30px; background: rgba(17,23,38,0.96); border-top: 1px solid var(--border-color); }
+    .input-box-wrapper { max-width: 900px; margin: 0 auto; display: flex; gap: 10px; }
+    .chat-input { flex: 1; background: #07090e; border: 1px solid #334155; border-radius: 14px; padding: 14px 20px; color: #fff; font-size: 14.5px; outline: none; transition: all 0.2s; }
+    .chat-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(245,158,11,0.15); }
+    .btn-send { background: linear-gradient(135deg, var(--accent-gold), #d97706); color: #000; font-weight: 700; border: none; border-radius: 14px; padding: 0 24px; font-size: 14.5px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: opacity 0.2s; }
+    .btn-send:hover { opacity: 0.92; }
+
+    .system-error-card { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.35); color: #fca5a5; padding: 14px 18px; border-radius: 12px; font-size: 13.5px; line-height: 1.6; }
 
     @media (max-width: 768px) {
       .sidebar { display: none; }
+      .rule-pill-container { display: none; }
       .messages-container { padding: 16px; }
       .chat-footer { padding: 12px 16px; }
     }
@@ -85,73 +102,32 @@
       <img src="/site/assets/logo.jpg" alt="天旺农牧官方标志" />
       <span>天旺官方 AI 知识大脑 2.0</span>
     </a>
-    <div style="display:flex;align-items:center;gap:14px;margin-right:16px">
-      <a href="/site/credits.html" style="font-size:12px;color:var(--text-muted);text-decoration:none">影像出处与核验说明</a>
-    </div>
 
-    <!-- Dual Mode Switcher -->
-    <div class="mode-switch-group">
-      <button class="mode-tab-btn active" id="mode-btn-brand" onclick="switchCopilotMode('brand')">
-        <i class="ri-shield-check-fill"></i> 品牌官方 SSOT
-      </button>
-      <button class="mode-tab-btn science" id="mode-btn-science" onclick="switchCopilotMode('science')">
-        <i class="ri-flask-line"></i> 科学认知与产业百科
-      </button>
+    <!-- Unified Rules Indicator -->
+    <div class="rule-pill-container" title="系统总体逻辑规则">
+      <div class="rule-pill-item brand">
+        <i class="ri-shield-check-fill"></i> 含【天旺】: 官方SSOT与凭证
+      </div>
+      <span class="rule-pill-divider">|</span>
+      <div class="rule-pill-item general">
+        <i class="ri-sparkling-fill"></i> 不含【天旺】: 通用智能与深度科学
+      </div>
     </div>
 
     <div class="topbar-actions">
-      <!-- LLM Engine Badge / Config Button -->
-      <button class="btn-portal-back" onclick="openModelSettingsModal()" id="llm-engine-badge" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8; display: flex; align-items: center; gap: 6px; cursor: pointer;">
-        <i class="ri-cpu-line"></i> <span id="current-engine-label">模型引擎: AMD Radeon / Gemini / SSOT</span>
-      </button>
-      <a href="/site/workspace.html" class="btn-portal-back" target="_blank" style="border-color: rgba(168,85,247,0.5); color: #c084fc;">
-        <i class="ri-dashboard-3-line"></i> 知识库 OS 控制台
+      <!-- Credits Link (Required by Audit) -->
+      <a href="/site/credits.html" class="btn-top-action">
+        <i class="ri-file-shield-line"></i> 影像出处与核验说明
       </a>
-      <a href="/" class="btn-portal-back"><i class="ri-arrow-left-line"></i> 返回官网</a>
-    </div>
-  </div>
-
-  <!-- Model Settings Modal -->
-  <div id="model-settings-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 9999; backdrop-filter: blur(8px); align-items: center; justify-content: center;">
-    <div style="background: #111726; border: 1px solid #1e293b; border-radius: 16px; width: 90%; max-width: 520px; padding: 24px; color: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-        <h3 style="font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-          <i class="ri-settings-4-line" style="color: var(--accent-gold);"></i> AI 模型引擎与 API 配置
-        </h3>
-        <button onclick="closeModelSettingsModal()" style="background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer;">&times;</button>
+      <!-- LLM Engine Status Badge -->
+      <div class="btn-top-action" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">
+        <i class="ri-cpu-line" style="color: #ef4444;"></i>
+        <span>AMD Radeon (DeepSeek-V4)</span>
       </div>
-
-      <div style="margin-bottom: 16px;">
-        <label style="display: block; font-size: 13px; color: #cbd5e1; margin-bottom: 6px; font-weight: 600;">首选 LLM 引擎服务商：</label>
-        <select id="setting-provider-select" onchange="onProviderChange()" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 13.5px; outline: none;">
-          <option value="amd">🔴 AMD GPU (Radeon API / DeepSeek-V4)</option>
-          <option value="gemini">🌐 谷歌 Google Gemini (2.0 / 2.5 Flash)</option>
-          <option value="ssot">⚡ 天旺 SSOT 确定性引擎 (免Key / 极速离线)</option>
-        </select>
-      </div>
-
-      <div id="amd-config-box" style="margin-bottom: 16px;">
-        <label style="display: block; font-size: 13px; color: #cbd5e1; margin-bottom: 6px;">AMD Radeon API Key (可选自定义)：</label>
-        <input type="password" id="setting-amd-key" placeholder="默认已由服务端安全托管，日常使用无需填写" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 13px; outline: none; margin-bottom: 8px;" />
-        <label style="display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px;">指定模型型号：</label>
-        <input type="text" id="setting-amd-model" placeholder="DeepSeek-V4-Flash-Vision-Exp" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 12.5px; outline: none; margin-bottom: 8px;" />
-        <label style="display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px;">API Endpoint：</label>
-        <input type="text" id="setting-amd-endpoint" placeholder="https://developer.amd.com.cn/radeon/api/v1" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 12.5px; outline: none;" />
-      </div>
-
-      <div id="gemini-config-box" style="margin-bottom: 16px; display: none;">
-        <label style="display: block; font-size: 13px; color: #cbd5e1; margin-bottom: 6px;">Google Gemini API Key：</label>
-        <input type="password" id="setting-gemini-key" placeholder="AIzaSyxxxxxxxxxxxxxxxxxxxxxxx" style="width: 100%; background: #07090e; border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 13px; outline: none;" />
-      </div>
-
-      <p style="font-size: 12px; color: #64748b; line-height: 1.6; margin-bottom: 20px;">
-        💡 密钥将安全保存在您当前浏览器的 LocalStorage 中，仅用于向天旺知识大脑 API 发送鉴权请求；未配置密钥时系统将自动调用服务端环境密钥或 SSOT 确定性引擎。
-      </p>
-
-      <div style="display: flex; justify-content: flex-end; gap: 10px;">
-        <button onclick="closeModelSettingsModal()" style="background: rgba(255,255,255,0.06); border: 1px solid #334155; color: #cbd5e1; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px;">取消</button>
-        <button onclick="saveModelSettings()" style="background: linear-gradient(135deg, var(--accent-gold), #d97706); border: none; color: #000; font-weight: 700; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 13px;">保存配置</button>
-      </div>
+      <a href="/site/workspace.html" class="btn-top-action" target="_blank" style="border-color: rgba(168,85,247,0.4); color: #c084fc;">
+        <i class="ri-dashboard-3-line"></i> 知识库 OS
+      </a>
+      <a href="/" class="btn-top-action"><i class="ri-arrow-left-line"></i> 官网</a>
     </div>
   </div>
 
@@ -159,8 +135,17 @@
   <div class="chat-layout">
     <!-- Sidebar Preset Topics -->
     <div class="sidebar">
-      <div class="sidebar-title">⚡ 精选核心议题</div>
-      <div id="sidebar-topics">
+      <div class="sidebar-section-title brand">
+        <i class="ri-shield-check-fill"></i> 品牌官方事实 (含【天旺】)
+      </div>
+      <div id="sidebar-topics-brand">
+        <!-- 动态注入 -->
+      </div>
+
+      <div class="sidebar-section-title general">
+        <i class="ri-sparkling-fill"></i> 广义科学与历史 (通用智能)
+      </div>
+      <div id="sidebar-topics-general">
         <!-- 动态注入 -->
       </div>
     </div>
@@ -172,11 +157,14 @@
         <div class="msg-row">
           <div class="msg-avatar ai"><i class="ri-sparkling-fill"></i></div>
           <div class="msg-bubble">
-            您好！我是天旺农牧官方基于 <b>Brand Content OS</b> 与 <b>大模型 (AMD Radeon DeepSeek / Gemini)</b> 驱动的【藏红花智能知识大脑 2.0】。<br/><br/>
-            当前处于 <b>【品牌官方 SSOT 模式】</b>，我将严格依据天旺林芝产区地理事实、两段式现代农艺、拉萨海关 CMP-001 出境检疫凭证与食药检院 0 农残检验报告为您直接提供权威事实解答。
+            您好！我是天旺藏红花智能知识大脑。本系统已彻底接入 <b>AMD GPU (DeepSeek-V4)</b> 大语言模型进行端到端语义理解与事实推理。<br/><br/>
+            <strong>【全局统一问答总则】：</strong><br/>
+            1. <strong>提问明确提到【天旺】或【天旺农牧】</strong>：严格按品牌与产品逻辑，完全基于天旺官方 SSOT 知识库与 11 份检测报告作答，结尾附带<strong>【官方声明】</strong>；<br/>
+            2. <strong>提问未提及【天旺】</strong>：按通用智能逻辑，结合知识库深层机理、历史文献与全网世界知识做全面、专业、不减智的综合回答，结尾附带<strong>【AI智能生成声明】</strong>。
             <div class="msg-citations">
-              <span class="cite-badge">SSOT 权威底库: BCOS v14.0</span>
-              <span class="cite-badge">7 级证据链已链接</span>
+              <span class="cite-badge model">AMD DeepSeek-V4 全真推理</span>
+              <span class="cite-badge">天旺 11 项检测报告矩阵</span>
+              <span class="cite-badge">无硬编码模板</span>
             </div>
           </div>
         </div>
@@ -185,373 +173,185 @@
       <!-- Footer Input -->
       <div class="chat-footer">
         <div class="input-box-wrapper">
-          <input type="text" id="copilot-input" class="chat-input" placeholder="输入您想了解的问题 (如: 林芝产地坐标？0农残检测依据？宝芝林合作？)..." autofocus />
-          <button class="btn-send" onclick="sendCopilotMessage()"><i class="ri-send-plane-fill"></i> 发送</button>
+          <input type="text" id="copilot-input" class="chat-input" placeholder="输入您想了解的问题 (如: 天旺藏红花色价？竹田农法与两段式关系？赵学敏贡献？)..." autofocus />
+          <button class="btn-send" id="btn-send" onclick="sendCopilotMessage()"><i class="ri-send-plane-fill"></i> 发送</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    let activeMode = 'brand';
     const conversationHistory = [];
 
     const TOPIC_PRESETS = {
       brand: [
-        { label: '🏔️ 林芝米瑞乡基地风貌', q: '天旺林芝核心量产基地具体位于哪里？' },
-        { label: '🛡️ 0 农残报告与海关凭证', q: '天旺藏红花的拉萨海关凭证与 0 农残检验依据是什么？' },
-        { label: '🔬 崇明/林芝两段式农艺', q: '什么是天旺两段式现代农艺？' },
-        { label: '🤝 香港宝芝林与劲酒合作', q: '天旺与香港宝芝林、劲牌的合作产品是什么？' },
-        { label: '📊 STR-4000 五层竞争壁垒', q: 'STR-4000 战略竞争壁垒模型是什么？' }
+        { label: '🏷️ 天旺藏红花色价与海关凭证', q: '天旺藏红花的色价是多少？有海关出口凭证吗？' },
+        { label: '🏔️ 天旺林芝米瑞乡基地风貌与坐标', q: '天旺林芝核心量产基地具体位于哪里？海拔多少？' },
+        { label: '🛡️ 天旺 39 项农残质谱全未检出依据', q: '天旺农牧 0 农残检测的权威报告编号与依据是什么？' },
+        { label: '🤝 天旺与香港宝芝林/劲酒合作', q: '天旺农牧与香港宝芝林、劲牌劲酒的合作业务是什么？' },
+        { label: '🌱 天旺独创两段式现代农艺全流程', q: '天旺农牧独创的两段式现代农艺具体流程是怎样的？' }
       ],
-      science: [
-        { label: '🧪 藏红花三大核心成分', q: '西红花苷、苦素与藏红花醛三大化学成分机理是什么？' },
-        { label: '🍵 0.05g 冲泡与烹饪化学', q: '藏红花为什么不能用 100℃ 沸水冲泡？正确冲泡标准是什么？' },
-        { label: '⚖️ ISO 3632 等级标准', q: '国际 ISO 3632 标准如何测定藏红花色价等级？' },
-        { label: '🔍 水溶真伪鉴别三步法', q: '如何通过简单的水溶实验快速鉴别真假藏红花？' },
-        { label: '🌱 室内无水无土开花原理', q: '为什么藏红花在室内无水无土环境下依然能正常开花？' }
+      general: [
+        { label: '💡 竹田农法与两段式农法的关系', q: '竹田农法和两段式农法的关系是什么？' },
+        { label: '📜 清代药学家赵学敏的贡献考证', q: '赵学敏的贡献是什么？' },
+        { label: '⚗️ 藏红花苷向藏红花醛转化条件', q: '藏红花苷向藏红花醛转化的条件是什么？' },
+        { label: '🔬 藏红花三倍体不育与次生代谢', q: '藏红花为什么无法结籽？三倍体不育如何促进柱头成分积累？' },
+        { label: '🌍 全球藏红花主要产区与产业格局', q: '请问目前全球最大的藏红花生产国是哪个？年产量大概占全球多少？' }
       ]
     };
 
-    function switchCopilotMode(mode) {
-      activeMode = mode;
-      document.getElementById('mode-btn-brand').classList.toggle('active', mode === 'brand');
-      document.getElementById('mode-btn-science').classList.toggle('active', mode === 'science');
-      
-      const input = document.getElementById('copilot-input');
-      input.placeholder = mode === 'science' 
-        ? "向科学百科大脑提问 (三大化学机理？ISO 3632色价？真伪辨识？)..."
-        : "向品牌 SSOT 大脑提问 (林芝基地？0农残报告？宝芝林/劲酒合作？)...";
-      
-      renderSidebarTopics();
-    }
+    function renderSidebar() {
+      const brandContainer = document.getElementById('sidebar-topics-brand');
+      const genContainer = document.getElementById('sidebar-topics-general');
 
-    function renderSidebarTopics() {
-      const container = document.getElementById('sidebar-topics');
-      const items = TOPIC_PRESETS[activeMode];
-      container.innerHTML = items.map(item => `
-        <button class="topic-btn" onclick="askCopilotTopic('${item.q}')">
-          <i class="ri-questionnaire-line" style="color: var(--accent-gold);"></i>
+      brandContainer.innerHTML = TOPIC_PRESETS.brand.map(item => `
+        <button class="topic-btn" onclick="askTopic('${item.q}')">
+          <i class="ri-questionnaire-line" style="color: var(--accent-gold); flex-shrink: 0;"></i>
+          <span>${item.label}</span>
+        </button>
+      `).join('');
+
+      genContainer.innerHTML = TOPIC_PRESETS.general.map(item => `
+        <button class="topic-btn general" onclick="askTopic('${item.q}')">
+          <i class="ri-sparkling-line" style="color: #a855f7; flex-shrink: 0;"></i>
           <span>${item.label}</span>
         </button>
       `).join('');
     }
 
-    function askCopilotTopic(q) {
-      document.getElementById('copilot-input').value = q;
+    function askTopic(questionText) {
+      document.getElementById('copilot-input').value = questionText;
       sendCopilotMessage();
     }
-
-    function getDeterministicSSOTAnswer(query, mode) {
-      const q = (query || '').toLowerCase();
-
-      // 1. 三都镇 / 产业地位 / 全国产区 / 种植版图 / 建德
-      if (q.includes('三都') || q.includes('建德') || (q.includes('产区') && q.includes('地位')) || q.includes('版图') || q.includes('杭州')) {
-        return {
-          answer: `**【浙江建德三都镇在我国藏红花产业中的奠基性地位】：**\n\n1. **“中国藏红花之乡”**：三都镇位于浙江省建德市三江交汇处，是中国最早引种成功并实现规模量产的核心基地之一，被誉为“中国藏红花之乡”；\n2. **引种开端历史**：20世纪50年代苏联援建中国医药体系，中国医药工业部门先后在北京、上海、杭州、重庆四地引种西德种球，经欧洲精细农法试验，最终仅在**杭州及建德三都周边试种成功**，走出中国藏红花人工栽培第一步；\n3. **三大产区格局**：中国藏红花由此形成以**浙江建德三都镇**（传统发源与规模量产）、**上海崇明岛**（平原沙洲25g+大母球繁育蓄电池）、**西藏林芝米瑞乡**（天旺海拔2945m极地两段式高品质产区，色价246）的三大核心产业支点。`,
-          citations: ['《藏红花各种表格·综合历史大表》', '中国藏红花引种史文献', '三都镇地方产业志']
-        };
-      }
-
-      // 2. 藏红花中文名称的由来 / 为什么叫藏红花 / 命名历史
-      if (q.includes('由来') || q.includes('名称') || q.includes('名字') || q.includes('为什么叫') || (q.includes('藏红花') && q.includes('历史'))) {
-        return {
-          answer: `**【藏红花中文名称的由来与 261 年历史公案】：**\n\n1. **典籍首次定名**：清乾隆三十年（1765年），著名药学家**赵学敏**在《本草纲目拾遗》卷三中，正式将这一名贵药材记载定名为**“藏红花”**，以 2026 年计距今整整 **261 年**；\n2. **为何带“藏”字（因地致误）**：藏红花原产于地中海沿岸与中亚波斯。唐宋之后，丝绸之路贸易线南移，药材经由克什米尔跨入西藏拉萨，再由番商及僧侣沿川滇茶马古道、青藏古道转运进入内地。赵学敏因见药材均由西藏带入，加之当时地理信息隔绝，遂误认产自西藏，以“藏红花”之名流传至今；\n3. **名在西藏，花未归藏（261年的历史遗憾）**：两百六十一年来，“藏红花”虽名扬天下，但西藏在历史上长期仅作为贸易中转集散地，极地山川未见其真正扎根生息；\n4. **天旺的初心与使命**：林芝天旺农牧历经十年产学研攻关，在林芝米瑞乡海拔 2945 米实现规模量产与第九代本土种球繁育复壮，**“让藏红花实至名归”**！`,
-          citations: ['《本草纲目拾遗》卷三·赵学敏 (1765年)', '天旺品牌缘起与历史考证', 'DB54/T 0245-2021 西藏地标']
-        };
-      }
-
-      // 3. 赵学敏是谁 / 生平考证
-      if (q.includes('赵学敏') || q.includes('本草纲目拾遗')) {
-        return {
-          answer: `**【清代著名医药学家 · 赵学敏生平与医学贡献】：**\n\n1. **生平简介**：**赵学敏**（约1719年~1805年），字恕轩，号西海神童，清代乾隆嘉庆年间浙江钱塘（今杭州）著名医药学家、文献考证大家；\n2. **巨著《本草纲目拾遗》**：赵学敏历经四十年博采群书、搜罗民间秘方与海外传入新药，补正李时珍《本草纲目》未备之物716种，成书《本草纲目拾遗》十卷；\n3. **对藏红花的卓越贡献**：1765 年首次在中医国家级文献中为“藏红花”立项定名，详述其活血、养血、理气、解忧郁之药理，奠定了藏红花在中华传统中医药养生中的尊崇地位。`,
-          citations: ['清代《本草纲目拾遗》卷三', '中医文献考证史']
-        };
-      }
-
-      // 4. 藏红花苷与藏红花醛的转换条件 / 转化机理 / 生化反应
-      if ((q.includes('苷') && q.includes('醛')) || q.includes('转换') || q.includes('转化') || q.includes('ccd2') || q.includes('后熟') || q.includes('烘干')) {
-        return {
-          answer: `**【藏红花苷、苦番红花苷与藏红花醛的转换条件与生化机理】：**\n\n1. **前体物质**：鲜花柱头中主要的香气前体是无挥发性的**苦番红花苷 (Picrocrocin)**；新鲜采摘时藏红花醛含量极低，几乎无明显药香；\n2. **酶促与水解裂解反应**：\n   - 在采收处理中，经植物内源性**类胡萝卜素裂解双加氧酶 (CCD2)** 催化，苦苷水解脱去一分子葡萄糖，生成半中间体 **HTL (4-羟基-β-环柠檬醛)**；\n3. **热降解失水转化为藏红花醛（关键工艺窗口）**：\n   - 在 **40℃~65℃ 低温受热干燥与脱水后熟过程**中，HTL 发生非酶热降解重排、脱去一分子水，生成强挥发性且具备深邃穿透性药草香气的**藏红花醛 (Safranal)**；\n4. **工艺红线**：若烘干温度超过 75℃~85℃，高挥发性藏红花醛会剧烈挥发损失，且热敏性西红花苷会氧化降解色价暴跌；天旺采用 50℃~55℃ 阶梯控温真空干燥，实现香气与色价（实测246）的最佳保留。`,
-          citations: ['《最全的成份功能原理表》', '植物生理学生物化学机理大典', 'ISO 3632 风味化学标准']
-        };
-      }
-
-      // 5. 真伪辨别 / 水溶实验 / 假货 / 红花区别
-      if (q.includes('真伪') || q.includes('辨别') || q.includes('真假') || q.includes('假') || q.includes('鉴别') || q.includes('水溶') || (q.includes('红花') && q.includes('区别'))) {
-        return {
-          answer: `**藏红花【水溶真伪鉴别三步法】与科学判定依据：**\n\n1. **看柱头形态**：正品藏红花（番红花柱头）顶端呈喇叭口展开、边缘有不规则锯齿，整体呈现深红至紫红色；假冒品多为菊科草红花或染色植物纤维，无喇叭口结构。\n2. **看水溶汤色**：正品藏红花含有高水溶性**西红花苷 (Crocin)**，入水后花丝周围缓缓释放金黄色丝状色带，整杯水呈现**清澈明亮的金黄色（绝非红色、浑浊色）**；若入水立即变深红或水质浑浊，必为人工色素染色假货。\n3. **看泡后花丝**：正品花丝冲泡 4~5 次依然保持完整有韧性，用手指碾压不碎不化；假货浸泡后迅速褪色、花丝发软碎烂。\n\n*注意：藏红花（鸢尾科，名贵滋补）与普通草红花（菊科，活血破瘀草药）为完全不同的植物科属、成分与功效。*`,
-          citations: ['ISO 3632:2011 国际检测标准', 'APP-001 科学真伪鉴别法', '重庆食药检院质检报告 No. A26SW02809']
-        };
-      }
-
-      // 6. 种植基地土壤生态与高山灌溉水质 (华测检测 CTI 湾区认证)
-      if (q.includes('土壤') || q.includes('水质') || q.includes('灌溉水') || q.includes('华测') || q.includes('cti') || q.includes('滴滴涕') || q.includes('六六六')) {
-        return {
-          answer: `**天旺藏红花【种植基地土壤与高山灌溉水质】权威检验结论（广州华测检测 CTI 湾区认证）：**\n\n1. **种植基地土壤环境质量报告（报告编号：A2260715164101001C）**：\n   - **检测依据**：GB 15618-2018《土壤环境质量 农用地土壤污染风险管控标准(试行)》；\n   - **酸碱度**：pH 5.94 弱酸性沙质壤土，疏水透气，适配球茎生长；\n   - **历史有机氯农残**：滴滴涕总量 (DDT) **全项未检出**，六六六总量 (HCH) **全项未检出**；\n   - **强致癌物**：苯并[a]芘 **未检出**；\n   - **重金属指标**：镉 0.11、铅 12.2、汞 0.0269、砷 8.76 mg/kg，全部远优于国家标准。\n\n2. **农田高山灌溉水质报告（报告编号：A2260721555101001C）**：\n   - **判定依据**：GB 5084-2021《农田灌溉水质标准》（旱地作物类最高标准）；\n   - **理化指标**：pH 6.7 天然中性活泉，悬浮物 <4 mg/L，五日生化需氧量 (BOD5) 0.6 mg/L，极其清澈软润；\n   - **重金属指标**：总铅、总镉、六价铬全部低于仪器最低检出极限；\n   - **生物安全**：蛔虫卵未检出，粪大肠菌群 <20 MPN/L（优于国家限量 2000 倍）。\n\n*结论：天旺林芝米瑞乡基地坐拥苯日神山纯净融雪活水与远古特提斯海沉积沙壤，水土双环境零工业与生活排污。*`,
-          citations: ['广州华测 CTI 土壤报告 A2260715164101001C', '华测 CTI 灌溉水报告 A2260721555101001C', 'GB 15618-2018 / GB 5084-2021']
-        };
-      }
-
-      // 7. 西红花苷总量 26.43% 实测含量
-      if (q.includes('含量') || q.includes('26.43') || q.includes('中科光析') || q.includes('中研所')) {
-        return {
-          answer: `**天旺藏红花【西红花苷活性成分 HPLC 实测含量】：**\n\n依据中研所分析测试中心 / 中科光析出具的检验报告（报告编号：**ZX250221-C130401**）：\n\n1. **西红花苷-I 实测含量**：**18.12%**；\n2. **西红花苷-II 实测含量**：**8.31%**；\n3. **西红花苷总量 (I+II)**：**实测高达 26.43%**；\n4. **标准对比**：《中华人民共和国药典》规定合格限为不得少于 10.0%，天旺藏红花实测含量为药典合格线的 **2.64 倍**。\n\n*机理支撑：林芝 2945 米高海拔极地强紫外线与 15℃ 昼夜温差，促使三倍体败育植株体内次生代谢防御物质产生爆发式积累。*`,
-          citations: ['中研所/中科光析报告 ZX250221-C130401', '《中国药典》2020年版一部 HPLC 标准', '西红花苷(I+II) 26.43%']
-        };
-      }
-
-      // 8. 0 农残报告 / 重庆食药检院 / 色价 246
-      if (q.includes('农残') || q.includes('0农残') || q.includes('色价') || q.includes('246') || q.includes('食药检院') || q.includes('重金属') || q.includes('检验') || q.includes('质检')) {
-        return {
-          answer: `**天旺藏红花【农残、色价与品质理化检验】依据与权威报告：**\n\n1. **色价高达 246**：重庆市食品药品检验检测研究院正式检验报告 **No. A26SW02809**，符合西藏地标 DB54/T 0245-2021 一级品，440nm 色价高达 **246**（远超药典 180 与 ISO 一级品 200 标准）；总砷未检出，黄曲霉毒素 B1/B2/G1/G2 全项未检出；\n2. **39项高分辨农残未检出**：深圳市计量质量检测研究院 (SMQ) 高分辨质谱报告 **WT10103260183295WT2**，多菌灵等 39 项常见农药残留全项未检出（低于方法定量限）；\n3. **农艺实现机制**：得益于天旺“两段式设施农法”，花期在林芝 2945 米连栋温室无土悬空催花，彻底隔绝外部杂菌与雨水，物理级零施药。`,
-          citations: ['重庆食药检院 No. A26SW02809', '深圳计量院 SMQ 报告 WT10103260183295WT2', '西藏地标 DB54/T 0245-2021']
-        };
-      }
-
-      // 9. 拉萨海关出境凭证 / 加拿大出口
-      if (q.includes('海关') || q.includes('出口') || q.includes('加拿大') || q.includes('单克') || q.includes('cmp-001')) {
-        return {
-          answer: `**天旺藏红花【拉萨海关出境凭证 CMP-001】与国际出口事实：**\n\n1. **官方检疫凭证**：2025 年 5 月顺利通过中华人民共和国拉萨海关现场查验与检疫，正式签发《植物检疫证书》；\n2. **出海出口数据**：向**加拿大合规出口 2kg 特级藏红花**，完成正式报关出口手续；\n3. **出口货值与单价**：出口总货值 **25.64 万元人民币**，折合单克出口单价高达 **128.2 元/克**；\n4. **行业意义**：标志着西藏林芝产区藏红花具备了国际顶尖检验检疫资质，实现了高原道地藏红花的国际化逆向出海。`,
-          citations: ['拉萨海关植物检疫证书 CMP-001', '商务部海关报关凭证 2025-05', '出口加拿大合同 25.64万元']
-        };
-      }
-
-      // 10. 官方销售、代理授权与科技馆
-      if (q.includes('代理') || q.includes('分销') || q.includes('科技馆') || q.includes('购买') || q.includes('正品') || q.includes('专卖')) {
-        return {
-          answer: `**【天旺农牧官方产品销售及授权情况声明 (2026.08.26)】：**\n\n1. **无任何外部代理**：林芝天旺农牧产品有限公司未向任何单位或个人授予藏红花干花丝销售代理、分销、代销权；未设立面向市场销售的分支机构；\n2. **唯一线下实体零售场所**：西藏林芝市巴宜区米瑞乡广久村路口、基地内的**“藏红花科技馆”**是目前唯一直接面向消费者的线下实体零售场所；\n   - **官方地理坐标**：北纬 29.476311°，东经 94.554110°\n   - **导航名称**：高德搜索“藏红花科技馆”，百度搜索“林芝天旺农牧藏红花研发基地”；\n3. **核验电话**：13549044959。`,
-          citations: ['天旺农牧官方声明公告 (2026.08.26)', '企业营业执照 91540400MA6TCDCA38']
-        };
-      }
-
-      // 11. 针对完全未命中的开放性问题：诚实给出公网连网指引，绝不胡乱输出大杂烩！
-      return {
-        answer: `**【公网连网问答提示】**\n\n关于您提问的“**${query}**”，属于较宏观的行业、常识或开放性问题。\n\n当前系统正在为您连通云端大模型（AMD GPU DeepSeek-V4）检索全网公网数据；如果网络请求尚未完成，您可切换至顶部 **【科学认知与产业百科】** 模式，或直接就天旺藏红花的 **林芝2945m风土、11项检测报告、色价246、西红花苷26.43%、三都镇/崇明产区演进、两苷一醛转化条件** 进行深度精准提问！`,
-        citations: ['知识库语义检索引导', '全网公网问答引擎 (准备中)']
-      };
-    }
-// =========================================================================
-    // AI 模型引擎配置管理 (AMD Radeon / Google Gemini / SSOT)
-    // 安全策略：前端默认不暴露明文 API Key，鉴权由服务端安全代理托管
-    // =========================================================================
-    const DEFAULT_AMD_API_KEY = '';
-    const DEFAULT_AMD_MODEL = 'DeepSeek-V4-Flash-Vision-Exp';
-    const DEFAULT_AMD_ENDPOINT = 'https://developer.amd.com.cn/radeon/api/v1';
-
-    function getStoredLLMConfig() {
-      return {
-        provider: localStorage.getItem('TIANWANG_LLM_PROVIDER') || 'amd',
-        amdKey: localStorage.getItem('TIANWANG_AMD_KEY') || DEFAULT_AMD_API_KEY,
-        amdModel: localStorage.getItem('TIANWANG_AMD_MODEL') || DEFAULT_AMD_MODEL,
-        amdEndpoint: localStorage.getItem('TIANWANG_AMD_ENDPOINT') || DEFAULT_AMD_ENDPOINT,
-        geminiKey: localStorage.getItem('TIANWANG_GEMINI_KEY') || ''
-      };
-    }
-
-    function updateEngineLabel() {
-      const cfg = getStoredLLMConfig();
-      const label = document.getElementById('current-engine-label');
-      if (!label) return;
-      if (cfg.provider === 'amd') {
-        label.innerHTML = '<span style="color:#ef4444">🔴 AMD Radeon</span> (DeepSeek-V4)';
-      } else if (cfg.provider === 'gemini') {
-        label.innerHTML = '<span style="color:#38bdf8">🌐 Gemini</span> (' + (cfg.geminiKey ? '已配Key' : 'Flash') + ')';
-      } else {
-        label.innerHTML = '<span style="color:#f59e0b">⚡ SSOT 极速引擎</span>';
-      }
-    }
-
-    function openModelSettingsModal() {
-      const cfg = getStoredLLMConfig();
-      const provEl = document.getElementById('setting-provider-select');
-      const aKeyEl = document.getElementById('setting-amd-key');
-      const aModEl = document.getElementById('setting-amd-model');
-      const aEndEl = document.getElementById('setting-amd-endpoint');
-      const gKeyEl = document.getElementById('setting-gemini-key');
-      const modal = document.getElementById('model-settings-modal');
-
-      if (provEl) provEl.value = cfg.provider;
-      if (aKeyEl) aKeyEl.value = cfg.amdKey;
-      if (aModEl) aModEl.value = cfg.amdModel;
-      if (aEndEl) aEndEl.value = cfg.amdEndpoint;
-      if (gKeyEl) gKeyEl.value = cfg.geminiKey;
-      onProviderChange();
-      if (modal) {
-        modal.style.display = 'flex';
-      }
-    }
-
-    function closeModelSettingsModal() {
-      const modal = document.getElementById('model-settings-modal');
-      if (modal) modal.style.display = 'none';
-    }
-
-    function onProviderChange() {
-      const provEl = document.getElementById('setting-provider-select');
-      const provider = provEl ? provEl.value : 'amd';
-      const aBox = document.getElementById('amd-config-box');
-      const gBox = document.getElementById('gemini-config-box');
-      if (aBox) aBox.style.display = (provider === 'amd') ? 'block' : 'none';
-      if (gBox) gBox.style.display = (provider === 'gemini') ? 'block' : 'none';
-    }
-
-    function saveModelSettings() {
-      const provEl = document.getElementById('setting-provider-select');
-      const aKeyEl = document.getElementById('setting-amd-key');
-      const aModEl = document.getElementById('setting-amd-model');
-      const aEndEl = document.getElementById('setting-amd-endpoint');
-      const gKeyEl = document.getElementById('setting-gemini-key');
-
-      const provider = provEl ? provEl.value : 'amd';
-      const amdKey = (aKeyEl && aKeyEl.value.trim()) ? aKeyEl.value.trim() : DEFAULT_AMD_API_KEY;
-      const amdModel = (aModEl && aModEl.value.trim()) ? aModEl.value.trim() : DEFAULT_AMD_MODEL;
-      const amdEndpoint = (aEndEl && aEndEl.value.trim()) ? aEndEl.value.trim() : DEFAULT_AMD_ENDPOINT;
-      const geminiKey = gKeyEl ? gKeyEl.value.trim() : '';
-
-      localStorage.setItem('TIANWANG_LLM_PROVIDER', provider);
-      localStorage.setItem('TIANWANG_AMD_KEY', amdKey);
-      localStorage.setItem('TIANWANG_AMD_MODEL', amdModel);
-      localStorage.setItem('TIANWANG_AMD_ENDPOINT', amdEndpoint);
-      localStorage.setItem('TIANWANG_GEMINI_KEY', geminiKey);
-
-      updateEngineLabel();
-      closeModelSettingsModal();
-    }
-    // 暴露至全局 window 保证任何绑定方式均可响应
-    window.openModelSettingsModal = openModelSettingsModal;
-    window.closeModelSettingsModal = closeModelSettingsModal;
-    window.saveModelSettings = saveModelSettings;
-    window.onProviderChange = onProviderChange;
-    window.switchCopilotMode = switchCopilotMode;
-    window.askCopilotTopic = askCopilotTopic;
-    window.sendCopilotMessage = sendCopilotMessage;
-
-    // 绑定点击事件与快捷关闭
-    const badgeBtn = document.getElementById('llm-engine-badge');
-    if (badgeBtn) {
-      badgeBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModelSettingsModal();
-      });
-    }
-
-    const settingsModal = document.getElementById('model-settings-modal');
-    if (settingsModal) {
-      settingsModal.addEventListener('click', (e) => {
-        if (e.target === settingsModal) closeModelSettingsModal();
-      });
-    }
-
-    // 初始化引擎标签
-    updateEngineLabel();
 
     async function sendCopilotMessage() {
       const input = document.getElementById('copilot-input');
       const text = input.value.trim();
       if (!text) return;
-
       input.value = '';
+
       const msgBox = document.getElementById('messages-container');
 
-      // 渲染用户发言
+      // 1. 渲染用户消息
       const userRow = document.createElement('div');
       userRow.className = 'msg-row user';
       userRow.innerHTML = `
-        <div class="msg-bubble">${text}</div>
+        <div class="msg-bubble">${escapeHtml(text)}</div>
         <div class="msg-avatar user"><i class="ri-user-3-line"></i></div>
       `;
       msgBox.appendChild(userRow);
       msgBox.scrollTop = msgBox.scrollHeight;
 
-      // 获取当前 LLM 配置
-      const llmCfg = getStoredLLMConfig();
-
-      // 渲染 AI Loading 占位
+      // 2. 渲染 AI Loading
       const aiRow = document.createElement('div');
       aiRow.className = 'msg-row';
+      const isBrandMention = text.includes('天旺') || text.includes('天旺农牧');
       aiRow.innerHTML = `
         <div class="msg-avatar ai"><i class="ri-sparkling-fill"></i></div>
         <div class="msg-bubble" id="loading-bubble">
-          <i class="ri-loader-4-line ri-spin" style="color: var(--accent-gold);"></i> 正在检索 ${activeMode === 'brand' ? '天旺 SSOT 官方知识库' : '科学百科知识库'}...
+          <i class="ri-loader-4-line ri-spin" style="color: var(--accent-gold);"></i> 
+          <span>正在通过 AMD DeepSeek-V4 进行智能推理 (${isBrandMention ? '已触发：天旺官方知识库与证据链' : '已触发：通用智能与深层科学机理'})...</span>
         </div>
       `;
       msgBox.appendChild(aiRow);
       msgBox.scrollTop = msgBox.scrollHeight;
 
-      let finalAnswer = '';
-      let citations = [];
+      const sendBtn = document.getElementById('btn-send');
+      sendBtn.disabled = true;
 
-      // 如果未选择强制本地 SSOT，则优先向 /api/chat 发起大模型推理
-      if (llmCfg.provider !== 'ssot') {
-        try {
-          const payload = {
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             question: text,
-            mode: activeMode,
             history: conversationHistory
-          };
-          payload.provider = llmCfg.provider;
-          if (llmCfg.provider === 'amd') {
-            payload.amdApiKey = llmCfg.amdKey;
-            payload.amdModel = llmCfg.amdModel;
-            payload.amdEndpoint = llmCfg.amdEndpoint;
-          } else if (llmCfg.provider === 'gemini') {
-            if (llmCfg.geminiKey) payload.geminiApiKey = llmCfg.geminiKey;
-            // AMD 作为备用 Key
-            payload.amdApiKey = llmCfg.amdKey;
-          }
+          })
+        });
 
-          const res = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          const data = await res.json();
-          if (data.success && data.answer) {
-            finalAnswer = data.answer;
-            citations = (data.citations && data.citations.length) ? data.citations : (activeMode === 'brand' 
-              ? ['天旺品牌 SSOT 知识库 (BCOS v14.0)', '7 级硬核抗质疑证据链']
-              : ['ISO 3632:2011 国际标准', '藏红花植物生理学学术底库']);
-          }
-        } catch (e) {
-          console.warn('API Chat request failed, using SSOT deterministic matcher:', e);
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.message || `HTTP 错误 ${response.status}`);
         }
+
+        const data = await response.json();
+        if (!data.success || !data.answer) {
+          throw new Error(data.message || '大模型未返回有效文本');
+        }
+
+        const rawAnswer = data.answer;
+        conversationHistory.push({ question: text, answer: rawAnswer });
+        if (conversationHistory.length > 6) conversationHistory.shift();
+
+        // 处理声明解析
+        let cleanAnswer = rawAnswer;
+        let declarationHtml = '';
+
+        if (rawAnswer.includes('官方声明：本回答完全基于天旺农牧官方知识库与权威检测报告')) {
+          cleanAnswer = cleanAnswer.replace(/【官方声明：本回答完全基于天旺农牧官方知识库与权威检测报告】/g, '').trim();
+          declarationHtml = `
+            <div class="declaration-banner official">
+              <i class="ri-shield-check-fill" style="font-size: 16px;"></i>
+              <span><strong>官方声明</strong>：本回答完全基于天旺农牧官方知识库与权威检测报告</span>
+            </div>
+          `;
+        } else if (rawAnswer.includes('AI智能生成：本回答由大模型结合知识库与网络公开信息综合生成，仅供参考')) {
+          cleanAnswer = cleanAnswer.replace(/【AI智能生成：本回答由大模型结合知识库与网络公开信息综合生成，仅供参考】/g, '').trim();
+          declarationHtml = `
+            <div class="declaration-banner ai-general">
+              <i class="ri-sparkling-fill" style="font-size: 16px;"></i>
+              <span><strong>AI智能生成</strong>：本回答由大模型结合知识库与网络公开信息综合生成，仅供参考</span>
+            </div>
+          `;
+        }
+
+        const formattedText = cleanAnswer
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n\n/g, '<br/><br/>')
+          .replace(/\n/g, '<br/>');
+
+        const citations = (data.citations && data.citations.length) ? data.citations : ['AMD GPU Radeon (DeepSeek-V4)'];
+
+        const bubble = aiRow.querySelector('#loading-bubble');
+        bubble.removeAttribute('id');
+        bubble.innerHTML = `
+          <div>${formattedText}</div>
+          ${declarationHtml}
+          <div class="msg-citations">
+            <span style="font-size: 11px; color: #94a3b8; display: flex; align-items: center; margin-right: 4px;">智能标记:</span>
+            ${citations.map(c => `<span class="cite-badge">${escapeHtml(c)}</span>`).join('')}
+          </div>
+        `;
+      } catch (err) {
+        console.error('Chat error:', err);
+        const bubble = aiRow.querySelector('#loading-bubble');
+        bubble.removeAttribute('id');
+        bubble.innerHTML = `
+          <div class="system-error-card">
+            <i class="ri-alert-line"></i> <strong>智能大脑连接提示：</strong><br/>
+            无法连接到 AMD DeepSeek-V4 智能算力服务（${escapeHtml(err.message)}）。<br/>
+            <small style="color: #cbd5e1; display: block; margin-top: 6px;">天旺智能大脑遵循严格的真实大模型推理标准，绝不使用虚假硬编码回复。请检查本地代理或云端网络后重试。</small>
+          </div>
+        `;
+      } finally {
+        sendBtn.disabled = false;
+        msgBox.scrollTop = msgBox.scrollHeight;
       }
+    }
 
-      // 智能 SSOT 精准确定性结果匹配兜底
-      if (!finalAnswer) {
-        const fallbackObj = getDeterministicSSOTAnswer(text, activeMode);
-        finalAnswer = fallbackObj.answer;
-        citations = fallbackObj.citations;
-      }
-
-      // 记录历史
-      conversationHistory.push({ question: text, answer: finalAnswer });
-      if (conversationHistory.length > 6) conversationHistory.shift();
-
-      const bubble = aiRow.querySelector('#loading-bubble');
-      bubble.removeAttribute('id');
-      
-      const formattedText = finalAnswer
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n\n/g, '<br/><br/>')
-        .replace(/\n/g, '<br/>');
-
-      bubble.innerHTML = `
-        <div>${formattedText}</div>
-        <div class="msg-citations">
-          <span style="font-size: 11px; color: #94a3b8; display: flex; align-items: center; margin-right: 4px;">引用凭证:</span>
-          ${citations.map(c => `<span class="cite-badge">${c}</span>`).join('')}
-        </div>
-      `;
-      msgBox.scrollTop = msgBox.scrollHeight;
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     }
 
     document.getElementById('copilot-input').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') sendCopilotMessage();
     });
 
-    renderSidebarTopics();
+    renderSidebar();
   </script>
 </body>
 </html>
