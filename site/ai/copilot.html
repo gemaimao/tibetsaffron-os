@@ -260,14 +260,30 @@
       sendBtn.disabled = true;
 
       try {
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            question: text,
-            history: conversationHistory
-          })
+        const payload = JSON.stringify({
+          question: text,
+          history: conversationHistory
         });
+
+        let response;
+        try {
+          response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload
+          });
+          // 如果公网静态 CDN 节点返回 404，则自动切换到专属云端网关
+          if (!response.ok && response.status === 404) {
+            throw new Error('Static CDN 404');
+          }
+        } catch (initialErr) {
+          const tunnelGateway = 'https://textiles-jpeg-try-primary.trycloudflare.com/api/chat';
+          response = await fetch(tunnelGateway, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload
+          });
+        }
 
         if (!response.ok) {
           const errData = await response.json().catch(() => ({}));
