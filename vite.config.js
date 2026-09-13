@@ -674,6 +674,7 @@ export default defineConfig({
         history: path.resolve(__dirname, 'site/brand/history.html'),
         terroir: path.resolve(__dirname, 'site/brand/terroir.html'),
         lifecycle: path.resolve(__dirname, 'site/cognition/lifecycle.html'),
+        saffronLifecycleAnim: path.resolve(__dirname, 'site/cognition/saffron-lifecycle-animation.html'),
         labor: path.resolve(__dirname, 'site/brand/labor.html'),
         products: path.resolve(__dirname, 'site/products/index.html'),
         agronomy: path.resolve(__dirname, 'site/brand/agronomy.html'),

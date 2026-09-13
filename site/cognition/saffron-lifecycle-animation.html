@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>藏红花的一生 · 三株生命周期动画</title>
+<style>
+:root{--bg:#f6f2ea;--ink:#3a2e26;--muted:#8a7a6a;--card:#fffdf8;--red:#d4442a}
+*{box-sizing:border-box}body{margin:0;padding:24px 16px 44px;font-family:"PingFang SC","Noto Sans SC",sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;align-items:center}
+header{text-align:center}h1{font-size:26px;letter-spacing:.08em;margin:0}.en{display:block;font-size:13px;color:var(--muted);font-weight:400;letter-spacing:.18em;margin-top:5px}
+.stage-caption{height:34px;width:min(900px,96vw);margin:14px 0 6px;position:relative;text-align:center;overflow:hidden}.cap{position:absolute;inset:0;opacity:0;font-size:15px;line-height:32px;animation:48s infinite ease-in-out}.cap b{color:var(--red)}.sep{color:#c9bda8;margin:0 10px}.desc{color:var(--muted)}
+#cap1{animation-name:c1}#cap2{animation-name:c2}#cap3{animation-name:c3}#cap4{animation-name:c4}
+@keyframes c1{0%,23%{opacity:1}25%,100%{opacity:0}}@keyframes c2{0%,25%{opacity:0}27%,48%{opacity:1}50%,100%{opacity:0}}@keyframes c3{0%,50%{opacity:0}52%,73%{opacity:1}75%,100%{opacity:0}}@keyframes c4{0%,75%{opacity:0}77%,98%{opacity:1}100%{opacity:0}}
+.svg-wrap{width:min(900px,96vw);background:var(--card);border:1px solid #e6dcc9;border-radius:16px;box-shadow:0 10px 30px rgba(90,60,30,.08);overflow:hidden;position:relative}svg{display:block;width:100%;height:auto}
+.anim{animation-duration:48s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+#sky{animation-name:sky}
+@keyframes sky{0%,20%{fill:#d9e9f1}35%{fill:#f0ead6}55%{fill:#f5dfb4}73%{fill:#eedbc2}90%{fill:#e8d7d1}100%{fill:#d9e9f1}}
+#sun{animation-name:sun;transform-origin:center}@keyframes sun{0%{transform:translate(110px,105px)}25%{transform:translate(200px,70px)}50%{transform:translate(350px,38px)}75%{transform:translate(480px,95px)}100%{transform:translate(110px,105px)}}
+.snow{animation:48s infinite linear snow}@keyframes snow{0%{opacity:0;transform:translateY(-20px)}2%,18%{opacity:.8}24%,100%{opacity:0;transform:translate(-20px,190px)}}
+#heat{animation:48s infinite heat}@keyframes heat{0%,48%{opacity:0}54%,70%{opacity:.55}76%,100%{opacity:0}}
+/* 统一生命周期：0-25 冬长｜25-50 春枯｜50-75 夏眠｜75-100 秋花 */
+.plant{--x:400px}.leaf{transform-origin:0 0;animation:48s infinite ease-in-out leaf}
+@keyframes leaf{
+0%{transform:scaleY(.82);opacity:1}20%{transform:scaleY(1.24);opacity:1}38%{transform:scaleY(1.24);opacity:1}
+46%{transform:scaleY(1.08) rotate(var(--fall));opacity:1}54%{transform:scaleY(.12) rotate(var(--fall));opacity:0}
+75%{transform:scaleY(.05);opacity:0}82%{transform:scaleY(.42);opacity:1}88%{transform:scaleY(.62);opacity:1}
+96%{transform:scaleY(.98);opacity:1}100%{transform:scaleY(.82);opacity:1}}
+.blade{animation:48s infinite leafcol}@keyframes leafcol{0%,43%{fill:#5d9c52;stroke:#4a8440}48%{fill:#b4a443;stroke:#958735}53%,100%{fill:#5d9c52;stroke:#4a8440}}
+.mother{transform-origin:0 22px;animation:48s infinite mother}@keyframes mother{0%,25%{transform:scale(1);opacity:1}40%{transform:scale(.84);opacity:.9}50%{transform:scale(.75);opacity:.4}60%,97%{opacity:0}100%{transform:scale(1);opacity:1}}
+.daughter{transform-origin:0 22px;animation:48s infinite daughter}@keyframes daughter{0%{transform:scale(.25);opacity:.9}25%{transform:scale(.72);opacity:1}45%,62%{transform:scale(1);opacity:1}67%,97%{opacity:0}100%{transform:scale(.25);opacity:.9}}
+.newc{transform-origin:0 22px;animation:48s infinite newc}@keyframes newc{0%,58%{opacity:0}63%,97%{opacity:1}100%{opacity:0}}
+.bud{transform-origin:0 15px;animation:48s infinite bud}@keyframes bud{0%,57%{opacity:0;transform:scale(.2)}62%,73%{opacity:1;transform:scale(1)}76%,100%{opacity:0}}
+.flower{transform-origin:0 0;animation:48s infinite flower}@keyframes flower{0%,82%{opacity:0;transform:translateY(30px) scaleY(.1)}87%{opacity:1;transform:translateY(5px) scaleY(.82)}91%,95.5%{opacity:1;transform:translateY(0) scaleY(1)}99.2%,100%{opacity:0;transform:translateY(-30px)}}
+.stigma{transform-origin:0 -45px;animation:48s infinite stigma}@keyframes stigma{0%,89%{opacity:0;transform:scaleY(.1)}92%,96%{opacity:1;transform:scaleY(1)}97.2%,100%{opacity:0;transform:scaleY(.1)}}
+.petals{transform-origin:0 -32px;animation:48s infinite petals}@keyframes petals{0%,87%{transform:scaleY(.35)}91%,100%{transform:scaleY(1)}}
+#pointer{animation:48s infinite linear pointer}@keyframes pointer{0%{transform:translateX(50px)}100%{transform:translateX(750px)}}
+#sound{position:absolute;right:14px;top:12px;border:1px solid #d8c8b3;border-radius:18px;background:#fffdf8cc;padding:6px 10px;font-size:12px;color:#7a6a55;cursor:pointer}
+footer{margin-top:12px;font-size:12.5px;color:var(--muted);text-align:center;line-height:1.7}
+@media(prefers-reduced-motion:reduce){*{animation-duration:480s!important}}
+</style>
+</head>
+<body>
+<div style="width:min(900px,96vw);display:flex;justify-content:space-between;margin-bottom:14px;font-size:12.5px">
+  <div>
+    <a href="/site/cognition/lifecycle.html" style="color:var(--muted);text-decoration:none">← 返回四季生命节律</a>　
+    <a href="/site/credits.html" style="color:var(--muted);text-decoration:none">影像出处与版权说明</a>
+  </div>
+  <a href="/" style="color:var(--muted);text-decoration:none">前往官网首页 ↗</a>
+</div>
+<header><h1>藏红花的一生 <span class="en">LIFE CYCLE OF SAFFRON</span></h1></header>
+<div class="stage-caption">
+ <div class="cap" id="cap1">❄ <b>冬长 12–2月</b><span class="sep">｜</span><span class="desc">叶片持续生长 · 新球茎积累营养</span></div>
+ <div class="cap" id="cap2">🍂 <b>春枯 3–5月</b><span class="sep">｜</span><span class="desc">新球茎成熟 · 母球耗竭 · 叶片逐渐枯萎</span></div>
+ <div class="cap" id="cap3">☀ <b>夏眠 6–8月</b><span class="sep">｜</span><span class="desc">地上部分消失 · 球茎休眠 · 地下孕育下一轮生命</span></div>
+ <div class="cap" id="cap4">🌺 <b>秋花 9–11月</b><span class="sep">｜</span><span class="desc">花芽萌动 · 花高于叶 · 开花采收后叶片继续生长</span></div>
+</div>
+<div class="svg-wrap">
+<button id="sound">♪ 开启晨曦</button>
+<svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" aria-label="三株藏红花生命周期动画">
+<defs>
+ <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#7a5638"/><stop offset="1" stop-color="#4e3423"/></linearGradient>
+ <radialGradient id="corm" cx=".38" cy=".3" r=".9"><stop stop-color="#ead0a9"/><stop offset=".65" stop-color="#c69a63"/><stop offset="1" stop-color="#9a7040"/></radialGradient>
+ <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#bd98d5"/><stop offset="1" stop-color="#8252a4"/></linearGradient>
+ <pattern id="dots" width="24" height="18" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="1.4" fill="#3d2818" opacity=".45"/><circle cx="17" cy="12" r="1.1" fill="#9b7650" opacity=".4"/></pattern>
+ <g id="plantTemplate">
+   <!-- ground anchor is y=0; underground begins below -->
+   <g class="mother"><ellipse cy="22" rx="31" ry="28" fill="url(#corm)" stroke="#8a6238" stroke-width="1.5"/><path d="M-25 10q25-16 50 0M-22 32q22 12 44 0" stroke="#a57c4c" fill="none" opacity=".55"/><path d="M-8 49q-3 12-8 18M0 50v18M8 49q3 12 8 18" stroke="#c9a876" stroke-width="2" fill="none"/></g>
+   <g class="daughter"><ellipse cx="-32" cy="27" rx="16" ry="14" fill="url(#corm)" stroke="#8a6238"/><ellipse cx="32" cy="27" rx="16" ry="14" fill="url(#corm)" stroke="#8a6238"/></g>
+   <g class="newc"><ellipse cy="23" rx="29" ry="25" fill="url(#corm)" stroke="#8a6238" stroke-width="1.5"/><g class="bud"><ellipse cy="15" rx="6" ry="10" fill="#e9ddc9" stroke="#a98762"/></g></g>
+   <!-- six leaves: during autumn they remain shorter than the flower -->
+   <g>
+    <g class="leaf" style="--fall:-16deg"><path class="blade" d="M0 0C-15-25-28-62-34-105Q-35-114-28-115Q-17-74-6-30Z" stroke-width="1.3"/></g>
+    <g class="leaf" style="--fall:16deg"><path class="blade" d="M0 0C15-25 28-62 34-105Q35-114 28-115Q17-74 6-30Z" stroke-width="1.3"/></g>
+    <g class="leaf" style="--fall:-8deg"><path class="blade" d="M0 0C-8-28-14-58-17-88Q-18-96-12-97Q-6-56-2-24Z" stroke-width="1.2"/></g>
+    <g class="leaf" style="--fall:8deg"><path class="blade" d="M0 0C8-28 14-58 17-88Q18-96 12-97Q6-56 2-24Z" stroke-width="1.2"/></g>
+   </g>
+   <!-- flower stem is deliberately taller than autumn leaves -->
+   <g class="flower">
+    <path d="M0 0V-88" stroke="#6f9d5d" stroke-width="4" stroke-linecap="round"/>
+    <g class="petals">
+      <path d="M0-86C-24-88-40-107-42-137C-43-151-35-156-26-148C-12-136-3-108 0-86Z" fill="url(#petal)" stroke="#754691"/>
+      <path d="M0-86C24-88 40-107 42-137C43-151 35-156 26-148C12-136 3-108 0-86Z" fill="url(#petal)" stroke="#754691"/>
+      <path d="M0-86C-10-102-12-125-7-146C-3-157 3-157 7-146C12-125 10-102 0-86Z" fill="#9b70bb"/>
+    </g>
+    <g class="stigma">
+      <path d="M0-92C-7-112-16-129-22-144" stroke="#d4442a" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M0-92V-153" stroke="#e04e30" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M0-92C7-112 16-129 22-144" stroke="#c9341c" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </g>
+   </g>
+ </g>
+</defs>
+<rect id="sky" class="anim" width="800" height="380" fill="#d9e9f1"/>
+<g id="sun" class="anim"><circle r="25" fill="#f2c14e" opacity=".35"/><circle r="16" fill="#f2b53a"/></g>
+<path d="M0 340Q130 290 260 335T520 330T800 345V380H0Z" fill="#b8c8a8" opacity=".72"/>
+<g fill="#fff"><circle class="snow" cx="160" r="3"/><circle class="snow" cx="330" r="2.4" style="animation-delay:-5s"/><circle class="snow" cx="600" r="3" style="animation-delay:-10s"/></g>
+<g id="heat" stroke="#e8b96a" stroke-width="2.4" fill="none" opacity="0"><path d="M140 210q14-8 28 0q14 8 28 0"/><path d="M620 190q14-8 28 0q14 8 28 0"/></g>
+<!-- soil profile -->
+<rect y="380" width="800" height="65" fill="#6b4a33"/><rect y="380" width="800" height="65" fill="url(#dots)"/>
+<rect y="445" width="800" height="50" fill="#8d7a63"/><rect y="495" width="800" height="65" fill="url(#soil)"/>
+<path d="M0 445H800M0 495H800" stroke="#4d3827" stroke-width="2" stroke-dasharray="10 6"/>
+<line x2="800" y1="380" y2="380" stroke="#5d4030" stroke-width="3"/>
+<g font-size="11" fill="#e8dcc8" opacity=".82"><text x="18" y="402">腐殖表土层</text><text x="18" y="463">砂砾排水层</text><text x="18" y="516">黏质底土层</text></g>
+<!-- Three plants. Slightly different scale and flower timing gives a natural stand without changing the annual calendar. -->
+<g class="plant" transform="translate(250 380) scale(.86)"><use href="#plantTemplate"/></g>
+<g class="plant" transform="translate(400 380)"><use href="#plantTemplate"/></g>
+<g class="plant" transform="translate(550 380) scale(.9)"><use href="#plantTemplate"/></g>
+<!-- month timeline: the single authoritative time axis -->
+<g>
+ <rect x="50" y="522" width="700" height="26" rx="13" fill="#efe7d6" stroke="#d9ccb2"/>
+ <rect x="50" y="522" width="175" height="4" rx="2" fill="#5b7fa6"/><rect x="225" y="522" width="175" height="4" fill="#a08a2e"/><rect x="400" y="522" width="175" height="4" fill="#c07a2a"/><rect x="575" y="522" width="175" height="4" rx="2" fill="#8a5cab"/>
+ <g font-size="11.5" fill="#7a6a55" text-anchor="middle"><text x="79" y="539">12月</text><text x="137" y="539">1月</text><text x="196" y="539">2月</text><text x="254" y="539">3月</text><text x="312" y="539">4月</text><text x="371" y="539">5月</text><text x="429" y="539">6月</text><text x="487" y="539">7月</text><text x="546" y="539">8月</text><text x="604" y="539">9月</text><text x="662" y="539">10月</text><text x="721" y="539">11月</text></g>
+ <g id="pointer"><polygon points="0,518 -7,506 7,506" fill="#d4442a"/></g>
+</g>
+</svg>
+</div>
+<footer>冬长 → 春枯 → 夏眠 → 秋花 · 花被采收后，叶片继续完成下一代球茎的营养积累<br>三株共享同一季节节律，共同完成地下球茎的生命接力</footer>
+<script>
+/* 轻柔“晨曦”原创合成音景：用户点击后开始，避免浏览器自动播放限制 */
+let ctx, master, timer, playing=false;
+const btn=document.getElementById('sound');
+function tone(freq, when, dur, gain=.05){
+ const o=ctx.createOscillator(), g=ctx.createGain();
+ o.type='sine'; o.frequency.setValueAtTime(freq,when);
+ g.gain.setValueAtTime(0,when); g.gain.linearRampToValueAtTime(gain,when+.35);
+ g.gain.exponentialRampToValueAtTime(.001,when+dur);
+ o.connect(g).connect(master); o.start(when); o.stop(when+dur+.1);
+}
+function startMusic(){
+ ctx=new (window.AudioContext||window.webkitAudioContext)();
+ master=ctx.createGain(); master.gain.value=.55; master.connect(ctx.destination);
+ const notes=[261.63,329.63,392,523.25,392,329.63,293.66,369.99];
+ let i=0;
+ const play=()=>{const t=ctx.currentTime+.05; tone(notes[i%notes.length],t,3.2,.055); if(i%2===0)tone(notes[(i+2)%notes.length]/2,t,4,.025); i++};
+ play(); timer=setInterval(play,3000); playing=true; btn.textContent='♪ 晨曦 · 关闭声音';
+}
+btn.onclick=()=>{if(!playing)startMusic();else{clearInterval(timer);ctx.close();playing=false;btn.textContent='♪ 开启晨曦'}};
+</script>
+</body></html>
