@@ -152,7 +152,7 @@ export const exportEngine = {
       const code = asset.asset_code || asset.id;
       const text = `${asset.title} ${asset.summary || ''} ${asset.content || ''}`.toLowerCase();
 
-      // Readiness Gatekeeper
+      // Readiness Gatekeeper: 严格门禁，草稿或未核验素材禁止进入生成计划
       if (asset.status !== 'Published' && asset.status !== 'VERIFIED') {
         blockedAssets.push({
           asset_code: code,
@@ -162,10 +162,35 @@ export const exportEngine = {
         return;
       }
 
-      // V2.3 Governance Metadata Lookup
-      const ownerType = asset.ownership?.owner_type || (text.includes('iot') || text.includes('水培') ? 'INDUSTRY_KNOWLEDGE' : 'BRAND_OWNED');
-      const temporalState = asset.temporal?.state || (text.includes('崇明育球') ? 'HISTORICAL' : (text.includes('iot') ? 'FUTURE' : 'CURRENT'));
-      const claimLevel = asset.claim_control?.claim_level || (temporalState === 'HISTORICAL' ? 'DERIVED_EXPLANATION' : 'CONFIRMED_FACT');
+      // V2.3 Governance Metadata Lookup (兼容字符串与对象，缺失时默认待核验 UNVERIFIED_PENDING，严禁直接推定为真)
+      const ownerType = typeof asset.ownership === 'string'
+        ? asset.ownership
+        : (asset.ownership?.owner_type || (text.includes('iot') || text.includes('水培') ? 'INDUSTRY_KNOWLEDGE' : 'BRAND_OWNED'));
+
+      const temporalState = typeof asset.temporal === 'string'
+        ? asset.temporal
+        : (asset.temporal?.state || (text.includes('崇明育球') ? 'HISTORICAL' : (text.includes('iot') ? 'FUTURE' : 'CURRENT')));
+
+      let claimLevel = 'UNVERIFIED_PENDING';
+      if (typeof asset.claim_control === 'string') {
+        claimLevel = asset.claim_control;
+      } else if (asset.claim_control?.claim_level) {
+        claimLevel = asset.claim_control.claim_level;
+      } else if (temporalState === 'HISTORICAL') {
+        claimLevel = 'DERIVED_EXPLANATION';
+      }
+
+      // ----------------------------------------------------
+      // Node 0: Forbidden Assertion Check (P0 安全门禁修复)
+      // ----------------------------------------------------
+      if (claimLevel === 'FORBIDDEN_ASSERTION' || asset.claim_control === 'FORBIDDEN_ASSERTION' || text.includes('forbidden_assertion')) {
+        blockedAssets.push({
+          asset_code: code,
+          title: asset.title,
+          reason: `FORBIDDEN CLAIM: Asset is marked as FORBIDDEN_ASSERTION and strictly barred from assembly`
+        });
+        return;
+      }
 
       // ----------------------------------------------------
       // Node 1: Ownership Validation Check
@@ -372,13 +397,21 @@ export const exportEngine = {
     const {
       scenario = 'OFFICIAL_PR',
       outputMode = 'PUBLIC',
-      eventTitle = '天旺藏红花 2026 高原产业与0农残出海战略发布会',
+      eventTitle = '（待确认发布主题）',
       eventDate = new Date().toISOString().split('T')[0],
-      eventLocation = '西藏林芝米瑞乡天旺藏红花基地 / 上海',
-      eventAttendees = '自治州农业部门领导、林芝海关检疫代表、科研团队',
-      leaderSpeech = '“天旺始终坚守极地风土与科学控环双驱动，用 0 农残实测报告 No. A26SW02809 和拉萨海关出境凭证 CMP-001，重新定义品质标准。”',
+      eventLocation = '西藏自治区林芝市巴宜区米瑞乡姆多村天旺基地',
+      eventAttendees = '（待确认出席人员与代表）',
+      leaderSpeech = '（待确认官方引语）',
       inputAssets = []
     } = params;
+
+    // P0 审计安全门禁：公开输出函数必须硬性阻断 Draft、未核验和 FORBIDDEN_ASSERTION
+    const validAssets = inputAssets.filter(a => {
+      const isReady = a.status === 'Published' || a.status === 'VERIFIED';
+      const claim = typeof a.claim_control === 'string' ? a.claim_control : a.claim_control?.claim_level;
+      const isNotForbidden = claim !== 'FORBIDDEN_ASSERTION';
+      return isReady && isNotForbidden;
+    });
 
     let content = `# ${eventTitle}\n\n`;
     content += `**发布日期**: ${eventDate} | **地点**: ${eventLocation}\n`;
@@ -387,14 +420,20 @@ export const exportEngine = {
     content += `## 【核心速览】\n${leaderSpeech}\n\n`;
 
     content += `## 【产业与风土事实】\n`;
-    const relevantAssets = inputAssets.slice(0, 5);
+    const relevantAssets = validAssets.slice(0, 5);
+    if (relevantAssets.length === 0) {
+      content += `> *提示：暂无符合公开治理要求的核准素材（已过滤未核准草稿及禁用断言）。*\n\n`;
+    }
     relevantAssets.forEach(a => {
       content += `### ${a.title}\n`;
       if (a.summary) content += `> ${a.summary}\n\n`;
       if (outputMode === 'AUDIT') {
+        const owner = typeof a.ownership === 'string' ? a.ownership : (a.ownership?.owner_type || 'BRAND_OWNED');
+        const temp = typeof a.temporal === 'string' ? a.temporal : (a.temporal?.state || 'CURRENT');
+        const claim = typeof a.claim_control === 'string' ? a.claim_control : (a.claim_control?.claim_level || 'CONFIRMED_FACT');
         content += `- **Asset ID**: \`${a.asset_code || a.id}\`\n`;
         content += `- **Readiness**: \`${a.status || 'Published'}\`\n`;
-        content += `- **Governance**: \`[OWNERSHIP: BRAND_OWNED | TEMPORAL: CURRENT | CLAIM: CONFIRMED_FACT]\`\n\n`;
+        content += `- **Governance**: \`[OWNERSHIP: ${owner} | TEMPORAL: ${temp} | CLAIM: ${claim}]\`\n\n`;
       }
     });
 
@@ -403,14 +442,43 @@ export const exportEngine = {
   },
 
   runScenarioRegressionTest() {
+    // 真实执行治理门禁测试，针对 Draft、FORBIDDEN、菜谱阻断及证据准入进行完整断言
+    const testPool = [
+      { id: 't1', asset_code: 'TEST-DRAFT', title: '草稿资产', status: 'Draft', claim_control: 'CONFIRMED_FACT' },
+      { id: 't2', asset_code: 'TEST-FORBIDDEN', title: '绝对零农残违规宣称', status: 'Published', claim_control: 'FORBIDDEN_ASSERTION' },
+      { id: 't3', asset_code: 'TEST-RECIPE', title: '藏红花酸奶焖饭菜谱', summary: '菜谱特调饮品', status: 'Published', claim_control: 'CONFIRMED_FACT' },
+      { id: 't4', asset_code: 'TEST-CUSTOMS', title: '海关出境核验证书', content: '拉萨海关 CMP-001 报关单', status: 'Published', claim_control: 'CONFIRMED_FACT', ownership: 'BRAND_OWNED', temporal: 'CURRENT' },
+      { id: 't5', asset_code: 'TEST-PESTICIDE', title: '深圳SMQ高分辨质谱39项报告', content: '0农残检测', status: 'Published', claim_control: 'CONFIRMED_FACT', ownership: 'BRAND_OWNED', temporal: 'CURRENT' }
+    ];
+
+    const testBrief = {
+      scenario: 'OFFICIAL_PR',
+      topic: '官方发布会通稿',
+      editorial_angle: '权威品质公示',
+      editorial_intent: '发布真实可信品质凭证',
+      core_message: '坚持极地风土与严格质检',
+      reader_takeaway: '认知天旺真实品质标准',
+      output_mode: 'PUBLIC'
+    };
+
+    const plan = this.generateContentAssemblyPlan(testBrief, testPool);
+
+    const blockedDraft = plan.blocked_assets.some(a => a.asset_code === 'TEST-DRAFT');
+    const blockedForbidden = plan.blocked_assets.some(a => a.asset_code === 'TEST-FORBIDDEN');
+    const blockedRecipe = plan.blocked_assets.some(a => a.asset_code === 'TEST-RECIPE');
+    const hasCustoms = plan.selected_assets.some(a => a.asset_code === 'TEST-CUSTOMS');
+    const hasPesticide = plan.selected_assets.some(a => a.asset_code === 'TEST-PESTICIDE');
+
+    const passed = blockedDraft && blockedForbidden && blockedRecipe && hasCustoms && hasPesticide;
+
     return {
-      passed: true,
+      passed,
       details: {
-        hasCustoms: true,
-        hasPesticide: true,
-        blockedForbiddenRecipe: true,
-        blockedForbiddenYogurt: true,
-        blockedUnverifiedDraft: true
+        hasCustoms,
+        hasPesticide,
+        blockedForbiddenClaim: blockedForbidden,
+        blockedForbiddenRecipe: blockedRecipe,
+        blockedUnverifiedDraft: blockedDraft
       }
     };
   },

@@ -3,6 +3,8 @@ node_modules/
 
 # Production build
 dist/
+outputs/
+.workbuddy-ai/
 
 # OS and IDE files
 .DS_Store

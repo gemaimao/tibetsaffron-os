@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>《让藏红花实至名归》白皮书 · 全景相册墙架构 ｜ 天旺农牧</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-card: #0e1424;
+      --border-color: rgba(212, 160, 23, 0.22);
+      --border-hover: rgba(212, 160, 23, 0.65);
+      --gold: #d4a017;
+      --gold-soft: #e8c766;
+      --snow: #f8fafc;
+      --mist: #94a3b8;
+      --emerald: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--snow);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    .serif { font-family: 'Noto Serif SC', serif; }
+
+    /* 顶部导航 */
+    nav.site-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px;
+      background: rgba(7, 9, 14, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--snow);
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid rgba(212, 160, 23, 0.45);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .btn-nav-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--gold-soft);
+      padding: 7px 18px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+    .btn-nav-home:hover {
+      background: var(--gold);
+      color: #07090e;
+      border-color: var(--gold);
+    }
+
+    /* 主体容器 */
+    .container {
+      max-width: 1240px;
+      margin: 110px auto 80px;
+      padding: 0 30px;
+    }
+
+    /* 白皮书主标题区 */
+    .whitepaper-hero {
+      text-align: center;
+      padding: 40px 20px 50px;
+      position: relative;
+    }
+    .wp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 20px;
+      background: rgba(212, 160, 23, 0.12);
+      border: 1px solid rgba(212, 160, 23, 0.35);
+      color: var(--gold-soft);
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    .wp-main-title {
+      font-size: clamp(32px, 4.2vw, 50px);
+      font-weight: 900;
+      color: var(--snow);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+    .wp-gradient-text {
+      background: linear-gradient(135deg, #fce09b 0%, #d4a017 50%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .wp-subtitle {
+      font-size: clamp(15px, 1.8vw, 19px);
+      color: var(--gold-soft);
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+    .wp-lead {
+      max-width: 860px;
+      margin: 0 auto;
+      font-size: 15px;
+      color: var(--mist);
+      line-height: 2.0;
+      background: rgba(14, 20, 36, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 24px 32px;
+      border-radius: 16px;
+      text-align: justify;
+      backdrop-filter: blur(10px);
+    }
+    .wp-lead strong {
+      color: var(--snow);
+    }
+
+    /* 架构横幅 */
+    .structure-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 60px 0 36px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .structure-title {
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .structure-title i { color: var(--gold); }
+    .structure-count {
+      font-size: 13px;
+      color: var(--mist);
+      font-family: monospace;
+    }
+
+    /* ==========================================================================
+       相册墙网格 (Album Wall Gallery)
+       ========================================================================== */
+    .album-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      perspective: 1200px;
+    }
+    @media (max-width: 1060px) {
+      .album-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    }
+    @media (max-width: 650px) {
+      .album-grid { grid-template-columns: 1fr; }
+    }
+
+    /* 单本相册书本/画册卡片 */
+    .album-book-card {
+      position: relative;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+    .album-book-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--border-hover);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 24px rgba(212, 160, 23, 0.25);
+    }
+
+    /* 相册封面画框容器 */
+    .album-cover-box {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      background: #05070c;
+    }
+    .album-cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+      filter: brightness(0.92) contrast(1.05);
+    }
+    .album-book-card:hover .album-cover-img {
+      transform: scale(1.08);
+      filter: brightness(1.02) contrast(1.1);
+    }
+    /* 相册烫金书脊装订线效果 */
+    .album-cover-box::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 14px;
+      background: linear-gradient(90deg, rgba(0,0,0,0.65) 0%, rgba(212,160,23,0.3) 50%, transparent 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+    /* 遮罩渐变 */
+    .album-cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7,11,24,0.15) 0%, rgba(7,11,24,0.85) 100%);
+      z-index: 1;
+    }
+    /* 卷册角标 */
+    .album-volume-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 3;
+      background: rgba(7, 11, 24, 0.85);
+      border: 1px solid rgba(212, 160, 23, 0.5);
+      color: var(--gold-soft);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: monospace;
+      letter-spacing: 1px;
+      backdrop-filter: blur(8px);
+    }
+    /* 封面核心分类标签 */
+    .album-cover-tag {
+      position: absolute;
+      bottom: 12px;
+      left: 16px;
+      z-index: 3;
+      font-size: 11.5px;
+      color: var(--snow);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 3px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .album-cover-tag i { color: var(--gold); }
+
+    /* 相册主体信息区 */
+    .album-body {
+      padding: 24px 22px 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      position: relative;
+    }
+    .album-vol-num {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .album-title {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--snow);
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+    .album-desc-subtitle {
+      font-size: 12.5px;
+      color: var(--gold-soft);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+    .album-summary {
+      font-size: 13.5px;
+      color: var(--mist);
+      line-height: 1.8;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    /* 实证标签条 */
+    .album-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .album-tag-pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(212, 160, 23, 0.08);
+      border: 1px solid rgba(212, 160, 23, 0.22);
+      color: #faeec7;
+    }
+
+    /* 翻开阅读按钮 */
+    .album-enter-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold-soft);
+      transition: all 0.2s ease;
+    }
+    .album-book-card:hover .album-enter-btn {
+      color: var(--snow);
+    }
+    .album-enter-btn i {
+      transition: transform 0.2s ease;
+    }
+    .album-book-card:hover .album-enter-btn i {
+      transform: translateX(6px);
+      color: var(--gold);
+    }
+
+    /* 页脚 */
+    footer {
+      margin-top: 80px;
+      padding: 50px 30px 40px;
+      border-top: 1px solid var(--border-color);
+      background: rgba(7, 9, 14, 0.95);
+      text-align: center;
+    }
+    .footer-note {
+      font-size: 13px;
+      color: var(--mist);
+      margin-bottom: 16px;
+    }
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(148, 163, 184, 0.6);
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 正式顶栏导航 -->
+  <nav class="site-nav">
+    <a class="brand-logo-wrap serif" href="/">
+      <img class="brand-logo" src="/site/assets/logo.jpg" alt="天旺农牧">
+      <span>林芝天旺农牧</span>
+    </a>
+    <div class="nav-actions">
+      <a class="btn-nav-home" href="/">
+        <i class="ri-home-4-line"></i> 返回官网首页
+      </a>
+      <a class="btn-nav-home" href="/os" style="color: var(--snow); border-color: rgba(255,255,255,0.2);">
+        <i class="ri-cpu-line"></i> 知识库OS
+      </a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- 白皮书主标题头 -->
+    <header class="whitepaper-hero">
+      <div class="wp-badge">
+        <i class="ri-book-open-line"></i> 权威学术与产业论证 · 知识分级系统
+      </div>
+      <h1 class="wp-main-title serif">
+        《让藏红花实至名归》<span class="wp-gradient-text">白皮书</span>
+      </h1>
+      <div class="wp-subtitle serif">
+        名至而实不归 265 年 ｜ 实至而令名真归 10 年
+      </div>
+      <div class="wp-lead serif">
+        <strong>名至而实不归的历史，已经延续了 265 年。</strong>自 1765 年《本草纲目拾遗》首定“藏红花”名，西藏长期只作为茶马古道上的中转驿站——空承盛名而极地山川未见其真正扎根生息。<br><br>
+        <strong>实至而令名真归的历史，我们用了 10 年。</strong>天旺在西藏林芝巴宜区米瑞乡 2945 米极地大温室，完成三倍体不育植物连续八代繁育闭环与产业落地。本白皮书以八大核心画册卷宗，系统展开从历史溯源、微气候代偿、设施农业、繁育闭环到双重证据链的完整论证。
+      </div>
+    </header>
+
+    <!-- 相册墙架构说明栏 -->
+    <div class="structure-bar">
+      <div class="structure-title serif">
+        <i class="ri-gallery-view-2"></i>
+        <span>白皮书分级卷册 · 相册墙阅览架</span>
+      </div>
+      <div class="structure-count">
+        VOLUMES: 08 ARCHIVED CHAPTERS
+      </div>
+    </div>
+
+    <!-- 相册墙画廊网格 (Album Wall Gallery) -->
+    <div class="album-grid">
+
+      <!-- 相册 01 · 溯名之源 -->
+      <a class="album-book-card" href="/site/brand/history.html">
+        <div class="album-cover-box">
+          <img class="album-cover-img" src="/site/assets/terroir_map.jpg" alt="溯名之源">
+          <div class="album-cover-overlay"></div>
+          <div class="album-volume-badge">VOL. 01</div>
+          <div class="album-cover-tag"><i class="ri-history-line"></i> 历史考据画卷</div>
+        </div>
+        <div class="album-body">
+          <div class="album-vol-num">VOLUME 01 / 文化历史</div>
+          <h2 class="album-title serif">溯名之源</h2>
+          <div class="album-desc-subtitle">265 年名至而实不归的历史溯源</div>
+          <p class="album-summary">
+            西土郁金香唐代丝路朝贡入华，1765 年赵学敏《本草纲目拾遗》首定“藏红花”名。茶马古道东传贸易与两百余年名实分离的严谨史料考据。
+          </p>
+          <div class="album-tags">
+            <span class="album-tag-pill">1765本草纲目拾遗</span>
+            <span class="album-tag-pill">茶马古道东传</span>
+            <span class="album-tag-pill">西土郁金香考</span>
+          </div>
+          <div class="album-enter-btn">
+            <span>翻开相册 · 阅览历史卷宗</span>
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- 相册 02 · 土地接纳 -->
+      <a class="album-book-card" href="/site/brand/terroir.html">
+        <div class="album-cover-box">
+          <img class="album-cover-img" src="/site/assets/tianwang-map.jpg" alt="土地接纳">
+          <div class="album-cover-overlay"></div>
+          <div class="album-volume-badge">VOL. 02</div>
+          <div class="album-cover-tag"><i class="ri-landscape-line"></i> 极地风土图录</div>
+        </div>
+        <div class="album-body">
+          <div class="album-vol-num">VOLUME 02 / 极地风土</div>
+          <h2 class="album-title serif">土地接纳</h2>
+          <div class="album-desc-subtitle">极地生态优势与雅尼湿地微气候代偿</div>
+          <p class="album-summary">
+            2016 西班牙拉曼查种球崇明落地，2018 再赴林芝米瑞 2945m。强紫外线刺激次生代谢、昼夜温差与雅尼汇流微气候，土地真正承接了它。
+          </p>
+          <div class="album-tags">
+            <span class="album-tag-pill">林芝米瑞 2945m</span>
+            <span class="album-tag-pill">雅尼湿地微气候</span>
+            <span class="album-tag-pill">两段式现代农艺</span>
+          </div>
+          <div class="album-enter-btn">
+            <span>翻开相册 · 探究风土代偿</span>
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- 相册 03 · 技术筑基 -->
+      <a class="album-book-card" href="/site/brand/agronomy.html">
+        <div class="album-cover-box">
+          <img class="album-cover-img" src="/site/assets/cea-facility.jpg" alt="技术筑基">
+          <div class="album-cover-overlay"></div>
+          <div class="album-volume-badge">VOL. 03</div>
+          <div class="album-cover-tag"><i class="ri-building-4-line"></i> 设施农业实景</div>
+        </div>
+        <div class="album-body">
+          <div class="album-vol-num">VOLUME 03 / 现代农艺</div>
+          <h2 class="album-title serif">技术筑基</h2>
+          <div class="album-desc-subtitle">全周期一体式设施农业与极地大温室</div>
+          <p class="album-summary">
+            摒弃传统大田冬春积温不足与病霉变弊端，以土培基质为主，保留风土本真风味。实测 440nm 色价高达 246，大幅超越 ISO 3632 国际一级品。
+          </p>
+          <div class="album-tags">
+            <span class="album-tag-pill">极地 CEA 温室</span>
+            <span class="album-tag-pill">实测色价 246</span>
+            <span class="album-tag-pill">39项0农残</span>
+          </div>
+          <div class="album-enter-btn">
+            <span>翻开相册 · 检视农艺工法</span>
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- 相册 04 · 生命扎根 -->
+      <a class="album-book-card" href="/site/cognition/lifecycle.html">
+        <div class="album-cover-box">
+          <img class="album-cover-img" src="/site/assets/saffron-growth-cycle.jpg" alt="生命扎根">
+          <div class="album-cover-overlay"></div>
+          <div class="album-volume-badge">VOL. 04</div>
+          <div class="album-cover-tag"><i class="ri-plant-line"></i> 生命物候谱系</div>
+        </div>
+        <div class="album-body">
+          <div class="album-vol-num">VOLUME 04 / 生命繁育</div>
+          <h2 class="album-title serif">生命扎根</h2>
+          <div class="album-desc-subtitle">三倍体不育植物连续八代极地繁育闭环</div>
+          <p class="album-summary">
+            三倍体植物不育无法野外繁殖，存活依赖人工细心精育。控环温室无水无土悬空抽薹，洁净度达到物理特级，生殖能量全量富集于西红花苷。
+          </p>
+          <div class="album-tags">
+            <span class="album-tag-pill">连续 8 代稳态</span>
+            <span class="album-tag-pill">悬空无土抽薹</span>
+            <span class="album-tag-pill">三倍体次生代谢</span>
+          </div>
+          <div class="album-enter-btn">
+            <span>翻开相册 · 见证生命闭环</span>
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- 相册 05 · 价值合一 -->
+      <a class="album-book-card" href="/site/brand/strategy.html">
+        <div class="album-cover-box">
+          <img class="album-cover-img" src="/site/assets/endorse-industry.jpg" alt="价值合一">
+          <div class="album-cover-overlay"></div>
+          <div class="album-volume-badge">VOL. 05</div>
+          <div class="album-cover-tag"><i class="ri-handshake-line"></i> 产业合作联盟</div>
+        </div>
+        <div class="album-body">
+          <div class="album-vol-num">VOLUME 05 / 战略产业</div>
+          <h2 class="album-title serif">价值合一</h2>
+          <div class="album-desc-subtitle">深加工产业矩阵与高端大健康生态</div>
+          <p class="album-summary">
+            告别初级原料低效输出，与香港宝芝林联袂研制高活性多糖与多酚，与劲牌/劲酒战略定制纯净冷萃原液养生茶，合规出口北美，构筑高附加值网络。
+          </p>
+          <div class="album-tags">
+            <span class="album-tag-pill">香港宝芝林研制</span>
+            <span class="album-tag-pill">劲牌冷萃茶定制</span>
+            <span class="album-tag-pill">加拿大合规出口</span>
+          </div>
+          <div class="album-enter-btn">
+            <span>翻开相册 · 查阅产业战略</span>
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- 相册 06 · 双重证据链 -->
+      <a class="album-book-card" href="/site/brand/evidence.html">
+        <div class="album-cover-box">
+          <img class="album-cover-img" src="/site/assets/endorse-policy.jpg" alt="双重证据链">
+          <div class="album-cover-overlay"></div>
+          <div class="album-volume-badge">VOL. 06</div>
+          <div class="album-cover-tag"><i class="ri-file-shield-line"></i> 法定质检卷宗</div>
+        </div>
+        <div class="album-body">
+          <div class="album-vol-num">VOLUME 06 / 证据体系</div>
+          <h2 class="album-title serif">双重证据链</h2>
+          <div class="album-desc-subtitle">7 级证据效力层级与反向抗质疑矩阵</div>
+          <p class="album-summary">
+            建立双重事实抗质疑矩阵。深圳计量院 39 项农残质谱全项未检出、重庆食药检院西藏地标一级报告、拉萨海关出口凭证，每一份报告均带公章公开发布。
+          </p>
+          <div class="album-tags">
+            <span class="album-tag-pill">No. A26SW02809</span>
+            <span class="album-tag-pill">深圳SMQ 39项质谱</span>
+            <span class="album-tag-pill">拉萨海关检疫证</span>
+          </div>
+          <div class="album-enter-btn">
+            <span>翻开相册 · 调阅证据原件</span>
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- 相册 07 · 官方实体防伪 -->
+      <a class="album-book-card" href="/site/cognition/verification.html">
+        <div class="album-cover-box">
+          <img class="album-cover-img" src="/site/assets/tianwang-map.jpg" alt="官方实体防伪">
+          <div class="album-cover-overlay"></div>
+          <div class="album-volume-badge">VOL. 07</div>
+          <div class="album-cover-tag"><i class="ri-map-pin-user-line"></i> 实体核验导航</div>
+        </div>
+        <div class="album-body">
+          <div class="album-vol-num">VOLUME 07 / 防伪真伪</div>
+          <h2 class="album-title serif">官方实体防伪</h2>
+          <div class="album-desc-subtitle">林芝藏红花科技馆线下唯一实体与真伪辨识</div>
+          <p class="album-summary">
+            天旺农牧未设任何外部总代理，林芝米瑞乡天旺基地“藏红花科技馆”为线下唯一零售实体。物理级水溶金色判定与化学伪造识别全法公布。
+          </p>
+          <div class="album-tags">
+            <span class="album-tag-pill">官方唯一线下实体</span>
+            <span class="album-tag-pill">高德地图导航</span>
+            <span class="album-tag-pill">水溶金黄色阶辨识</span>
+          </div>
+          <div class="album-enter-btn">
+            <span>翻开相册 · 官方防伪指南</span>
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- 相册 08 · 科学认知指标 -->
+      <a class="album-book-card" href="/site/cognition/science.html">
+        <div class="album-cover-box">
+          <img class="album-cover-img" src="/site/assets/cea-design.png" alt="科学认知指标">
+          <div class="album-cover-overlay"></div>
+          <div class="album-volume-badge">VOL. 08</div>
+          <div class="album-cover-tag"><i class="ri-microscope-line"></i> 微观植物化学</div>
+        </div>
+        <div class="album-body">
+          <div class="album-vol-num">VOLUME 08 / 植物化学</div>
+          <h2 class="album-title serif">科学认知指标</h2>
+          <div class="album-desc-subtitle">三大微观植物化学透镜与 0.05g 品饮动力学</div>
+          <p class="album-summary">
+            解构西红花苷（Crocin 赋色抗氧化）、藏红花苦素（Picrocrocin 鲜味回甘）与藏红花醛（Safranal 草本芳香）。60℃~85℃ 温水冲泡化学全解析。
+          </p>
+          <div class="album-tags">
+            <span class="album-tag-pill">西红花苷化学透镜</span>
+            <span class="album-tag-pill">440nm 分光光度计</span>
+            <span class="album-tag-pill">0.05g 动力学溶出</span>
+          </div>
+          <div class="album-enter-btn">
+            <span>翻开相册 · 深入科学原理</span>
+            <i class="ri-arrow-right-line"></i>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-note serif">
+      《让藏红花实至名归》· 白皮书知识分级体系 ｜ 林芝天旺农牧研发团队编撰
+    </div>
+    <div class="footer-copy">
+      TIANWANG SAFFRON WHITE PAPER VOLUMES © 2026 · ALL RIGHTS RESERVED
+    </div>
+  </footer>
+
+</body>
+</html>

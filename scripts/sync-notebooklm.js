@@ -21,7 +21,12 @@ export function syncNotebookLMBundle() {
     } catch (e) {}
   }
 
-  const assets = (db.assets || []).filter(a => a.status !== 'Archived');
+  // P0 审计安全修复：采用“已批准 + 允许公开”白名单，Draft/Review/Forbidden 断言绝不外流
+  const assets = (db.assets || []).filter(a =>
+    a.status === 'Published' &&
+    a.claim_control !== 'FORBIDDEN_ASSERTION' &&
+    (!a.claim_control?.claim_level || a.claim_control.claim_level !== 'FORBIDDEN_ASSERTION')
+  );
 
   // 1. Generate consolidated master bundle (Single-source of truth)
   let masterDoc = `# 天旺藏红花 官方全量 SSOT 知识总库 (Google NotebookLM Master Source)\n\n`;

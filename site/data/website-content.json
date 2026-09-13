@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "release_id": "tianwang-website-v2-preview",
+  "release_status": "preview",
+  "approved_by": null,
+  "brand": {"name": "天旺农牧", "statement": "让藏红花实至名归", "location": "西藏自治区林芝市巴宜区米瑞乡姆多村", "altitude": "2945", "altitude_source": "官网架构蓝图_最终版.md", "altitude_verification": "user_supplied"},
+  "sections": [
+    {"id":"origin","name":"缘起","en":"THE BEGINNING","time_scale":"decade","detail":"/site/brand/history.html"},
+    {"id":"terroir","name":"风土","en":"A SENSE OF PLACE","time_scale":"annual","detail":"/site/brand/terroir.html"},
+    {"id":"seasons","name":"四季","en":"THE LIVING CALENDAR","time_scale":"annual","detail":"/site/cognition/lifecycle.html"},
+    {"id":"labor","name":"劳作","en":"HANDS & HEARTS","time_scale":"annual","detail":"/site/brand/labor.html"},
+    {"id":"products","name":"产物","en":"THE FRUITS OF TIME","time_scale":"annual","detail":"/site/products/index.html"}
+  ],
+  "seasons": [
+    {"id":"spring","name":"春","label":"春长","en":"SPRING","organ":"叶与球茎","title":"把一年的积蓄，交给生长。","text":"从叶片到球茎，关注生命的积累，也关注脚下土壤的状态。季节叙事不替代基地实际农事记录。","work":"春整地","work_text":"整理土地，照看土壤与排水，让每一次操作回应当季的生长需要。","environment":"观察土壤、水分与回暖过程","product":"叶与球茎 · 生长的积累","note":"对应月份、具体工序与现场记录待生产团队核定。"},
+    {"id":"summer","name":"夏","label":"夏眠","en":"SUMMER","organ":"球茎","title":"静下来的季节，也在酝酿。","text":"花暂时退场，球茎成为观察的中心。休眠、整理与下一轮准备，是一年中同样重要的章节。","work":"夏挖球","work_text":"从起球、整理到保存，记录每个环节的条件与操作，而不把经验简化成一组万能参数。","environment":"观察温度、通风与球茎状态","product":"球茎 · 下一次开放的起点","note":"起球时间、贮藏条件须以基地当年规程为准。"},
+    {"id":"autumn","name":"秋","label":"秋花","en":"AUTUMN","organ":"花与柱头","title":"等一朵花开，接住一年的时间。","text":"紫色花瓣展开，红色柱头显露。短暂的花期，把一年的照料带到眼前；采花与整理，则把时间留在手中。","work":"秋采花","work_text":"细看花朵，轻取、整理。让镜头回到真实的手，让每一道工序有自己的记录。","environment":"观察花期温差、日照与设施条件","product":"花与柱头 · 从开放到采收","note":"配图为已署名的植物参考实拍，不标作天旺基地或商品实拍。"},
+    {"id":"winter","name":"冬","label":"冬生","en":"WINTER","organ":"叶与球茎","title":"花落以后，生命仍在继续。","text":"花期并不是生命的终点。冬季的叶与球茎，把视线带回生长本身，也把一年连接到下一年。","work":"冬储","work_text":"关注冬季记录与储存管理；具体储存对象、操作条件及与植株生长的关系，需由生产团队明确。","environment":"观察冬季温度、水分与植株状态","product":"叶与球茎 · 延续与再生","note":"冬储对象与操作月份待核验，不对外给出未经确认的种植指导。"}
+  ],
+  "milestones": [
+    {"title":"缘起","text":"先问为何是林芝，再谈如何把一株花种好。"},
+    {"title":"引入","text":"两段式种植法，打开关于生长与生产的探索。"},
+    {"title":"落地","text":"把想法带进土地与设施，留下每一次实践的记录。"},
+    {"title":"量产","text":"从一次开放，走向可持续的生产与照料。"},
+    {"title":"品牌","text":"让产地、人物与品质，共同回答一个名字。"}
+  ],
+  "media": [
+    {"id":"flower","path":"/site/assets/editorial/saffron-flower.jpg","role":"botanical_reference","rights_status":"licensed","credit":"Weinessiggut Doktorenhof Wiedemann GmbH / Georg-Heinrich Wiedemann；文件历史另署 Marcus Scheuermann","source_url":"https://commons.wikimedia.org/wiki/File:Safranbl%C3%BCte.jpg","license":"CC BY-SA 4.0","license_url":"https://creativecommons.org/licenses/by-sa/4.0/","changes":"缩放；页面以 CSS 裁切展示；图像衍生版本沿用 CC BY-SA 4.0","caption":"藏红花植物参考摄影，非天旺基地或商品实拍。"},
+    {"id":"work","path":"/site/assets/cea-facility.jpg","role":"project_candidate","rights_status":"pending","caption":"项目既有劳作场景照片；人物身份、时间、地点及授权待确认。"},
+    {"id":"people","path":"/site/assets/endorse-industry.jpg","role":"project_candidate","rights_status":"pending","caption":"项目既有现场交流照片；不据图片推定个人身份或机构背书。"},
+    {"id":"notice","path":"/site/assets/evidence/天旺农牧公告书PDF_p1.jpg","role":"document","rights_status":"pending","caption":"项目既有公告页影像；内容有效性与发布授权待复核。"}
+  ],
+  "evidence": [
+    {"id":"color","title":"色价 246","display":"246","source":"No. A26SW02809","status":"pending","description":"项目材料将此值关联至重庆市食品药品检验检测研究院的地标检验报告；需核对原件、样品及检测条件。"},
+    {"id":"residue","title":"农残检测","display":"未检出","source":"WT10103260183295WT2","status":"pending","description":"项目材料将39项农残筛查关联至深圳检测报告。“未检出”不等于所有农药绝对为零，须保留项目、方法与批次边界。"},
+    {"id":"customs","title":"海关凭证","display":"CMP-001","source":"项目证据索引 CMP-001","status":"pending","description":"该标识是项目中的证据引用；官方证书号、签发日期与对应批次尚待原件核查。"}
+  ],
+  "announcements": [],
+  "pending": [
+    {"id":"history-years","value":"1765 · 261年 · 赵学敏《本草纲目拾遗》","reason":"已核准考证口径：1765年赵学敏《本草纲目拾遗》出版首定“藏红花”名，以2026年计距今261年。"},
+    {"id":"ratio","value":"95.2%","reason":"指标定义、分母、批次及原报告未提供。"},
+    {"id":"payment","value":"30万打款","reason":"用途、期间、主体及脱敏凭证待确认，不等同于年度工资。"},
+    {"id":"founder","value":"陈兵雄故事 · 团队 · 姆多村花农","reason":"采访、人物身份与肖像使用授权待补，不生成虚构引语。"},
+    {"id":"process","value":"两段式种植法 + 设施农业","reason":"区分历史引入与现行工艺，具体阶段、月份与场址待业务核定。"},
+    {"id":"products","value":"多糖压片 · 多酚压片","reason":"产品实拍与在售/研发状态待确认；斑马鱼研究不能转写为人体降血糖、降尿酸疗效。"}
+  ]
+}

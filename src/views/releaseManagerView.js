@@ -5,6 +5,7 @@
  */
 
 import { api } from '../services/api.js';
+import { store } from '../services/store.js';
 import { showToast } from '../components/toast.js';
 
 export function renderReleaseManagerView(container, onSelectAsset) {

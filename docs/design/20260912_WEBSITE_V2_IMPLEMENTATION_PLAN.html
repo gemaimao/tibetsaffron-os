@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>天旺新版官网｜代码生成计划</title>
+<style>
+:root{--ink:#27382f;--muted:#667069;--paper:#fffefb;--bg:#f5f4ee;--line:#dddcd1;--green:#2d614b;--purple:#775883;--amber:#835d22}*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.85 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink)}main{max-width:1120px;margin:auto;padding:40px 28px 80px}header{background:#ebf0e8;padding:38px;border:1px solid #d3ddcf;border-radius:18px}h1{font-size:38px;line-height:1.3;letter-spacing:-1px;margin:14px 0}h2{font-size:25px;margin:44px 0 16px}h3{font-size:18px;margin:16px 0 8px}p{margin:8px 0 14px}.eyebrow{font-size:12px;letter-spacing:2px;color:var(--green);font-weight:750}.lead{font-size:20px}.muted,small{color:var(--muted)}.pill{display:inline-block;border:1px solid #ced9c8;border-radius:20px;background:#f7faf4;padding:3px 12px;font-size:12px;margin-right:8px}.box{border:1px solid var(--line);background:var(--paper);padding:24px;border-radius:12px;margin:16px 0}.notice{background:#fff6e7;border-color:#e7d7b9}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid .box{margin:0}.kicker{font-size:12px;color:var(--purple);font-weight:700;letter-spacing:1px}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;background:var(--paper);font-size:14px;margin:14px 0}th,td{padding:13px;border:1px solid var(--line);vertical-align:top;text-align:left}th{background:#eef1e9}code{font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;background:#edf1eb;border-radius:3px;padding:2px 4px;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace;background:#f0f2eb;padding:22px;border-radius:10px}.chain{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.node{background:#f6f8f2;border:1px solid #d4decc;border-radius:9px;padding:15px 18px;flex:1;min-width:140px;text-align:center}.arrow{color:var(--green);font-size:22px}.axis{border-left:3px solid #728568;padding-left:20px;margin:22px 0}.axis strong{display:block}.tag{font-size:12px;background:#ece5ef;color:#65466e;padding:2px 7px;border-radius:4px}.swatches{display:flex;gap:12px;flex-wrap:wrap}.swatch{display:flex;align-items:center;gap:7px;font-size:13px}.swatch i{width:24px;height:24px;display:inline-block;border:1px solid #ccc;border-radius:5px}ul,ol{padding-left:23px}li{margin-bottom:5px}footer{margin-top:36px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}@media(max-width:720px){main{padding:18px 15px 48px}header{padding:25px}h1{font-size:29px}.grid{grid-template-columns:1fr}table{min-width:700px}.chain{flex-direction:column;align-items:stretch}.arrow{text-align:center;transform:rotate(90deg)}}@media print{body{background:white}main{max-width:none;padding:0}.box,header{break-inside:avoid}h2,h3{break-after:avoid}}
+</style></head><body><main>
+<header><div class="eyebrow">TIANWANG · WEBSITE V2 · IMPLEMENTATION PLAN</div><h1>让藏红花实至名归<br>新版官网代码生成计划</h1><p class="lead">先完成五段首页与详情下钻，再接通受控内容发布。保留知识库、录入、公告三个系统，不把官网改版扩大为后台重写。</p><p><span class="pill">首页优先</span><span class="pill">分批生成 · 分批验收</span><span class="pill">计划阶段 · 未实施</span></p><p class="muted">依据：2026-09-12 本地全系统审计、项目根蓝图、五段任务书，以及用户选择的“Five-section homepage first”。本方案中的技术与路径为拟定方案；本轮仅交付计划，不生成或替换业务代码。</p></header>
+<h2>01｜先确定改版边界</h2>
+<div class="grid"><div class="box"><div class="kicker">本期必须做</div><h3>官网五段重构</h3><p>统一品牌用语、缘起十年轴、四段一年轴、实拍优先、五个详情入口、桌面与移动适配、旧命名迁移。</p></div><div class="box"><div class="kicker">本期最小集成</div><h3>三个系统保留</h3><p>保留 OS 与录入入口；保留已审核公告展示；预留资产与证据 ID；修复 /os 的错误指向，不改写整个后台。</p></div><div class="box"><div class="kicker">独立后续工作包</div><h3>治理与后台升级</h3><p>完整登录权限、版本关系、公告审批撤回、通稿治理引擎、生产数据库迁移等单独验收，不捆绑到首轮首页视觉生成。</p></div></div>
+<div class="box notice"><strong>首页优先不等于带着审计风险直接上线。</strong><p>先在只包含公开候选素材的隔离目录生成预览；不启动现有含自动同步副作用的开发中间件，不调用写库/发布接口。上线前必须完成最低安全门禁；若后台尚未达标，新官网可采用“公开静态站 + 内部受限工作台”的边界，不能把未鉴权写接口一起公开。</p></div>
+<h2>02｜技术决策：保留 Vite，多页渐进重构</h2>
+<p><strong>推荐：现有 Vite 多页结构 + 语义化 HTML + 独立 CSS + 原生 ES Modules + 审核后的结构化内容。</strong>首页不强制迁移到 Vue，不新引入 Next.js、大型组件库或新的后端框架；已有 Vue 依赖留给原有模块，不扩大迁移面。</p>
+<ul><li><strong>首屏正文静态可读：</strong>编译阶段把审核后的标题、段落、图片与链接写入 HTML；关闭 JavaScript 仍可阅读五段及访问详情。</li><li><strong>交互渐进增强：</strong>JS 只负责季节/月份切换、导航状态、图片查看、公告抽屉；不让基础内容依赖 API 或大型视觉运行时。</li><li><strong>样式隔离：</strong>新增 <code>.tw-site</code> 作用域与 <code>--tw-*</code> 变量；不重置 OS/录入页的全局样式。</li><li><strong>唯一首页源：</strong>根目录 <code>index.html</code> 作为唯一维护入口；<code>site/index.html</code> 和 <code>portal.html</code> 变为经过确认的兼容入口，不再维护三套首页正文。</li><li><strong>独立前台构建：</strong>新增前台专用配置，禁止导入原配置中的开发 API 插件。预览只绑定本机回环地址，产物中不包含 Core、Inbox、原始资料及内部导出包。</li><li><strong>首页不依赖旧重型场景：</strong>移除首屏对旧空间叙事脚本的依赖；旧视觉能力不作为新版首页交付前提，也不在本期新增相关多媒体内容。</li></ul>
+<div class="box"><h3>内容只有一条发布通道</h3><div class="chain"><div class="node">知识资产<br><small>事实 / 媒体 / 证据 / 版本</small></div><span class="arrow">→</span><div class="node">公开批准快照<br><small>只含允许公开的字段</small></div><span class="arrow">→</span><div class="node">编译与校验<br><small>用语 / 引用 / 资产 / 链接</small></div><span class="arrow">→</span><div class="node">官网与详情页<br><small>可回滚的发布版本</small></div></div><p class="muted">第一版公开快照允许由负责人手动审核生成；不宣称已实时接通后台。后续再把“人工批准快照”替换为后台自动导出，前台消费契约保持不变。</p></div>
+<h2>03｜五段首页：一纵一横，不是五张并排宣传卡</h2>
+<div class="box"><div class="axis"><strong>纵轴 · 缘起 · 十年</strong>为何林芝 → 创始之愿 → 引入两段式 → 落地 → 量产 → 品牌<br><small>节点以业务确认的事件及年份为准；不为了凑满十年而创造事件。</small></div><div class="chain"><div class="node">风土</div><span class="arrow">→</span><div class="node">四季</div><span class="arrow">→</span><div class="node">劳作</div><span class="arrow">→</span><div class="node">产物</div></div><p><strong>横轴 · 共享一年：</strong>四段共享同一个季节/月份状态，但分别回答环境、生命、人的工作、最终产物。章节选择与时间选择是两个独立控件，不能把“风土/四季/劳作/产物”误当成四个季节。</p></div>
+<div class="scroll"><table><thead><tr><th>段落</th><th>首页的钩子与展示</th><th>时间/交互规则</th><th>详情去向</th></tr></thead><tbody>
+<tr><td><strong>01 缘起</strong></td><td>品牌句与一张真实产地/人物主图；“为何择林芝”的短导语；陈兵雄故事预览；命名史只作有来源的背景。</td><td>十年线性纵轴，5类里程碑，未核验的年份不对外填入；首屏包含在缘起中，不另造第六主段。</td><td><code>/site/brand/history.html</code> 重构为缘起详情：创始人、关键事件、原始记录。</td></tr>
+<tr><td><strong>02 风土</strong></td><td>2945m 与用户指定产地；真实生境图；温度/日照/温差/水/风/真菌/虫害/杂草八维短预览。</td><td>一年季节轴；没有测量数据时只呈现经核验的描述，不画虚构数值曲线。</td><td><code>/site/brand/terroir.html</code>：全年记录、土壤水系、观测方法和证据。</td></tr>
+<tr><td><strong>03 四季</strong></td><td>“春长夏眠秋花冬生”；球茎、花、叶的当季实拍与一段生命状态说明。</td><td>桌面可用四季环 + 键盘可用按钮；移动用横向四季条。只有获得月份资料后才细化到12月。</td><td><code>/site/cognition/lifecycle.html</code>：形态变化、繁育、风土与节律。</td></tr>
+<tr><td><strong>04 劳作</strong></td><td>春整地/夏挖球/秋采花/冬储；“手、面孔、工序”实拍；团队与花农短故事，承接缘起而不重复整条品牌史。</td><td>与四季保持同一时间选择；每项农事绑定地点、阶段、日期、人物授权与来源；“冬储”的对象待生产人员明确。</td><td>新增 <code>/site/brand/labor.html</code>：全年农事与真实人物；链接既有农艺详情。</td></tr>
+<tr><td><strong>05 产物</strong></td><td>器官四季形态 → 花丝 → 鲜朵干燥花 → 多糖/多酚等深加工。实物图优先，品质指标只是支撑入口。</td><td>标明植物形态随季节变化不等于所有商品当季生产/有货；不能伪造库存或上市状态。</td><td><code>/site/products/index.html</code>：商品层级；检测和研究进入 <code>/site/brand/evidence.html</code>。</td></tr>
+</tbody></table></div>
+<p><strong>首页结构预算：</strong>每段1个主问题、1组主视觉、2–4条重点、1个主详情入口。首页只留一条轻量公告入口；完整报告、科研全文、品牌战略与商品全参数均下钻。</p>
+<h2>04｜视觉方案：产地、人物与产品优先</h2>
+<p>采用用户指定的纳帕酒庄式叙事取向，不复制任何具体网站：大幅真实摄影、克制排版、留白、编辑式短标题、清晰的创始人和团队线索。弱化原有“仪表盘、密集指标、科技炫技”的首页观感。</p>
+<div class="swatches"><span class="swatch"><i style="background:#f5f1e8"></i>暖白纸底</span><span class="swatch"><i style="background:#304d3c"></i>深植物绿文字</span><span class="swatch"><i style="background:#80638e"></i>少量花紫标记</span><span class="swatch"><i style="background:#a34d37"></i>少量花丝红重点</span></div>
+<ul><li>首图使用已批准的高清实拍，不默认使用现有概念全景图；画面叠字应保证对比度。</li><li>年份轴与一年环是导航和理解工具，不用来填补真实摄影缺口。</li><li>桌面宽幅照片 + 文字；手机改为竖向阅读，不截断人物面部和手部，不横向溢出。</li><li>字体以系统中文字体为可靠底座，不以外部字体加载成功作为页面可读前提。</li><li>图库浏览、菜单与抽屉支持键盘、焦点返回、关闭按钮和无障碍标签。</li></ul>
+<h3>本轮新增的素材判断</h3>
+<div class="scroll"><table><thead><tr><th>现有文件</th><th>直接查看图像后的判断</th><th>计划用途与限制</th></tr></thead><tbody>
+<tr><td><code>site/assets/cea-facility.jpg</code></td><td>810×1080 竖幅；可见人物在室内架盘与球茎/花材旁手工操作，具备真实劳作场景特征。</td><td>可作为劳作段候选竖卡，不适合强行拉伸成大幅横图。人物姓名、民族、地点、拍摄时间、版权和肖像授权仍须确认，不能凭图片推断。</td></tr>
+<tr><td><code>site/assets/endorse-industry.jpg</code></td><td>900×507 横幅；可见多人在种植设施旁听讲/交流。</td><td>可作为历史交流记录候选。不能仅凭文件名认定为“权威背书”、陈兵雄本人或本地团队合影；也不宜充当超宽首屏。</td></tr>
+<tr><td><code>site/assets/saffron-growth-cycle.jpg</code></td><td>是信息图而非实拍；图中心写“冬生·秋长 / 春枯·夏眠”，与任务书的季节概括不同。</td><td>不能直接把它当新四季规范。先核对月份、阶段与概括口径；保留为内部参考，不作为首页主视觉。</td></tr>
+</tbody></table></div>
+<p class="muted">审计中“人物素材不足”不等于绝对没有人物照片：本轮确认有可审阅的场景候选，但尚没有完整的人物身份、授权和四季成套拍摄记录。</p>
+<h2>05｜内容契约：把“不虚构”做成代码门禁</h2>
+<p>保留 COM/KNO/VIS/DAT/BRD 五类知识资产；另加官网章节与内容用途映射。所有下列文件和字段均为拟新增，不代表已经存在。</p>
+<div class="scroll"><table><thead><tr><th>内容对象</th><th>最低字段</th><th>对外输出规则</th></tr></thead><tbody>
+<tr><td>SiteSection</td><td>section_id、heading、time_scale、detail_url、fact_refs、media_refs</td><td>五段固定顺序；缘起为 decade，其余为 annual。</td></tr>
+<tr><td>Fact / Claim</td><td>fact_id、statement、source_ref、evidence_ref、version、scope、verification_status、approved_public_text</td><td>未知来源或冲突的事实标为待核验，不能默认为已确认；严禁声明不能进入任何公开渲染器。</td></tr>
+<tr><td>MediaAsset</td><td>media_id、path、dimensions、caption、credit、captured_at、location、rights_status、person_release_status</td><td>拍摄信息未知如实记录 null；未经授权不对外分发；预览用候选图必须有内部候选标识。</td></tr>
+<tr><td>AnnualState</td><td>season、可选 month、environment_refs、organ_refs、work_refs、product_refs</td><td>没有月度证据就保留季节级，不给12个月自动插值；局部切换不改变章节顺序。</td></tr>
+<tr><td>AnnouncementSnapshot</td><td>id、title、published_at、status、expires_at、evidence_refs、attachment_refs、version</td><td>只消费已批准、未撤回、未过期的快照；现有6条公告不能因代码里存在就默认重新发布。</td></tr>
+<tr><td>PublicManifest</td><td>schema_version、release_id、approved_at、approved_by、asset_versions、public_visibility</td><td>构建输入只允许公开白名单字段；缺负责人批准的版本只能内部预览。</td></tr>
+</tbody></table></div>
+<div class="box notice"><h3>必须挂起核验的锚点</h3><ul><li><strong>1765 / 261年：</strong>已由业务方确认口径：1765年赵学敏《本草纲目拾遗》出版首定“藏红花”名，以2026年计距今261年。</li><li><strong>95.2%：</strong>缺指标定义和原报告，不能推断成纯度、含量或成功率。</li><li><strong>30万打款：</strong>先确认用途、时间和凭证，不自动等同年度工资或乡村贡献。</li><li><strong>农残 / 246 / 报告号：</strong>重庆色价/地标报告与深圳农残检测分别绑定；“未检出”必须保留项目、方法和批次边界。</li><li><strong>多糖 / 多酚：</strong>展示产品类别可以先做；人体降血糖或降尿酸疗效不得从斑马鱼研究外推。研究数据仅在证据详情中配实验模型说明。</li><li><strong>两段式 / 设施农业：</strong>历史探索、现行工艺和未来研发分开；不可从旧页面直接继承未经确认的当前生产描述。</li></ul><p><strong>开发策略：</strong>版式、导航、数据结构和交互可以先生成；未确认内容在内部预览标待补。对外发布必须是经批准的表达，或明确不发布该条，不能用看似真实的占位数字补齐。</p></div>
+<h2>06｜文件级改造清单</h2>
+<div class="scroll"><table><thead><tr><th>文件/目录</th><th>拟操作</th><th>范围约束</th></tr></thead><tbody>
+<tr><td><code>index.html</code></td><td>重构唯一首页语义骨架；固定 origin/terroir/seasons/labor/products 五个主段锚点。</td><td>不复制旧密集指标区；标题、正文与引用由已批准快照在构建时注入。</td></tr>
+<tr><td><code>site/index.html</code><br><code>portal.html</code></td><td>改成兼容入口；正式部署优先配置服务端重定向。</td><td>保留旧链接可达性；不保留三份独立正文。</td></tr>
+<tr><td><code>src/website/entry.js</code><br><code>src/website/annual-state.js</code><br><code>src/website/sections/</code></td><td>新增首页初始化、共享季节状态、章节独立交互。</td><td>不导入 <code>src/main.js</code> 或旧 store；不调用写接口。</td></tr>
+<tr><td><code>site/css/website.css</code></td><td>新增有作用域的设计变量、章节布局、移动适配。</td><td>不覆盖后台全局 class 和字体。</td></tr>
+<tr><td><code>site/data/website.schema.json</code><br><code>site/data/website-approved.json</code></td><td>新增公开内容契约与审核快照。</td><td>这是发布快照，不是第二个随意维护的“事实真源”；每条追溯资产版本与证据。</td></tr>
+<tr><td><code>scripts/compile-public-site.mjs</code><br><code>scripts/check-public-content.mjs</code></td><td>新增静态内容编译与内容门禁检查。</td><td>只读取已批准输入，只写隔离产物；不写 Core/Inbox，不触发 NotebookLM 导出或 Git。</td></tr>
+<tr><td><code>vite.website.config.js</code></td><td>新增独立前台构建配置，输出到隔离目录如 <code>dist-website/</code>。</td><td>显式定义静态资源白名单，不把现有 public/ 整目录复制以免夹带内部导出。</td></tr>
+<tr><td><code>site/brand/history.html</code><br><code>site/brand/terroir.html</code><br><code>site/cognition/lifecycle.html</code><br><code>site/products/index.html</code></td><td>复用路径、重构内容；新增 <code>site/brand/labor.html</code>。</td><td>先完成五段基本详情，再逐步补深度材料；旧冲突声明同步清理。</td></tr>
+<tr><td><code>site/brand/evidence.html</code></td><td>保留证据阅读功能，核对事实→报告→页面引用。</td><td>不修改原始报告的内容，不把科研和商品疗效混写。</td></tr>
+<tr><td><code>src/website/announcements.js</code></td><td>抽出独立公告展示组件，消费公开快照。</td><td>旧公告区不再依赖旧首页综合脚本；完整公告后台另列后续阶段。</td></tr>
+<tr><td><code>vite.config.js</code><br><code>os.html</code><br><code>mobile.html</code></td><td>最小修复开发 /os 指向及导航；保留 OS/录入应用。</td><td>隔离预览不运行旧配置；服务端安全改造不混入首页组件变更。</td></tr>
+<tr><td><code>tests/website/</code></td><td>新增用语、结构、数据过滤、链接、键盘与视口测试。</td><td>使用隔离假数据；不使用真实账号、不修改正式素材。</td></tr>
+</tbody></table></div>
+<h3>旧命名迁移不是一次字符串替换</h3>
+<p>已知旧页面设计、总览、Master Framework、白皮书 Outline，以及旧 JS/CSS 都需建立“旧路径 → 新路径 → 引用者”清单。拟采用 <code>WEBSITE_FIVE_SECTION_DESIGN.md</code>、<code>WEBSITE_OVERVIEW.md</code>、<code>BRAND_MASTER_FRAMEWORK.md</code>、<code>BRAND_WHITEPAPER_OUTLINE.md</code> 等中性命名。</p>
+<ol><li>先拆分现有公告、产品和首页脚本的依赖，保留仍被详情页使用的功能，再改名或停用旧脚本。</li><li>同步所有 HTML、脚本导入、文档链接和构建入口；禁止出现“文件改名了但引用没改”的半迁移。</li><li>旧设计文档注明根蓝图优先，删除其与五段骨架相冲突的旧导航方案。</li><li>品牌禁用语与旧英文命名检查覆盖当前受维护源码、旧设计文档和发布产物；合规规则中引用禁词与“回归测试/统计分析”等语义例外单独管理。</li><li>不擅自重写 Git 历史，不篡改外部原件。既有审计报告保留历史证据地位，不作为前台发布素材；如要求历史记录也清零，另确认归档和追溯策略。</li></ol>
+<h2>07｜分批代码生成：每批都能单独验收</h2>
+<div class="scroll"><table><thead><tr><th>批次</th><th>生成内容</th><th>依赖 / 验收 / 停止条件</th></tr></thead><tbody>
+<tr><td><strong>A · 隔离与契约</strong></td><td>记录现有未提交差异；逐文件建立备份/补丁边界；创建独立前台构建配置、五段数据契约、内容白名单和测试入口。</td><td>验收：预览不运行原 API，不触发自动导出/提交，不暴露 Core/Inbox；缺失字段在校验中显式报错。禁止对用户已有改动执行整仓恢复。</td></tr>
+<tr><td><strong>B · 五段静态首页</strong></td><td>独立新样式、五段语义骨架、导航、页脚；已批准内容与图片编译进 HTML。</td><td>依赖 A。验收：关闭 JS 仍读到五段；首屏不等待外部接口；版式在手机/桌面可读；内部候选图不可混入正式包。</td></tr>
+<tr><td><strong>C · 一纵一横交互</strong></td><td>缘起十年轴；四段共享季节状态；手机四季条；必要时根据实测数据再升级月份级。</td><td>依赖 B。验收：章节与季节不混淆；切换不重置页面焦点；缺月度数据不插值；键盘可操作。</td></tr>
+<tr><td><strong>D · 五段下钻与系统入口</strong></td><td>重构四个已有详情页，新增劳作页；保留证据页；抽离公告展示；最小修复 OS/录入入口。</td><td>依赖 B/C及相应批准内容。验收：五段主 CTA 可达；每页有返回对应主段；公告支持空状态；OS 不能跳回官网。受限系统访问由明确安全部署承载。</td></tr>
+<tr><td><strong>E · 命名与内容迁移</strong></td><td>按映射改名旧设计文档与代码标識，清理旧品牌表述、重复首页和冲突事实，更新全部引用。</td><td>依赖调用图核对。验收：当前发布包无旧命名/旧品牌口号；文档与代码一致；旧入口不产生死链。未核验锚点仍保留内部待办。</td></tr>
+<tr><td><strong>F · 测试与候选版本</strong></td><td>自动化内容/资源/交互测试；多视口浏览器检查；输出构建包、变更清单、测试结果、待核验内容清单。</td><td>依赖 A–E。验收：满足下节门禁才提交上线候选；任何阻断项未关闭则仅提供内部预览，不自动发布。</td></tr>
+</tbody></table></div>
+<p><strong>生成纪律：</strong>每批以本计划、根蓝图、批准数据和当前源码为输入；交付“改了哪些文件、检查了什么、还有什么缺口”。禁止一次性覆盖全仓；禁止将模型生成的故事、人物身份、日期和指标作为默认事实。</p>
+<h2>08｜验收标准：把“好看”与“可上线”分开</h2>
+<div class="scroll"><table><thead><tr><th>维度</th><th>必须通过</th><th>验证方式</th></tr></thead><tbody>
+<tr><td>架构</td><td>唯一首页源；五个主叙事段顺序固定；缘起十年，四段共享一年；五个详情入口完整。</td><td>HTML 结构断言、路由清单、无 JS 检查。</td></tr>
+<tr><td>用语与事实</td><td>批准品牌句准确；无旧品牌表达；无虚构数字、年份、工艺和人体疗效；冲突数据不静默发布。</td><td>语义分类的禁词检查、内容 schema 校验、人工证据核对。</td></tr>
+<tr><td>真实素材</td><td>核心照片可追溯；人物授权已确认；没有把概念图冒充实拍；素材分辨率匹配用途。</td><td>媒体清单与授权状态检查；裁切/清晰度人工验收。</td></tr>
+<tr><td>受控公开</td><td>草稿、待核验、禁止声明、过期/撤回公告、私有附件不进入发布快照；资产链接固定到版本。</td><td>负例测试：每类至少1条；校验“未公开”而非仅隐藏 UI。</td></tr>
+<tr><td>可用性</td><td>主 CTA、图片、返回导航无断链；无横向溢出；菜单/抽屉可键盘关闭且焦点正确返回。</td><td>375/768/1440 CSS px 三视口检查；键盘操作；资源及控制台检查。</td></tr>
+<tr><td>性能预算</td><td>目标 LCP ≤2.5s、CLS ≤0.1、实地 INP ≤200ms；首屏图建议≤350KB、前台专属压缩 JS 目标≤100KB。</td><td>固定设备/网络条件做实验室测试并报告条件；INP 实地指标待真实访问数据。预算是目标，不预先宣称达标。</td></tr>
+<tr><td>发布安全</td><td>公开包不含内部资料/密钥；未鉴权写 API 不暴露；业务写入不自动推仓库；后台要么安全可用，要么隔离。</td><td>离线包清单检查；经授权在测试环境检查权限；绝不对正式库发测试写请求。</td></tr>
+<tr><td>可恢复</td><td>每批独立补丁或提交；有上一版公开产物及恢复说明，不覆盖审计前用户未提交改动。</td><td>隔离环境恢复演练；不使用破坏性整仓重置。</td></tr>
+</tbody></table></div>
+<h2>09｜真实内容补录与公开批准</h2>
+<p>这些是内容上线依赖，不必阻塞布局和交互开发。全部材料通过现有录入系统的安全边界或明确的项目目录接收，不到个人文件夹做扩展扫描。</p>
+<ol><li><strong>缘起：</strong>陈兵雄采访/原始叙述、为何林芝、十年里程碑日期与凭证、人物肖像授权。</li><li><strong>风土与四季：</strong>基地对应的季节观测、温度/水/风等来源，季节术语与实际月份核对；器官与场景照片。</li><li><strong>劳作：</strong>每季1组真实工序、人员角色、拍摄时间与地点；确认冬储对象；不从群像猜测姓名或民族。</li><li><strong>产物：</strong>花丝、整朵干花、多糖/多酚包装和细节实拍；在售/研发/历史状态；对应检测与研究原件。</li><li><strong>公告：</strong>逐条确认发布时间、原件、有效性、批准人；打款与检测日期等争议先核对，不照搬旧数组。</li></ol>
+<div class="box"><h3>本期最终交付物</h3><p>① 新版五段首页与5个下钻入口；② 保留并核验的 OS/录入/公告入口；③ 内容 schema 与批准快照；④ 规范命名后的代码和设计说明；⑤ 隔离构建包；⑥ 测试结果及未决资料清单；⑦ 可恢复的变更说明。</p><p><strong>不在本期承诺：</strong>完整后台治理改造、云端自动同步、完整公告审批平台、经过修复的通稿引擎、未经批准的上线，以及未取得原件却声称已经核验的事实。</p></div>
+<footer><strong>建议批准的执行基线：</strong>首页优先；保留 Vite 多页与原生前台；暖白底真实摄影叙事；缘起十年轴 + 四段共享一年；沿用已有详情路径并新增劳作页；后台只做必要入口与安全边界。首批代码从 A、B 两批开始，内容核验并行。<br>本文件为计划，不是新版官网原型或实施结果。审计的线上验证限制继续有效；本轮未更改网站、数据库或旧文件名。</footer>
+</main></body></html>

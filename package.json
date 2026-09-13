@@ -5,13 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
+    "build": "node scripts/compile-public-site.mjs && NODE_OPTIONS=\"--max-old-space-size=4096\" vite build",
     "preview": "vite preview",
-    "sync:notebooklm": "node scripts/sync-notebooklm.js"
+    "sync:notebooklm": "node scripts/sync-notebooklm.js",
+    "website:generate": "node scripts/compile-public-site.mjs",
+    "website:build": "node scripts/compile-public-site.mjs && vite build --config vite.website.config.js",
+    "website:preview": "vite preview --config vite.website.config.js",
+    "website:check": "node scripts/check-public-content.mjs"
   },
   "dependencies": {
+    "@vitejs/plugin-vue": "^5.2.4",
+    "gsap": "^3.12.5",
     "jszip": "^3.10.1",
-    "marked": "^12.0.0"
+    "marked": "^12.0.0",
+    "three": "^0.176.0",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "vite": "^5.1.0"

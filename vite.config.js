@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
@@ -97,10 +98,9 @@ function writeDb(db) {
   }
 }
 
-function triggerGitAutoSync(commitMessage) {
-  const cwd = path.resolve(__dirname);
-  const cmd = `git add . && git commit -m "auto-sync: ${commitMessage}" && git push origin main`;
-  exec(cmd, { cwd }, () => {});
+function triggerGitAutoSync(actionDescription) {
+  // P0 审计安全修复：取消业务写入中的自动 Git add/commit/push，防止命令拼接注入与不相关文件污染
+  console.log(`[BCOS Governance] Asset write recorded: ${actionDescription} (Auto-git push is disabled for security)`);
 }
 
 // Custom Node Backend Plugin for Vite with Binary Media Serving & Base64 Media Upload
@@ -135,18 +135,11 @@ function apiServerPlugin() {
           }
         }
 
-        // Serve Official Portal Website on Root '/'
-        if (req.url === '/' || req.url === '/index.html') {
-          const portalPath = path.resolve(__dirname, 'site/index.html');
-          if (fs.existsSync(portalPath)) {
-            res.setHeader('Content-Type', 'text/html; charset=utf-8');
-            return fs.createReadStream(portalPath).pipe(res);
-          }
-        }
 
-        // Serve Brand Content OS Control Console on '/os'
-        if (req.url === '/os' || req.url.startsWith('/os?')) {
-          const osPath = path.resolve(__dirname, 'index.html');
+        // Serve Brand Content OS Control Console on '/os' or '/os/'
+        const cleanReqUrl = req.url.split('?')[0].replace(/\/+$/, '');
+        if (cleanReqUrl === '/os') {
+          const osPath = path.resolve(__dirname, 'os.html');
           if (fs.existsSync(osPath)) {
             res.setHeader('Content-Type', 'text/html; charset=utf-8');
             return fs.createReadStream(osPath).pipe(res);
@@ -417,9 +410,10 @@ function apiServerPlugin() {
                 return res.end(JSON.stringify({ success: false, message: 'Question is empty' }));
               }
 
-              const DEFAULT_AMD_KEY = 'rc-9bf0bcf05f772e16a829eb57316bf25f4f4f56661e0e99f1';
-              const DEFAULT_AMD_ENDPOINT = 'https://developer.amd.com.cn/radeon/api/v1';
-              let DEFAULT_AMD_MODEL = 'DeepSeek-V4-Flash-Vision-Exp';
+              // P0 审计安全修复：不再硬编码模型密钥，统一走服务端环境变量
+              const DEFAULT_AMD_KEY = process.env.AMD_API_KEY || '';
+              const DEFAULT_AMD_ENDPOINT = process.env.AMD_API_ENDPOINT || 'https://developer.amd.com.cn/radeon/api/v1';
+              let DEFAULT_AMD_MODEL = process.env.AMD_MODEL || 'DeepSeek-V4-Flash-Vision-Exp';
 
               const AMD_DIRECT_KEY = payload.amdApiKey || payload.amd_api_key || process.env.AMD_API_KEY || DEFAULT_AMD_KEY;
               const AMD_ENDPOINT = payload.amdEndpoint || payload.amd_endpoint || process.env.AMD_API_ENDPOINT || DEFAULT_AMD_ENDPOINT;
@@ -642,31 +636,37 @@ function apiServerPlugin() {
 }
 
 export default defineConfig({
-  plugins: [apiServerPlugin()],
+  plugins: [vue(), apiServerPlugin()],
   server: {
-    port: 3000,
+    port: 5173,
+    strictPort: false,
     host: true
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
         os: path.resolve(__dirname, 'os.html'),
         mobile: path.resolve(__dirname, 'mobile.html'),
         portal: path.resolve(__dirname, 'portal.html'),
+        whitepaper: path.resolve(__dirname, 'site/brand/whitepaper.html'),
+        history: path.resolve(__dirname, 'site/brand/history.html'),
         terroir: path.resolve(__dirname, 'site/brand/terroir.html'),
+        lifecycle: path.resolve(__dirname, 'site/cognition/lifecycle.html'),
+        labor: path.resolve(__dirname, 'site/brand/labor.html'),
+        products: path.resolve(__dirname, 'site/products/index.html'),
         agronomy: path.resolve(__dirname, 'site/brand/agronomy.html'),
         evidence: path.resolve(__dirname, 'site/brand/evidence.html'),
+        announcements: path.resolve(__dirname, 'site/announcements.html'),
+        workspace: path.resolve(__dirname, 'site/workspace.html'),
+        credits: path.resolve(__dirname, 'site/credits.html'),
         patents: path.resolve(__dirname, 'site/brand/patents.html'),
-        history: path.resolve(__dirname, 'site/brand/history.html'),
         strategy: path.resolve(__dirname, 'site/brand/strategy.html'),
         science: path.resolve(__dirname, 'site/cognition/science.html'),
         gastronomy: path.resolve(__dirname, 'site/cognition/gastronomy.html'),
         verification: path.resolve(__dirname, 'site/cognition/verification.html'),
-        lifecycle: path.resolve(__dirname, 'site/cognition/lifecycle.html'),
-        products: path.resolve(__dirname, 'site/products/index.html'),
         copilot: path.resolve(__dirname, 'site/ai/copilot.html')
       }
     }

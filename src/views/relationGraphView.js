@@ -4,6 +4,7 @@
  */
 
 import { api } from '../services/api.js';
+import { store } from '../services/store.js';
 
 export function renderRelationGraphView(container, onSelectAsset) {
   const assetsRes = api.getAssets({ size: 100 });

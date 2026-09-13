@@ -3,6 +3,8 @@
  * Connects directly to the Node.js Backend & Disk Storage Server for Mobile-Desktop Cross-Device Real-time Sync.
  */
 
+import { store } from './store.js';
+
 const API_BASE = '/api';
 
 export const api = {
@@ -10,14 +12,15 @@ export const api = {
   async getDashboardAsync() {
     try {
       const res = await fetch(`${API_BASE}/dashboard`);
-      return await res.json();
+      if (res.ok) return await res.json();
+      throw new Error('API offline');
     } catch (e) {
       return this.getDashboardSyncFallback();
     }
   },
 
   getDashboard() {
-    // Synchronous call using XMLHttpRequest fallback for UI render loop
+    // Synchronous call using XMLHttpRequest with safe fallback for UI render loop
     try {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', `${API_BASE}/dashboard`, false);
@@ -30,16 +33,28 @@ export const api = {
   },
 
   getDashboardSyncFallback() {
+    // P1 审计修复：不再虚构“14条资产、12条发布”，而是基于本地 store 真实统计，杜绝伪装数据
+    const allAssets = store.getAssets ? store.getAssets() : [];
+    const allModules = store.getModules ? store.getModules() : [];
+    const published = allAssets.filter(a => a.status === 'Published').length;
+    const drafts = allAssets.filter(a => a.status === 'Draft').length;
+    const modCounts = {};
+    allAssets.forEach(a => {
+      const mod = a.module_id || 'KNO';
+      modCounts[mod] = (modCounts[mod] || 0) + 1;
+    });
+
     return {
       success: true,
       data: {
-        asset_count: 14,
-        module_count: 5,
-        published_count: 12,
-        draft_count: 2,
-        module_counts: { COM: 3, KNO: 6, VIS: 2, DAT: 2, BRD: 1 },
-        recent_assets: [],
-        latest_releases: []
+        asset_count: allAssets.length,
+        module_count: allModules.length,
+        published_count: published,
+        draft_count: drafts,
+        module_counts: modCounts,
+        recent_assets: allAssets.slice(0, 5),
+        latest_releases: store.getReleases ? store.getReleases() : [],
+        is_fallback: true
       }
     };
   },
@@ -164,19 +179,110 @@ export const api = {
   },
 
   getAssetVersions(id) {
+    const versions = store.getVersionsForAsset ? store.getVersionsForAsset(id) : [];
+    if (versions.length > 0) {
+      return { success: true, data: versions };
+    }
     return {
       success: true,
       data: [
-        { id: `ver-${id}-1`, version: 'v1.0', created_at: new Date().toISOString(), editor: 'Mobile Terminal' }
+        { id: `ver-${id}-1`, version: 'v1.0', created_at: new Date().toISOString(), editor: 'SSOT Initializer' }
       ]
     };
   },
 
+  restoreAssetVersion(assetId, versionId) {
+    if (store.restoreAssetVersion) {
+      const restored = store.restoreAssetVersion(assetId, versionId);
+      return { success: !!restored, data: restored };
+    }
+    return { success: false, message: 'Restore unsupported' };
+  },
+
   getAssetRelations(id) {
-    return { success: true, data: [] };
+    const relations = store.getRelationsForAsset ? store.getRelationsForAsset(id) : [];
+    return { success: true, data: relations };
+  },
+
+  createRelation(sourceId, targetId, relType, desc) {
+    if (store.addRelation) {
+      const rel = store.addRelation(sourceId, targetId, relType, desc);
+      return { success: !!rel, data: rel };
+    }
+    return { success: false, message: 'Add relation unsupported' };
+  },
+
+  deleteRelation(relationId) {
+    if (store.deleteRelation) {
+      const ok = store.deleteRelation(relationId);
+      return { success: ok };
+    }
+    return { success: false };
+  },
+
+  createModule(moduleData) {
+    if (store.saveModule) {
+      const mod = store.saveModule(moduleData);
+      return { success: !!mod, data: mod };
+    }
+    return { success: false, message: 'Create module unsupported' };
+  },
+
+  deleteModule(moduleId) {
+    if (store.deleteModule) {
+      const ok = store.deleteModule(moduleId);
+      return { success: ok };
+    }
+    return { success: false };
+  },
+
+  exportAssetMarkdown(assetId) {
+    const assetRes = this.getAsset(assetId);
+    const asset = assetRes.success ? assetRes.data : (store.getAssetById ? store.getAssetById(assetId) : null);
+    if (!asset) return { success: false, message: 'Asset not found' };
+
+    const md = `# ${asset.title}\n\n` +
+      `- **Asset Code**: \`${asset.asset_code || asset.id}\`\n` +
+      `- **Module**: \`${asset.module_id || 'KNO'}\`\n` +
+      `- **Status**: \`${asset.status || 'Published'}\`\n` +
+      `- **Version**: \`${asset.version || 'v1.0'}\`\n\n` +
+      `### Summary\n${asset.summary || ''}\n\n` +
+      `### Content\n${asset.content || ''}\n`;
+
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${asset.asset_code || asset.id}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    return { success: true };
+  },
+
+  exportAssetJSON(assetId) {
+    const assetRes = this.getAsset(assetId);
+    const asset = assetRes.success ? assetRes.data : (store.getAssetById ? store.getAssetById(assetId) : null);
+    if (!asset) return { success: false, message: 'Asset not found' };
+
+    const blob = new Blob([JSON.stringify(asset, null, 2)], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${asset.asset_code || asset.id}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    return { success: true };
   },
 
   getReleases() {
+    if (store.getReleases) {
+      const rels = store.getReleases();
+      if (rels && rels.length > 0) return { success: true, data: rels };
+    }
     return {
       success: true,
       data: [

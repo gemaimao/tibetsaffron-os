@@ -24,14 +24,14 @@ export function openPressReleaseModal() {
   const verifiedAssets = allAssets.filter(a => a.status === 'Published' || a.status === 'VERIFIED');
   let selectedAssetIds = verifiedAssets.map(a => a.id);
 
-  // V2.2 State
+  // V2.2/V2.3 State
   let currentScenario = 'OFFICIAL_PR'; // OFFICIAL_PR | MEDIA_FEATURE | BRAND_STORY | LIFESTYLE | INVESTOR
-  let currentOutputMode = 'PUBLIC';    // AUDIT | EDITORIAL | PUBLIC
-  let eventTitle = '天旺藏红花 2026 高原产业与0农残出海战略发布会';
+  let currentOutputMode = 'AUDIT';     // 默认内部审计模式，严防未经核实的草稿直接对外作为 PUBLIC
+  let eventTitle = '';                 // 待确认，禁止预填虚构主题
   let eventDate = new Date().toISOString().split('T')[0];
-  let eventLocation = '西藏林芝米瑞乡天旺藏红花基地 / 上海';
-  let eventAttendees = '自治州农业部门领导、林芝海关检疫代表、科研团队';
-  let leaderSpeech = '“天旺始终坚守极地风土与科学控环双驱动，用 0 农残实测报告 No. A26SW02809 和拉萨海关出境凭证 CMP-001，重新定义品质标准。”';
+  let eventLocation = '西藏林芝米瑞乡天旺藏红花基地';
+  let eventAttendees = '';             // 待确认，禁止预填假领导
+  let leaderSpeech = '';               // 待确认，禁止预填未经签署的引语
 
   function renderModal() {
     const selectedAssets = allAssets.filter(a => selectedAssetIds.includes(a.id));
@@ -100,13 +100,13 @@ export function openPressReleaseModal() {
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
-              <button class="btn btn-sm ${currentOutputMode === 'AUDIT' ? 'btn-primary' : 'btn-secondary'}" class="out-mode-btn" data-mode="AUDIT" style="font-size: 11px; padding: 6px 2px;">
+              <button class="btn btn-sm out-mode-btn ${currentOutputMode === 'AUDIT' ? 'btn-primary' : 'btn-secondary'}" data-mode="AUDIT" style="font-size: 11px; padding: 6px 2px;">
                 🔍 AUDIT 内部审计
               </button>
-              <button class="btn btn-sm ${currentOutputMode === 'EDITORIAL' ? 'btn-primary' : 'btn-secondary'}" class="out-mode-btn" data-mode="EDITORIAL" style="font-size: 11px; padding: 6px 2px;">
+              <button class="btn btn-sm out-mode-btn ${currentOutputMode === 'EDITORIAL' ? 'btn-primary' : 'btn-secondary'}" data-mode="EDITORIAL" style="font-size: 11px; padding: 6px 2px;">
                 ✍️ EDITORIAL 编辑审稿
               </button>
-              <button class="btn btn-sm ${currentOutputMode === 'PUBLIC' ? 'btn-primary' : 'btn-secondary'}" class="out-mode-btn" data-mode="PUBLIC" style="font-size: 11px; padding: 6px 2px;">
+              <button class="btn btn-sm out-mode-btn ${currentOutputMode === 'PUBLIC' ? 'btn-primary' : 'btn-secondary'}" data-mode="PUBLIC" style="font-size: 11px; padding: 6px 2px;">
                 ✨ PUBLIC 媒体脱敏
               </button>
             </div>
