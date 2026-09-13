@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>林芝天旺藏红花 · 展厅挂图核心认知与全员内训讲义</title>
+<style>
+:root {
+  --tw-paper: #f9f8f3;
+  --tw-card: #ffffff;
+  --tw-ink: #2b3830;
+  --tw-muted: #5e6b63;
+  --tw-purple: #724e78;
+  --tw-purple-light: #f3ecf5;
+  --tw-gold: #916828;
+  --tw-gold-light: #fbf5ea;
+  --tw-line: #dfded3;
+  --tw-red: #a4382c;
+  --tw-serif: "Songti SC", "STSong", Georgia, serif;
+  --tw-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--tw-paper);
+  color: var(--tw-ink);
+  font: 16px/1.85 var(--tw-sans);
+  -webkit-font-smoothing: antialiased;
+}
+main {
+  max-width: 960px;
+  margin: 40px auto 100px;
+  padding: 0 24px;
+}
+header.doc-header {
+  background: linear-gradient(145deg, #edeae0, #f7f5ed);
+  border: 1px solid var(--tw-line);
+  border-radius: 16px;
+  padding: 44px 36px;
+  margin-bottom: 36px;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+.eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--tw-purple);
+  text-transform: uppercase;
+}
+h1 {
+  font: 36px/1.4 var(--tw-serif);
+  margin: 12px 0 16px;
+  letter-spacing: 1px;
+  color: #1f2b23;
+}
+.lead {
+  font-size: 17px;
+  color: var(--tw-muted);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--tw-card);
+  border: 1px solid var(--tw-line);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--tw-ink);
+}
+.badge strong { color: var(--tw-purple); }
+
+.module-card {
+  background: var(--tw-card);
+  border: 1px solid var(--tw-line);
+  border-radius: 14px;
+  padding: 34px 32px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+}
+.module-card h2 {
+  font: 26px/1.4 var(--tw-serif);
+  color: var(--tw-purple);
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--tw-line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.module-tag {
+  font-size: 11px;
+  background: var(--tw-purple-light);
+  color: var(--tw-purple);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-family: var(--tw-sans);
+  font-weight: 600;
+}
+h3 {
+  font: 20px/1.5 var(--tw-serif);
+  margin: 24px 0 10px;
+  color: #27372d;
+}
+p { margin: 10px 0 14px; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px;
+  font-size: 14px;
+}
+th, td {
+  border: 1px solid var(--tw-line);
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: #f2efe6;
+  font-weight: 600;
+}
+.highlight-box {
+  background: var(--tw-gold-light);
+  border-left: 4px solid var(--tw-gold);
+  padding: 18px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 16px 0;
+  font-size: 14.5px;
+}
+.danger-box {
+  background: #fdf2f1;
+  border-left: 4px solid var(--tw-red);
+  padding: 18px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 16px 0;
+  font-size: 14.5px;
+}
+.qa-item {
+  border: 1px solid var(--tw-line);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  background: #fafaf7;
+}
+.qa-q {
+  padding: 16px 20px;
+  font-weight: 700;
+  background: #f4f2ea;
+  color: #1e2e23;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.qa-q::after {
+  content: "▾";
+  font-size: 18px;
+  color: var(--tw-muted);
+}
+.qa-a {
+  padding: 18px 20px;
+  background: #fff;
+  border-top: 1px solid var(--tw-line);
+  font-size: 15px;
+  line-height: 1.8;
+  color: #334237;
+}
+.print-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: var(--tw-purple);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 0;
+  box-shadow: 0 4px 15px rgba(114,78,120,0.3);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 100;
+}
+@media (max-width: 768px) {
+  main { padding: 0 16px; margin: 20px auto 60px; }
+  header.doc-header { padding: 26px 20px; }
+  h1 { font-size: 26px; }
+  .module-card { padding: 22px 18px; }
+  table { display: block; overflow-x: auto; }
+}
+@media print {
+  .print-btn { display: none; }
+  body { background: #fff; }
+  .module-card { box-shadow: none; border-color: #ccc; break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<main>
+  <header class="doc-header">
+    <div class="eyebrow">TIANWANG SAFFRON · EXHIBITION TRAINING MANUAL</div>
+    <h1>林芝天旺藏红花<br>展厅挂图核心认知与全员内训讲义</h1>
+    <p class="lead">本讲义系统提炼自西藏藏红花文化传播中心最新五大挂图（西墙、生长机制图、南墙、北墙左右图），旨在帮助全体业务、讲解、研发与品牌人员融会贯通西藏藏红花的历史公案、生命科学、高原风土、科技农法与实战接待话术。</p>
+    <div class="meta-badges">
+      <span class="badge">品牌使命：<strong>让藏红花实至名归</strong></span>
+      <span class="badge">历史考证：<strong>1765年定名 · 距今261年</strong></span>
+      <span class="badge">核心产地：<strong>林芝米瑞乡 · 海拔2945m</strong></span>
+      <span class="badge">现行体系：<strong>本土第九代种球 · 两段式农法</strong></span>
+    </div>
+  </header>
+
+  <!-- 模块一 -->
+  <section class="module-card" id="m1">
+    <h2>01 / 西墙 · 本体真相与辨识基石 <span class="module-tag">挂图：西墙09041749.png</span></h2>
+    <p>面对顾客时，第一步必须破除“草红花混淆”，并从生命科学高度揭示“为什么藏红花如此珍贵”。</p>
+    
+    <h3>1. 科学辨析：藏红花（西红花）vs 草红花</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>辨识维度</th>
+          <th>正品：藏红花（西红花 / 番红花）</th>
+          <th>混淆品：草红花（川红花 / 红花）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>植物科属</strong></td>
+          <td><strong>鸢尾科（Iridaceae）番红花属</strong> (<em>Crocus sativus L.</em>)</td>
+          <td><strong>菊科（Asteraceae）红花属</strong> (<em>Carthamus tinctorius L.</em>)</td>
+        </tr>
+        <tr>
+          <td><strong>药用部位</strong></td>
+          <td>仅取<strong>雌蕊三叉花柱头</strong>（鲜红微喇叭状，根部金黄）</td>
+          <td>取<strong>全花瓣花冠</strong>（橙黄/鲜红细碎小花瓣碎片）</td>
+        </tr>
+        <tr>
+          <td><strong>繁育特征</strong></td>
+          <td><strong>三倍体不育株</strong>，无法结籽，全靠地下球茎分株克隆</td>
+          <td>一/二年生结籽草本，产籽可榨红花籽油</td>
+        </tr>
+        <tr>
+          <td><strong>核心成分</strong></td>
+          <td><strong>藏红花素（色）、苦番红花苷（味）、藏红花醛（香）</strong></td>
+          <td>红花黄色素、红花苷</td>
+        </tr>
+        <tr>
+          <td><strong>水浸特征</strong></td>
+          <td>温水浸泡迅速析出<strong>清澈透亮晨曦金黄色</strong>，久泡花丝不褪色</td>
+          <td>水色泛淡红/橙红且偏浑浊，花瓣脱色漂白沉底</td>
+        </tr>
+        <tr>
+          <td><strong>经济价值</strong></td>
+          <td>“红色黄金”，克价数十元至百余元，约150朵鲜花收1克干花丝</td>
+          <td>普通中药材与油料，公斤价仅数十元</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>2. 生命科学奇迹：三倍体败育与次生代谢爆发</h3>
+    <p>藏红花起源于爱琴海，由二倍体白番红花与单配子蓝皮纹番红花偶然杂交变异为<strong>三倍体（3n）</strong>。植物减数分裂彻底受阻，<strong>只能开花，绝不结果</strong>。</p>
+    <div class="highlight-box">
+      <strong>为什么藏红花特别红、特别香、性效格外集中？</strong><br>
+      普通植物把绝大部分能量用于受精结籽；藏红花生殖败育，营养供给<strong>被迫从“生殖生长”完全转移到“次生代谢生长”</strong>！植物体将毕生生命能量浓缩进细小的雌蕊柱头中，造就了自然界罕见的藏红花素、苦苷与藏红花醛超量富集。
+    </div>
+
+    <h3>3. 一朵花的四重解构</h3>
+    <ul>
+      <li><strong>雌蕊花柱头（红）</strong>：一柱三丝，深红微韧。两苷一醛的绝对富集区，药典核心。</li>
+      <li><strong>花瓣（紫）</strong>：淡紫柔美，富含高活性天然花青素与抗氧化组分，帝王专属之色。</li>
+      <li><strong>雄蕊花粉（黄）</strong>：富含抗凝血因子与天然类胡萝卜素。</li>
+      <li><strong>地下球茎（棕）</strong>：营养与生化转化中枢，5~8月夏眠期完成花芽分化。</li>
+    </ul>
+  </section>
+
+  <!-- 模块二 -->
+  <section class="module-card" id="m2">
+    <h2>02 / 生长机制 · 生命节律与次生代谢 <span class="module-tag">挂图：生长机制和周期图.jpg</span></h2>
+    <p>藏红花的一生颠覆了普通植物“春华秋实”的规律，呈现独特的“<strong>春长夏眠秋花冬生</strong>”逆节律。</p>
+    
+    <div class="highlight-box">
+      <strong>全局次生代谢与逆境应答机制：</strong><br>
+      藏红花的色、香、味并非为人类取悦而生，而是植物长期适应高寒极地环境进化的<strong>化学防御与信号系统</strong>——红色素保护花器抵御紫外线强光损伤，苦味阻止鸟兽病原侵袭，特殊醛香远距离吸引昆虫。林芝高紫外线、大温差的极地环境，恰恰是刺激其防御系统超量合成活性成分的天然催化剂。
+    </div>
+
+    <h3>四季物候节律：</h3>
+    <ol>
+      <li><strong>夏眠（5月～8月）· 内部花芽分化期</strong>：地上茎叶枯萎，球茎进入休眠表象，内部进行剧烈生物化学转化与花芽分化，顶芽决定秋花花量与等级。</li>
+      <li><strong>秋花（9月～11月）· 生殖爆发与采收期</strong>：花器官爆发式长成，紫花吐艳。清晨绽放、当天手工轻取红柱头并低温干燥，锁住高挥发性芳香醛与热敏素。</li>
+      <li><strong>冬生（12月～3月）· 大田扎根生长叶期</strong>：采花后球茎回栽西藏大田，在高原凛冽严冬中破土抽叶深扎，母球逐步消融自身，将养分反哺繁育子球。</li>
+      <li><strong>春长（3月～5月）· 子球膨大成熟期</strong>：春温回暖，叶片全负荷光合作用积累多糖淀粉，子球膨大成熟，5月下旬叶枯起球，完成一轮生命闭环。</li>
+    </ol>
+  </section>
+
+  <!-- 模块三 -->
+  <section class="module-card" id="m3">
+    <h2>03 / 南墙 · 历史溯源与高原风土奇迹 <span class="module-tag">挂图：南墙0904最终稿.png</span></h2>
+    
+    <h3>1. 261 年的“名实错配”与天旺初心</h3>
+    <p>唐宋之后丝路南移，地中海藏红花经由克什米尔跨入拉萨，沿川滇茶马古道转入内地。<strong>1765 年清代药学家赵学敏在《本草纲目拾遗》中首次定名“藏红花”</strong>。赵学敏因其由西藏转运而误认产自西藏。两百六十一年来，“名在西藏，花未归藏”。天旺用十年艰辛探索，在林芝真正达成规模化量产，<strong>“让藏红花实至名归”</strong>！</p>
+
+    <h3>2. 林芝米瑞乡 2945 米四大风土天赋</h3>
+    <ul>
+      <li><strong>雅尼两江汇流湿润微气候</strong>：雅鲁藏布江与尼洋河交汇东侧台地，水汽丰沛，冬无严寒、夏无酷暑。</li>
+      <li><strong>苯日神山生态屏障</strong>：垂直植被带提供纯净高山融雪与极高负氧离子洁净生境。</li>
+      <li><strong>远古特提斯海“千层酥糕式”沙壤土</strong>：古海槽古湖相沉积叠加大峡谷泥沙冲积，形成绝佳透气疏水沙壤，杜绝烂根。</li>
+      <li><strong>2945米极地光热刺激</strong>：12~17℃ 超大昼夜温差阻断夜晚呼吸消耗，极地强紫外线逼迫植物体内次生代谢激增。</li>
+    </ul>
+  </section>
+
+  <!-- 模块四 -->
+  <section class="module-card" id="m4">
+    <h2>04 / 北墙 · 三大农法演进与科技经济学 <span class="module-tag">挂图：北墙左图 / 右图</span></h2>
+    
+    <h3>1. 三代种植模式全景横向比对</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>农法类别</th>
+          <th>传统露地大田农法</th>
+          <th>两段式设施农法（天旺主导）</th>
+          <th>CEA 室内植物工厂（未来形态）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>解决核心</strong></td>
+          <td>地中海原生气候区自然种植</td>
+          <td><strong>非原生气候区（如中国）高产优质</strong></td>
+          <td>任意环境下无视自然条件的精准制造</td>
+        </tr>
+        <tr>
+          <td><strong>工艺路径</strong></td>
+          <td>全年大田，风吹雨淋</td>
+          <td><strong>大田育球养地 + 室内温控暗室催花</strong></td>
+          <td>全封闭洁净车间 + 全人工光谱 + 垂直无土</td>
+        </tr>
+        <tr>
+          <td><strong>品质控制</strong></td>
+          <td>不可控，粉尘、雨水、病害影响大</td>
+          <td><strong>花期洁净避灾，开花率高，种球持续复壮</strong></td>
+          <td>绝对零农残、药效成分高均一稳定</td>
+        </tr>
+        <tr>
+          <td><strong>成本结构</strong></td>
+          <td>低固定资产(Capex)，高风险高损耗</td>
+          <td><strong>中等Capex，性价比极佳，兼顾规模与品质</strong></td>
+          <td>极高Capex(环控洁净室)与高电耗Opex</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">
+      <strong>中国农科院信息所 ＆ 天旺联合赋能：</strong><br>
+      天旺历时十年完成第九代本土繁育复壮，彻底攻克引种退化问题。大田吸收极地土壤天地精华，室内暗室隔绝一切外界粉尘污染，形成了极地现代农业的最优工业化闭环。
+    </div>
+  </section>
+
+  <!-- 模块五 -->
+  <section class="module-card" id="m5">
+    <h2>05 / 产品矩阵、检测凭证与合规底线 <span class="module-tag">挂图：西墙产品清单</span></h2>
+    
+    <h3>1. 正面宣称三大王牌（报告编号牢记）</h3>
+    <ul>
+      <li><strong>色价 246</strong>：经重庆市食品药品检验检测研究院检测（报告编号：<code>No. A26SW02809</code>），实测色价高达 246，远超国际 ISO 3632 特级品标准（190~200）。</li>
+      <li><strong>39项农残全部未检出</strong>：经深圳市计量质量检测研究院检测（报告编号：<code>WT10103260183295WT2</code>），39项农残指标全部未检出。</li>
+      <li><strong>拉萨海关出境凭证</strong>：实现西藏藏红花历史性出口（海关单证编号：<code>CMP-001</code>）。</li>
+    </ul>
+
+    <div class="danger-box">
+      <strong>全员必须遵守的合规宣传“四禁红线”：</strong><br>
+      1. <strong>严禁说“绝对零农残”</strong>（必须规范表述为：“经质谱检测39项农残全部未检出，低于方法定量限”）；<br>
+      2. <strong>严禁将斑马鱼科研外推为人体疾病疗效</strong>（斑马鱼实验中降糖降尿酸属食品原料生物活性评价，绝不可宣称治疗糖尿病或痛风）；<br>
+      3. <strong>严禁使用旧口号“藏红花回家”</strong>（统一使用官方规范：“让藏红花实至名归”）；<br>
+      4. <strong>孕妇、哺乳期、经期及活动性出血人群严格禁饮禁服</strong>。
+    </div>
+  </section>
+
+  <!-- 模块六 -->
+  <section class="module-card" id="m6">
+    <h2>06 / 展厅一线讲解金牌问答（实战 Q&A） <span class="module-tag">全员实战演练</span></h2>
+    
+    <div class="qa-item">
+      <div class="qa-q">Q1：藏红花名字里带“藏”，难道以前西藏不产吗？</div>
+      <div class="qa-a">
+        <strong>标准话术：</strong>“这是许多朋友共同的疑问。藏红花原产于地中海沿岸，古代通过丝绸之路经克什米尔进入西藏拉萨转运至内地。清代《本草纲目拾遗》的作者赵学敏因为看到药材由西藏带入，便误命名为‘藏红花’，距今整整 261 年。所以历史上西藏长期只是贸易集散地，从未真正扎根种植。天旺农牧历经十年科研探索，在林芝米瑞乡 2945 米首次实现规模量产，让‘藏红花’在这片土地上实至名归！”
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">Q2：藏红花花丝是深红色的，为什么泡出来的茶汤是金黄色的？</div>
+      <div class="qa-a">
+        <strong>标准话术：</strong>“这正是藏红花最奇妙的地方！正品藏红花的核心活性成分是水溶性类胡萝卜素（藏红花素），放入温水后溶出的天然汤色<strong>一定是像晨曦朝阳般明亮清澈的金黄色</strong>，汤色金黄而花丝久泡依然鲜红。如果泡出来呈现浑浊粉红色或深红色，通常是经过人工染色的伪劣假红花。”
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">Q3：天旺西藏藏红花相比进口伊朗藏红花，有什么优势？</div>
+      <div class="qa-a">
+        <strong>标准话术：</strong>“核心在林芝 2945 米独特的高原风土。第一，林芝年平均日温差在 15 度左右，极地紫外线强，促使植物体内次生代谢激增，我们的实测色价高达 246，远超国际特级标准；第二，我们采用大田培土与室内暗室两段式种植，避开露天扬尘风沙，39项农残筛查全部未检出；第三，种球历经林芝九代复壮，深扎在苯日神山纯净土壤里，风味和有效成分更为饱满深厚。”
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">Q4：原朵干花和花丝有什么区别？哪种更好？</div>
+      <div class="qa-a">
+        <strong>标准话术：</strong>“两者定位不同。如果您注重日常调理和高效养生，推荐<strong>特级花丝</strong>，精选雌蕊柱头上部精华，纯度极高；如果您讲究东方茶道观赏美感或想补充天然花青素，推荐<strong>原朵干花</strong>，它完整保留了淡紫色花瓣与红花丝，花瓣富含天然抗氧化花青素，冲泡时宛如一朵紫莲盛开在金黄色茶汤中，极具美学享受。”
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">Q5：一次冲泡几根？怎么喝吸收最好？</div>
+      <div class="qa-a">
+        <strong>标准话术：</strong>“日常保养每次取 <strong>5~8 根</strong>，用 60℃~80℃ 温水冲泡，可续水 4~5 次。最后将泡淡的花丝直接咀嚼吞服，能充分吸收脂溶性微量成分。孕期、月经期及出血患者请暂停饮用。”
+      </div>
+    </div>
+  </section>
+</main>
+
+<button class="print-btn" onclick="window.print()">🖨️ 打印 / 导出 PDF 讲义</button>
+
+</body>
+</html>
