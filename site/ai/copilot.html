@@ -75,6 +75,9 @@
     .msg-citations { margin-top: 12px; padding-top: 10px; border-top: 1px solid #1e293b; display: flex; gap: 6px; flex-wrap: wrap; }
     .cite-badge { font-size: 11px; font-family: monospace; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--accent-emerald); padding: 2px 8px; border-radius: 4px; }
     .cite-badge.model { background: rgba(56,189,248,0.1); border-color: rgba(56,189,248,0.3); color: #38bdf8; }
+    .cite-badge.timer { background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.4); color: #fbbf24; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+    .live-timer-container { margin-top: 8px; font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 6px; }
+    .live-timer-badge { font-family: monospace; font-size: 13px; color: #f59e0b; font-weight: 700; background: rgba(245,158,11,0.1); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(245,158,11,0.3); }
 
     /* Input Footer */
     .chat-footer { padding: 16px 30px; background: rgba(17,23,38,0.96); border-top: 1px solid var(--border-color); }
@@ -242,6 +245,9 @@
       msgBox.appendChild(userRow);
       msgBox.scrollTop = msgBox.scrollHeight;
 
+      const startTime = performance.now();
+      let timerInterval = null;
+
       // 2. 渲染 AI Loading
       const aiRow = document.createElement('div');
       aiRow.className = 'msg-row';
@@ -249,12 +255,36 @@
       aiRow.innerHTML = `
         <div class="msg-avatar ai"><i class="ri-sparkling-fill"></i></div>
         <div class="msg-bubble" id="loading-bubble">
-          <i class="ri-loader-4-line ri-spin" style="color: var(--accent-gold);"></i> 
-          <span>正在通过 AMD DeepSeek-V4 进行智能推理 (${isBrandMention ? '已触发：天旺官方知识库与证据链' : '已触发：通用智能与深层科学机理'})...</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <i class="ri-loader-4-line ri-spin" style="color: var(--accent-gold); font-size: 16px;"></i> 
+            <span>正在通过 AMD DeepSeek-V4 进行智能推理 (${isBrandMention ? '已触发：天旺官方知识库与证据链' : '已触发：通用智能与深层科学机理'})...</span>
+          </div>
+          <div class="live-timer-container">
+            <i class="ri-time-line" style="color: var(--accent-gold);"></i>
+            <span>思考与推理耗时：</span>
+            <span class="live-timer-badge" id="live-timer-display">0.0s</span>
+            <span id="live-timer-hint" style="color: #64748b; margin-left: 4px;">(正在调取事实底库与世界知识...)</span>
+          </div>
         </div>
       `;
       msgBox.appendChild(aiRow);
       msgBox.scrollTop = msgBox.scrollHeight;
+
+      timerInterval = setInterval(() => {
+        const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+        const timerEl = aiRow.querySelector('#live-timer-display');
+        const hintEl = aiRow.querySelector('#live-timer-hint');
+        if (timerEl) timerEl.textContent = `${elapsed}s`;
+        if (hintEl) {
+          if (elapsed > 18) {
+            hintEl.textContent = '(正在综合生成多维度不减智长文...)';
+          } else if (elapsed > 8) {
+            hintEl.textContent = '(大模型正在多重校验证据与生物化学逻辑...)';
+          } else if (elapsed > 3) {
+            hintEl.textContent = '(正在阅读知识库长篇事实与历史典籍...)';
+          }
+        }
+      }, 100);
 
       const sendBtn = document.getElementById('btn-send');
       sendBtn.disabled = true;
@@ -294,6 +324,9 @@
         if (!data.success || !data.answer) {
           throw new Error(data.message || '大模型未返回有效文本');
         }
+
+        clearInterval(timerInterval);
+        const totalElapsed = ((performance.now() - startTime) / 1000).toFixed(1);
 
         const rawAnswer = data.answer;
         conversationHistory.push({ question: text, answer: rawAnswer });
@@ -335,10 +368,12 @@
           ${declarationHtml}
           <div class="msg-citations">
             <span style="font-size: 11px; color: #94a3b8; display: flex; align-items: center; margin-right: 4px;">智能标记:</span>
+            <span class="cite-badge timer"><i class="ri-timer-line"></i> 耗时 ${totalElapsed}s</span>
             ${citations.map(c => `<span class="cite-badge">${escapeHtml(c)}</span>`).join('')}
           </div>
         `;
       } catch (err) {
+        clearInterval(timerInterval);
         console.error('Chat error:', err);
         const bubble = aiRow.querySelector('#loading-bubble');
         bubble.removeAttribute('id');
@@ -350,6 +385,7 @@
           </div>
         `;
       } finally {
+        clearInterval(timerInterval);
         sendBtn.disabled = false;
         msgBox.scrollTop = msgBox.scrollHeight;
       }
