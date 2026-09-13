@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
   <title>天旺藏红花 官方 AI 智能知识大脑 2.0 (全屏工作台)</title>
   <!-- Google Fonts & Remixicon -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -81,9 +82,12 @@
   <!-- Top Bar -->
   <div class="topbar">
     <a href="/" class="topbar-logo">
-      <img src="/assets/logo.jpg" alt="Logo" />
+      <img src="/site/assets/logo.jpg" alt="天旺农牧官方标志" />
       <span>天旺官方 AI 知识大脑 2.0</span>
     </a>
+    <div style="display:flex;align-items:center;gap:14px;margin-right:16px">
+      <a href="/site/credits.html" style="font-size:12px;color:var(--text-muted);text-decoration:none">影像出处与核验说明</a>
+    </div>
 
     <!-- Dual Mode Switcher -->
     <div class="mode-switch-group">
@@ -100,7 +104,7 @@
       <button class="btn-portal-back" onclick="openModelSettingsModal()" id="llm-engine-badge" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8; display: flex; align-items: center; gap: 6px; cursor: pointer;">
         <i class="ri-cpu-line"></i> <span id="current-engine-label">模型引擎: AMD Radeon / Gemini / SSOT</span>
       </button>
-      <a href="/os" class="btn-portal-back" target="_blank" style="border-color: rgba(168,85,247,0.5); color: #c084fc;">
+      <a href="/site/workspace.html" class="btn-portal-back" target="_blank" style="border-color: rgba(168,85,247,0.5); color: #c084fc;">
         <i class="ri-dashboard-3-line"></i> 知识库 OS 控制台
       </a>
       <a href="/" class="btn-portal-back"><i class="ri-arrow-left-line"></i> 返回官网</a>

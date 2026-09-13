@@ -43,7 +43,17 @@
     {"id":"heavy_metal","title":"重金属安全全谱","display":"总砷未检出","source":"重庆食药检院 No. A26SW02809 附表","status":"approved","description":"铅 0.15mg/kg、镉 0.099mg/kg、汞 0.014mg/kg，总砷全部未检出，符合国家严苛中药材与食品安全标准。"},
     {"id":"mycotoxin","title":"黄曲霉真菌毒素","display":"全项未检出","source":"重庆食药检院 No. A26SW02809 附表","status":"approved","description":"黄曲霉毒素 B1、B2、G1、G2 全项未检出（定量限 0.1 μg/kg），展现极地洁净干燥工艺标准。"}
   ],
-  "announcements": [],
+  "announcements": [
+    {
+      "id": "NOTICE-20260826-AUTH",
+      "title": "关于“天旺农牧”品牌藏红花产品销售及授权情况的声明",
+      "category": "official",
+      "status": "approved",
+      "visibility": "public",
+      "published_at": "2026-08-26T10:00:00.000Z",
+      "summary": "天旺农牧郑重声明：本公司未向任何单位或个人授予干花丝产品销售代理、分销、代销权；未设立分支销售网点；西藏林芝米瑞乡天旺基地内的“藏红花科技馆”（GPS: 29.476311°, 94.554110°）是目前唯一直接面向消费者的线下实体零售场所。"
+    }
+  ],
   "pending": [
     {"id":"history-years","value":"1765 · 261年 · 赵学敏《本草纲目拾遗》","reason":"已核准考证口径：1765年赵学敏《本草纲目拾遗》出版首定“藏红花”名，以2026年计距今261年。"},
     {"id":"ratio","value":"95.2%","reason":"指标定义、分母、批次及原报告未提供。"},

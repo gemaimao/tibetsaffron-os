@@ -11,8 +11,8 @@ const work = '/site/assets/cea-facility.jpg';
 const people = '/site/assets/endorse-industry.jpg';
 const notice = '/site/assets/evidence/天旺农牧公告书PDF_p1.jpg';
 const autumn = content.seasons.find(s => s.id === 'autumn');
-const nav = `<a class="skip" href="#main">跳到正文</a><div class="wrap"><header class="top"><a class="brand" href="/"><img src="/site/assets/logo.jpg" alt="天旺农牧官方标志" class="brand-logo"><span><b>天旺农牧</b><small>TIANWANG · NYINGCHI</small></span></a><nav class="nav" id="main-nav" aria-label="五段主导航">${content.sections.map(s => `<a href="/#${s.id}" data-chapter="${s.id}">${s.name}</a>`).join('')}</nav><div class="top-tools"><a href="/site/workspace.html">知识库 OS ↗</a><button class="nav-notice" data-open-notices>官方公报</button><button class="menu-button" data-menu aria-controls="main-nav" aria-expanded="false">目录 ☰</button></div></header><div class="preview-strip">新版预览 · 品牌素材授权与事实原件核验中</div></div>`;
-const foot = `<footer class="footer"><div class="wrap"><div class="footer-top"><div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><img src="/site/assets/logo.jpg" alt="天旺农牧官方标志" class="brand-logo" style="width:38px;height:38px"><div><p class="eyebrow" style="margin:0">ROOTED IN PLACE. GROWN WITH CARE.</p><p class="footer-title" style="margin:2px 0 0">让藏红花实至名归。</p></div></div><p class="small">西藏自治区林芝市巴宜区米瑞乡姆多村</p></div><nav class="footer-links" aria-label="更多内容"><a href="/site/brand/history.html">品牌缘起 ↗</a><a href="/site/brand/evidence.html">品质与证据 ↗</a><a href="/site/announcements.html">官方公报 ↗</a><a href="/site/workspace.html">知识库操作系统 ↗</a><a href="/site/workspace.html#intake">素材录入入口 ↗</a><a href="/site/credits.html">影像来源与内容说明 ↗</a></nav></div><div class="footer-bottom"><span>TIANWANG AGRICULTURE · 从土地，到一朵花。</span><span>植物参考摄影已署名 · 项目人物影像待授权 · <a href="/site/credits.html">查看说明</a></span></div></div></footer><dialog class="dialog" id="notice-dialog" aria-labelledby="notice-title"><div class="dialog-head"><div><p class="eyebrow">OFFICIAL GAZETTE</p><h2 id="notice-title">官方公报</h2></div><button class="close-dialog" data-close-notices aria-label="关闭官方公报">×</button></div><div class="notice-filters" aria-label="公告分类"><button data-notice-filter="all" aria-pressed="true">全部</button><button data-notice-filter="official" aria-pressed="false">官方声明</button><button data-notice-filter="quality" aria-pressed="false">品质公示</button></div><div id="notice-list"></div>${link('/site/announcements.html', '查看公报页面')}</dialog>`;
+const nav = `<a class="skip" href="#main">跳到正文</a><div class="wrap"><header class="top"><a class="brand" href="/"><img src="/site/assets/logo.jpg" alt="天旺农牧官方标志" class="brand-logo"><span><b>天旺农牧</b><small>TIANWANG · NYINGCHI</small></span></a><nav class="nav" id="main-nav" aria-label="五段主导航">${content.sections.map(s => `<a href="/#${s.id}" data-chapter="${s.id}">${s.name}</a>`).join('')}<a href="/site/ai/copilot.html" style="color:var(--tw-purple);font-weight:600">智能问答 ✨</a></nav><div class="top-tools"><a href="/site/ai/copilot.html" class="nav-ai">AI 品牌大脑 ✨</a><a href="/site/workspace.html">知识库 OS ↗</a><button class="nav-notice" data-open-notices>官方公报</button><button class="menu-button" data-menu aria-controls="main-nav" aria-expanded="false">目录 ☰</button></div></header><div class="preview-strip">新版预览 · 品牌素材授权与事实原件核验中</div></div>`;
+const foot = `<footer class="footer"><div class="wrap"><div class="footer-top"><div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><img src="/site/assets/logo.jpg" alt="天旺农牧官方标志" class="brand-logo" style="width:38px;height:38px"><div><p class="eyebrow" style="margin:0">ROOTED IN PLACE. GROWN WITH CARE.</p><p class="footer-title" style="margin:2px 0 0">让藏红花实至名归。</p></div></div><p class="small">西藏自治区林芝市巴宜区米瑞乡姆多村</p></div><nav class="footer-links" aria-label="更多内容"><a href="/site/brand/history.html">品牌缘起 ↗</a><a href="/site/brand/evidence.html">品质与证据 ↗</a><a href="/site/announcements.html">官方公报 ↗</a><a href="/site/ai/copilot.html">AI 品牌大脑 / 智能问答 ✨</a><a href="/site/workspace.html">知识库操作系统 ↗</a><a href="/site/workspace.html#intake">素材录入入口 ↗</a><a href="/site/credits.html">影像来源与内容说明 ↗</a></nav></div><div class="footer-bottom"><span>TIANWANG AGRICULTURE · 从土地，到一朵花。</span><span>植物参考摄影已署名 · 项目人物影像待授权 · <a href="/site/credits.html">查看说明</a></span></div></div></footer><dialog class="dialog" id="notice-dialog" aria-labelledby="notice-title"><div class="dialog-head"><div><p class="eyebrow">OFFICIAL GAZETTE</p><h2 id="notice-title">官方公报</h2></div><button class="close-dialog" data-close-notices aria-label="关闭官方公报">×</button></div><div class="notice-filters" aria-label="公告分类"><button data-notice-filter="all" aria-pressed="true">全部</button><button data-notice-filter="official" aria-pressed="false">官方声明</button><button data-notice-filter="quality" aria-pressed="false">品质公示</button></div><div id="notice-list"></div>${link('/site/announcements.html', '查看公报页面')}</dialog>`;
 const head = (title, description) => `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${esc(description)}"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#f8f5ee"><title>${esc(title)} · 天旺农牧</title><link rel="icon" type="image/jpeg" href="/site/assets/logo.jpg"><link rel="apple-touch-icon" href="/site/assets/logo.jpg"><link rel="stylesheet" href="/site/css/website.css"></head><body class="tw-site">`;
 const end = `<script type="module" src="/src/website/entry.js"></script></body></html>`;
 const chapterHead = (number, name, en, title, aside) => `<div class="chapter-head"><div><div class="chapter-label"><span class="number">${number}</span><b>${name} / ${en}</b></div><h2 class="section-title">${title}</h2></div><p class="aside">${aside}</p></div>`;
@@ -41,7 +41,71 @@ detail('site/brand/labor.html','labor','看见花，<br>也看见照料花的人
 detail('site/products/index.html','products','从一朵花，<br>看见不同的产物。','先讲清楚它是什么，再讲清楚有哪些证据。品类介绍不等于在售或库存承诺。',`<h2 id="threads">01 · 花丝</h2><p>花丝来自藏红花的红色柱头。商品介绍还需要成品实拍、规格、批次和可追溯检测资料，而不是只放一个色价数字。</p><figure class="detail-figure">${image(flower,'藏红花柱头与花瓣植物参考实拍')}<figcaption>植物参考照片，非天旺花丝商品照片。</figcaption><h2 id="whole">02 · 鲜朵干燥花</h2><p>整朵干花需要说明形态、工艺和保存条件。当前不把鲜花照片冒充干燥成品，不从旧文案继承未经核验的冻干工艺。</p><h2 id="research">03 · 多糖与多酚等深加工</h2><p>项目材料涉及多糖压片、多酚压片等产品方向。包装、规格、在售或研发状态需由业务材料确认。</p><div class="research-note"><strong>研究边界：</strong>斑马鱼等生物模型研究不能外推成人体降血糖或降尿酸疗效。页面不提供疾病治疗承诺，也不把研究数字用作消费效果保证。</div><h2>器官形态与商品层级分开看。</h2><p>球茎、花、叶随一年变化，是植物的生命节律；商品是否当季生产或在售，是另一类需要业务记录的事实。新版不会把二者混为一谈。</p>${link('/site/brand/evidence.html','阅读品质证据')}`);
 detail('site/brand/evidence.html','products','每一项品质，<br>都应找到它的依据。','天旺藏红花 11 项全量第三方权威检验与合规资质凭证档案。',`${content.evidence.map(e=>`<div class="evidence-card"><strong>${esc(e.title)}</strong><span class="metric">${esc(e.display)}</span><p>${esc(e.description)}</p><p class="small">机构与编号：${esc(e.source)} · 证据层级：官方核准凭证</p></div>`).join('')}<h2>如何科学阅读一份检测报告？</h2><ul><li>先看出具机构资质（CMA / CNAS 国家级认证及国际互认资质）、报告编号与签发日期。</li><li>再看检测项目、方法依据与定量限；“未检出”代表实测值低于高精仪器检出极限。</li><li>产地土壤与灌溉水是品质的源头基石；弱酸性沙质土壤与高山融雪滋养，造就天然高色价。</li><li>科研评价模型（如斑马鱼实验）属食品原料活性机理探索，严格恪守食品安全法规，不宣称疾病治疗功效。</li></ul><details class="disclosure"><summary>查看待确认的其他数据锚点</summary>${content.pending.filter(p=>['ratio','payment'].includes(p.id)).map(p=>`<p><strong>${esc(p.value)}</strong>：${esc(p.reason)}</p>`).join('')}</details>`);
 detail('site/brand/agronomy.html','labor','两段式与设施农业，<br>把时间与操作讲清楚。','保留任务书中的农艺主线，区分历史引入、现行生产与未来探索。',`<h2>先讲阶段，再讲技术。</h2><p>两段式种植法需要具体说明各阶段的操作、场址和时间。旧资料中的崇明养球与林芝催花描述，是否代表当前生产体系，仍需核验。</p><h2>设施不是效果证明。</h2><p>温度、湿度、光照等设施条件可以被记录，但不能从设施存在直接推导成“绝对零农残”、特定化学成分增加或人体功效。</p><h2>需要什么样的记录？</h2><ul><li>现行生产规程与修订日期。</li><li>各阶段场址、材料批次与操作责任人。</li><li>实测环境与植株状态。</li><li>与产品批次相连的质量检测。</li></ul>`);
-detail('site/announcements.html',null,'官方公报','一个可核查的公告，需要原件、日期、有效性和明确的发布状态。',`<div class="empty-state"><strong>暂无已核验发布的公告</strong><p>原站公告已保留为内部参考，新版暂不将其直接视为现行公告。待完成日期、附件与授权核验后，通过受控快照发布。</p></div><h2>公告与知识资产各司其职。</h2><p>知识库沉淀材料，公告承载正式发布。一个文件出现在知识库里，不等于已经被批准公开，也不等于一直有效。</p>${link('/site/brand/evidence.html','先阅读品质证据说明')}`);
+detail('site/announcements.html',null,'官方公报','林芝天旺农牧产品有限公司 法定公告与权威公示发布平台。',`<article class="notice-full" style="background:#fff;padding:36px 40px;border:1px solid var(--tw-line);border-radius:12px;margin-bottom:35px;box-shadow:0 2px 10px rgba(0,0,0,0.02)">
+  <div style="border-bottom:2px solid #a4382c;padding-bottom:18px;margin-bottom:26px;text-align:center">
+    <p style="color:#a4382c;letter-spacing:3px;font-size:11.5px;font-weight:700;margin:0">林芝天旺农牧产品有限公司 · 官方公报 (2026年08月26日)</p>
+    <h1 style="font:29px/1.4 var(--tw-serif);margin:14px 0 6px;color:#1e2e23">关于“天旺农牧”品牌<br>藏红花产品销售及授权情况的声明</h1>
+    <p class="small" style="margin:0;color:var(--tw-muted)">发布日期：2026年8月26日 · 归档分类：法定声明 (Official Statement)</p>
+  </div>
+  
+  <p style="line-height:2">近期，根据有关市场监管部门的提示以及市场检查中发现的相关线索，林芝天旺农牧产品有限公司了解到，市场上存在涉嫌擅自使用、冒用“天旺农牧”品牌及相关商业信息，销售非本公司产品或来源不明藏红花产品的情况。</p>
+  <p style="line-height:2">上述行为容易导致消费者对产品来源及经营主体产生混淆，并可能损害“天旺农牧”品牌声誉、消费者合法权益及正常市场经营秩序。</p>
+  <p style="line-height:2">为明确“天旺农牧”品牌相关产品的市场销售、授权及经营主体情况，维护消费者合法权益和正常市场经营秩序，并为有关部门开展市场监管、调查核实及行政执法提供企业事实依据，林芝天旺农牧产品有限公司现就有关事项声明如下：</p>
+
+  <h2 style="font:21px var(--tw-serif);margin:24px 0 10px;color:var(--tw-purple)">一、“天旺农牧”既是本公司企业字号，也是本公司旗下产品的主要品牌名称</h2>
+  <p style="line-height:2">林芝天旺农牧产品有限公司是依法登记注册并持续开展经营活动的企业。“天旺农牧”既是本公司的企业字号，也是本公司旗下系列产品使用的主要品牌名称。本公司目前还拥有“天旺米瑞”等其他品牌。本次声明所涉及的品牌保护、产品销售、市场授权及相关权益维护，仅针对“天旺农牧”品牌，不涉及“天旺米瑞”等其他品牌。</p>
+  <p style="line-height:2"><strong>“天旺农牧”品牌旗下产品主要包括：</strong></p>
+  <ul>
+    <li>藏红花干花丝；</li>
+    <li>藏红花干花（带花丝）；</li>
+    <li>藏红花多糖产品，包括独立包装产品及与香港宝芝林联名产品；</li>
+    <li>藏红花多酚产品，包括独立包装产品及与香港宝芝林联名产品；</li>
+    <li>藏红花咖啡；</li>
+    <li>藏红花保健养生茶包。</li>
+  </ul>
+  <p style="line-height:2">鉴于目前发现的相关市场线索主要涉及“天旺农牧”品牌藏红花干花丝产品，本次声明重点针对该产品。</p>
+
+  <h2 style="font:21px var(--tw-serif);margin:24px 0 10px;color:var(--tw-purple)">二、本公司目前未向任何单位或个人授予“天旺农牧”品牌藏红花干花丝产品的销售代理、分销、代销等权益</h2>
+  <p style="line-height:2"><strong>截至本声明发布之日，林芝天旺农牧产品有限公司未以任何形式向任何单位或个人授予“天旺农牧”品牌藏红花干花丝产品的总代理、区域代理、经销、分销、代销、加盟或其他形式的销售授权。</strong>本公司目前未向市场下发任何“天旺农牧”品牌藏红花干花丝产品的产品分销权、代销权或其他销售代理权益。</p>
+  <p style="line-height:2">任何单位或个人以“天旺农牧总代理”“天旺农牧区域代理”“天旺农牧授权经销商”“天旺农牧合作销售机构”“基地直供”“内部渠道”或其他类似名义销售、宣传或招商相关产品的，其所称身份及相关产品来源，均不因上述宣传而当然获得本公司的授权或认可。对于是否存在授权关系，应以林芝天旺农牧产品有限公司出具的正式书面授权文件或其他可核验的正式证明材料为准。</p>
+
+  <h2 style="font:21px var(--tw-serif);margin:24px 0 10px;color:var(--tw-purple)">三、本公司目前未设立面向市场销售“天旺农牧”品牌产品的分公司、办事处及其他分支销售机构</h2>
+  <p style="line-height:2">截至本声明发布之日，除依法登记设立并由本公司正式公开披露的主体外，林芝天旺农牧产品有限公司未在任何地区设立以销售“天旺农牧”品牌产品为目的的分公司、办事处、销售中心、直营网点或其他形式的分支销售机构。任何单位、机构或个人如以“天旺农牧分公司”“天旺农牧办事处”“天旺农牧销售中心”“天旺农牧直营网点”或其他类似名义开展经营活动，请有关部门、消费者及社会公众注意核实其主体资格及与本公司的实际关系。</p>
+
+  <h2 style="font:21px var(--tw-serif);margin:24px 0 10px;color:var(--tw-purple)">四、“藏红花科技馆”是本公司目前唯一直接面向市场和消费者开展零售的线下实体场所</h2>
+  <p style="line-height:2"><strong>截至本声明发布之日，位于西藏自治区林芝市巴宜区米瑞乡广久村路口、天旺农牧藏红花生产基地内的“藏红花科技馆”，是林芝天旺农牧产品有限公司目前唯一直接面向社会公众及消费者开展“天旺农牧”品牌产品零售的线下实体场所。</strong></p>
+  <div style="background:#f9f7f2;border:1px solid var(--tw-line);padding:16px 20px;border-radius:8px;margin:16px 0;font-size:13.5px">
+    <strong>📍 地理导航与定位坐标核验指引：</strong><br>
+    - <strong>官方地理坐标</strong>：北纬 <strong>29.476311°</strong>，东经 <strong>94.554110°</strong><br>
+    - <strong>高德地图导航</strong>：搜索 <strong>“藏红花科技馆”</strong>（已注册正式地点）<br>
+    - <strong>百度地图导航</strong>：搜索 <strong>“林芝天旺农牧藏红花研发基地”</strong>（正式商家注册名，为同一地点）
+  </div>
+  <p style="line-height:2">除上述“藏红花科技馆”外，截至本声明发布之日，本公司未设立其他直接面向社会公众及消费者销售“天旺农牧”品牌产品的线下实体零售场所。如发现其他单位、个人或经营场所以“天旺农牧”品牌专卖、直营网点、销售中心、体验中心或其他类似名义开展线下经营活动，有关部门及社会公众可向本公司进一步核实。</p>
+
+  <h2 style="font:21px var(--tw-serif);margin:24px 0 10px;color:var(--tw-purple)">五、关于涉“天旺农牧”品牌产品的真实性及来源核验</h2>
+  <p style="line-height:2">对于市场监管部门、消费者及其他有关单位发现的，使用“天旺农牧”品牌标识、企业名称、相关产品包装信息，或者宣称系“天旺农牧”品牌产品的商品，林芝天旺农牧产品有限公司可根据具体商品实物、包装标识、产品批次信息、来源资料及其他相关材料，对其是否属于本公司产品以及是否存在本公司授权关系进行核验。对于未经本公司确认的相关商品，本公司不对其产品来源、真实性、品质及储存、流通状况作出确认，亦不承担相应的产品质量保证及售后服务责任。</p>
+  <p style="line-height:2">本公司愿意依法配合有关市场监管部门及其他有关部门，对涉嫌假冒、冒用或造成市场混淆的相关商品及经营行为开展调查、核实工作，并根据需要提供相关企业主体、品牌、产品及授权情况的证明和说明材料。</p>
+
+  <h2 style="font:21px var(--tw-serif);margin:24px 0 10px;color:var(--tw-purple)">六、关于未经授权使用“天旺农牧”品牌及相关商业信息的行为</h2>
+  <p style="line-height:2">任何单位或个人未经相关权利人许可，擅自使用、仿冒、冒用或攀附“天旺农牧”品牌、企业名称、产品标识、产品包装、产品图片、生产基地信息及其他相关商业资源，并据此进行商业宣传、销售活动或造成市场混淆的，可能涉嫌侵犯相关权利人的合法权益。对于已经发现或后续发现的相关市场线索，林芝天旺农牧产品有限公司将依法开展调查、核验和维权工作，并积极配合有关市场监管部门及其他有关部门依法进行调查、核实。对于存在侵害本公司及相关权利人合法权益的行为，本公司将依法采取包括但不限于投诉举报、行政维权、民事诉讼等措施，并保留依法追究相关责任的权利。</p>
+
+  <h2 style="font:21px var(--tw-serif);margin:24px 0 10px;color:var(--tw-purple)">七、郑重提示</h2>
+  <p style="line-height:2">林芝天旺农牧产品有限公司郑重提醒广大消费者、经营者及社会公众：购买或经营涉及“天旺农牧”品牌的相关产品时，请注意核实经营主体、产品来源及授权情况。对于来源不明，或者以“总代理”“授权代理”“基地直供”“内部渠道”等名义销售的相关产品，请谨慎辨别，并及时通过本公司正式渠道进行核验。如发现涉嫌擅自使用、冒用“天旺农牧”品牌或销售来源不明、未经确认的相关产品的情况，可及时向当地市场监督管理部门反映，或向林芝天旺农牧产品有限公司提供相关线索。</p>
+  <p style="line-height:2">本公司将持续加强品牌及产品市场管理，依法维护消费者权益和正常市场经营秩序，并积极配合有关部门开展相关工作。<br><strong>特此声明。</strong></p>
+
+  <div style="border-top:1px solid var(--tw-line);margin-top:28px;padding-top:20px;text-align:right;font-size:13px;line-height:1.8;color:var(--tw-muted)">
+    <p style="font-weight:700;color:var(--tw-ink);margin:0">林芝天旺农牧产品有限公司</p>
+    <p style="margin:2px 0">统一社会信用代码：91540400MA6TCDCA38</p>
+    <p style="margin:2px 0">法定代表人：陈美霞</p>
+    <p style="margin:2px 0">企业注册地址：西藏自治区林芝市巴宜区米瑞乡姆多村42号</p>
+    <p style="margin:2px 0">官方核验服务电话：13549044959</p>
+    <p style="margin:2px 0">声明日期：2026年8月26日</p>
+  </div>
+</article>
+
+<h2>公报发布与查验准则</h2>
+<p>本公报系统发布的所有声明、公示与检疫凭证，均绑定可追溯的企业营业执照、检验检测报告或海关正本单证。社会公众与监管部门可凭公报内载明之经纬坐标、报告编号向有关部门或本公司进行核实。</p>
+${link('/site/brand/evidence.html','查验11项全量品质检测档案')}`);
 detail('site/workspace.html',null,'官网之外，<br>还有内容生长的地方。','知识库操作系统、素材录入与公告系统继续保留。新版公开预览与内部业务数据隔离。',`<h2>一份素材，多种表达。</h2><p>COM 传播、KNO 知识、VIS 视觉、DAT 数据与 BRD 品牌五类资产，为品牌传播、认知推广与通稿撰写提供材料。它们不会被官网五段替代。</p><div class="workspace-options"><a href="/os.html"><strong>知识库 OS ↗</strong><p>资产检索、内容整理与知识管理。</p></a><a href="/mobile.html" id="intake"><strong>素材录入 ↗</strong><p>日常素材与原始记录的入口。</p></a></div><div class="research-note">当前为隔离的前台预览，不运行原系统的写库、自动提交或推送流程。上述入口在本预览中显示边界说明；工作区原 os.html、mobile.html 及后台代码未替换。</div><h2>公告与通稿不是“自动公开”。</h2><p>公开内容应引用批准后的资产版本。完整审批、撤回和通稿治理修复属于独立系统工作，不因首页更新而被宣称已经完成。</p>`);
 detail('site/credits.html',null,'影像与内容，<br>把出处写在旁边。','我们区分参考实拍、项目影像与商品实拍，不把未知的信息包装成确定事实。',`${content.media.map(m=>`<h2>${m.id === 'flower' ? '植物参考摄影' : esc(m.caption)}</h2>${m.id === 'flower' ? `<p>${esc(m.credit)}</p><p><a href="${m.source_url}" target="_blank" rel="noopener noreferrer">原图与授权页面 ↗</a> · <a href="${m.license_url}" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0 ↗</a></p><p>${esc(m.changes)}。版权人不因此为天旺背书。此许可仅适用于相关摄影及衍生图像，不代表整站代码均使用此许可。</p>` : '<p>来自当前项目已有文件。拍摄者、时间、地点、版权及必要的肖像许可尚待确认；用于本地内部预览，不自动批准公网发布。</p>'}`).join('')}<h2>内容核验清单</h2>${content.pending.map(p=>`<details class="disclosure"><summary>${esc(p.value)}</summary><p>${esc(p.reason)}</p></details>`).join('')}<p>根蓝图为结构依据；本次任务书为内容要求。数据锚点在未经原件核对时，保留其待确认状态。</p>`);
 for (const [file, html] of Object.entries(routes)) {
