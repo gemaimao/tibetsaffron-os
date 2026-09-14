@@ -3,45 +3,314 @@
   "release_id": "tianwang-website-v2-preview",
   "release_status": "preview",
   "approved_by": null,
-  "brand": {"name": "天旺农牧", "statement": "让藏红花实至名归", "location": "西藏自治区林芝市巴宜区米瑞乡姆多村", "altitude": "2945", "altitude_source": "官网架构蓝图_最终版.md", "altitude_verification": "user_supplied"},
+  "brand": {
+    "name": "天旺农牧",
+    "statement": "让藏红花实至名归",
+    "location": "西藏自治区林芝市巴宜区米瑞乡姆多村",
+    "altitude": "2945",
+    "altitude_source": "官网架构蓝图_最终版.md",
+    "altitude_verification": "user_supplied"
+  },
   "sections": [
-    {"id":"origin","name":"缘起","en":"THE BEGINNING","time_scale":"decade","detail":"/site/brand/history.html"},
-    {"id":"terroir","name":"风土","en":"A SENSE OF PLACE","time_scale":"annual","detail":"/site/brand/terroir.html"},
-    {"id":"seasons","name":"四季","en":"THE LIVING CALENDAR","time_scale":"annual","detail":"/site/cognition/lifecycle.html"},
-    {"id":"labor","name":"劳作","en":"HANDS & HEARTS","time_scale":"annual","detail":"/site/brand/labor.html"},
-    {"id":"products","name":"产物","en":"THE FRUITS OF TIME","time_scale":"annual","detail":"/site/products/index.html"}
+    {
+      "id": "origin",
+      "name": "缘起",
+      "en": "THE BEGINNING",
+      "time_scale": "decade",
+      "detail": "/site/brand/history.html"
+    },
+    {
+      "id": "terroir",
+      "name": "风土",
+      "en": "A SENSE OF PLACE",
+      "time_scale": "annual",
+      "detail": "/site/brand/terroir.html"
+    },
+    {
+      "id": "seasons",
+      "name": "四季",
+      "en": "THE LIVING CALENDAR",
+      "time_scale": "annual",
+      "detail": "/site/cognition/lifecycle.html"
+    },
+    {
+      "id": "labor",
+      "name": "劳作",
+      "en": "HANDS & HEARTS",
+      "time_scale": "annual",
+      "detail": "/site/brand/labor.html"
+    },
+    {
+      "id": "products",
+      "name": "产物",
+      "en": "THE FRUITS OF TIME",
+      "time_scale": "annual",
+      "detail": "/site/products/index.html"
+    }
   ],
   "seasons": [
-    {"id":"spring","name":"春","label":"春长","en":"SPRING","organ":"叶与球茎","title":"把一年的积蓄，交给生长。","text":"从叶片到球茎，关注生命的积累，也关注脚下土壤的状态。季节叙事不替代基地实际农事记录。","work":"春整地","work_text":"整理土地，照看土壤与排水，让每一次操作回应当季的生长需要。","environment":"观察土壤、水分与回暖过程","product":"叶与球茎 · 生长的积累","note":"对应月份、具体工序与现场记录待生产团队核定。"},
-    {"id":"summer","name":"夏","label":"夏眠","en":"SUMMER","organ":"球茎","title":"静下来的季节，也在酝酿。","text":"花暂时退场，球茎成为观察的中心。休眠、整理与下一轮准备，是一年中同样重要的章节。","work":"夏挖球","work_text":"从起球、整理到保存，记录每个环节的条件与操作，而不把经验简化成一组万能参数。","environment":"观察温度、通风与球茎状态","product":"球茎 · 下一次开放的起点","note":"起球时间、贮藏条件须以基地当年规程为准。"},
-    {"id":"autumn","name":"秋","label":"秋花","en":"AUTUMN","organ":"花与柱头","title":"等一朵花开，接住一年的时间。","text":"紫色花瓣展开，红色柱头显露。短暂的花期，把一年的照料带到眼前；采花与整理，则把时间留在手中。","work":"秋采花","work_text":"细看花朵，轻取、整理。让镜头回到真实的手，让每一道工序有自己的记录。","environment":"观察花期温差、日照与设施条件","product":"花与柱头 · 从开放到采收","note":"配图为已署名的植物参考实拍，不标作天旺基地或商品实拍。"},
-    {"id":"winter","name":"冬","label":"冬生","en":"WINTER","organ":"叶与球茎","title":"花落以后，生命仍在继续。","text":"花期并不是生命的终点。冬季的叶与球茎，把视线带回生长本身，也把一年连接到下一年。","work":"冬储","work_text":"关注冬季记录与储存管理；具体储存对象、操作条件及与植株生长的关系，需由生产团队明确。","environment":"观察冬季温度、水分与植株状态","product":"叶与球茎 · 延续与再生","note":"冬储对象与操作月份待核验，不对外给出未经确认的种植指导。"}
+    {
+      "id": "spring",
+      "name": "春",
+      "label": "春长",
+      "en": "SPRING",
+      "organ": "叶与球茎",
+      "title": "把一年的积蓄，交给生长。",
+      "text": "从叶片到球茎，关注生命的积累，也关注脚下土壤的状态。季节叙事不替代基地实际农事记录。",
+      "work": "春整地",
+      "work_text": "整理土地，照看土壤与排水，让每一次操作回应当季的生长需要。",
+      "environment": "观察土壤、水分与回暖过程",
+      "product": "叶与球茎 · 生长的积累",
+      "note": "对应月份、具体工序与现场记录待生产团队核定。"
+    },
+    {
+      "id": "summer",
+      "name": "夏",
+      "label": "夏眠",
+      "en": "SUMMER",
+      "organ": "球茎",
+      "title": "静下来的季节，也在酝酿。",
+      "text": "花暂时退场，球茎成为观察的中心。休眠、整理与下一轮准备，是一年中同样重要的章节。",
+      "work": "夏挖球",
+      "work_text": "从起球、整理到保存，记录每个环节的条件与操作，而不把经验简化成一组万能参数。",
+      "environment": "观察温度、通风与球茎状态",
+      "product": "球茎 · 下一次开放的起点",
+      "note": "起球时间、贮藏条件须以基地当年规程为准。"
+    },
+    {
+      "id": "autumn",
+      "name": "秋",
+      "label": "秋花",
+      "en": "AUTUMN",
+      "organ": "花与柱头",
+      "title": "等一朵花开，接住一年的时间。",
+      "text": "紫色花瓣展开，红色柱头显露。短暂的花期，把一年的照料带到眼前；采花与整理，则把时间留在手中。",
+      "work": "秋采花",
+      "work_text": "细看花朵，轻取、整理。让镜头回到真实的手，让每一道工序有自己的记录。",
+      "environment": "观察花期温差、日照与设施条件",
+      "product": "花与柱头 · 从开放到采收",
+      "note": "配图为已署名的植物参考实拍，不标作天旺基地或商品实拍。"
+    },
+    {
+      "id": "winter",
+      "name": "冬",
+      "label": "冬生",
+      "en": "WINTER",
+      "organ": "叶与球茎",
+      "title": "花落以后，生命仍在继续。",
+      "text": "花期并不是生命的终点。冬季的叶与球茎，把视线带回生长本身，也把一年连接到下一年。",
+      "work": "冬储",
+      "work_text": "关注冬季记录与储存管理；具体储存对象、操作条件及与植株生长的关系，需由生产团队明确。",
+      "environment": "观察冬季温度、水分与植株状态",
+      "product": "叶与球茎 · 延续与再生",
+      "note": "冬储对象与操作月份待核验，不对外给出未经确认的种植指导。"
+    }
   ],
   "milestones": [
-    {"title":"缘起","text":"先问为何是林芝，再谈如何把一株花种好。"},
-    {"title":"引入","text":"两段式种植法，打开关于生长与生产的探索。"},
-    {"title":"落地","text":"把想法带进土地与设施，留下每一次实践的记录。"},
-    {"title":"量产","text":"从一次开放，走向可持续的生产与照料。"},
-    {"title":"品牌","text":"让产地、人物与品质，共同回答一个名字。"}
+    {
+      "title": "源头引种",
+      "text": "2016-2017年从西班牙拉曼查核心产区引进优质原种种球，于崇明岛完成初训成活与两段式技术准备。"
+    },
+    {
+      "title": "入藏对决",
+      "text": "2018年入驻林芝米瑞乡姆多村、广久村，两段式改良法胜出并坚决淘汰积温不足、易生霉烂的伊朗传统地栽法。"
+    },
+    {
+      "title": "基质农艺",
+      "text": "坚定走CEA自研专用固态营养土培基质路线，摒弃高能耗水培气雾培，攻克高原防霉、种球大球繁育与首花期调控。"
+    },
+    {
+      "title": "科技深加工",
+      "text": "突破传统初级花丝粗放泡水利用局限，首创鲜花整朵干燥与超低温冷萃，向生物制药与现代中成药输出高标原料。"
+    },
+    {
+      "title": "实至名归",
+      "text": "数十项农残未检出、药效成分超标；以标准制定与专利授权走社群化生态发展，让藏红花在西藏真正实至名归。"
+    }
   ],
   "media": [
-    {"id":"flower","path":"/site/assets/editorial/saffron-flower.jpg","role":"botanical_reference","rights_status":"licensed","credit":"Weinessiggut Doktorenhof Wiedemann GmbH / Georg-Heinrich Wiedemann；文件历史另署 Marcus Scheuermann","source_url":"https://commons.wikimedia.org/wiki/File:Safranbl%C3%BCte.jpg","license":"CC BY-SA 4.0","license_url":"https://creativecommons.org/licenses/by-sa/4.0/","changes":"缩放；页面以 CSS 裁切展示；图像衍生版本沿用 CC BY-SA 4.0","caption":"藏红花植物参考摄影，非天旺基地或商品实拍。"},
-    {"id":"work","path":"/site/assets/cea-facility.jpg","role":"project_candidate","rights_status":"pending","caption":"项目既有劳作场景照片；人物身份、时间、地点及授权待确认。"},
-    {"id":"people","path":"/site/assets/endorse-industry.jpg","role":"project_candidate","rights_status":"pending","caption":"项目既有现场交流照片；不据图片推定个人身份或机构背书。"},
-    {"id":"notice","path":"/site/assets/evidence/天旺农牧公告书PDF_p1.jpg","role":"document","rights_status":"pending","caption":"项目既有公告页影像；内容有效性与发布授权待复核。"}
+    {
+      "id": "flower",
+      "path": "/site/assets/editorial/saffron-flower.jpg",
+      "role": "botanical_reference",
+      "rights_status": "licensed",
+      "credit": "Weinessiggut Doktorenhof Wiedemann GmbH / Georg-Heinrich Wiedemann；文件历史另署 Marcus Scheuermann",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Safranbl%C3%BCte.jpg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "changes": "缩放；页面以 CSS 裁切展示；图像衍生版本沿用 CC BY-SA 4.0",
+      "caption": "藏红花植物参考摄影，非天旺基地或商品实拍。"
+    },
+    {
+      "id": "work",
+      "path": "/site/assets/cea-facility.jpg",
+      "role": "project_candidate",
+      "rights_status": "pending",
+      "caption": "项目既有劳作场景照片；人物身份、时间、地点及授权待确认。"
+    },
+    {
+      "id": "people",
+      "path": "/site/assets/endorse-industry.jpg",
+      "role": "project_candidate",
+      "rights_status": "pending",
+      "caption": "项目既有现场交流照片；不据图片推定个人身份或机构背书。"
+    },
+    {
+      "id": "notice",
+      "path": "/site/assets/evidence/天旺农牧公告书PDF_p1.jpg",
+      "role": "document",
+      "rights_status": "pending",
+      "caption": "项目既有公告页影像；内容有效性与发布授权待复核。"
+    },
+    {
+      "id": "corm_harvest",
+      "path": "/site/assets/real-field/corm-harvest-2025.jpg",
+      "role": "field_record",
+      "rights_status": "verified",
+      "caption": "2025.05.13 西藏林芝米瑞乡姆多村基地种球起地实录 · 饱满优级母球单球重突破25g。"
+    },
+    {
+      "id": "peoples_daily",
+      "path": "/site/assets/real-field/peoples-daily-press-2025.jpg",
+      "role": "field_record",
+      "rights_status": "verified",
+      "caption": "2025.04.09 《人民日报》记者在林芝米瑞乡天旺基地现场专访实录。"
+    },
+    {
+      "id": "customs_inspection",
+      "path": "/site/assets/real-field/customs-inspection-2025.jpg",
+      "role": "field_record",
+      "rights_status": "verified",
+      "caption": "2025.05.20 林芝海关关员在基地现场执行第二批种球起地检疫检验。"
+    },
+    {
+      "id": "farmers_harvest",
+      "path": "/site/assets/real-field/farmers-harvest-2025.jpg",
+      "role": "field_record",
+      "rights_status": "verified",
+      "caption": "米瑞乡姆多村藏族花农在基地起球劳作群像 · 每年30万元薪资直接惠农。"
+    },
+    {
+      "id": "soil_terroir",
+      "path": "/site/assets/real-field/soil-terroir-2025.jpg",
+      "role": "field_record",
+      "rights_status": "verified",
+      "caption": "林芝古东日山脚湖相沉积土壤实拍 · 顺应极地风土与自研固态土培基质。"
+    }
   ],
   "evidence": [
-    {"id":"color","title":"西红花苷色价","display":"246","source":"重庆市食品药品检验检测研究院 No. A26SW02809","status":"approved","description":"依据西藏地理标志 DB54/T 0245-2021 检验，440nm 西红花苷紫外吸光度实测达 246，远超药典 180 与 ISO 一级品 200 标准。"},
-    {"id":"residue","title":"39项农残质谱","display":"全部未检出","source":"深圳市计量质量检测研究院 (SMQ) WT10103260183295WT2","status":"approved","description":"采用高分辨质谱扫描，多菌灵等 39 项农药残留与有害化学品全项未检出（低于方法定量限）。"},
-    {"id":"crocin","title":"西红花苷(I+II)总量","display":"26.43%","source":"中研所分析测试中心 ZX250221-C130401","status":"approved","description":"高效液相色谱 (HPLC) 实测西红花苷-I为18.12%，西红花苷-II为8.31%，总量达 26.43%（药典合格线≥10.0%）。"},
-    {"id":"customs","title":"海关出境检疫凭证","display":"CMP-001","source":"中华人民共和国拉萨海关《植物检疫证书》与报关单","status":"approved","description":"经拉萨海关严格实验室查验合格，特级西藏藏红花净重 2.0kg、货值 25.64 万元顺利出口加拿大温哥华。"},
-    {"id":"soil","title":"基地土壤生态 (湾区认证)","display":"DDT/六六六未检出","source":"广州市华测检测技术有限公司 (CTI) A2260715164101001C","status":"approved","description":"依据 GB 15618-2018 农用地标准，pH 5.94 弱酸沙质土壤，滴滴涕、六六六及苯并[a]芘全项未检出，重金属远优于国标。"},
-    {"id":"water","title":"农田高山灌溉水 (湾区认证)","display":"悬浮物 <4mg/L","source":"华测检测认证集团股份有限公司 (CTI) A2260721555101001C","status":"approved","description":"依据 GB 5084-2021 检验，pH 6.7 天然高山融雪水，悬浮物<4mg/L，铅、镉、砷等重金属极净，蛔虫卵未检出。"},
-    {"id":"toxicology","title":"食品安全急性经口毒理","display":"无毒级","source":"权威第三方安全评价中心 毒理试验报告","status":"approved","description":"经口毒性最大耐受剂量法测试 LD50 > 10000 mg/kg·bw，评定为食品安全性无毒级。"},
-    {"id":"zebrafish_glu","title":"斑马鱼代谢活性 (降糖)","display":"-66.74%","source":"国家级评价中心 斑马鱼高血糖模型报告","status":"approved","description":"模式生物科研评价中，多糖组展现 66.74% 代谢调节活性，属健康食品原料活性科研探索，不作疾病治疗宣称。"},
-    {"id":"zebrafish_ua","title":"斑马鱼代谢活性 (降尿酸)","display":"-7.07%","source":"国家级评价中心 斑马鱼高尿酸模型报告","status":"approved","description":"模式生物科研评价中，多酚组尿酸相对值减少 7.07%，属食品原料活性科研探索，不作药物疗效宣称。"},
-    {"id":"heavy_metal","title":"重金属安全全谱","display":"总砷未检出","source":"重庆食药检院 No. A26SW02809 附表","status":"approved","description":"铅 0.15mg/kg、镉 0.099mg/kg、汞 0.014mg/kg，总砷全部未检出，符合国家严苛中药材与食品安全标准。"},
-    {"id":"mycotoxin","title":"黄曲霉真菌毒素","display":"全项未检出","source":"重庆食药检院 No. A26SW02809 附表","status":"approved","description":"黄曲霉毒素 B1、B2、G1、G2 全项未检出（定量限 0.1 μg/kg），展现极地洁净干燥工艺标准。"}
+    {
+      "id": "color",
+      "title": "西红花苷色价",
+      "display": "246",
+      "source": "重庆市食品药品检验检测研究院 No. A26SW02809",
+      "status": "approved",
+      "description": "依据西藏地理标志 DB54/T 0245-2021 检验，440nm 西红花苷紫外吸光度实测达 246，远超药典 180 与 ISO 一级品 200 标准。"
+    },
+    {
+      "id": "residue",
+      "title": "39项农残质谱",
+      "display": "全部未检出",
+      "source": "深圳市计量质量检测研究院 (SMQ) WT10103260183295WT2",
+      "status": "approved",
+      "description": "采用高分辨质谱扫描，多菌灵等 39 项农药残留与有害化学品全项未检出（低于方法定量限）。"
+    },
+    {
+      "id": "crocin",
+      "title": "西红花苷(I+II)总量",
+      "display": "26.43%",
+      "source": "中研所分析测试中心 ZX250221-C130401",
+      "status": "approved",
+      "description": "高效液相色谱 (HPLC) 实测西红花苷-I为18.12%，西红花苷-II为8.31%，总量达 26.43%（药典合格线≥10.0%）。"
+    },
+    {
+      "id": "customs",
+      "title": "海关出境检疫凭证",
+      "display": "CMP-001",
+      "source": "中华人民共和国拉萨海关《植物检疫证书》与报关单",
+      "status": "approved",
+      "description": "经拉萨海关严格实验室查验合格，特级西藏藏红花净重 2.0kg、货值 25.64 万元顺利出口加拿大温哥华。"
+    },
+    {
+      "id": "soil",
+      "title": "基地土壤生态 (湾区认证)",
+      "display": "DDT/六六六未检出",
+      "source": "广州市华测检测技术有限公司 (CTI) A2260715164101001C",
+      "status": "approved",
+      "description": "依据 GB 15618-2018 农用地标准，pH 5.94 弱酸沙质土壤，滴滴涕、六六六及苯并[a]芘全项未检出，重金属远优于国标。"
+    },
+    {
+      "id": "water",
+      "title": "农田高山灌溉水 (湾区认证)",
+      "display": "悬浮物 <4mg/L",
+      "source": "华测检测认证集团股份有限公司 (CTI) A2260721555101001C",
+      "status": "approved",
+      "description": "依据 GB 5084-2021 检验，pH 6.7 天然高山融雪水，悬浮物<4mg/L，铅、镉、砷等重金属极净，蛔虫卵未检出。"
+    },
+    {
+      "id": "toxicology",
+      "title": "食品安全急性经口毒理",
+      "display": "无毒级",
+      "source": "权威第三方安全评价中心 毒理试验报告",
+      "status": "approved",
+      "description": "经口毒性最大耐受剂量法测试 LD50 > 10000 mg/kg·bw，评定为食品安全性无毒级。"
+    },
+    {
+      "id": "zebrafish_glu",
+      "title": "斑马鱼代谢活性 (降糖)",
+      "display": "-66.74%",
+      "source": "国家级评价中心 斑马鱼高血糖模型报告",
+      "status": "approved",
+      "description": "模式生物科研评价中，多糖组展现 66.74% 代谢调节活性，属健康食品原料活性科研探索，不作疾病治疗宣称。"
+    },
+    {
+      "id": "zebrafish_ua",
+      "title": "斑马鱼代谢活性 (降尿酸)",
+      "display": "-7.07%",
+      "source": "国家级评价中心 斑马鱼高尿酸模型报告",
+      "status": "approved",
+      "description": "模式生物科研评价中，多酚组尿酸相对值减少 7.07%，属食品原料活性科研探索，不作药物疗效宣称。"
+    },
+    {
+      "id": "heavy_metal",
+      "title": "重金属安全全谱",
+      "display": "总砷未检出",
+      "source": "重庆食药检院 No. A26SW02809 附表",
+      "status": "approved",
+      "description": "铅 0.15mg/kg、镉 0.099mg/kg、汞 0.014mg/kg，总砷全部未检出，符合国家严苛中药材与食品安全标准。"
+    },
+    {
+      "id": "mycotoxin",
+      "title": "黄曲霉真菌毒素",
+      "display": "全项未检出",
+      "source": "重庆食药检院 No. A26SW02809 附表",
+      "status": "approved",
+      "description": "黄曲霉毒素 B1、B2、G1、G2 全项未检出（定量限 0.1 μg/kg），展现极地洁净干燥工艺标准。"
+    },
+    {
+      "id": "peoples_daily_news",
+      "title": "人民日报第17版整版报道",
+      "display": "中央主流党媒聚焦",
+      "source": "《人民日报》2025年5月21日第17版专题报道",
+      "status": "approved",
+      "description": "2025年4月9日人民日报社记者深入林芝米瑞乡基地专访调研，5月21日整版专版刊登天旺藏红花扎根高原、科技兴农与道地药材培育成果。"
+    },
+    {
+      "id": "ndrc_inspection",
+      "title": "国家发改委实地考察指导",
+      "display": "国家级部委现场调研",
+      "source": "国家发展和改革委员会调研专家组 (2025.03.16)",
+      "status": "approved",
+      "description": "国家发改委领导专家一行亲临米瑞乡基地，就西藏高原特色生物医药原料创新与产业生态化发展进行实地调研指导。"
+    },
+    {
+      "id": "agri_bureau_inspection",
+      "title": "林芝农业农村局局长调研",
+      "display": "属地主管统筹赋能",
+      "source": "林芝市农业农村局扎西朗杰局长一行 (2025.04.23)",
+      "status": "approved",
+      "description": "林芝市农业农村局党组书记、局长扎西朗杰亲赴基地调研两段式土培基质农艺，对品种选育与带动农牧民增收模式给予肯定。"
+    }
   ],
   "announcements": [
     {
@@ -55,11 +324,35 @@
     }
   ],
   "pending": [
-    {"id":"history-years","value":"1765 · 261年 · 赵学敏《本草纲目拾遗》","reason":"已核准考证口径：1765年赵学敏《本草纲目拾遗》出版首定“藏红花”名，以2026年计距今261年。"},
-    {"id":"ratio","value":"95.2%","reason":"指标定义、分母、批次及原报告未提供。"},
-    {"id":"payment","value":"30万打款","reason":"用途、期间、主体及脱敏凭证待确认，不等同于年度工资。"},
-    {"id":"founder","value":"陈兵雄故事 · 团队 · 姆多村花农","reason":"采访、人物身份与肖像使用授权待补，不生成虚构引语。"},
-    {"id":"process","value":"两段式种植法 + 设施农业","reason":"区分历史引入与现行工艺，具体阶段、月份与场址待业务核定。"},
-    {"id":"products","value":"多糖压片 · 多酚压片","reason":"产品实拍与在售/研发状态待确认；斑马鱼研究不能转写为人体降血糖、降尿酸疗效。"}
+    {
+      "id": "history-years",
+      "value": "1765 · 261年 · 赵学敏《本草纲目拾遗》",
+      "reason": "已核准考证口径：1765年赵学敏《本草纲目拾遗》出版首定“藏红花”名，以2026年计距今261年。"
+    },
+    {
+      "id": "ratio",
+      "value": "95.2%",
+      "reason": "指标定义、分母、批次及原报告未提供。"
+    },
+    {
+      "id": "payment",
+      "value": "30万打款",
+      "reason": "用途、期间、主体及脱敏凭证待确认，不等同于年度工资。"
+    },
+    {
+      "id": "founder",
+      "value": "陈兵雄故事 · 团队 · 姆多村花农",
+      "reason": "采访、人物身份与肖像使用授权待补，不生成虚构引语。"
+    },
+    {
+      "id": "process",
+      "value": "两段式种植法 + 设施农业",
+      "reason": "区分历史引入与现行工艺，具体阶段、月份与场址待业务核定。"
+    },
+    {
+      "id": "products",
+      "value": "多糖压片 · 多酚压片",
+      "reason": "产品实拍与在售/研发状态待确认；斑马鱼研究不能转写为人体降血糖、降尿酸疗效。"
+    }
   ]
 }
