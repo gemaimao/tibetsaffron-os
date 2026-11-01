@@ -293,7 +293,34 @@ document.querySelectorAll('.btn-buy').forEach(btn => {
     dialogSpec.textContent = specName;
     dialogTotal.textContent = specPrice;
 
+    // 动态计算 Stars 与 USDT 汇率换算
+    const numPrice = parseFloat(specPrice) || 128;
+    const starsAmount = document.getElementById('starsAmount');
+    const usdtAmount = document.getElementById('usdtAmount');
+    if (starsAmount) starsAmount.textContent = `${Math.round(numPrice * 5)} Stars`;
+    if (usdtAmount) usdtAmount.textContent = `${(numPrice / 7.2).toFixed(1)} USDT`;
+
     orderDialog.showModal();
+  });
+});
+
+// 支付通道切换联动
+let selectedPayChannel = '微信支付 (WeChat Pay)';
+document.querySelectorAll('.pay-channel-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    triggerHaptic('selection');
+    document.querySelectorAll('.pay-channel-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const channel = btn.dataset.channel;
+    document.querySelectorAll('.pay-channel-detail').forEach(d => d.style.display = 'none');
+    const targetDetail = document.getElementById(`detail-${channel}`);
+    if (targetDetail) targetDetail.style.display = 'block';
+
+    if (channel === 'wechat') selectedPayChannel = '微信支付 (WeChat Pay)';
+    else if (channel === 'stars') selectedPayChannel = 'Telegram Stars 原生星标';
+    else if (channel === 'usdt') selectedPayChannel = 'USDT 加密资产 (TRC20/TON)';
+    else if (channel === 'cod') selectedPayChannel = '顺丰验货后货到付款';
   });
 });
 
@@ -303,7 +330,7 @@ orderCloseBtn.addEventListener('click', () => {
 
 btnConfirmOrder.addEventListener('click', () => {
   triggerHaptic('heavy');
-  const summary = `【订购意向】${dialogProduct.textContent} (${dialogSpec.textContent}) 应付 ¥${dialogTotal.textContent}`;
+  const summary = `【已选定支付】${dialogProduct.textContent} (${dialogSpec.textContent}) 金额 ¥${dialogTotal.textContent} [${selectedPayChannel}]`;
   
   // 如果在 Telegram Mini App 环境中，通知 Bot
   if (tg && tg.sendData) {
@@ -312,7 +339,8 @@ btnConfirmOrder.addEventListener('click', () => {
         action: 'ORDER_INTENT',
         product: dialogProduct.textContent,
         spec: dialogSpec.textContent,
-        price: dialogTotal.textContent
+        price: dialogTotal.textContent,
+        paymentChannel: selectedPayChannel
       }));
     } catch (e) {
       console.log('TG sendData error:', e);
@@ -321,5 +349,5 @@ btnConfirmOrder.addEventListener('click', () => {
 
   orderDialog.close();
   closeShopDrawer();
-  noticeMsg.textContent = `🎉 已记录您的订购意向！请在私聊中告知 @tibetsaffron_bot 您的收件地址。`;
+  noticeMsg.textContent = `🎉 已选定【${selectedPayChannel}】！请在私聊中告知 @tibetsaffron_bot 发货地址。`;
 });

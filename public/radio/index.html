@@ -213,20 +213,65 @@
   <dialog class="order-dialog" id="orderDialog">
     <div class="order-dialog-inner">
       <div class="order-head">
-        <h3>📦 订购意向单</h3>
+        <h3>📦 订单结算与支付方式</h3>
         <button class="order-close-btn" id="orderCloseBtn">✕</button>
       </div>
       <div class="order-body">
-        <p class="order-summary-item"><strong>商品</strong>: <span id="dialogProduct">特级西藏林芝锦丝</span></p>
+        <p class="order-summary-item"><strong>订购商品</strong>: <span id="dialogProduct">特级西藏林芝锦丝</span></p>
         <p class="order-summary-item"><strong>选定规格</strong>: <span id="dialogSpec">1g 品鉴装</span></p>
-        <p class="order-summary-item"><strong>应付金额</strong>: <span class="dialog-price">¥<strong id="dialogTotal">128</strong></span></p>
+        <p class="order-summary-item"><strong>应付总额</strong>: <span class="dialog-price">¥<strong id="dialogTotal">128</strong></span></p>
+
+        <!-- 支付方式多通道选择器 -->
+        <div class="pay-method-section">
+          <label class="pay-label">💳 请选择结算支付方式：</label>
+          <div class="pay-channels">
+            <button class="pay-channel-btn active" data-channel="wechat">
+              <span class="pay-icon">🟢</span>
+              <span class="pay-name">微信支付</span>
+            </button>
+            <button class="pay-channel-btn" data-channel="stars">
+              <span class="pay-icon">⭐</span>
+              <span class="pay-name">电报 Stars</span>
+            </button>
+            <button class="pay-channel-btn" data-channel="usdt">
+              <span class="pay-icon">💎</span>
+              <span class="pay-name">USDT 加密</span>
+            </button>
+            <button class="pay-channel-btn" data-channel="cod">
+              <span class="pay-icon">🚚</span>
+              <span class="pay-name">货到付款</span>
+            </button>
+          </div>
+
+          <!-- 通道 1: 微信支付说明 -->
+          <div class="pay-channel-detail" id="detail-wechat">
+            <p>• 支持微信转账与对公转账；</p>
+            <p>• 提交订单后，机器人将直接向您发送官方主理人微信二维码与付款凭单，备注您的 Telegram 用户名即可完成快速核销。</p>
+          </div>
+
+          <!-- 通道 2: Stars 说明 -->
+          <div class="pay-channel-detail" id="detail-stars" style="display: none;">
+            <p>• 折合电报星标：<strong id="starsAmount" style="color:#fde68a">640 Stars</strong>；</p>
+            <p>• 支持 Apple Pay / 国际信用卡直接扣缴，Telegram 官方原生收据秒级开具。</p>
+          </div>
+
+          <!-- 通道 3: USDT 说明 -->
+          <div class="pay-channel-detail" id="detail-usdt" style="display: none;">
+            <p>• 折合 USDT：<strong id="usdtAmount" style="color:#34d399">17.8 USDT</strong> (TRC-20 / TON 链)；</p>
+            <p>• 提交后机器人将私聊发送基地官方专属冷钱包收款 Hash，链上确认后即刻触发排单。</p>
+          </div>
+
+          <!-- 通道 4: 货到付款说明 -->
+          <div class="pay-channel-detail" id="detail-cod" style="display: none;">
+            <p>• 顺丰速运航空特快直发，开箱查验《中国药典》水试对照卡无误后，现场向快递员面付。</p>
+          </div>
+        </div>
         
         <div class="order-notice-box">
-          <p>📍 <strong>产地直发保障</strong>：西藏林芝天旺农牧基地顺丰冷链直发，每一盒附带专属防伪溯源卡。</p>
-          <p style="margin-top:6px">💬 <strong>订购方式</strong>：点击下方【通知机器人登记发货】后，机器人将在私聊中直接为您录入收货地址并提供官方结算通道。</p>
+          <p>📍 <strong>基地直发承诺</strong>：西藏林芝天旺农牧智能温室顺丰包邮直发，一盒一码溯源。</p>
         </div>
 
-        <button class="btn-confirm-order" id="btnConfirmOrder">💬 通知机器人登记发货</button>
+        <button class="btn-confirm-order" id="btnConfirmOrder">✅ 确认支付方式并提交订单</button>
       </div>
     </div>
   </dialog>
