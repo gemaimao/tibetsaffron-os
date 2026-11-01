@@ -275,6 +275,36 @@ document.querySelectorAll('.spec-selector').forEach(selector => {
   });
 });
 
+// 数量加减计数器
+let currentUnitBasePrice = 128;
+let currentQuantity = 1;
+
+const btnQtyMinus = document.getElementById('btnQtyMinus');
+const btnQtyPlus = document.getElementById('btnQtyPlus');
+const stepperCount = document.getElementById('stepperCount');
+
+function updateCalculatedTotal() {
+  const total = currentUnitBasePrice * currentQuantity;
+  if (dialogTotal) dialogTotal.textContent = String(total);
+  if (stepperCount) stepperCount.textContent = String(currentQuantity);
+}
+
+btnQtyMinus?.addEventListener('click', () => {
+  if (currentQuantity > 1) {
+    triggerHaptic('selection');
+    currentQuantity--;
+    updateCalculatedTotal();
+  }
+});
+
+btnQtyPlus?.addEventListener('click', () => {
+  if (currentQuantity < 99) {
+    triggerHaptic('selection');
+    currentQuantity++;
+    updateCalculatedTotal();
+  }
+});
+
 // 立即订购按钮处理
 document.querySelectorAll('.btn-buy').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -289,9 +319,12 @@ document.querySelectorAll('.btn-buy').forEach(btn => {
     const specName = activePill?.dataset.spec || '标准装';
     const specPrice = activePill?.dataset.price || '128';
 
+    currentUnitBasePrice = parseFloat(specPrice) || 128;
+    currentQuantity = 1;
+
     dialogProduct.textContent = prodName;
     dialogSpec.textContent = specName;
-    dialogTotal.textContent = specPrice;
+    updateCalculatedTotal();
 
     // 预填保存过的收件人与手机号
     const savedName = localStorage.getItem('tw_buyer_name') || '';
@@ -425,6 +458,7 @@ btnCompletePay?.addEventListener('click', () => {
     orderId: currentOrderId,
     product: dialogProduct.textContent,
     spec: dialogSpec.textContent,
+    quantity: currentQuantity,
     price: dialogTotal.textContent,
     paymentChannel: selectedPayChannel,
     buyerName: name,

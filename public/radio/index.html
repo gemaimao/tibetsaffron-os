@@ -222,7 +222,15 @@
         <div class="order-summary-box">
           <p class="order-summary-item"><strong>订购商品</strong>: <span id="dialogProduct">特级西藏林芝锦丝</span></p>
           <p class="order-summary-item"><strong>选定规格</strong>: <span id="dialogSpec">1g 品鉴装</span></p>
-          <p class="order-summary-item"><strong>应付金额</strong>: <span class="dialog-price">¥<strong id="dialogTotal">128</strong></span></p>
+          <div class="quantity-row">
+            <span><strong>购买数量</strong>:</span>
+            <div class="stepper-box">
+              <button type="button" class="stepper-btn" id="btnQtyMinus" aria-label="减少数量">－</button>
+              <span class="stepper-count" id="stepperCount">1</span>
+              <button type="button" class="stepper-btn" id="btnQtyPlus" aria-label="增加数量">＋</button>
+            </div>
+          </div>
+          <p class="order-summary-item" style="margin-top:6px;"><strong>应付总额</strong>: <span class="dialog-price">¥<strong id="dialogTotal">128</strong></span></p>
         </div>
 
         <!-- 详细收件地址表单 (无需退出小程序) -->

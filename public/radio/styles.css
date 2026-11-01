@@ -741,6 +741,49 @@ body {
   border-color: #d97706;
 }
 
+/* 数量加减计数器 */
+.quantity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 0;
+  font-size: 13px;
+  color: #d1d5db;
+}
+
+.stepper-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+
+.stepper-btn {
+  background: none;
+  border: none;
+  color: #fde68a;
+  font-size: 16px;
+  font-weight: 700;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.stepper-count {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  min-width: 22px;
+  text-align: center;
+}
+
 /* 收银台扫码屏 (Step 2) */
 .cashier-card {
   background: rgba(0, 0, 0, 0.4);
