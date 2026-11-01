@@ -603,9 +603,17 @@ async function submitOrderDirectly(orderPayload) {
   await Promise.allSettled([p1, p2]);
 }
 
-// 完成支付提交
+// 完成支付提交 (防重复连击)
+let isSubmittingOrder = false;
+
 btnCompletePay?.addEventListener('click', async () => {
+  if (isSubmittingOrder) return;
+  isSubmittingOrder = true;
   triggerHaptic('heavy');
+
+  btnCompletePay.disabled = true;
+  btnCompletePay.textContent = '⏳ 正在提交发货单...';
+
   const name = document.getElementById('inputName')?.value.trim();
   const phone = document.getElementById('inputPhone')?.value.trim();
   const addr = document.getElementById('inputAddress')?.value.trim();
@@ -631,6 +639,11 @@ btnCompletePay?.addEventListener('click', async () => {
   orderDialog.close();
   closeShopDrawer();
   noticeMsg.textContent = `🎉 订单【${currentOrderId}】已确认提交！林芝基地已为您锁定库存排单！`;
+
+  // 恢复状态
+  isSubmittingOrder = false;
+  btnCompletePay.disabled = false;
+  btnCompletePay.textContent = '✅ 我已完成支付 / 立即提交基地发货';
 
   // 2. 1.2秒后优雅关闭 Mini App 回到聊天窗口查收凭单
   setTimeout(() => {
