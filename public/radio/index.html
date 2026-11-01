@@ -209,25 +209,43 @@
     </div>
   </div>
 
-  <!-- 订购结算弹窗 (Order Dialog) -->
+  <!-- 完整收银台与订购结算弹窗 (Checkout & Cashier Dialog) -->
   <dialog class="order-dialog" id="orderDialog">
     <div class="order-dialog-inner">
       <div class="order-head">
-        <h3>📦 订单结算与支付方式</h3>
+        <h3 id="dialogStepTitle">📦 步骤 1/2：确认商品与收件信息</h3>
         <button class="order-close-btn" id="orderCloseBtn">✕</button>
       </div>
-      <div class="order-body">
-        <p class="order-summary-item"><strong>订购商品</strong>: <span id="dialogProduct">特级西藏林芝锦丝</span></p>
-        <p class="order-summary-item"><strong>选定规格</strong>: <span id="dialogSpec">1g 品鉴装</span></p>
-        <p class="order-summary-item"><strong>应付总额</strong>: <span class="dialog-price">¥<strong id="dialogTotal">128</strong></span></p>
 
-        <!-- 支付方式多通道选择器 -->
+      <!-- 阶段 1：确认规格、填写收货地址、选择支付通道 -->
+      <div class="order-step" id="orderStep1">
+        <div class="order-summary-box">
+          <p class="order-summary-item"><strong>订购商品</strong>: <span id="dialogProduct">特级西藏林芝锦丝</span></p>
+          <p class="order-summary-item"><strong>选定规格</strong>: <span id="dialogSpec">1g 品鉴装</span></p>
+          <p class="order-summary-item"><strong>应付金额</strong>: <span class="dialog-price">¥<strong id="dialogTotal">128</strong></span></p>
+        </div>
+
+        <!-- 详细收件地址表单 (无需退出小程序) -->
+        <div class="address-form-box">
+          <label class="form-label">📍 收货与顺丰派送信息：</label>
+          <div class="form-row">
+            <input type="text" id="inputName" class="form-input" placeholder="收件人姓名 (如: 陈度)" />
+            <input type="tel" id="inputPhone" class="form-input" placeholder="手机号码 (如: 13880865272)" />
+          </div>
+          <input type="text" id="inputAddress" class="form-input" placeholder="详细地址 (如: 四川省成都市郫都区文信北路200号)" style="margin-top:6px;" />
+        </div>
+
+        <!-- 支付方式多通道选择器 (含支付宝) -->
         <div class="pay-method-section">
-          <label class="pay-label">💳 请选择结算支付方式：</label>
+          <label class="pay-label">💳 请选择结算支付通道：</label>
           <div class="pay-channels">
             <button class="pay-channel-btn active" data-channel="wechat">
               <span class="pay-icon">🟢</span>
               <span class="pay-name">微信支付</span>
+            </button>
+            <button class="pay-channel-btn" data-channel="alipay">
+              <span class="pay-icon">🔵</span>
+              <span class="pay-name">支付宝</span>
             </button>
             <button class="pay-channel-btn" data-channel="stars">
               <span class="pay-icon">⭐</span>
@@ -235,44 +253,81 @@
             </button>
             <button class="pay-channel-btn" data-channel="usdt">
               <span class="pay-icon">💎</span>
-              <span class="pay-name">USDT 加密</span>
+              <span class="pay-name">USDT</span>
             </button>
             <button class="pay-channel-btn" data-channel="cod">
               <span class="pay-icon">🚚</span>
               <span class="pay-name">货到付款</span>
             </button>
           </div>
-
-          <!-- 通道 1: 微信支付说明 -->
-          <div class="pay-channel-detail" id="detail-wechat">
-            <p>• 支持微信转账与对公转账；</p>
-            <p>• 提交订单后，机器人将直接向您发送官方主理人微信二维码与付款凭单，备注您的 Telegram 用户名即可完成快速核销。</p>
-          </div>
-
-          <!-- 通道 2: Stars 说明 -->
-          <div class="pay-channel-detail" id="detail-stars" style="display: none;">
-            <p>• 折合电报星标：<strong id="starsAmount" style="color:#fde68a">640 Stars</strong>；</p>
-            <p>• 支持 Apple Pay / 国际信用卡直接扣缴，Telegram 官方原生收据秒级开具。</p>
-          </div>
-
-          <!-- 通道 3: USDT 说明 -->
-          <div class="pay-channel-detail" id="detail-usdt" style="display: none;">
-            <p>• 折合 USDT：<strong id="usdtAmount" style="color:#34d399">17.8 USDT</strong> (TRC-20 / TON 链)；</p>
-            <p>• 提交后机器人将私聊发送基地官方专属冷钱包收款 Hash，链上确认后即刻触发排单。</p>
-          </div>
-
-          <!-- 通道 4: 货到付款说明 -->
-          <div class="pay-channel-detail" id="detail-cod" style="display: none;">
-            <p>• 顺丰速运航空特快直发，开箱查验《中国药典》水试对照卡无误后，现场向快递员面付。</p>
-          </div>
-        </div>
-        
-        <div class="order-notice-box">
-          <p>📍 <strong>基地直发承诺</strong>：西藏林芝天旺农牧智能温室顺丰包邮直发，一盒一码溯源。</p>
         </div>
 
-        <button class="btn-confirm-order" id="btnConfirmOrder">✅ 确认支付方式并提交订单</button>
+        <button class="btn-confirm-order" id="btnGoToPay">💳 下一步：确认并去支付</button>
       </div>
+
+      <!-- 阶段 2：正式扫码收银台 (Cashier Screen) -->
+      <div class="order-step" id="orderStep2" style="display: none;">
+        <div class="cashier-card">
+          <div class="cashier-price-row">
+            <span class="cashier-label">应付总额</span>
+            <span class="cashier-amount">¥<strong id="cashierAmount">128</strong></span>
+          </div>
+          <p class="cashier-order-id">订单号：<code id="cashierOrderId">TW-20261101-8921</code></p>
+          <p class="cashier-buyer-info" id="cashierBuyerInfo">收件人：陈度 (13880865272)</p>
+
+          <!-- 扫码区域 (动态根据所选渠道切换) -->
+          <div class="qr-payment-area">
+            <!-- 微信支付扫码 -->
+            <div class="qr-box" id="qr-wechat">
+              <div class="qr-badge">🟢 微信官方支付码</div>
+              <div class="qr-mock-img">
+                <img src="assets/mobile_qrcode.png" alt="微信收款码" class="qr-img" />
+              </div>
+              <p class="qr-hint">截屏或长按识别二维码转账<br>转账时请备注订单号：<b id="qrWechatOrder">TW-8921</b></p>
+            </div>
+
+            <!-- 支付宝扫码 -->
+            <div class="qr-box" id="qr-alipay" style="display: none;">
+              <div class="qr-badge badge-blue">🔵 支付宝官方扫码付</div>
+              <div class="qr-mock-img">
+                <img src="assets/mobile_qrcode.png" alt="支付宝收款码" class="qr-img" />
+              </div>
+              <p class="qr-hint">打开支付宝扫一扫或保存相册识别<br>对公收款账户：<b>天旺农牧官方结算户</b></p>
+            </div>
+
+            <!-- 电报 Stars -->
+            <div class="qr-box" id="qr-stars" style="display: none;">
+              <div class="qr-badge badge-gold">⭐ Telegram Stars 原生支付</div>
+              <div class="stars-icon-display">⭐️ <strong id="qrStarsCount">640</strong> Stars</div>
+              <p class="qr-hint">点击下方按钮将直接调起 Telegram Apple Pay / 信用卡安全结算。</p>
+            </div>
+
+            <!-- USDT 加密转账 -->
+            <div class="qr-box" id="qr-usdt" style="display: none;">
+              <div class="qr-badge badge-green">💎 USDT (TRC-20 / TON 链)</div>
+              <div class="usdt-amount-display"><strong id="qrUsdtCount">17.8</strong> USDT</div>
+              <div class="usdt-hash-box">
+                <input type="text" readonly value="TLZ8xTianWangSaffron2945mColdWallet" id="usdtHashText" class="hash-input" />
+                <button type="button" id="btnCopyHash" class="btn-copy">复制地址</button>
+              </div>
+              <p class="qr-hint">转账后链上秒级广播确认</p>
+            </div>
+
+            <!-- 货到付款 -->
+            <div class="qr-box" id="qr-cod" style="display: none;">
+              <div class="qr-badge badge-cod">🚚 顺丰速运 · 验货后货到付款</div>
+              <div class="cod-display-icon">📦 ✈️ 🏠</div>
+              <p class="qr-hint">无需线上付款！林芝基地顺丰直发，开箱查验《中国药典》水试卡满意后，现场向快递员面付。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="cashier-actions">
+          <button class="btn-back-step" id="btnBackToStep1">← 返回修改地址</button>
+          <button class="btn-complete-pay" id="btnCompletePay">✅ 我已完成支付 / 确认发货</button>
+        </div>
+      </div>
+
     </div>
   </dialog>
 

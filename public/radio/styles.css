@@ -667,15 +667,15 @@ body {
 
 .pay-channels {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
 }
 
 .pay-channel-btn {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
-  padding: 8px 4px;
+  padding: 8px 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -689,7 +689,7 @@ body {
 }
 
 .pay-channel-btn .pay-name {
-  font-size: 11px;
+  font-size: 10px;
   color: #d1d5db;
 }
 
@@ -703,14 +703,217 @@ body {
   font-weight: 700;
 }
 
-.pay-channel-detail {
-  background: rgba(0, 0, 0, 0.35);
+/* 地址表单 */
+.address-form-box {
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 10px;
+  margin: 8px 0;
+}
+
+.form-label {
+  font-size: 11px;
+  color: #d4a359;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.form-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #f9fafb;
+  font-size: 12px;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #d97706;
+}
+
+/* 收银台扫码屏 (Step 2) */
+.cashier-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(212, 163, 89, 0.25);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+
+.cashier-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.cashier-label {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.cashier-amount {
+  font-size: 16px;
+  color: #f59e0b;
+}
+
+.cashier-amount strong {
+  font-size: 24px;
+}
+
+.cashier-order-id {
   font-size: 11px;
   color: #9ca3af;
-  line-height: 1.6;
+  margin-bottom: 4px;
+}
+
+.cashier-order-id code {
+  color: #fde68a;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.cashier-buyer-info {
+  font-size: 11px;
+  color: #d1d5db;
+  margin-bottom: 12px;
+}
+
+.qr-payment-area {
+  background: #0d0f13;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px;
+  margin: 10px 0;
+}
+
+.qr-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  margin-bottom: 10px;
+}
+
+.badge-blue {
+  background: rgba(2, 132, 199, 0.2);
+  color: #38bdf8;
+}
+
+.badge-gold {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+
+.badge-green {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+.badge-cod {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.qr-mock-img {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 10px;
+  background: #ffffff;
+  padding: 6px;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.qr-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.qr-hint {
+  font-size: 11px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
+.stars-icon-display, .usdt-amount-display, .cod-display-icon {
+  font-size: 26px;
+  margin: 14px 0 8px;
+  color: #fbbf24;
+}
+
+.usdt-hash-box {
+  display: flex;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.hash-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: #34d399;
+  font-size: 10px;
+  font-family: monospace;
+}
+
+.btn-copy {
+  background: #0284c7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.cashier-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.btn-back-step {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #9ca3af;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.btn-complete-pay {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  flex: 2;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
 }
 
 .order-summary-item {

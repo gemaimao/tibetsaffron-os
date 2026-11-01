@@ -293,55 +293,149 @@ document.querySelectorAll('.btn-buy').forEach(btn => {
     dialogSpec.textContent = specName;
     dialogTotal.textContent = specPrice;
 
-    // 动态计算 Stars 与 USDT 汇率换算
-    const numPrice = parseFloat(specPrice) || 128;
-    const starsAmount = document.getElementById('starsAmount');
-    const usdtAmount = document.getElementById('usdtAmount');
-    if (starsAmount) starsAmount.textContent = `${Math.round(numPrice * 5)} Stars`;
-    if (usdtAmount) usdtAmount.textContent = `${(numPrice / 7.2).toFixed(1)} USDT`;
+    // 预填保存过的收件人与手机号
+    const savedName = localStorage.getItem('tw_buyer_name') || '';
+    const savedPhone = localStorage.getItem('tw_buyer_phone') || '';
+    const savedAddr = localStorage.getItem('tw_buyer_addr') || '';
+    const inputName = document.getElementById('inputName');
+    const inputPhone = document.getElementById('inputPhone');
+    const inputAddress = document.getElementById('inputAddress');
+    if (inputName && !inputName.value) inputName.value = savedName;
+    if (inputPhone && !inputPhone.value) inputPhone.value = savedPhone;
+    if (inputAddress && !inputAddress.value) inputAddress.value = savedAddr;
+
+    // 重置回到 Step 1
+    const orderStep1 = document.getElementById('orderStep1');
+    const orderStep2 = document.getElementById('orderStep2');
+    const dialogStepTitle = document.getElementById('dialogStepTitle');
+    if (orderStep1) orderStep1.style.display = 'block';
+    if (orderStep2) orderStep2.style.display = 'none';
+    if (dialogStepTitle) dialogStepTitle.textContent = '📦 步骤 1/2：确认商品与收件信息';
 
     orderDialog.showModal();
   });
 });
 
 // 支付通道切换联动
-let selectedPayChannel = '微信支付 (WeChat Pay)';
+let selectedPayChannel = '微信支付';
+let selectedChannelCode = 'wechat';
+
 document.querySelectorAll('.pay-channel-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     triggerHaptic('selection');
     document.querySelectorAll('.pay-channel-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
-    const channel = btn.dataset.channel;
-    document.querySelectorAll('.pay-channel-detail').forEach(d => d.style.display = 'none');
-    const targetDetail = document.getElementById(`detail-${channel}`);
-    if (targetDetail) targetDetail.style.display = 'block';
-
-    if (channel === 'wechat') selectedPayChannel = '微信支付 (WeChat Pay)';
-    else if (channel === 'stars') selectedPayChannel = 'Telegram Stars 原生星标';
-    else if (channel === 'usdt') selectedPayChannel = 'USDT 加密资产 (TRC20/TON)';
-    else if (channel === 'cod') selectedPayChannel = '顺丰验货后货到付款';
+    selectedChannelCode = btn.dataset.channel;
+    if (selectedChannelCode === 'wechat') selectedPayChannel = '微信支付 (WeChat Pay)';
+    else if (selectedChannelCode === 'alipay') selectedPayChannel = '支付宝 (Alipay)';
+    else if (selectedChannelCode === 'stars') selectedPayChannel = 'Telegram Stars 原生星标';
+    else if (selectedChannelCode === 'usdt') selectedPayChannel = 'USDT 加密资产 (TRC20/TON)';
+    else if (selectedChannelCode === 'cod') selectedPayChannel = '顺丰验货后货到付款';
   });
+});
+
+// 步骤 1 -> 步骤 2 (前往扫码收银台)
+const btnGoToPay = document.getElementById('btnGoToPay');
+const btnBackToStep1 = document.getElementById('btnBackToStep1');
+const btnCompletePay = document.getElementById('btnCompletePay');
+const orderStep1 = document.getElementById('orderStep1');
+const orderStep2 = document.getElementById('orderStep2');
+const dialogStepTitle = document.getElementById('dialogStepTitle');
+
+let currentOrderId = '';
+
+btnGoToPay?.addEventListener('click', () => {
+  const name = document.getElementById('inputName')?.value.trim();
+  const phone = document.getElementById('inputPhone')?.value.trim();
+  const addr = document.getElementById('inputAddress')?.value.trim();
+
+  if (!name || !phone || !addr) {
+    triggerHaptic('heavy');
+    alert('请完整填写收件人姓名、联系手机和详细收货地址，以便林芝基地顺丰直发！');
+    return;
+  }
+
+  // 记忆本地
+  localStorage.setItem('tw_buyer_name', name);
+  localStorage.setItem('tw_buyer_phone', phone);
+  localStorage.setItem('tw_buyer_addr', addr);
+
+  triggerHaptic('medium');
+  currentOrderId = `TW-${Date.now().toString().slice(-6)}`;
+
+  // 装配收银台数据
+  const specPrice = dialogTotal.textContent || '128';
+  const numPrice = parseFloat(specPrice) || 128;
+  document.getElementById('cashierAmount').textContent = specPrice;
+  document.getElementById('cashierOrderId').textContent = currentOrderId;
+  document.getElementById('cashierBuyerInfo').textContent = `收件人：${name} (${phone}) · ${addr}`;
+  document.getElementById('qrWechatOrder').textContent = currentOrderId;
+
+  // 换算 Stars & USDT
+  const starsCount = Math.round(numPrice * 5);
+  const usdtCount = (numPrice / 7.2).toFixed(1);
+  const qrStarsCount = document.getElementById('qrStarsCount');
+  const qrUsdtCount = document.getElementById('qrUsdtCount');
+  if (qrStarsCount) qrStarsCount.textContent = `${starsCount}`;
+  if (qrUsdtCount) qrUsdtCount.textContent = `${usdtCount}`;
+
+  // 切换二维码展示
+  document.querySelectorAll('.qr-box').forEach(el => el.style.display = 'none');
+  const activeQrBox = document.getElementById(`qr-${selectedChannelCode}`);
+  if (activeQrBox) activeQrBox.style.display = 'block';
+
+  // 切换到 Step 2
+  orderStep1.style.display = 'none';
+  orderStep2.style.display = 'block';
+  dialogStepTitle.textContent = `💳 步骤 2/2：${selectedPayChannel} 官方收银台`;
+});
+
+btnBackToStep1?.addEventListener('click', () => {
+  triggerHaptic('light');
+  orderStep1.style.display = 'block';
+  orderStep2.style.display = 'none';
+  dialogStepTitle.textContent = '📦 步骤 1/2：确认商品与收件信息';
+});
+
+// 一键复制 USDT 地址
+document.getElementById('btnCopyHash')?.addEventListener('click', () => {
+  triggerHaptic('selection');
+  const hash = document.getElementById('usdtHashText')?.value;
+  if (navigator.clipboard && hash) {
+    navigator.clipboard.writeText(hash).then(() => {
+      alert('USDT 收款地址已成功复制到剪贴板！');
+    });
+  }
 });
 
 orderCloseBtn.addEventListener('click', () => {
   orderDialog.close();
 });
 
-btnConfirmOrder.addEventListener('click', () => {
+// 完成支付提交
+btnCompletePay?.addEventListener('click', () => {
   triggerHaptic('heavy');
-  const summary = `【已选定支付】${dialogProduct.textContent} (${dialogSpec.textContent}) 金额 ¥${dialogTotal.textContent} [${selectedPayChannel}]`;
-  
-  // 如果在 Telegram Mini App 环境中，通知 Bot
+  const name = document.getElementById('inputName')?.value.trim();
+  const phone = document.getElementById('inputPhone')?.value.trim();
+  const addr = document.getElementById('inputAddress')?.value.trim();
+
+  const orderPayload = {
+    action: 'COMPLETE_ORDER',
+    orderId: currentOrderId,
+    product: dialogProduct.textContent,
+    spec: dialogSpec.textContent,
+    price: dialogTotal.textContent,
+    paymentChannel: selectedPayChannel,
+    buyerName: name,
+    buyerPhone: phone,
+    buyerAddress: addr
+  };
+
+  // 1. 发送 Telegram WebApp 消息回传
   if (tg && tg.sendData) {
     try {
-      tg.sendData(JSON.stringify({
-        action: 'ORDER_INTENT',
-        product: dialogProduct.textContent,
-        spec: dialogSpec.textContent,
-        price: dialogTotal.textContent,
-        paymentChannel: selectedPayChannel
-      }));
+      tg.sendData(JSON.stringify(orderPayload));
     } catch (e) {
       console.log('TG sendData error:', e);
     }
@@ -349,5 +443,5 @@ btnConfirmOrder.addEventListener('click', () => {
 
   orderDialog.close();
   closeShopDrawer();
-  noticeMsg.textContent = `🎉 已选定【${selectedPayChannel}】！请在私聊中告知 @tibetsaffron_bot 发货地址。`;
+  noticeMsg.textContent = `🎉 订单【${currentOrderId}】已确认提交！林芝基地已为您锁定库存排单！`;
 });
