@@ -397,13 +397,32 @@ btnGoToPay?.addEventListener('click', () => {
   triggerHaptic('medium');
   currentOrderId = `TW-${Date.now().toString().slice(-6)}`;
 
-  // 装配收银台数据
+  // 装配高奢凭单数据
   const specPrice = dialogTotal.textContent || '128';
   const numPrice = parseFloat(specPrice) || 128;
   document.getElementById('cashierAmount').textContent = specPrice;
   document.getElementById('cashierOrderId').textContent = currentOrderId;
-  document.getElementById('cashierBuyerInfo').textContent = `收件人：${name} (${phone}) · ${addr}`;
   document.getElementById('qrWechatOrder').textContent = currentOrderId;
+
+  const voucherProdName = document.getElementById('voucherProdName');
+  const voucherProdSpec = document.getElementById('voucherProdSpec');
+  const voucherProdQty = document.getElementById('voucherProdQty');
+  const voucherBuyerName = document.getElementById('voucherBuyerName');
+  const voucherBuyerAddr = document.getElementById('voucherBuyerAddr');
+  const voucherProdImg = document.getElementById('voucherProdImg');
+
+  if (voucherProdName) voucherProdName.textContent = dialogProduct.textContent;
+  if (voucherProdSpec) voucherProdSpec.textContent = dialogSpec.textContent;
+  if (voucherProdQty) voucherProdQty.textContent = `${currentQuantity}`;
+  if (voucherBuyerName) voucherBuyerName.textContent = `${name} (${phone})`;
+  if (voucherBuyerAddr) voucherBuyerAddr.textContent = addr;
+
+  // 匹配商品图片
+  if (voucherProdImg) {
+    if (dialogProduct.textContent.includes('整花')) voucherProdImg.src = 'assets/tea.jpg';
+    else if (dialogProduct.textContent.includes('多糖') || dialogProduct.textContent.includes('冷萃')) voucherProdImg.src = 'assets/images/water_test.jpg';
+    else voucherProdImg.src = 'assets/images/cover.jpg';
+  }
 
   // 换算 Stars & USDT
   const starsCount = Math.round(numPrice * 5);

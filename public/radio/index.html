@@ -273,15 +273,56 @@
         <button class="btn-confirm-order" id="btnGoToPay">💳 下一步：确认并去支付</button>
       </div>
 
-      <!-- 阶段 2：正式扫码收银台 (Cashier Screen) -->
+      <!-- 阶段 2：高奢出库确认凭单与扫码收银台 (Luxury Order Voucher) -->
       <div class="order-step" id="orderStep2" style="display: none;">
-        <div class="cashier-card">
-          <div class="cashier-price-row">
-            <span class="cashier-label">应付总额</span>
-            <span class="cashier-amount">¥<strong id="cashierAmount">128</strong></span>
+        <div class="luxury-voucher">
+          <div class="voucher-watermark">TIANWANG 2945m</div>
+          
+          <div class="voucher-header">
+            <span class="voucher-seal">🏛️ 天旺农牧 · 官方出库确认单</span>
+            <span class="voucher-code" id="cashierOrderId">TW-20261101-8921</span>
           </div>
-          <p class="cashier-order-id">订单号：<code id="cashierOrderId">TW-20261101-8921</code></p>
-          <p class="cashier-buyer-info" id="cashierBuyerInfo">收件人：陈度 (13880865272)</p>
+
+          <!-- 商品实拍大图与规格分量卡 -->
+          <div class="voucher-product-box">
+            <div class="voucher-img-wrapper">
+              <img src="assets/images/cover.jpg" id="voucherProdImg" alt="商品实物图" class="voucher-img" />
+            </div>
+            <div class="voucher-prod-info">
+              <h4 class="voucher-prod-name" id="voucherProdName">特级西藏林芝锦丝</h4>
+              <p class="voucher-prod-spec">分量规格：<b id="voucherProdSpec">5g 尊享高奢礼盒</b></p>
+              <p class="voucher-prod-qty">订购数量：<b id="voucherProdQty">1</b> 盒</p>
+              <div class="voucher-badge-row">
+                <span class="v-badge">440nm 色价 246</span>
+                <span class="v-badge">39项农残零检出</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 配送与收货全址档案卡 -->
+          <div class="voucher-address-card">
+            <div class="v-addr-row">
+              <span class="v-label">👤 收件客户</span>
+              <span class="v-val" id="voucherBuyerName">陈度 (13880865272)</span>
+            </div>
+            <div class="v-addr-row">
+              <span class="v-label">📍 派送全址</span>
+              <span class="v-val" id="voucherBuyerAddr">四川省成都市郫都区文信北路200号</span>
+            </div>
+            <div class="v-addr-row">
+              <span class="v-label">✈️ 履约物流</span>
+              <span class="v-val" style="color:#d4a359;">顺丰速运 航空特快 · 林芝米瑞乡 2945m 基地直发</span>
+            </div>
+            <div class="v-addr-row">
+              <span class="v-label">🛡️ 防伪凭证</span>
+              <span class="v-val" style="color:#9ca3af;">配发《中国药典》水试卡 + 一盒一码专属溯源码</span>
+            </div>
+          </div>
+
+          <div class="voucher-price-bar">
+            <span class="v-price-label">应付总额（含顺丰航空保价）</span>
+            <span class="voucher-total">¥<strong id="cashierAmount">128</strong></span>
+          </div>
 
           <!-- 扫码区域 (动态根据所选渠道切换) -->
           <div class="qr-payment-area">
