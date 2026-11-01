@@ -546,8 +546,63 @@ orderCloseBtn.addEventListener('click', () => {
   orderDialog.close();
 });
 
+// 直接通过 Telegram Bot API 双向直推订单凭单 (买家凭单 + 主理人派单)
+async function submitOrderDirectly(orderPayload) {
+  const buyerId = tg?.initDataUnsafe?.user?.id || '8781077291';
+  const buyerUser = tg?.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe.user.username}` : (tg?.initDataUnsafe?.user?.first_name || '主理人实测');
+  const BOT_TOKEN = '9239919593:AAEHxh3sCyv-tCkAs6k9-WnTdKDXbVZZqdg';
+  const OWNER_ID = '8781077291';
+
+  // 1. 发给买家（客户）的官方正式发货确认凭单
+  const isCod = orderPayload.paymentChannel.includes('货到付款');
+  const buyerMsg = `✅ **【天旺农牧 · 官方出库订单凭单】**\n\n` +
+    `🧾 **订单编号**：\`${orderPayload.orderId}\`\n` +
+    `📦 **订购商品**：**${orderPayload.product}**\n` +
+    `🏷️ **分量规格**：**${orderPayload.spec}**\n` +
+    `🔢 **订购数量**：**${orderPayload.quantity} 盒**\n` +
+    `💰 **实付总额**：**¥${orderPayload.price}**\n` +
+    `💳 **支付通道**：**${orderPayload.paymentChannel}**\n\n` +
+    `👤 **收件客户**：${orderPayload.buyerName} (${orderPayload.buyerPhone})\n` +
+    `📍 **派送全址**：${orderPayload.buyerAddress}\n\n` +
+    `🏔️ **发货与溯源保障**：\n` +
+    `• 您的订单已正式提交至西藏林芝米瑞乡 2945m 基地调度中心；\n` +
+    `• 将由林芝基地顺丰航空特快包邮发出，随箱附带《中国药典》水试卡 + 一盒一码专属溯源码；\n` +
+    (isCod ? `• 【顺丰到付】：开箱验货满意后向顺丰快递员付款即可。\n\n` : `• 【扫码支付】：请按收银台展示的收款码完成付款，核销后即刻出库直发。\n\n`) +
+    `🚚 快递单号生成后，我将在此第一时间推送给您！如有疑问随时在此提问。`;
+
+  // 2. 发给主理人（你）的紧急发货派单指令
+  const ownerMsg = `🚨 **【天旺微电商 · 新全额有效订单到达】**\n\n` +
+    `🧾 **订单编号**：\`${orderPayload.orderId}\`\n` +
+    `👤 **买家 Telegram**：${buyerUser} (ID: \`${buyerId}\`)\n` +
+    `📦 **订购商品**：**${orderPayload.product}**\n` +
+    `🏷️ **规格型号**：**${orderPayload.spec}**\n` +
+    `🔢 **购买数量**：**${orderPayload.quantity} 盒**\n` +
+    `💰 **订单总额**：**¥${orderPayload.price}**\n` +
+    `💳 **结算通道**：**${orderPayload.paymentChannel}**\n\n` +
+    `👤 **收件人**：${orderPayload.buyerName}\n` +
+    `📱 **联系电话**：${orderPayload.buyerPhone}\n` +
+    `📍 **收货全址**：\`${orderPayload.buyerAddress}\`\n\n` +
+    `⏰ **下单时间**：${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}\n` +
+    `👉 请主理人立即安排西藏林芝米瑞基地顺丰打包直发！`;
+
+  // 双向并行通知
+  const p1 = fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: buyerId, text: buyerMsg, parse_mode: 'Markdown' })
+  }).catch(e => console.log('Buyer notify err:', e));
+
+  const p2 = fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: OWNER_ID, text: ownerMsg, parse_mode: 'Markdown' })
+  }).catch(e => console.log('Owner notify err:', e));
+
+  await Promise.allSettled([p1, p2]);
+}
+
 // 完成支付提交
-btnCompletePay?.addEventListener('click', () => {
+btnCompletePay?.addEventListener('click', async () => {
   triggerHaptic('heavy');
   const name = document.getElementById('inputName')?.value.trim();
   const phone = document.getElementById('inputPhone')?.value.trim();
@@ -566,16 +621,19 @@ btnCompletePay?.addEventListener('click', () => {
     buyerAddress: addr
   };
 
-  // 1. 发送 Telegram WebApp 消息回传
-  if (tg && tg.sendData) {
-    try {
-      tg.sendData(JSON.stringify(orderPayload));
-    } catch (e) {
-      console.log('TG sendData error:', e);
-    }
-  }
+  noticeMsg.textContent = `⏳ 正在向西藏基地调度中心与主理人推送派单指令...`;
+
+  // 1. 直接触发 Bot API 官方双向直推
+  await submitOrderDirectly(orderPayload);
 
   orderDialog.close();
   closeShopDrawer();
   noticeMsg.textContent = `🎉 订单【${currentOrderId}】已确认提交！林芝基地已为您锁定库存排单！`;
+
+  // 2. 1.2秒后优雅关闭 Mini App 回到聊天窗口查收凭单
+  setTimeout(() => {
+    if (tg && tg.close) {
+      try { tg.close(); } catch (e) {}
+    }
+  }, 1200);
 });
