@@ -375,6 +375,318 @@ body {
   font-size: 14px;
 }
 
+/* 电商按钮 (天旺正品优选) */
+.btn-shop {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(217, 119, 6, 0.35);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  font-weight: 700;
+}
+
+/* ========================================================
+   电商小抽屉 (Slide-up Bottom Sheet)
+   ======================================================== */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.drawer-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.shop-drawer {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(105%);
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  background: #111317;
+  border-radius: 24px 24px 0 0;
+  border: 1px solid rgba(212, 163, 89, 0.3);
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.85);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.shop-drawer.active {
+  transform: translateX(-50%) translateY(0);
+}
+
+.drawer-header {
+  padding: 12px 20px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  background: #15181d;
+}
+
+.drawer-drag-bar {
+  width: 36px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+  margin: 0 auto 10px;
+}
+
+.drawer-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drawer-title {
+  font-size: 17px;
+  color: #f3ede2;
+  font-weight: 700;
+}
+
+.drawer-subtitle {
+  font-size: 11px;
+  color: #d4a359;
+  margin-top: 3px;
+}
+
+.drawer-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #9ca3af;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.drawer-content {
+  padding: 16px 20px calc(24px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 单个商品卡片 */
+.product-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-thumb-box {
+  position: relative;
+  width: 100%;
+  height: 130px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(185, 28, 28, 0.9);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+.badge-purple {
+  background: rgba(147, 51, 234, 0.9);
+}
+
+.badge-blue {
+  background: rgba(2, 132, 199, 0.9);
+}
+
+.product-name {
+  font-size: 15px;
+  color: #f9fafb;
+  font-weight: 600;
+}
+
+.product-meta {
+  font-size: 11px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
+.spec-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.spec-pill {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #d1d5db;
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.spec-pill.active {
+  background: rgba(217, 119, 6, 0.2);
+  border-color: #d97706;
+  color: #fde68a;
+  font-weight: 600;
+}
+
+.product-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.product-price {
+  font-size: 14px;
+  color: #f59e0b;
+}
+
+.product-price strong {
+  font-size: 20px;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.btn-buy {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  color: #ffffff;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+}
+
+/* 订购结算模态框 */
+.order-dialog {
+  border: none;
+  border-radius: 20px;
+  background: #16191f;
+  color: #f3ede2;
+  padding: 0;
+  max-width: 360px;
+  width: 90%;
+  margin: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(212, 163, 89, 0.3);
+}
+
+.order-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+}
+
+.order-dialog-inner {
+  padding: 20px;
+}
+
+.order-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.order-head h3 {
+  font-size: 16px;
+  color: #fde68a;
+}
+
+.order-close-btn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.order-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-summary-item {
+  font-size: 13px;
+  color: #d1d5db;
+}
+
+.dialog-price {
+  color: #f59e0b;
+}
+
+.dialog-price strong {
+  font-size: 18px;
+}
+
+.order-notice-box {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 11px;
+  color: #fde68a;
+  line-height: 1.5;
+  margin: 6px 0 10px;
+}
+
+.btn-confirm-order {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
+}
+
 /* 提示条 */
 .notice-bar {
   margin-top: 12px;

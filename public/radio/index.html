@@ -95,7 +95,7 @@
 
     </main>
 
-    <!-- 极简控制台: 2个主键 + 1个导出键 -->
+    <!-- 极简控制台: 播放 + 互动提问 + 优选微电商 + 导出 -->
     <footer class="control-station">
       
       <!-- 主键 1: 播放 / 暂停 -->
@@ -110,10 +110,16 @@
         <span class="btn-text" id="interText">观众互动提问</span>
       </button>
 
+      <!-- 主键 3: 电商小抽屉 (正品优选) -->
+      <button class="btn btn-shop" id="btnShop">
+        <span class="btn-icon">🛍️</span>
+        <span class="btn-text">天旺正品优选</span>
+      </button>
+
       <!-- 辅助键: 导出音频 -->
       <button class="btn btn-export" id="btnExport">
         <span class="btn-icon">📥</span>
-        <span class="btn-text">导出完整音频</span>
+        <span class="btn-text">导出音频</span>
       </button>
 
     </footer>
@@ -125,6 +131,105 @@
     </div>
 
   </div>
+
+  <!-- 电商小抽屉 (Slide-up Bottom Sheet) -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <div class="shop-drawer" id="shopDrawer">
+    <div class="drawer-header">
+      <div class="drawer-drag-bar"></div>
+      <div class="drawer-title-row">
+        <div>
+          <h2 class="drawer-title">🛍️ 天旺藏红花 · 官方直发优选</h2>
+          <p class="drawer-subtitle">林芝米瑞乡 2945m 温室直发 · 一物一码防伪溯源</p>
+        </div>
+        <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="关闭抽屉">✕</button>
+      </div>
+    </div>
+
+    <div class="drawer-content">
+      <!-- SKU 1: 特级西藏林芝锦丝 -->
+      <div class="product-item">
+        <div class="product-thumb-box">
+          <img src="assets/images/cover.jpg" alt="特级西藏林芝锦丝" class="product-thumb" />
+          <span class="product-badge">🏆 药典一级品</span>
+        </div>
+        <div class="product-details">
+          <h3 class="product-name">特级西藏林芝锦丝 (特级红花柱头)</h3>
+          <p class="product-meta">440nm 色价 246 · 39 项农残全未检出 · 自然喇叭口三裂柱头</p>
+          <div class="spec-selector" data-product="silk">
+            <button class="spec-pill active" data-price="128" data-spec="1g 品鉴装">1g 品鉴 · ¥128</button>
+            <button class="spec-pill" data-price="368" data-spec="3g 随行装">3g 随行 · ¥368</button>
+            <button class="spec-pill" data-price="598" data-spec="5g 尊享礼盒">5g 礼盒 · ¥598</button>
+          </div>
+          <div class="product-action-row">
+            <span class="product-price">¥<strong id="price-silk">128</strong></span>
+            <button class="btn-buy" data-buy="silk">立即订购</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SKU 2: 鲜朵原态冻干整花 -->
+      <div class="product-item">
+        <div class="product-thumb-box">
+          <img src="assets/tea.jpg" alt="鲜朵原态冻干整花" class="product-thumb" />
+          <span class="product-badge badge-purple">🌸 独家全花锁鲜</span>
+        </div>
+        <div class="product-details">
+          <h3 class="product-name">鲜朵原态冻干整花 (花茶艺术)</h3>
+          <p class="product-meta">超低温破壁冻干 · 完整紫色花瓣与金丝 · 杯中绽放清雅花香</p>
+          <div class="spec-selector" data-product="flower">
+            <button class="spec-pill active" data-price="198" data-spec="12朵/罐 伴手礼">12朵礼罐 · ¥198</button>
+            <button class="spec-pill" data-price="388" data-spec="24朵/盒 尊享双罐">24朵双罐 · ¥388</button>
+          </div>
+          <div class="product-action-row">
+            <span class="product-price">¥<strong id="price-flower">198</strong></span>
+            <button class="btn-buy" data-buy="flower">立即订购</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SKU 3: 藏红花多糖冷萃精粹 -->
+      <div class="product-item">
+        <div class="product-thumb-box">
+          <img src="assets/images/water_test.jpg" alt="藏红花多糖冷萃精粹" class="product-thumb" />
+          <span class="product-badge badge-blue">🧪 劲酒供应商同源</span>
+        </div>
+        <div class="product-details">
+          <h3 class="product-name">藏红花多糖超低温冷萃精粹</h3>
+          <p class="product-meta">中药全息指纹图谱全批次质控 · 极速吸收 · 商务差旅随时随饮</p>
+          <div class="spec-selector" data-product="extract">
+            <button class="spec-pill active" data-price="298" data-spec="10支/盒 密集修护">10支/盒 · ¥298</button>
+          </div>
+          <div class="product-action-row">
+            <span class="product-price">¥<strong id="price-extract">298</strong></span>
+            <button class="btn-buy" data-buy="extract">立即订购</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 订购结算弹窗 (Order Dialog) -->
+  <dialog class="order-dialog" id="orderDialog">
+    <div class="order-dialog-inner">
+      <div class="order-head">
+        <h3>📦 订购意向单</h3>
+        <button class="order-close-btn" id="orderCloseBtn">✕</button>
+      </div>
+      <div class="order-body">
+        <p class="order-summary-item"><strong>商品</strong>: <span id="dialogProduct">特级西藏林芝锦丝</span></p>
+        <p class="order-summary-item"><strong>选定规格</strong>: <span id="dialogSpec">1g 品鉴装</span></p>
+        <p class="order-summary-item"><strong>应付金额</strong>: <span class="dialog-price">¥<strong id="dialogTotal">128</strong></span></p>
+        
+        <div class="order-notice-box">
+          <p>📍 <strong>产地直发保障</strong>：西藏林芝天旺农牧基地顺丰冷链直发，每一盒附带专属防伪溯源卡。</p>
+          <p style="margin-top:6px">💬 <strong>订购方式</strong>：点击下方【通知机器人登记发货】后，机器人将在私聊中直接为您录入收货地址并提供官方结算通道。</p>
+        </div>
+
+        <button class="btn-confirm-order" id="btnConfirmOrder">💬 通知机器人登记发货</button>
+      </div>
+    </div>
+  </dialog>
 
   <audio id="audioPlayer" preload="auto"></audio>
   <script src="app.js"></script>

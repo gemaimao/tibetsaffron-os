@@ -226,3 +226,100 @@ btnExport.addEventListener('click', () => {
 
   noticeMsg.textContent = '📥 完整播客音频已触发下载！';
 });
+
+// ========================================================
+// 电商小抽屉 (Shop Drawer) 交互逻辑
+// ========================================================
+const btnShop = document.getElementById('btnShop');
+const shopDrawer = document.getElementById('shopDrawer');
+const drawerOverlay = document.getElementById('drawerOverlay');
+const drawerCloseBtn = document.getElementById('drawerCloseBtn');
+
+const orderDialog = document.getElementById('orderDialog');
+const orderCloseBtn = document.getElementById('orderCloseBtn');
+const dialogProduct = document.getElementById('dialogProduct');
+const dialogSpec = document.getElementById('dialogSpec');
+const dialogTotal = document.getElementById('dialogTotal');
+const btnConfirmOrder = document.getElementById('btnConfirmOrder');
+
+function openShopDrawer() {
+  triggerHaptic('medium');
+  shopDrawer.classList.add('active');
+  drawerOverlay.classList.add('active');
+}
+
+function closeShopDrawer() {
+  triggerHaptic('light');
+  shopDrawer.classList.remove('active');
+  drawerOverlay.classList.remove('active');
+}
+
+btnShop.addEventListener('click', openShopDrawer);
+drawerCloseBtn.addEventListener('click', closeShopDrawer);
+drawerOverlay.addEventListener('click', closeShopDrawer);
+
+// 规格选择器联动切换价格
+document.querySelectorAll('.spec-selector').forEach(selector => {
+  const productKey = selector.dataset.product;
+  const priceDisplay = document.getElementById(`price-${productKey}`);
+
+  selector.querySelectorAll('.spec-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      triggerHaptic('selection');
+      selector.querySelectorAll('.spec-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      if (priceDisplay && pill.dataset.price) {
+        priceDisplay.textContent = pill.dataset.price;
+      }
+    });
+  });
+});
+
+// 立即订购按钮处理
+document.querySelectorAll('.btn-buy').forEach(btn => {
+  btn.addEventListener('click', () => {
+    triggerHaptic('heavy');
+    const buyType = btn.dataset.buy;
+    let prodName = '特级西藏林芝锦丝';
+    if (buyType === 'flower') prodName = '鲜朵原态冻干整花';
+    if (buyType === 'extract') prodName = '藏红花多糖超低温冷萃精粹';
+
+    const selector = document.querySelector(`.spec-selector[data-product="${buyType}"]`);
+    const activePill = selector?.querySelector('.spec-pill.active');
+    const specName = activePill?.dataset.spec || '标准装';
+    const specPrice = activePill?.dataset.price || '128';
+
+    dialogProduct.textContent = prodName;
+    dialogSpec.textContent = specName;
+    dialogTotal.textContent = specPrice;
+
+    orderDialog.showModal();
+  });
+});
+
+orderCloseBtn.addEventListener('click', () => {
+  orderDialog.close();
+});
+
+btnConfirmOrder.addEventListener('click', () => {
+  triggerHaptic('heavy');
+  const summary = `【订购意向】${dialogProduct.textContent} (${dialogSpec.textContent}) 应付 ¥${dialogTotal.textContent}`;
+  
+  // 如果在 Telegram Mini App 环境中，通知 Bot
+  if (tg && tg.sendData) {
+    try {
+      tg.sendData(JSON.stringify({
+        action: 'ORDER_INTENT',
+        product: dialogProduct.textContent,
+        spec: dialogSpec.textContent,
+        price: dialogTotal.textContent
+      }));
+    } catch (e) {
+      console.log('TG sendData error:', e);
+    }
+  }
+
+  orderDialog.close();
+  closeShopDrawer();
+  noticeMsg.textContent = `🎉 已记录您的订购意向！请在私聊中告知 @tibetsaffron_bot 您的收件地址。`;
+});
