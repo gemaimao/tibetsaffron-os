@@ -1,0 +1,85 @@
+{
+  "$schema": "https://paseo.local/schemas/project-registry-v0.1.json",
+  "registry_version": "0.1.0",
+  "registered_at": "2026-09-23T23:45:00Z",
+  "project_id": "tianwang-brand-content-os",
+  "project_name": "天旺 Brand Content OS",
+  "project_type": "knowledge-operating-system",
+  "project_root": "/Users/longhl/.gemini/antigravity/scratch/brand-content-os",
+  "git_repository": "https://github.com/gemaimao/tibetsaffron-os.git",
+  "primary_branch": "main",
+  "tech_stack": {
+    "runtime": "Node.js (ES Module)",
+    "frontend": [
+      "Vue 3",
+      "Vite",
+      "Three.js",
+      "GSAP",
+      "Marked",
+      "JSZip"
+    ],
+    "hosting_and_edge": [
+      "Cloudflare Workers (Wrangler)",
+      "Vite Website Compiler (scripts/compile-public-site.mjs)"
+    ],
+    "decision_layer": [
+      "JEV Decision Engine (TypeSafe AI: Choice, Noul, Score)",
+      "CAP (Content Assembly Plan / ABI Engine)"
+    ],
+    "adapters": [
+      "NotebookLM Adapter",
+      "Claude Adapter",
+      "GPT Adapter",
+      "Gemini Adapter"
+    ]
+  },
+  "project_purpose": "面向品牌团队的知识操作系统，实现“品牌知识（Knowledge） ➔ 品牌内容（Content） ➔ 品牌资产（Assets）”的闭环生产与治理；首个验证落地标杆为西藏天旺农牧·藏红花品牌（Tianwang Saffron Brand Skill）。",
+  "current_architecture": {
+    "model": "Dual-System 4-Layer Architecture",
+    "layers": [
+      "Layer 1: Brand Content OS Core SSOT (Inbox / Repository / Kernel / Governance)",
+      "Layer 2: JEV Decision Layer (System One - TypeSafe AI Choice / Noul / Score)",
+      "Layer 3: Protocol Middle Layer (CAP / ABI Content Assembly Plan)",
+      "Layer 4: AI Expression Layer (System Two - LLM & NotebookLM Adapters)"
+    ],
+    "governance_dimensions": [
+      "Ownership (7 levels: BRAND_OWNED, INDUSTRY_KNOWLEDGE, ACADEMIC_REFERENCE, etc.)",
+      "Temporal State (7 levels & Evolution Topology: HISTORICAL ➔ CURRENT ➔ FUTURE)",
+      "Claim Control (4 levels: CONFIRMED_FACT, DERIVED_EXPLANATION, STRATEGIC_DIRECTION, FORBIDDEN_ASSERTION)"
+    ]
+  },
+  "current_status": {
+    "system_version": "v14.0",
+    "governance_version": "V2.3 Protocol-First Enterprise Knowledge Governance",
+    "phase": "Production Pilot Active / V2.3 Regression Tests Passed"
+  },
+  "current_focus": [
+    "资产元数据迁移（Asset Migration Sprint）：为现有资产挂载 V2.3 三维治理标签（ownership, temporal, claim_control）",
+    "JEV 决策引擎与 CAP 审计节点集成与实测",
+    "官网与公开展示端（site/、portal.html、whitepaper.html）编译发布与真实证据链校验"
+  ],
+  "next_action": "启动 Asset Migration Sprint，为全量资产补充 V2.3 治理元数据，并执行 JEV 决策规则与 CAP 阻断联合校验。",
+  "important_rules": [
+    "平台优先 (Platform First): 用户面向 BCOS，所有 AI 大模型降级为后台可插拔适配器",
+    "输入优先 (Input First): 统一由 Inbox 接入，系统语义解析推荐归档，无需人工前置分类",
+    "Repository 永远保持纯净: Inbox ➔ 推荐归档卡片 ➔ 人工确认 ➔ Repository 规范资产 ➔ Output 业务产出",
+    "Brand Skill 可复制: 架构与行业解耦，天旺藏红花为首个 Brand Skill，支持跨品类复用",
+    "OS 才是真正的 MVP: 核心目标是构建稳定如优秀品牌部门般工作的操作系统",
+    "V2.3 三维治理硬阻断: 阻断知识冒领 (Ownership Block)、时序混淆 (Temporal Block) 与超范围断言 (Claim Block)"
+  ],
+  "key_documents": [
+    "README.md",
+    "PROJECT.md",
+    "MANIFEST.md",
+    "EXECUTION.md",
+    "ROADMAP.md",
+    "package.json",
+    "Core/Knowledge/V3_0_JEV_DECISION_LAYER_SPECIFICATION.md",
+    "Core/Knowledge/V2_3_KNOWLEDGE_OWNERSHIP_GOVERNANCE.md",
+    "Core/Knowledge/V2_3_TEMPORAL_STATE_GOVERNANCE.md",
+    "Core/Knowledge/V2_3_CLAIM_CONTROL_GOVERNANCE.md",
+    "Core/Knowledge/V2_3_ASSET_METADATA_SCHEMA.json",
+    "Core/db.json",
+    "docs/PI_CENTRIC_AI_WORK_PLATFORM_BLUEPRINT.md"
+  ]
+}

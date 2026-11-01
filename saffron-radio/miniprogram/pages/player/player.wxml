@@ -1,0 +1,167 @@
+<!-- 播放页 · 沉浸式 -->
+<view class="page page--plain player">
+
+  <!-- 试听模式提示 -->
+  <view class="notice" wx:if="{{isPreview}}">
+    <view class="notice__dot"></view>
+    <view class="notice__text">{{previewHint}}</view>
+  </view>
+
+  <!-- 旋转唱片 -->
+  <view class="stage">
+    <view class="disc {{playing ? '' : 'disc--paused'}}">
+      <image class="disc__cover" src="{{episode.cover}}" mode="aspectFill"></image>
+      <view class="disc__groove"></view>
+      <view class="disc__hole"></view>
+    </view>
+  </view>
+
+  <!-- 曲目信息 -->
+  <view class="meta">
+    <view class="meta__no" wx:if="{{episode}}">{{episode.no}} · {{indexText}}</view>
+    <view class="meta__title serif">{{episode.title}}</view>
+    <view class="meta__sub" wx:if="{{episode}}">
+      <text>{{episode.durationText}}</text>
+      <text class="dot">·</text>
+      <text>{{episode.place}}</text>
+      <text class="dot" wx:if="{{episode.host}}">·</text>
+      <text wx:if="{{episode.host}}">{{episode.host}}</text>
+    </view>
+    <view class="meta__badge" wx:if="{{mode === 'cloud'}}">背景音频 · 可锁屏播放</view>
+  </view>
+
+  <!-- 波形（装饰） -->
+  <view class="wave">
+    <view class="wave__bars">
+      <view class="wave__bar" wx:for="{{bars}}" wx:key="index" style="height: {{item}}rpx; animation-delay: {{index * 45}}ms"></view>
+    </view>
+    <view class="wave__clip" style="width: {{percent}}%">
+      <view class="wave__bars wave__bars--on">
+        <view class="wave__bar" wx:for="{{bars}}" wx:key="index" style="height: {{item}}rpx; animation-delay: {{index * 45}}ms"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 进度条 -->
+  <view class="track">
+    <slider
+      class="track__slider"
+      min="0"
+      max="{{sliderMax}}"
+      value="{{sliderValue}}"
+      step="1"
+      activeColor="#8C2B2B"
+      backgroundColor="rgba(140,43,43,0.16)"
+      block-color="#8C2B2B"
+      block-size="16"
+      bindchanging="onSliderChanging"
+      bindchange="onSliderChange"
+    />
+    <view class="track__time">
+      <text>{{curText}}</text>
+      <text class="track__remain">{{remainText}}</text>
+    </view>
+  </view>
+
+  <!-- 控制区 -->
+  <view class="controls">
+    <view class="ctrl ctrl--side" bindtap="onPrev">
+      <view class="icon-prev"></view>
+    </view>
+
+    <view class="ctrl ctrl--main" bindtap="onToggle">
+      <view class="spinner" wx:if="{{loading}}"></view>
+      <view class="icon-pause-lg" wx:elif="{{playing}}">
+        <view class="icon-pause-lg__bar"></view>
+        <view class="icon-pause-lg__bar"></view>
+      </view>
+      <view class="icon-play-lg" wx:else></view>
+    </view>
+
+    <view class="ctrl ctrl--side" bindtap="onNext">
+      <view class="icon-next-lg"></view>
+    </view>
+  </view>
+
+  <view class="error" wx:if="{{error}}">{{error}}</view>
+
+  <!-- 倍速 -->
+  <view class="rate">
+    <view class="rate__label">倍速</view>
+    <view class="rate__chips">
+      <view
+        class="chip {{rate === item ? 'chip--active' : ''}}"
+        wx:for="{{rates}}"
+        wx:key="*this"
+        data-rate="{{item}}"
+        bindtap="onRateTap"
+      >{{item}}x</view>
+    </view>
+    <view class="rate__hint" wx:if="{{rateSupported === false}}">当前音频通道不支持倍速</view>
+  </view>
+
+  <view class="hairline hairline--wide"></view>
+
+  <!-- 简介 / 文稿 -->
+  <view class="tabs">
+    <view class="tab {{tab === 'intro' ? 'tab--on' : ''}}" data-tab="intro" bindtap="onTabTap">简介</view>
+    <view class="tab {{tab === 'transcript' ? 'tab--on' : ''}}" data-tab="transcript" bindtap="onTabTap">文稿</view>
+  </view>
+
+  <view class="content" wx:if="{{tab === 'intro'}}">
+    <view class="content__text">{{episode.intro}}</view>
+
+    <view class="kv">
+      <view class="kv__row">
+        <text class="kv__k">节目</text>
+        <text class="kv__v">{{episode.title}}</text>
+      </view>
+      <view class="kv__row">
+        <text class="kv__k">时长</text>
+        <text class="kv__v">{{episode.durationText}}</text>
+      </view>
+      <view class="kv__row">
+        <text class="kv__k">录制地</text>
+        <text class="kv__v">{{episode.place}}</text>
+      </view>
+      <view class="kv__row">
+        <text class="kv__k">音源</text>
+        <text class="kv__v" wx:if="{{isPreview}}">本地合成试听（{{previewNotice}}）</text>
+        <text class="kv__v" wx:else>真实音频 · 背景播放</text>
+      </view>
+    </view>
+
+    <view class="notice">
+      <view class="notice__dot"></view>
+      <view class="notice__text">{{safeguard}}</view>
+    </view>
+  </view>
+
+  <view class="content" wx:else>
+    <text class="transcript" user-select="{{true}}">{{episode.transcript}}</text>
+  </view>
+
+  <view class="hairline hairline--wide"></view>
+
+  <!-- 互动 -->
+  <view class="acts">
+    <view class="act {{liked ? 'act--on' : ''}}" bindtap="onLike">
+      <text class="act__glyph">♥</text>
+      <text class="act__text">{{liked ? '已点赞' : '点赞'}}</text>
+    </view>
+    <view class="act {{faved ? 'act--on' : ''}}" bindtap="onFav">
+      <text class="act__glyph">★</text>
+      <text class="act__text">{{faved ? '已收藏' : '收藏'}}</text>
+    </view>
+    <view class="act" bindtap="onGoTea">
+      <text class="act__glyph">✎</text>
+      <text class="act__text">去茶室提问</text>
+    </view>
+  </view>
+
+  <view class="cloud-hint" wx:if="{{cloudEnabled === false}}">
+    未登录或未配置云环境，点赞、收藏与收听进度仅保存在本机。
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

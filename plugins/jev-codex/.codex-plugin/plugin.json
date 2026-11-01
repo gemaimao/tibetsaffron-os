@@ -1,0 +1,23 @@
+{
+  "name": "jev-codex",
+  "version": "0.1.0",
+  "description": "本地 Gemma 优先、Jev 兜底的 Codex 路由与上下文判断插件",
+  "author": {
+    "name": "Local developer"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Jev Codex",
+    "shortDescription": "Gemma 本地优先，Jev 语义升级，Codex 专注深度工作。",
+    "longDescription": "在 Codex 桌面端与 CLI 共用任务路由、上下文筛选和完成度判定。Ollama Gemma 2 2B 优先本地处理；低把握或高影响判断可升级到 TypeSafe Jev；代码生成与多步推理仍由 Codex 完成。",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": [
+      "用本地 Gemma 和 Jev 帮我判断这项工作的最短处理路径。",
+      "筛选当前任务仍需要保留的上下文。",
+      "根据验收条件和现有证据判断是否完成。"
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

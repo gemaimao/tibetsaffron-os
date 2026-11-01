@@ -11,6 +11,7 @@ import {
   INITIAL_RELATIONS,
   INITIAL_RELEASES
 } from './seedData.js';
+import { jevDecisionEngine } from './jevDecisionEngine.js';
 
 const STORAGE_KEY = 'BCOS_DB_V1';
 
@@ -181,6 +182,10 @@ class Store {
         status: assetData.status || existing.status,
         version: nextVersionStr,
         tag_ids: assetData.tag_ids || existing.tag_ids || [],
+        track: assetData.track || existing.track || 'GENERAL',
+        media_url: assetData.media_url !== undefined ? assetData.media_url : (existing.media_url || null),
+        jev_decision: assetData.jev_decision || existing.jev_decision || null,
+        governance_status: assetData.governance_status || existing.governance_status || 'CERTIFIED_SSOT',
         updated_at: now
       };
 
@@ -213,12 +218,12 @@ class Store {
         throw new Error(`AssetCode ${autoCode} already exists. AssetCode must be unique.`);
       }
 
-      const newAssetId = `asset-${Date.now()}`;
+      const newAssetId = assetData.id || `asset-${Date.now()}`;
       const newVersionStr = 'v1.0';
 
       const newAsset = {
         id: newAssetId,
-        uuid: crypto.randomUUID ? crypto.randomUUID() : `uuid-${Date.now()}`,
+        uuid: assetData.uuid || (crypto.randomUUID ? crypto.randomUUID() : `uuid-${Date.now()}`),
         module_id: targetModule.id,
         asset_code: autoCode, // Immutable for life
         title: assetData.title || 'Untitled Asset',
@@ -229,6 +234,10 @@ class Store {
         status: assetData.status || 'Draft',
         version: newVersionStr,
         tag_ids: assetData.tag_ids || [],
+        track: assetData.track || 'GENERAL',
+        media_url: assetData.media_url || null,
+        jev_decision: assetData.jev_decision || null,
+        governance_status: assetData.governance_status || (assetData.status === 'Published' ? 'CERTIFIED_SSOT' : 'PENDING_INBOX'),
         created_at: now,
         updated_at: now
       };
@@ -251,6 +260,65 @@ class Store {
     }
 
     this.saveState();
+  }
+
+  /**
+   * Dual-Track Governance: Promote an Inbox Asset to Core SSOT
+   */
+  promoteAsset(assetId) {
+    const asset = this.assets.find(a => a.id === assetId || a.asset_code === assetId);
+    if (!asset) throw new Error(`Asset ${assetId} not found`);
+
+    asset.status = 'Published';
+    asset.governance_status = 'CERTIFIED_SSOT';
+    asset.updated_at = new Date().toISOString();
+    this.saveState();
+    return asset;
+  }
+
+  /**
+   * Dual-Track Governance: Reject an Inbox Asset
+   */
+  rejectAsset(assetId, reason = 'Red-line violation or low evidence hardness') {
+    const asset = this.assets.find(a => a.id === assetId || a.asset_code === assetId);
+    if (!asset) throw new Error(`Asset ${assetId} not found`);
+
+    asset.status = 'Blocked';
+    asset.governance_status = 'REJECTED';
+    asset.rejection_reason = reason;
+    asset.updated_at = new Date().toISOString();
+    this.saveState();
+    return asset;
+  }
+
+  /**
+   * Run Jev System One audit on single asset
+   */
+  async auditSingleAsset(assetId, targetScenario = 'OFFICIAL_PR') {
+    const asset = this.assets.find(a => a.id === assetId || a.asset_code === assetId);
+    if (!asset) throw new Error(`Asset ${assetId} not found`);
+
+    const decision = await jevDecisionEngine.auditAsset(asset, targetScenario);
+    asset.jev_decision = decision;
+    if (decision.track) asset.track = decision.track;
+    this.saveState();
+    return decision;
+  }
+
+  /**
+   * Run batch Jev System One audit across all assets in Store
+   */
+  async batchAuditWithJev(targetScenario = 'OFFICIAL_PR') {
+    const report = await jevDecisionEngine.auditBatch(this.assets, targetScenario);
+    for (const item of report.results) {
+      const target = this.assets.find(a => a.id === item.asset_id);
+      if (target) {
+        target.jev_decision = item.decision;
+        if (item.decision.track) target.track = item.decision.track;
+      }
+    }
+    this.saveState();
+    return report;
   }
 
   generateNextAssetCode(moduleCode) {

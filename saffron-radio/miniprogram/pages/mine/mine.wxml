@@ -1,0 +1,172 @@
+<!-- 我的 -->
+<view class="page page--with-player">
+
+  <!-- 账号 -->
+  <view class="account">
+    <view class="account__head">
+      <view class="account__brand">
+        <view class="brand-name">{{brand.name}}</view>
+        <view class="brand-sub">{{brand.sub}}</view>
+      </view>
+      <view class="account__state">
+        <view class="account__dot account__dot--{{loginState}}"></view>
+        <text class="account__text">{{loginStateText}}</text>
+      </view>
+    </view>
+
+    <view class="account__msg" wx:if="{{loginMessage}}">{{loginMessage}}</view>
+    <view class="account__msg" wx:else>登录仅用于区分账号，不会自动获取你的头像与昵称。</view>
+
+    <view class="account__acts">
+      <button class="btn btn-primary btn-mini" wx:if="{{loggedIn === false}}" bindtap="onLoginTap">一键登录</button>
+      <button class="btn btn-ghost btn-mini" wx:else bindtap="onLogoutTap">退出登录</button>
+      <button class="btn btn-ghost btn-mini" bindtap="onSyncTap">同步云端</button>
+    </view>
+
+    <view class="account__env">
+      <text wx:if="{{cloudConfigured && loggedIn}}">云环境：已配置 · 已登录，云端同步已开启</text>
+      <text wx:elif="{{cloudConfigured}}">云环境：已配置 · 未登录（配置云环境不等于已登录，同步未开启）</text>
+      <text wx:else>云环境：未配置（本地体验模式，数据仅存本机）</text>
+    </view>
+  </view>
+
+  <!-- 统计 -->
+  <view class="stats">
+    <view class="stat">
+      <view class="stat__num">{{stats.fav}}</view>
+      <view class="stat__label">收藏</view>
+    </view>
+    <view class="stat__sep"></view>
+    <view class="stat">
+      <view class="stat__num">{{stats.like}}</view>
+      <view class="stat__label">点赞</view>
+    </view>
+    <view class="stat__sep"></view>
+    <view class="stat">
+      <view class="stat__num">{{stats.ask}}</view>
+      <view class="stat__label">问答</view>
+    </view>
+    <view class="stat__sep"></view>
+    <view class="stat">
+      <view class="stat__num">{{stats.history}}</view>
+      <view class="stat__label">收听</view>
+    </view>
+  </view>
+
+  <!-- 切换 -->
+  <view class="tabs">
+    <view
+      class="tab {{tab === item.key ? 'tab--on' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="key"
+      data-tab="{{item.key}}"
+      bindtap="onTabTap"
+    >{{item.label}}</view>
+  </view>
+
+  <!-- 收藏 -->
+  <view wx:if="{{tab === 'fav'}}">
+    <view class="empty" wx:if="{{favList.length === 0}}">
+      <view class="empty__title">还没有收藏节目</view>
+      <view class="empty__desc">在播放页点击「收藏」，节目会出现在这里。</view>
+    </view>
+    <view class="row" wx:for="{{favList}}" wx:key="id" data-id="{{item.id}}" bindtap="onEpisodeTap">
+      <image class="row__cover" src="{{item.cover}}" mode="aspectFill"></image>
+      <view class="row__main">
+        <view class="row__title">{{item.title}}</view>
+        <view class="row__meta">{{item.no}} · {{item.durationText}}</view>
+      </view>
+      <view class="row__act" data-id="{{item.id}}" catchtap="onUnfav">取消</view>
+    </view>
+  </view>
+
+  <!-- 点赞 -->
+  <view wx:elif="{{tab === 'like'}}">
+    <view class="empty" wx:if="{{likeList.length === 0}}">
+      <view class="empty__title">还没有点赞节目</view>
+      <view class="empty__desc">在播放页点击「点赞」，喜欢的那一期会出现在这里。</view>
+    </view>
+    <view class="row" wx:for="{{likeList}}" wx:key="id" data-id="{{item.id}}" bindtap="onEpisodeTap">
+      <image class="row__cover" src="{{item.cover}}" mode="aspectFill"></image>
+      <view class="row__main">
+        <view class="row__title">{{item.title}}</view>
+        <view class="row__meta">{{item.no}} · {{item.durationText}}</view>
+      </view>
+      <view class="row__act" data-id="{{item.id}}" catchtap="onUnlike">取消</view>
+    </view>
+  </view>
+
+  <!-- 问答 -->
+  <view wx:elif="{{tab === 'ask'}}">
+    <view class="empty" wx:if="{{askList.length === 0}}">
+      <view class="empty__title">还没有问答记录</view>
+      <view class="empty__desc">到「茶室」向主播提问，记录与收藏会显示在这里。</view>
+    </view>
+
+    <view class="qa" wx:for="{{askList}}" wx:key="id" bindtap="onQuestionTap">
+      <view class="qa__head">
+        <text class="qa__badge {{item.saved ? 'qa__badge--on' : ''}}">{{item.saved ? '已收藏' : '未收藏'}}</text>
+        <text class="qa__src">{{item.sourceText}}</text>
+        <text class="qa__time">{{item.createdText}}</text>
+      </view>
+      <view class="qa__question">{{item.question}}</view>
+      <view class="qa__quote" wx:if="{{item.quote}}">{{item.quote}}</view>
+      <view class="qa__acts">
+        <view class="row__act" data-id="{{item.id}}" catchtap="onToggleSaved">{{item.saved ? '取消收藏' : '收藏'}}</view>
+        <view class="row__act row__act--quiet" data-id="{{item.id}}" catchtap="onDeleteQuestion">删除</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 收听 -->
+  <view wx:else>
+    <view class="empty" wx:if="{{historyList.length === 0}}">
+      <view class="empty__title">还没有收听记录</view>
+      <view class="empty__desc">播放任意一期节目后，这里会显示各自的收听进度。</view>
+    </view>
+
+    <view class="row row--history" wx:for="{{historyList}}" wx:key="id" data-id="{{item.id}}" bindtap="onEpisodeTap">
+      <image class="row__cover" src="{{item.cover}}" mode="aspectFill"></image>
+      <view class="row__main">
+        <view class="row__title">{{item.title}}</view>
+        <view class="row__meta">已听 {{item.positionText}} · {{item.updatedText}}</view>
+        <view class="row__bar">
+          <view class="row__bar-in" style="width: {{item.percent}}%"></view>
+        </view>
+      </view>
+      <view class="row__act" data-id="{{item.id}}" catchtap="onDeleteHistory">删除</view>
+    </view>
+
+    <view class="clear" wx:if="{{historyList.length > 0}}" bindtap="onClearHistory">清空全部收听进度</view>
+  </view>
+
+  <view class="hairline hairline--wide"></view>
+
+  <!-- 隐私与数据 -->
+  <view class="block">
+    <view class="block__title">隐私与数据</view>
+    <view class="block__text">{{privacyText}}</view>
+    <view class="block__state">
+      <text>当前状态：</text>
+      <text class="accent" wx:if="{{privacyAccepted}}">已同意</text>
+      <text wx:else>未同意</text>
+    </view>
+    <view class="block__acts">
+      <button class="btn btn-quiet btn-mini" bindtap="onPrivacyTap">{{privacyAccepted ? '撤回同意' : '同意隐私说明'}}</button>
+    </view>
+  </view>
+
+  <view class="hairline hairline--wide"></view>
+
+  <!-- 声明 -->
+  <view class="notice">
+    <view class="notice__dot"></view>
+    <view class="notice__text">{{safeguard}}</view>
+  </view>
+
+  <view class="danger" bindtap="onDeleteAccount">注销账号并清空全部数据</view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<mini-player />

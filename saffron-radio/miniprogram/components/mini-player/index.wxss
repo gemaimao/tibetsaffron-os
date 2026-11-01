@@ -1,0 +1,158 @@
+.mp {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  background-color: rgba(248, 246, 240, 0.96);
+  border-top: 1rpx solid rgba(140, 43, 43, 0.12);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -8rpx 30rpx rgba(62, 56, 53, 0.06);
+}
+
+.mp__progress {
+  height: 3rpx;
+  background-color: rgba(140, 43, 43, 0.1);
+}
+
+.mp__progress-in {
+  height: 3rpx;
+  background-color: #8C2B2B;
+  transition: width 0.3s linear;
+}
+
+.mp__body {
+  display: flex;
+  align-items: center;
+  height: 124rpx;
+  padding: 0 32rpx;
+}
+
+.mp__main {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.mp__cover {
+  width: 84rpx;
+  height: 84rpx;
+  border-radius: 12rpx;
+  background-color: rgba(140, 43, 43, 0.1);
+  flex-shrink: 0;
+}
+
+.mp__meta {
+  margin-left: 22rpx;
+  min-width: 0;
+  flex: 1;
+}
+
+.mp__title {
+  font-size: 26rpx;
+  color: #3E3835;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 1rpx;
+}
+
+.mp__sub {
+  display: flex;
+  align-items: center;
+  margin-top: 8rpx;
+}
+
+.mp__badge {
+  font-size: 19rpx;
+  color: #8C2B2B;
+  background-color: rgba(140, 43, 43, 0.08);
+  border-radius: 6rpx;
+  padding: 2rpx 12rpx;
+  margin-right: 14rpx;
+  letter-spacing: 1rpx;
+}
+
+.mp__badge--live {
+  color: rgba(62, 56, 53, 0.7);
+  background-color: rgba(62, 56, 53, 0.07);
+}
+
+.mp__time {
+  font-size: 21rpx;
+  color: rgba(62, 56, 53, 0.45);
+}
+
+.mp__actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: 20rpx;
+}
+
+.mp__btn {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background-color: #8C2B2B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 18rpx;
+}
+
+.mp__btn--plain {
+  background-color: rgba(140, 43, 43, 0.08);
+}
+
+/* ---- 图标（纯 CSS 绘制） ---- */
+
+.icon-play {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 15rpx 0 15rpx 24rpx;
+  border-color: transparent transparent transparent #F8F6F0;
+  margin-left: 6rpx;
+}
+
+.icon-pause {
+  display: flex;
+  align-items: center;
+}
+
+.icon-pause__bar {
+  width: 7rpx;
+  height: 28rpx;
+  background-color: #F8F6F0;
+  border-radius: 2rpx;
+}
+
+.icon-pause__bar + .icon-pause__bar {
+  margin-left: 9rpx;
+}
+
+.icon-next {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 13rpx 0 13rpx 21rpx;
+  border-color: transparent transparent transparent #8C2B2B;
+  position: relative;
+  margin-left: 6rpx;
+}
+
+.mp__spinner {
+  width: 26rpx;
+  height: 26rpx;
+  border-radius: 50%;
+  border: 3rpx solid rgba(248, 246, 240, 0.35);
+  border-top-color: #F8F6F0;
+  animation: mp-spin 0.9s linear infinite;
+}
+
+@keyframes mp-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

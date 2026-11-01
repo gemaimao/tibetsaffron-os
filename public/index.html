@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>雪域林泉：藏红花播客</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+    body {
+      background-color: #070809;
+      color: #f1ede6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+    }
+    .app-viewport {
+      width: 100%;
+      max-width: 440px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 14px;
+      padding: calc(52px + env(safe-area-inset-top)) 16px calc(14px + env(safe-area-inset-bottom)) 16px;
+      position: relative;
+    }
+
+    /* 0. 屏幕最右上角固定徽章 (LIVE: 142人同赞) */
+    .screen-live-badge {
+      position: absolute;
+      top: calc(14px + env(safe-area-inset-top));
+      right: 16px;
+      z-index: 99;
+      font-size: 10px;
+      color: #34d399;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 2px 10px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    .screen-live-badge .live-dot {
+      font-size: 8px;
+      animation: blinkLive 1.2s infinite alternate;
+    }
+
+    /* 1. 期数与标题栏 (EP.01 Bar) */
+    .podcast-topic-bar {
+      flex-shrink: 0;
+      background: rgba(14, 17, 22, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(229, 185, 116, 0.22);
+      border-radius: 12px;
+      padding: 6px 130px 6px 12px; /* 右侧避开右上角徽章 */
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 38px;
+    }
+    .topic-left-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .topic-chapter {
+      background: linear-gradient(135deg, #dfb26a, #b88636); color: #070809;
+      font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 4px; flex-shrink: 0;
+      letter-spacing: 0.5px;
+    }
+    .topic-title {
+      color: #c89647; /* 🌟 纯正高贵暗金 */
+      font-size: 15px; /* 🌟 加大字号 */
+      font-weight: 700;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.5px;
+      text-shadow: 0 1px 4px rgba(200, 150, 71, 0.22);
+    }
+
+    /* 2. 封面图：多模态展台 - 屏居中视觉焦点 */
+    .stage-frame {
+      flex-shrink: 0; width: 100%; height: 275px; margin: 8px 0;
+      background: #0f1115; border: 1px solid rgba(229, 185, 116, 0.28);
+      border-radius: 16px; overflow: hidden; position: relative;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75);
+    }
+    .stage-img { width: 100%; height: 100%; object-fit: contain; background: #0d0f12; cursor: pointer; }
+    .stage-badge {
+      position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+      background: rgba(11, 13, 16, 0.85); backdrop-filter: blur(8px);
+      border: 1px solid rgba(229, 185, 116, 0.5); color: #fce7c8;
+      font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+      white-space: nowrap; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); cursor: pointer;
+    }
+
+    /* 3. 弹幕区：跑马灯 + 编辑区 (Danmaku Zone) */
+    .danmaku-zone {
+      flex-shrink: 0; background: rgba(18, 22, 28, 0.85); backdrop-filter: blur(12px);
+      border: 1px solid rgba(229, 185, 116, 0.22); border-radius: 14px;
+      padding: 8px 12px; display: flex; flex-direction: column; gap: 6px;
+    }
+    .danmaku-stream-row { display: flex; align-items: center; height: 24px; gap: 8px; }
+    .zone-tag {
+      font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px;
+      flex-shrink: 0; height: 20px; display: flex; align-items: center; gap: 4px;
+    }
+    .tag-live { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+    .danmaku-marquee { flex: 1; overflow: hidden; height: 22px; position: relative; }
+    .marquee-text {
+      font-size: 11px; color: #f8fafc; line-height: 22px; white-space: nowrap;
+      animation: marqueeScroll 12s linear infinite; display: inline-block;
+    }
+    @keyframes marqueeScroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    .dm-like-btn {
+      width: 22px; height: 20px; background: rgba(225, 29, 72, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.35); border-radius: 4px;
+      flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s ease; box-shadow: 0 0 8px rgba(225, 29, 72, 0.15);
+    }
+    .dm-like-btn:hover { background: rgba(225, 29, 72, 0.22); border-color: #f43f5e; box-shadow: 0 0 12px rgba(244, 63, 94, 0.4); }
+    .dm-like-btn:active { transform: scale(0.88); }
+    .like-ico { font-size: 11px; line-height: 1; color: #f43f5e; text-shadow: 0 0 6px rgba(244, 63, 94, 0.6); }
+    .danmaku-input-row {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px; padding: 2px 6px 2px 8px;
+    }
+    .dm-input {
+      flex: 1; height: 26px; font-size: 11px; color: #ffffff; background: transparent;
+      border: none; outline: none;
+    }
+    .dm-send-btn {
+      background: linear-gradient(135deg, #d97706, #b45309); color: #ffffff;
+      font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 6px; cursor: pointer;
+    }
+
+    /* 4. 优选问题区 (Curated Q&A Zone) */
+    .curated-qa-zone {
+      flex-shrink: 0; background: rgba(18, 22, 28, 0.8); backdrop-filter: blur(12px);
+      border: 1px solid rgba(229, 185, 116, 0.2); border-radius: 14px;
+      padding: 8px 12px; display: flex; flex-direction: column; gap: 6px;
+    }
+    .qa-header-row { display: flex; align-items: center; justify-content: space-between; }
+    .tag-gold {
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.25), rgba(251, 191, 36, 0.25));
+      color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4);
+    }
+    .qa-tip { font-size: 10px; color: #64748b; }
+    .qa-scroll { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+    .qa-scroll::-webkit-scrollbar { display: none; }
+    .qa-pill {
+      display: inline-flex; align-items: center; gap: 4px; background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(229, 185, 116, 0.25); border-radius: 12px; padding: 2px 8px; height: 22px;
+      flex-shrink: 0; cursor: pointer;
+    }
+    .qa-pill:hover { background: rgba(229, 185, 116, 0.2); }
+    .qa-user { color: #fbbf24; font-size: 10px; font-weight: 700; }
+    .qa-question { color: #e2e8f0; font-size: 11px; max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .qa-listen-btn {
+      background: linear-gradient(135deg, #d97706, #b45309); color: #ffffff;
+      font-size: 9px; font-weight: 700; padding: 1px 4px; border-radius: 4px;
+    }
+
+    /* 5. 控制区：收听 ＋ 提问 ＋ 导出 (Master Bottom Deck) */
+    .master-bottom-deck {
+      flex-shrink: 0; display: flex; flex-direction: column; gap: 8px;
+      background: rgba(18, 22, 28, 0.94); backdrop-filter: blur(16px);
+      border: 1px solid rgba(229, 185, 116, 0.3); border-radius: 18px;
+      padding: 10px 14px; box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7);
+    }
+    .deck-ticker {
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px; padding: 4px 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .ticker-ico { font-size: 13px; }
+    .ticker-text { font-size: 11px; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* 受控时间条 */
+    .deck-timeline-row { display: flex; align-items: center; gap: 8px; padding: 0 2px; }
+    .timeline-time { font-size: 11px; font-weight: 700; color: #e5b974; font-family: monospace; min-width: 36px; }
+    .time-total { color: #64748b; text-align: right; }
+    .timeline-slider-wrap { flex: 1; position: relative; display: flex; align-items: center; }
+    .timeline-slider {
+      width: 100%; -webkit-appearance: none; appearance: none; height: 4px;
+      background: rgba(255, 255, 255, 0.15); border-radius: 2px; outline: none;
+    }
+    .timeline-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none; width: 12px; height: 12px;
+      border-radius: 50%; background: #e5b974; cursor: pointer; box-shadow: 0 0 6px #e5b974;
+    }
+    .timeline-freeze-tag {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: rgba(245, 158, 11, 0.95); color: #0b0c0d; font-size: 9px; font-weight: 800;
+      padding: 1px 6px; border-radius: 6px; white-space: nowrap; display: none;
+    }
+
+    /* 5.3 【极简风格·三均分底坞】：收听(含后退/播放/前进) ＋ 提问(Ask) ＋ 导出 (1:1:1 严格三等分) */
+    .minimal-dock-row {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .dock-col {
+      flex: 1 1 0% !important; /* 严格 1:1:1 三等分 */
+      width: 0 !important;
+      min-width: 0 !important;
+      height: 38px !important;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+    .dock-col:active { transform: scale(0.96); }
+    .dock-ico { font-size: 14px; line-height: 1; }
+    .dock-txt { font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+
+    /* 1. 收听组 (水平单排：快退 ⏪ ＋ 播放/暂停 ▶ ＋ 快进 ⏩) 严禁上下重叠 */
+    .col-listen {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      padding: 2px 4px !important;
+      gap: 3px !important;
+      overflow: hidden !important;
+      cursor: default;
+    }
+    .col-listen:active { transform: none; }
+    .step-sub-btn {
+      flex: 0 0 28px !important;
+      width: 28px !important;
+      min-width: 28px !important;
+      height: 32px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 11px !important;
+      color: #dfb26a;
+      opacity: 0.75;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+    .step-sub-btn:hover { opacity: 1; background: rgba(255, 255, 255, 0.12); }
+    .step-sub-btn:active { transform: scale(0.9); }
+    .play-main-sub-btn {
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      height: 32px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 7px !important;
+      background: linear-gradient(135deg, rgba(223, 178, 106, 0.28), rgba(184, 134, 54, 0.28));
+      border: 1px solid rgba(223, 178, 106, 0.45);
+      color: #fce7c8;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.15s;
+    }
+    .play-main-sub-btn:hover { background: linear-gradient(135deg, rgba(223, 178, 106, 0.45), rgba(184, 134, 54, 0.45)); }
+    .sub-play-active {
+      background: linear-gradient(135deg, #c89647, #9b6c23) !important;
+      border-color: #e5b974 !important;
+      box-shadow: 0 2px 8px rgba(200, 150, 71, 0.45) !important;
+    }
+
+    /* 2. 提问键 (Ask) */
+    .col-ask {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(3, 105, 161, 0.25));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+    }
+    .col-ask .dock-txt { color: #bae6fd; font-weight: 700; }
+    .record-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #38bdf8; opacity: 0.6;
+    }
+
+    /* 3. 导出键 (导出) */
+    .col-export {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .col-export .dock-txt { color: #cbd5e1; }
+
+    /* 版权位文字 */
+    .brand-copyright-txt {
+      font-size: 10px;
+      color: rgba(229, 185, 116, 0.45);
+      letter-spacing: 0.5px;
+      font-weight: 400;
+    }
+
+    /* 模态窗体系 */
+    .landscape-modal {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.96); z-index: 9999; display: none;
+      align-items: center; justify-content: center;
+    }
+    .landscape-container { width: 100vw; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; }
+    .landscape-img { width: 92vh; height: 92vw; transform: rotate(90deg); object-fit: contain; }
+    .landscape-close-btn {
+      position: absolute; top: 20px; right: 20px; background: rgba(225, 29, 72, 0.85);
+      color: #ffffff; font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 20px; cursor: pointer;
+    }
+
+    /* 提问抽屉 */
+    .question-modal {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+      z-index: 9998; display: none; align-items: flex-end; justify-content: center;
+    }
+    .question-sheet {
+      width: 100%; max-width: 440px; background: #151922; border-top-left-radius: 20px; border-top-right-radius: 20px;
+      border: 1px solid rgba(229, 185, 116, 0.3); padding: 18px 16px; display: flex; flex-direction: column; gap: 10px;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+    }
+    .sheet-title { font-size: 15px; font-weight: 800; color: #ffffff; text-align: center; }
+    .sheet-desc { font-size: 11px; color: #94a3b8; text-align: center; margin-bottom: 4px; }
+    .sheet-options { display: flex; flex-direction: column; gap: 8px; }
+    .sheet-opt {
+      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(229, 185, 116, 0.2);
+      border-radius: 12px; padding: 10px 12px; font-size: 12px; color: #f1ede6; cursor: pointer;
+    }
+    .sheet-opt:active { background: rgba(229, 185, 116, 0.2); }
+    .sheet-input-row { display: flex; gap: 8px; margin-top: 4px; }
+    .sheet-input-row input {
+      flex: 1; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px; padding: 8px 12px; font-size: 12px; color: #ffffff; outline: none;
+    }
+    .sheet-input-row button {
+      background: linear-gradient(135deg, #0284c7, #0369a1); border: none; color: #fff;
+      padding: 0 14px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+    .sheet-cancel {
+      text-align: center; padding: 10px; font-size: 12px; color: #94a3b8; cursor: pointer;
+      border-top: 1px solid rgba(255, 255, 255, 0.08); margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-viewport">
+    
+    <!-- 🌟 屏幕最右上角固定徽章 (LIVE: 142人同赞) -->
+    <div class="screen-live-badge">
+      <span class="live-dot">●</span>
+      <span>LIVE: 142人同赞</span>
+    </div>
+
+    <!-- 1. 顶部：期数编号 (EP.01 ▾) + 标题 (轻触展开节目单目录) -->
+    <div class="podcast-topic-bar" onclick="openEpisodeDrawer()" title="轻触展开节目单目录">
+      <div class="topic-left-wrap">
+        <span class="topic-chapter" id="chapterTag">EP.01 ▾</span>
+        <span class="topic-title" id="chapterName">迷局与澄清：名字叫藏红花，西藏到底产不产？</span>
+      </div>
+    </div>
+
+    <!-- 2. 上面为评论区：真实收听观点短评滚动 + 发表评论 (Comments Zone) -->
+    <div class="danmaku-zone">
+      <div class="danmaku-stream-row">
+        <span class="zone-tag tag-live">● 实时评论</span>
+        <div class="danmaku-marquee">
+          <div class="marquee-text" id="danmakuText">原来真红花泡水是金黄色的，确实长知识了  ·  林芝2945米高山温室地暖恒温，科学种植靠谱  ·  国家权威质检单苷含量15.8%，实测数据让人放心  ·  天然番红花苷极性水溶分子垂直沉丝，这下看懂了</div>
+        </div>
+        <div class="dm-like-btn" onclick="likeCurrentComment()" title="认同赞同该观点">
+          <span class="like-ico">♥</span>
+        </div>
+      </div>
+      <div class="danmaku-input-row">
+        <input type="text" class="dm-input" id="dmInput" placeholder="写下你的收听观点与评论..." onkeydown="if(event.key==='Enter')sendCustomDanmaku()" />
+        <span class="dm-send-btn" onclick="sendCustomDanmaku()">评论</span>
+      </div>
+    </div>
+
+    <!-- 3. 封面图居中：多模态展台 (纯净无压字，用户点击直接横屏查验) -->
+    <div class="stage-frame">
+      <img class="stage-img" id="stageImg" src="/images/cover.jpg" alt="实证画卷" onclick="openLandscape()" />
+    </div>
+
+    <!-- 4. 优选问题区：热问推荐与一键旁听 -->
+    <div class="curated-qa-zone">
+      <div class="qa-header-row">
+        <span class="zone-tag tag-gold">🎙️ 优选热问</span>
+      </div>
+      <div class="qa-scroll" id="qaScroll">
+        <div class="qa-pill" onclick="listenQA(101)">
+          <span class="qa-user">【老李】</span>
+          <span class="qa-question">泡水为什么是金黄色？</span>
+          <span class="qa-listen-btn">🎧 旁听</span>
+        </div>
+        <div class="qa-pill" onclick="listenQA(102)">
+          <span class="qa-user">【小敏】</span>
+          <span class="qa-question">2945m温室到底有没有薄霜？</span>
+          <span class="qa-listen-btn">🎧 旁听</span>
+        </div>
+        <div class="qa-pill" onclick="listenQA(103)">
+          <span class="qa-user">【老王】</span>
+          <span class="qa-question">法定质检实测指标如何？</span>
+          <span class="qa-listen-btn">🎧 旁听</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 控制区：时间条 ＋ 单排按键 (Master Bottom Deck) -->
+    <div class="master-bottom-deck">
+      <!-- 🌟 受控时间条 -->
+      <div class="deck-timeline-row">
+        <span class="timeline-time" id="currentTimeTxt">00:00</span>
+        <div class="timeline-slider-wrap">
+          <input type="range" class="timeline-slider" id="timelineSlider" min="0" max="299" value="0" oninput="onSeekInput(this.value)" onchange="onSeekChange(this.value)" />
+          <div class="timeline-freeze-tag" id="freezeTag">⏸ 答疑已冻结</div>
+        </div>
+        <span class="timeline-time time-total">04:59</span>
+      </div>
+
+      <!-- 5.3 【极简风格·三均分底坞】：收听(含后退/播放/前进) ＋ 提问(Ask) ＋ 导出 (1:1:1 严格三等分) -->
+      <div class="minimal-dock-row">
+        <!-- 1. 收听组 (快退15s ＋ 播放/暂停 ＋ 快进15s) 占据1/3 -->
+        <div class="dock-col col-listen">
+          <div class="step-sub-btn" onclick="seekBackward()" title="快退15秒">⏪</div>
+          <div class="play-main-sub-btn" id="playBtn" onclick="togglePlay()" title="播放/暂停">
+            <span id="playIco">▶</span>
+          </div>
+          <div class="step-sub-btn" onclick="seekForward()" title="快进15秒">⏩</div>
+        </div>
+
+        <!-- 2. 提问键 (Ask) 占据1/3 -->
+        <div class="dock-col col-ask" id="bargeBtn" onclick="openQuestionModal()">
+          <span class="record-dot" id="recordDot"></span>
+          <span class="dock-ico">🎙️</span>
+          <span class="dock-txt" id="bargeTxt">Ask</span>
+        </div>
+
+        <!-- 3. 导出键 (导出) 占据1/3 -->
+        <div class="dock-col col-export" onclick="exportPodcast()">
+          <span class="dock-ico">📥</span>
+          <span class="dock-txt">导出</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. 最下方：高大上品牌信息栏 (Brand Hallmark / 沉底居中版权位) -->
+    <div class="brand-hallmark-bar" onclick="openBrandModal()">
+      <div class="brand-line-glow"></div>
+      <div class="brand-content">
+        <span class="crest-icon">✦</span>
+        <span class="brand-copyright-txt">出品：STARSPINE STUDIO(星脊工作室)</span>
+        <span class="brand-arrow">›</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 7. 👑 星脊工作室 (STARSPINE STUDIO) 官方产品卡片模态窗 -->
+  <div class="brand-modal-mask" id="brandModal" onclick="closeBrandModal(event)">
+    <div class="brand-card-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-gold-glow"></div>
+      <div class="sheet-header">
+        <div class="sheet-title-group">
+          <div class="sheet-sub">PRODUCED BY STARSPINE STUDIO</div>
+          <div class="sheet-main">星脊工作室 · 新一代 AI 互动播客系统</div>
+        </div>
+        <div class="sheet-close" onclick="closeBrandModal()">✕</div>
+      </div>
+
+      <div class="sheet-badge-row">
+        <div class="sheet-badge"><span class="badge-dot">●</span> 旗舰产品：Interactive Podcast OS</div>
+        <div class="sheet-badge"><span class="badge-dot">●</span> 架构：一人公司 (Solopreneur)</div>
+        <div class="sheet-badge gold-badge"><span class="badge-dot">●</span> 毫秒级打断与真全双工</div>
+      </div>
+
+      <div class="sheet-specs-grid">
+        <div class="spec-cell">
+          <span class="spec-label">出品团队</span>
+          <span class="spec-val">星脊工作室 (StarSpine)</span>
+        </div>
+        <div class="spec-cell">
+          <span class="spec-label">核心引擎</span>
+          <span class="spec-val">StarSpine Neural Audio 3.0</span>
+        </div>
+        <div class="spec-cell">
+          <span class="spec-label">本期案例呈现</span>
+          <span class="spec-val">雪域林泉 · 藏红花科学澄清</span>
+        </div>
+        <div class="spec-cell">
+          <span class="spec-label">商业赋能</span>
+          <span class="spec-val">企业智识播客/品牌全双工定制</span>
+        </div>
+      </div>
+
+      <div class="sheet-footer-tip">
+        <span>✦</span>
+        <span>Designed & Engineered by StarSpine Studio · 探索人机同频声学边界</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 横屏大图模态窗 -->
+  <div class="landscape-modal" id="landscapeModal">
+    <div class="landscape-container">
+      <img class="landscape-img" id="landscapeImg" src="/images/report_whiteboard.png" alt="横屏大图" />
+      <div class="landscape-close-btn" onclick="closeLandscape()">✕ 退出横屏</div>
+    </div>
+  </div>
+
+  <!-- 提问弹窗 (Studio Action Sheet) -->
+  <div class="question-modal" id="questionModal">
+    <div class="question-sheet">
+      <div class="sheet-title">🎙️ 向电台演播室提问对线</div>
+      <div class="sheet-desc">林博士（专家）与莉莉（导播）随时在线权威解答</div>
+      <div class="sheet-options">
+        <div class="sheet-opt" onclick="selectQuestion('林芝波密海拔2945米高山种植的藏红花，相比普通藏红花在药典活性上有何优势？')">
+          🎙️【推荐】林芝海拔2945米高山种植有何药典优势？
+        </div>
+        <div class="sheet-opt" onclick="selectQuestion('为什么说天旺基地精选约100朵鲜花才能制出1克特级干丝？')">
+          🎙️【推荐】为什么说精选约100朵花才能制1克特级干丝？
+        </div>
+        <div class="sheet-opt" onclick="selectQuestion('藏红花正品泡水为什么是金黄色而不是血红色？')">
+          🎙️【推荐】藏红花泡水金黄而非红色的科学机理？
+        </div>
+      </div>
+      <div class="sheet-input-row">
+        <input type="text" id="customInput" placeholder="输入自定义问题，如：调理睡眠效果..." />
+        <button onclick="submitCustomQuestion()">提问</button>
+      </div>
+      <div class="sheet-cancel" onclick="closeQuestionModal()">取消</div>
+    </div>
+  </div>
+
+  <audio id="audioPlayer" preload="auto"></audio>
+
+  <script>
+    const playlist = [
+      { id: "turn_01", chapter: 1, chapter_title: "迷局与澄清：名字叫藏红花，西藏到底产不产？", host: "C", speaker: "莉莉", desc: "欢迎收听《雪域林泉·藏红花电台》，来到林芝2945米基地...", img: "/images/cover.jpg", url: "/audio/master/turn_01_C.mp3", start: 0, duration: 22.1 },
+      { id: "turn_02", chapter: 1, chapter_title: "迷局与澄清：名字叫藏红花，西藏到底产不产？", host: "A", speaker: "扎西", desc: "历史上经西藏转运得名，但今天的林芝米瑞乡已扎下现代科学根基...", img: "/images/cover.jpg", url: "/audio/master/turn_02_A.mp3", start: 22.1, duration: 26.6 },
+      { id: "turn_03", chapter: 1, chapter_title: "迷局与澄清：名字叫藏红花，西藏到底产不产？", host: "B", speaker: "林博士", desc: "现代环境控制农业（CEA）让鸢尾科植物克服突发霜冻...", img: "/images/greenhouse_broll.png", url: "/audio/master/turn_03_B.mp3", start: 48.7, duration: 22.0 },
+      { id: "turn_10", chapter: 3, chapter_title: "水试防伪与分子机制：金黄与血红的真假交锋", host: "C", speaker: "莉莉", desc: "听众最容易误解的水试颜色！导播为您切出水溶实验...", img: "/images/water_test.jpg", url: "/audio/master/turn_10_C.mp3", start: 180, duration: 18.0 },
+      { id: "turn_11", chapter: 3, chapter_title: "水试防伪与分子机制：金黄与血红的真假交锋", host: "B", speaker: "林博士", desc: "天然番红花苷是强极性水溶色素，水试金黄沉丝，绝无血红！", img: "/images/water_test.jpg", url: "/audio/master/turn_11_B.mp3", start: 198, duration: 24.0 },
+      { id: "turn_12", chapter: 4, chapter_title: "实证主义的高原奇迹：国家质检单的数据真相", host: "C", speaker: "莉莉", desc: "导播台已为您切出国家权威检测报告 A26SW02809 白板！", img: "/images/report_whiteboard.png", url: "/audio/master/turn_12_C.mp3", start: 222, duration: 16.0 },
+      { id: "turn_13", chapter: 4, chapter_title: "实证主义的高原奇迹：国家质检单的数据真相", host: "B", speaker: "林博士", desc: "药典规定苷含量≥10.0%，天旺实测高达15.8%，苦素远超国标！", img: "/images/report_whiteboard.png", url: "/audio/master/turn_13_B.mp3", start: 238, duration: 28.0 }
+    ];
+
+    let currentIdx = 0;
+    let isPlaying = false;
+    let currentRate = 1.0;
+    let rates = [1.0, 1.25, 1.5, 2.0];
+    let snapshot = null;
+    let dynamicQueue = [];
+    let isFrozen = false;
+    let isDragging = false;
+
+    const audio = document.getElementById('audioPlayer');
+    const playBtn = document.getElementById('playBtn');
+    const stageImg = document.getElementById('stageImg');
+    const chapterTag = document.getElementById('chapterTag');
+    const chapterName = document.getElementById('chapterName');
+    const tickerMsg = document.getElementById('tickerMsg');
+    const rateTxt = document.getElementById('rateTxt');
+    const timelineSlider = document.getElementById('timelineSlider');
+    const currentTimeTxt = document.getElementById('currentTimeTxt');
+    const freezeTag = document.getElementById('freezeTag');
+
+    function playTurn(idx, offset = 0) {
+      currentIdx = idx;
+      const turn = playlist[idx];
+      chapterTag.textContent = `EP.0${turn.chapter}`;
+      chapterName.textContent = turn.chapter_title;
+      stageImg.src = turn.img;
+      tickerMsg.textContent = `【${turn.speaker}】正在讲述：“${turn.desc}”`;
+
+      audio.src = turn.url;
+      audio.playbackRate = currentRate;
+      audio.currentTime = offset;
+      audio.play().then(() => {
+        isPlaying = true;
+        updatePlayBtnUI();
+      }).catch(e => console.log('Auto-play blocked:', e));
+    }
+
+    function updatePlayBtnUI() {
+      const playIco = document.getElementById('playIco');
+      const playTxt = document.getElementById('playTxt');
+      if (playIco) playIco.textContent = isPlaying ? '⏸' : '▶';
+      if (playTxt) playTxt.textContent = isPlaying ? '暂停' : '收听';
+      const playBtn = document.getElementById('playBtn');
+      if (playBtn) {
+        if (isPlaying) playBtn.classList.add('key-play-active');
+        else playBtn.classList.remove('key-play-active');
+      }
+    }
+
+    function togglePlay() {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        updatePlayBtnUI();
+        tickerMsg.textContent = '电台已暂停收听。';
+      } else {
+        if (dynamicQueue.length > 0) {
+          playDynamic(dynamicQueue.shift());
+        } else {
+          playTurn(currentIdx, audio.currentTime || 0);
+        }
+      }
+    }
+
+    audio.ontimeupdate = () => {
+      if (isFrozen || isDragging) return;
+      const turn = playlist[currentIdx];
+      if (!turn) return;
+      const totalSec = Math.min(299, Math.floor((turn.start || 0) + (audio.currentTime || 0)));
+      timelineSlider.value = totalSec;
+      const m = Math.floor(totalSec / 60).toString().padStart(2, '0');
+      const s = Math.floor(totalSec % 60).toString().padStart(2, '0');
+      currentTimeTxt.textContent = `${m}:${s}`;
+    };
+
+    function onSeekInput(val) {
+      isDragging = true;
+      const m = Math.floor(val / 60).toString().padStart(2, '0');
+      const s = Math.floor(val % 60).toString().padStart(2, '0');
+      currentTimeTxt.textContent = `${m}:${s}`;
+    }
+
+    function onSeekChange(val) {
+      isDragging = false;
+      const targetSec = parseInt(val, 10);
+      let targetIdx = 0;
+      let offset = 0;
+      for (let i = 0; i < playlist.length; i++) {
+        const item = playlist[i];
+        if (targetSec >= item.start && targetSec < item.start + item.duration) {
+          targetIdx = i;
+          offset = targetSec - item.start;
+          break;
+        }
+      }
+      playTurn(targetIdx, offset);
+    }
+
+    function seekBackward() {
+      const cur = parseInt(timelineSlider.value, 10);
+      onSeekChange(Math.max(0, cur - 15));
+    }
+
+    function seekForward() {
+      const cur = parseInt(timelineSlider.value, 10);
+      onSeekChange(Math.min(299, cur + 15));
+    }
+
+    function playDynamic(seg) {
+      if (!seg) return;
+      tickerMsg.textContent = seg.text;
+      audio.src = seg.audioUrl;
+      audio.playbackRate = currentRate;
+      audio.play().then(() => {
+        isPlaying = true;
+        playBtn.textContent = '⏸';
+      });
+    }
+
+    audio.onended = () => {
+      if (dynamicQueue.length > 0) {
+        playDynamic(dynamicQueue.shift());
+      } else if (snapshot) {
+        const snap = snapshot;
+        snapshot = null;
+        isFrozen = false;
+        freezeTag.style.display = 'none';
+        tickerMsg.textContent = '🎧 答疑解答完毕，时间轴已恢复继续推流。';
+        playTurn(snap.idx, snap.time);
+      } else {
+        currentIdx = (currentIdx + 1) % playlist.length;
+        playTurn(currentIdx);
+      }
+    };
+
+    function toggleRate() {
+      let next = rates[(rates.indexOf(currentRate) + 1) % rates.length];
+      currentRate = next;
+      rateTxt.textContent = `${next}x`;
+      audio.playbackRate = next;
+    }
+
+    function listenQA(qaId) {
+      snapshot = { idx: currentIdx, time: audio.currentTime };
+      isFrozen = true;
+      freezeTag.style.display = 'block';
+      audio.pause();
+      fetch('/api/shared-qa').then(r => r.json()).then(data => {
+        const matched = (data.qas || []).find(q => q.id === qaId) || data.qas[0];
+        if (matched) {
+          tickerMsg.textContent = `🎧 正在为您旁听【${matched.user}】关于“${matched.question}”的解答...`;
+          if (matched.visualIntent === 'WATER_TEST') stageImg.src = '/images/water_test.jpg';
+          else if (matched.visualIntent === 'GREENHOUSE_IOT') stageImg.src = '/images/greenhouse_broll.png';
+          else stageImg.src = '/images/report_whiteboard.png';
+          dynamicQueue = [...matched.audioQueue];
+          if (dynamicQueue.length > 0) playDynamic(dynamicQueue.shift());
+        }
+      });
+    }
+
+    function openQuestionModal() {
+      document.getElementById('questionModal').style.display = 'flex';
+    }
+
+    function closeQuestionModal() {
+      document.getElementById('questionModal').style.display = 'none';
+    }
+
+    function selectQuestion(q) {
+      closeQuestionModal();
+      sendQuestionRequest(q);
+    }
+
+    function submitCustomQuestion() {
+      const input = document.getElementById('customInput');
+      const q = (input.value || '').trim();
+      if (!q) return;
+      input.value = '';
+      closeQuestionModal();
+      sendQuestionRequest(q);
+    }
+
+    function sendQuestionRequest(q) {
+      snapshot = { idx: currentIdx, time: audio.currentTime };
+      isFrozen = true;
+      freezeTag.style.display = 'block';
+      freezeTag.textContent = `⏸ 答疑已冻结在 ${currentTimeTxt.textContent}`;
+      tickerMsg.textContent = `⚡ 导播 莉莉已接到提问：“${q.slice(0, 16)}...” 正在接线核实中...`;
+      audio.pause();
+
+      fetch('/api/bargein', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userIntent: 'INTERRUPT', userInput: q })
+      }).then(r => r.json()).then(res => {
+        if (res.success) {
+          if (res.visualIntent === 'WATER_TEST') stageImg.src = '/images/water_test.jpg';
+          else if (res.visualIntent === 'GREENHOUSE_IOT') stageImg.src = '/images/greenhouse_broll.png';
+          else stageImg.src = '/images/report_whiteboard.png';
+
+          dynamicQueue = [
+            { host: 'C', audioUrl: res.lily.audioUrl, text: `【导播 莉莉】：${res.lily.text}` },
+            { host: 'B', audioUrl: res.lin.audioUrl, text: `【专家 林博士】：${res.lin.text}` }
+          ];
+          if (res.bridge && res.bridge.audioUrl) {
+            dynamicQueue.push({ host: 'A', audioUrl: res.bridge.audioUrl, text: `【主持 扎西】：${res.bridge.text}` });
+          }
+          if (dynamicQueue.length > 0) playDynamic(dynamicQueue.shift());
+        }
+      });
+    }
+
+    function openLandscape() {
+      document.getElementById('landscapeModal').style.display = 'flex';
+      document.getElementById('landscapeImg').src = stageImg.src;
+    }
+    function closeLandscape() {
+      document.getElementById('landscapeModal').style.display = 'none';
+    }
+    function openBrandModal() {
+      document.getElementById('brandModal').style.display = 'flex';
+    }
+    function closeBrandModal(e) {
+      document.getElementById('brandModal').style.display = 'none';
+    }
+    function sendPraise() {
+      tickerMsg.textContent = '✨ 您的赞叹已穿透发送至全网演播室！';
+      setTimeout(() => { tickerMsg.textContent = '雪域林泉 · AI 全双工互动演播室已就绪'; }, 2000);
+    }
+    function sendCustomDanmaku() {
+      const input = document.getElementById('dmInput');
+      const val = (input.value || '').trim();
+      if (!val) return;
+      input.value = '';
+      tickerMsg.textContent = `✨ 弹幕“${val}”已飞入演播室！`;
+      setTimeout(() => { tickerMsg.textContent = '雪域林泉 · AI 全双工互动演播室已就绪'; }, 2000);
+    }
+    function exportPodcast() {
+      alert('已准备好整期 15 轮高保真母带下载地址：/audio/master/turn_01_C.mp3');
+    }
+  </script>
+</body>
+</html>

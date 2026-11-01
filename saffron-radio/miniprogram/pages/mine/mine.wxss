@@ -1,0 +1,356 @@
+/* 我的 */
+
+/* ---------- 账号 ---------- */
+
+.account {
+  padding: 40rpx 34rpx 34rpx;
+  border-radius: 20rpx;
+  background-color: #FFFFFF;
+  box-shadow: 0 6rpx 28rpx rgba(62, 56, 53, 0.05);
+}
+
+.account__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.account__state {
+  display: flex;
+  align-items: center;
+  padding-top: 12rpx;
+}
+
+.account__dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background-color: rgba(62, 56, 53, 0.25);
+  margin-right: 12rpx;
+}
+
+.account__dot--logged {
+  background-color: #8C2B2B;
+}
+
+.account__dot--pending {
+  background-color: rgba(140, 43, 43, 0.5);
+}
+
+.account__dot--unconfigured,
+.account__dot--error {
+  background-color: rgba(62, 56, 53, 0.3);
+}
+
+.account__text {
+  font-size: 23rpx;
+  color: rgba(62, 56, 53, 0.65);
+  letter-spacing: 2rpx;
+}
+
+.account__id {
+  margin-top: 26rpx;
+  font-size: 22rpx;
+  color: rgba(62, 56, 53, 0.5);
+  letter-spacing: 1rpx;
+}
+
+.account__msg {
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  line-height: 1.7;
+  color: rgba(62, 56, 53, 0.5);
+}
+
+.account__acts {
+  display: flex;
+  margin-top: 32rpx;
+}
+
+.account__acts .btn {
+  margin-right: 20rpx;
+}
+
+.account__env {
+  margin-top: 24rpx;
+  font-size: 21rpx;
+  color: rgba(62, 56, 53, 0.45);
+  letter-spacing: 1rpx;
+}
+
+/* ---------- 统计 ---------- */
+
+.stats {
+  display: flex;
+  align-items: center;
+  margin-top: 36rpx;
+  padding: 32rpx 0;
+  border-radius: 20rpx;
+  background-color: rgba(140, 43, 43, 0.04);
+}
+
+.stat {
+  flex: 1;
+  text-align: center;
+}
+
+.stat__num {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 42rpx;
+  color: #8C2B2B;
+  line-height: 1.2;
+}
+
+.stat__label {
+  margin-top: 8rpx;
+  font-size: 21rpx;
+  color: rgba(62, 56, 53, 0.55);
+  letter-spacing: 2rpx;
+}
+
+.stat__sep {
+  width: 1rpx;
+  height: 56rpx;
+  background-color: rgba(140, 43, 43, 0.14);
+}
+
+/* ---------- 切换 ---------- */
+
+.tabs {
+  display: flex;
+  align-items: center;
+  margin: 48rpx 0 8rpx;
+}
+
+.tab {
+  font-size: 28rpx;
+  color: rgba(62, 56, 53, 0.45);
+  margin-right: 40rpx;
+  padding-bottom: 12rpx;
+  position: relative;
+  letter-spacing: 3rpx;
+}
+
+.tab--on {
+  color: #8C2B2B;
+  font-weight: 600;
+}
+
+.tab--on::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3rpx;
+  background-color: #8C2B2B;
+  border-radius: 2rpx;
+}
+
+/* ---------- 列表 ---------- */
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid rgba(140, 43, 43, 0.1);
+}
+
+.row__cover {
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 12rpx;
+  background-color: rgba(140, 43, 43, 0.1);
+  flex-shrink: 0;
+}
+
+.row__main {
+  flex: 1;
+  min-width: 0;
+  margin: 0 22rpx;
+}
+
+.row__title {
+  font-size: 27rpx;
+  line-height: 1.5;
+  color: #3E3835;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.row__meta {
+  margin-top: 10rpx;
+  font-size: 21rpx;
+  color: rgba(62, 56, 53, 0.5);
+}
+
+.row__bar {
+  margin-top: 14rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  background-color: rgba(140, 43, 43, 0.12);
+  overflow: hidden;
+}
+
+.row__bar-in {
+  height: 4rpx;
+  background-color: #8C2B2B;
+}
+
+.row__act {
+  flex-shrink: 0;
+  font-size: 21rpx;
+  color: rgba(62, 56, 53, 0.45);
+  border: 1rpx solid rgba(140, 43, 43, 0.28);
+  border-radius: 22rpx;
+  padding: 8rpx 22rpx;
+  letter-spacing: 1rpx;
+}
+
+/* ---------- 空态 ---------- */
+
+.empty {
+  padding: 70rpx 0;
+  text-align: center;
+}
+
+.empty__title {
+  font-size: 27rpx;
+  color: rgba(62, 56, 53, 0.55);
+  letter-spacing: 2rpx;
+}
+
+.empty__desc {
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: rgba(62, 56, 53, 0.38);
+}
+
+.clear {
+  margin-top: 36rpx;
+  text-align: center;
+  font-size: 23rpx;
+  color: rgba(62, 56, 53, 0.5);
+  letter-spacing: 2rpx;
+  padding: 16rpx 0;
+}
+
+/* ---------- 区块 ---------- */
+
+.block {
+  padding: 6rpx 0;
+}
+
+.block__title {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 30rpx;
+  color: #3E3835;
+  letter-spacing: 4rpx;
+}
+
+.block__text {
+  margin-top: 18rpx;
+  font-size: 24rpx;
+  line-height: 1.85;
+  color: rgba(62, 56, 53, 0.72);
+}
+
+.block__state {
+  margin-top: 20rpx;
+  font-size: 23rpx;
+  color: rgba(62, 56, 53, 0.6);
+}
+
+.block__acts {
+  margin-top: 28rpx;
+  display: flex;
+}
+
+.danger {
+  margin-top: 48rpx;
+  text-align: center;
+  font-size: 23rpx;
+  color: #8C2B2B;
+  letter-spacing: 2rpx;
+  padding: 20rpx 0;
+  border: 1rpx solid rgba(140, 43, 43, 0.25);
+  border-radius: 44rpx;
+}
+
+
+/* ---------- 问答列表 ---------- */
+
+.qa {
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid rgba(140, 43, 43, 0.1);
+}
+
+.qa__head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.qa__badge {
+  font-size: 19rpx;
+  color: rgba(62, 56, 53, 0.5);
+  background-color: rgba(62, 56, 53, 0.06);
+  border-radius: 6rpx;
+  padding: 3rpx 14rpx;
+  letter-spacing: 1rpx;
+}
+
+.qa__badge--on {
+  color: #8C2B2B;
+  background-color: rgba(140, 43, 43, 0.1);
+}
+
+.qa__src {
+  font-size: 19rpx;
+  color: rgba(62, 56, 53, 0.45);
+  margin-left: 16rpx;
+}
+
+.qa__time {
+  font-size: 19rpx;
+  color: rgba(62, 56, 53, 0.35);
+  margin-left: 16rpx;
+}
+
+.qa__question {
+  margin-top: 16rpx;
+  font-size: 27rpx;
+  line-height: 1.6;
+  color: #3E3835;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.qa__quote {
+  margin-top: 16rpx;
+  padding-left: 20rpx;
+  border-left: 4rpx solid rgba(140, 43, 43, 0.5);
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 25rpx;
+  line-height: 1.7;
+  color: #8C2B2B;
+}
+
+.qa__acts {
+  display: flex;
+  align-items: center;
+  margin-top: 22rpx;
+}
+
+.qa__acts .row__act {
+  margin-right: 18rpx;
+}
+
+.row__act--quiet {
+  color: rgba(62, 56, 53, 0.4);
+  border-color: rgba(62, 56, 53, 0.2);
+}

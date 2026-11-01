@@ -1,0 +1,39 @@
+{
+  "name": "@bcos/jev-decision-layer",
+  "version": "0.1.0",
+  "description": "Brand Content OS 的 JEV 决策层 DSH 插件：Choice 场景路由 / Noul 治理红线 / Score 资产评分。Jev 专职决策，协议固化主权，大模型仅作表达。",
+  "type": "module",
+  "main": "./dsh/index.js",
+  "exports": {
+    ".": "./dsh/index.js"
+  },
+  "files": [
+    "dsh",
+    "lib",
+    "test",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "jev",
+    "typesafe",
+    "system-one",
+    "decision-layer",
+    "governance",
+    "bcos",
+    "brand-content-os"
+  ],
+  "license": "UNLICENSED",
+  "private": true,
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+<!-- 常驻迷你播放器 -->
+<view class="mp" wx:if="{{visible}}">
+  <view class="mp__progress">
+    <view class="mp__progress-in" style="width: {{percent}}%"></view>
+  </view>
+
+  <view class="mp__body">
+    <view class="mp__main" bindtap="onOpen">
+      <image class="mp__cover" src="{{cover}}" mode="aspectFill"></image>
+      <view class="mp__meta">
+        <view class="mp__title">{{title}}</view>
+        <view class="mp__sub">
+          <text class="mp__badge" wx:if="{{isPreview}}">{{previewNotice}}</text>
+          <text class="mp__badge mp__badge--live" wx:else>背景音频</text>
+          <text class="mp__time">{{curText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="mp__actions">
+      <view class="mp__btn" bindtap="onToggle">
+        <view class="mp__spinner" wx:if="{{loading}}"></view>
+        <view class="icon-pause" wx:elif="{{playing}}">
+          <view class="icon-pause__bar"></view>
+          <view class="icon-pause__bar"></view>
+        </view>
+        <view class="icon-play" wx:else></view>
+      </view>
+
+      <view class="mp__btn mp__btn--plain" bindtap="onNext">
+        <view class="icon-next"></view>
+      </view>
+    </view>
+  </view>
+</view>

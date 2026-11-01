@@ -1,0 +1,25 @@
+{
+  "$schema": "antigravity-pool/accounts-schema",
+  "version": "1.0.0",
+  "description": "Antigravity 多账号配额池 — 每个 slot 对应一个 Google 账号的 OAuth2 refresh_token",
+  "rotation_strategy": "on-quota-error",
+  "cooldown_minutes": 60,
+  "accounts": [
+    {
+      "name": "gemaimao-primary",
+      "email": "gemaimao@gmail.com",
+      "refresh_token": "__IMPORT_FROM_AUTH_JSON__",
+      "project_id": "aicode-consumers",
+      "status": "active",
+      "added_at": "2026-09-27T14:30:00+08:00",
+      "last_exhausted_at": null,
+      "request_count": 0
+    }
+  ],
+  "current_index": 0,
+  "stats": {
+    "total_requests": 0,
+    "total_rotations": 0,
+    "last_rotation_at": null
+  }
+}

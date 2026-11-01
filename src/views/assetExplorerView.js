@@ -80,28 +80,49 @@ export function renderAssetExplorerView(container, moduleCode, onSelectAsset, on
                 <tr>
                   <th style="width: 150px;">资产编号</th>
                   <th>标题与摘要 (双击/点击整行即可编辑)</th>
-                  <th style="width: 130px;">模块维度</th>
-                  <th style="width: 110px;">生命周期</th>
-                  <th style="width: 90px;">版本</th>
-                  <th style="width: 140px;">更新时间</th>
-                  <th style="width: 120px; text-align: right;">快捷操作</th>
+                  <th style="width: 110px;">模块维度</th>
+                  <th style="width: 125px;">Jev 治理认证</th>
+                  <th style="width: 95px;">生命周期</th>
+                  <th style="width: 80px;">版本</th>
+                  <th style="width: 130px;">更新时间</th>
+                  <th style="width: 110px; text-align: right;">快捷操作</th>
                 </tr>
               </thead>
               <tbody>
                 ${items.map(asset => {
                   const mod = modules.find(m => m.id === asset.module_id);
                   const statusCn = asset.status === 'Published' ? '已发布' : asset.status === 'Draft' ? '草稿' : asset.status;
+                  const track = asset.track || (asset.tag_ids && asset.tag_ids.includes('tag-field') ? 'FIELD_REALITY' : (asset.tag_ids && asset.tag_ids.includes('tag-research') ? 'RESEARCH_AUTHORITY' : null));
                   return `
                     <tr class="asset-row-item" data-id="${asset.id}" style="cursor: pointer;">
                       <td class="asset-code">${asset.asset_code}</td>
                       <td>
-                        <div class="asset-title-text" style="font-weight: 600; color: var(--accent-primary);">${asset.title}</div>
+                        <div class="asset-title-text" style="font-weight: 600; color: var(--accent-primary); display: flex; align-items: center; gap: 6px;">
+                          ${track === 'FIELD_REALITY' ? `<span style="font-size: 10px; background: rgba(16,185,129,0.15); color: #34d399; padding: 1px 5px; border-radius: 4px;"><i class="ri-seedling-line"></i> 泥土实证</span>` : ''}
+                          ${track === 'RESEARCH_AUTHORITY' ? `<span style="font-size: 10px; background: rgba(59,130,246,0.15); color: #60a5fa; padding: 1px 5px; border-radius: 4px;"><i class="ri-microscope-line"></i> 科研情报</span>` : ''}
+                          <span>${asset.title}</span>
+                        </div>
                         <div style="font-size: 11.5px; color: var(--text-dark-muted); text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 460px;">
                           ${asset.summary || '无摘要'}
                         </div>
                       </td>
                       <td>
                         <span class="badge badge-module ${mod ? mod.code.toLowerCase() : 'com'}">${mod ? mod.code : 'COM'}</span>
+                      </td>
+                      <td>
+                        ${asset.jev_decision ? `
+                          <div style="display: flex; flex-direction: column; gap: 2px;">
+                            <span style="font-size: 10.5px; font-weight: 700; color: ${asset.jev_decision.is_safe ? '#34d399' : '#f87171'}; display: flex; align-items: center; gap: 3px;">
+                              <i class="${asset.jev_decision.is_safe ? 'ri-shield-check-line' : 'ri-error-warning-line'}"></i>
+                              P=${(asset.jev_decision.safe_probability * 100).toFixed(0)}%
+                            </span>
+                            <span style="font-size: 10px; color: #a78bfa; font-family: var(--font-mono);">
+                              L${asset.jev_decision.evidence_level} · ${asset.jev_decision.role}
+                            </span>
+                          </div>
+                        ` : `
+                          <span style="font-size: 10.5px; color: #64748b;">待评测</span>
+                        `}
                       </td>
                       <td>
                         <span class="badge badge-${asset.status.toLowerCase()}">${statusCn}</span>

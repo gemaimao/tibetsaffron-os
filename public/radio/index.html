@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>雪域林泉 · 藏红花电台 (全双工极简版)</title>
+  <!-- Telegram Mini App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    
+    <!-- 顶部主题艺术卡片与权威知识库声明 -->
+    <header class="hero-card">
+      <img class="cover-image" src="assets/images/cover.jpg" alt="雪域林泉藏红花" />
+      <div class="hero-overlay">
+        <div class="tag-row">
+          <span class="badge">雪域林泉 · 实时双工</span>
+          <span class="status-live">● LIVE 连线中</span>
+        </div>
+        <h1 class="title">雪域林泉 · 藏红花电台</h1>
+        <p class="theme-desc">本期主题：【藏红花真伪鉴别与高原活性成分解密】深度剖析花丝柱头形态、水试特征及活性保留。</p>
+        
+        <!-- 权威知识库范围限定声明 -->
+        <div class="kb-scope-box">
+          <div class="kb-scope-title">
+            <span class="kb-icon">🏛️</span>
+            <span class="kb-title-text">权威知识库范围限定声明</span>
+          </div>
+          <p class="kb-scope-text">本期对话与实时问答严格限定于《中华人民共和国药典》（一部·西红花专论）、藏医巨典《四部医典》日喀则传承谱系，以及西藏农牧科学院江孜实测 HPLC 色谱数据库。所有科学结论与药理逻辑均在此范围内推演，非泛泛网聊。</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- 动态核心知识图解卡片 (水试实验关键证据) -->
+    <div class="infographic-card" id="infographicCard" style="display: none;">
+      <img class="info-img" src="assets/images/water_test.jpg" alt="水试药典实验" />
+      <div class="info-meta">
+        <span class="info-tag">🔬 核心药典实验证据</span>
+        <p class="info-text">正品柱头入水缓慢下沉，析出通透纯金黄色云雾（高活性番红花苷），绝无刺眼血红与浑浊。</p>
+      </div>
+    </div>
+
+    <!-- A / B / C 三位主持人实时状态栏 -->
+    <main class="host-stage">
+      
+      <!-- 主持人 A: 扎西 (Aaron) -->
+      <div class="host-pod" id="hostA">
+        <div class="host-avatar-box">
+          <span class="avatar-emoji">🏔️</span>
+          <div class="pulse-ring"></div>
+        </div>
+        <div class="host-info">
+          <div class="host-name">主持人 A · 扎西</div>
+          <div class="host-role">雪域文化官 / 采收主持</div>
+        </div>
+        <div class="host-state">
+          <span class="state-dot"></span>
+          <span class="state-text">待命倾听</span>
+        </div>
+      </div>
+
+      <!-- 主持人 B: 林博士 (Dr. Lin) -->
+      <div class="host-pod" id="hostB">
+        <div class="host-avatar-box">
+          <span class="avatar-emoji">🔬</span>
+          <div class="pulse-ring pulse-ring-blue"></div>
+        </div>
+        <div class="host-info">
+          <div class="host-name">科学家 B · 林博士</div>
+          <div class="host-role">植物药学首席科学家</div>
+        </div>
+        <div class="host-state">
+          <span class="state-dot state-dot-blue"></span>
+          <span class="state-text">待命倾听</span>
+        </div>
+      </div>
+
+      <!-- 导播: 莉莉 (Lily) & 观众互动 -->
+      <div class="host-pod" id="hostC">
+        <div class="host-avatar-box">
+          <span class="avatar-emoji">⚡</span>
+          <div class="pulse-ring pulse-ring-gold"></div>
+        </div>
+        <div class="host-info">
+          <div class="host-name">导播 · 莉莉</div>
+          <div class="host-role">演播室导播 / 现场连线切屏</div>
+        </div>
+        <div class="host-state">
+          <span class="state-dot state-dot-gold"></span>
+          <span class="state-text">导播守候</span>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- 极简控制台: 2个主键 + 1个导出键 -->
+    <footer class="control-station">
+      
+      <!-- 主键 1: 播放 / 暂停 -->
+      <button class="btn btn-primary" id="btnPlay">
+        <span class="btn-icon" id="playIcon">▶</span>
+        <span class="btn-text" id="playText">开始播放</span>
+      </button>
+
+      <!-- 主键 2: 观众互动提问 / 结束提问 (真全双工打断) -->
+      <button class="btn btn-interactive" id="btnInteractive">
+        <span class="btn-icon" id="interIcon">🎙️</span>
+        <span class="btn-text" id="interText">观众互动提问</span>
+      </button>
+
+      <!-- 辅助键: 导出音频 -->
+      <button class="btn btn-export" id="btnExport">
+        <span class="btn-icon">📥</span>
+        <span class="btn-text">导出完整音频</span>
+      </button>
+
+    </footer>
+
+    <!-- 提示状态条 -->
+    <div class="notice-bar" id="noticeBar">
+      <span class="notice-icon">🔔</span>
+      <span class="notice-msg" id="noticeMsg">点击【开始播放】收听全双工电台，随时点击【观众互动提问】插话连线。</span>
+    </div>
+
+  </div>
+
+  <audio id="audioPlayer" preload="auto"></audio>
+  <script src="app.js"></script>
+</body>
+</html>

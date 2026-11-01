@@ -32,7 +32,7 @@ $$\text{Inbox (输入层)} \xrightarrow{\text{ AI 自动理解 }} \text{推荐�
 
 ---
 
-## 🏛️ 三层平台架构与 AI Adapters
+## 🏛️ 四层平台架构与 JEV 决策层 (Dual-System Architecture)
 
 ```text
                                用户 (User)
@@ -41,20 +41,28 @@ $$\text{Inbox (输入层)} \xrightarrow{\text{ AI 自动理解 }} \text{推荐�
             ▼                                               ▼
     微信 / 飞书 / 钉钉                               Web / App / API
 ─────────────────────────────────────────────────────────────────────────
-      【第一层：Brand Content OS 核心平台 (Core Product & IP)】
+      【第一层：Brand Content OS 核心平台 (Core Knowledge SSOT)】
 ─────────────────────────────────────────────────────────────────────────
  • Ingestion Platform (输入中心 / Inbox) — "Input First. Zero Learning Cost."
- • Knowledge Repository (知识库 / 资源库) — 集中管理所有品牌资产 (`/Core`)
+ • Knowledge Repository (知识库 / 资源库) — 集中管理所有品牌资产 (/Core)
  • Knowledge Kernel (知识内核) — 由 Entity, Concept, Principle, Framework 构成
  • Knowledge Governance (治理规则) — 不可撤销的红线与生命周期
- • Production Workflow (生产工作流) — 一键按需组装业务内容
 ─────────────────────────────────────────────────────────────────────────
-      【第二层：AI 能力适配器层 (AI Adapters Execution Layer)】
+      【第二层：JEV 决策层 (System One Decision Layer - TypeSafe AI)】
+─────────────────────────────────────────────────────────────────────────
+ • 场景意图判定 (Choice Router): 官方政经 / 商业特稿 / 现代农业 / 大众生活
+ • 声明红线哨兵 (Noul Sentinel): 校准合规概率 P(Safe)，拦截超范围与疗效宣称
+ • 资产角色打分 (Score & Role): 赋能素材定级为 ANCHOR / CORE_EVIDENCE / SUPPORTING
+ • 毫秒级确定性裁决: 输出强类型与置信度，严禁生成式幻觉僭越决策
+─────────────────────────────────────────────────────────────────────────
+      【第三层：协议中间层 (Content Assembly Plan - CAP / ABI)】
+─────────────────────────────────────────────────────────────────────────
+ • 结构化只读组装计划: 锁定不可篡改的资产引用指针与因果链
+─────────────────────────────────────────────────────────────────────────
+      【第四层：AI 表达执行器层 (System Two Expression Layer)】
 ─────────────────────────────────────────────────────────────────────────
  • NotebookLM Adapter (长文档检索与语音播报 AI 适配器)
- • GPT / Claude / Gemini Adapter (大模型推理与生成 AI 适配器)
- • GraphRAG / Neo4j Adapter (知识图谱与拓扑检索适配器)
- • OCR / Speech / Multimodal Adapter (多模态解析适配器)
+ • GPT / Claude / Gemini Adapter (遵从 CAP 的媒体风格与修辞润色执行器)
 ─────────────────────────────────────────────────────────────────────────
 ```
 

@@ -1,0 +1,9 @@
+{
+  "desc": "\u5173\u4e8e sitemap \u7684\u66f4\u591a\u4fe1\u606f\uff0c\u8bf7\u53c2\u89c1\u6587\u6863 https://developers.weixin.qq.com/miniprogram/dev/framework/sitemap.html",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}

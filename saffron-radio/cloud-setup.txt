@@ -1,0 +1,385 @@
+================================================================================
+《雪域林泉·藏红花电台》CloudBase 云函数配置说明
+cloudfunctions/radioApi  +  cloudfunctions/radioAsk
+================================================================================
+本文档只描述"部署前需要在云控制台做哪些配置"。不包含任何真实密钥。
+云函数代码本身不做任何自动部署、自动收费、自动开通操作。
+
+目录
+  0. 交付物清单
+  1. 数据库集合与字段
+  2. 数据库权限（database.rules.json，云函数专用）
+  3. 索引建议
+  4. 云函数环境变量
+  5. 安全接口权限（security.msgSecCheck）
+  6. 部署步骤
+  7. 本地测试步骤
+  8. 接口行为速查
+  9. 前端主代理需要知道的约定（consent 契约）
+ 10. 隐私与合规说明
+ 11. 故障排查
+
+================================================================================
+0. 交付物清单
+================================================================================
+cloudfunctions/radioApi/
+  index.js            9 个 action 的入口，openid 只从 getWXContext() 取
+  lib/errors.js       公开错误码白名单，未知异常统一折叠为 INTERNAL
+  lib/identity.js     加盐 SHA-256 的 openid 摘要
+  lib/validate.js     集数白名单、数值边界、长度上限、游标编解码
+  package.json        dependencies: wx-server-sdk
+  test/validate.test.js
+
+cloudfunctions/radioAsk/
+  index.js            consent 闸门 -> 限流 -> 入参安检 -> 模型 -> 出参安检 -> 落库
+  lib/errors.js
+  lib/identity.js
+  lib/validate.js     {question, episodeId} 契约
+  lib/rate.js         每日 20 / 每分钟 3 的纯函数决策
+  lib/security.js     msgSecCheck 封装，fail closed
+  lib/ai.js           https 出站、白名单、25s 超时、响应字节上限、JSON 校验
+  package.json        dependencies: wx-server-sdk
+  test/{validate,rate,security,ai}.test.js
+
+================================================================================
+1. 数据库集合与字段
+================================================================================
+云数据库需要 3 个集合。集合不会自动创建，请先在控制台手动新建。
+
+--------------------------------------------------------------------------------
+1.1 radio_users   （每个用户一条，_id = 加盐 openid 摘要）
+--------------------------------------------------------------------------------
+_id            string   主键，等于 openIdHash（sha256 十六进制，64 字符）
+openIdHash     string   同 _id，便于 where 查询
+consent        boolean  是否已明确同意把健康相关提问发送给模型（radioAsk 必需）
+consentAt      number   同意/撤回的时间戳(ms)，撤回时为 null
+profile        object   仅存 { displayName?: string(<=24) }，不放头像/手机号等
+progress       object   { [epId]: { position:number, duration:number, updatedAt:number } }
+likes          array    形如 ["ep02","ep04"]，元素只能是 ep01..ep04
+favorites      array    同上
+lastEpisode    string   最近播放集，缺省 "ep04"
+createdAt      number   ms
+updatedAt      number   ms
+
+说明：不存 openid 明文。openid -> sha256(RADIO_ID_SALT + ":" + openid) 之后才落库，
+      因此即使数据库被读取也无法反查微信身份。
+
+--------------------------------------------------------------------------------
+1.2 radio_questions （每条提问+回答）
+--------------------------------------------------------------------------------
+_id            string   自动生成，接口同时以 id 和 _id 返回
+owner          string   = openIdHash，所有查询/删除都以它做归属校验
+question       string   用户提问，<=500 字
+answer         string   模型回答，<=4000 字
+quote          string   模型寄语，<=500 字（可为空串）
+episodeId      string   ep01|ep02|ep03|ep04
+createdAt      number   ms（用于倒序分页）
+saved          boolean  是否被用户"收藏这句话"（toggleQuote 切换）
+updatedAt      number   ms
+
+--------------------------------------------------------------------------------
+1.3 radio_limits  （服务端限流计数器，客户端永远读不到）
+--------------------------------------------------------------------------------
+_id            string   日额度: "d_<openIdHash>_YYYY-MM-DD"
+                        分钟额度: "m_<openIdHash>_<minuteBucket>"
+openIdHash     string   归属
+kind           string   "day" | "minute"
+day / bucket   string/number  仅作可读性冗余
+count          number   已消费次数
+createdAt/updatedAt  number
+
+日额度按 UTC+8 自然日切分（跨本地零点归零）；分钟额度按 epoch 分钟分桶，
+桶天然过期，不需要定时清理（可另配 TTL 或定期归档）。
+
+================================================================================
+2. 数据库权限（database.rules.json，云函数专用）
+================================================================================
+要求：客户端不得直接读写任何集合，全部经由云函数。
+把下面的内容保存为项目根目录的 database.rules.json：
+
+{
+  "rules": {
+    "radio_users":     { ".read": false, ".write": false },
+    "radio_questions": { ".read": false, ".write": false },
+    "radio_limits":    { ".read": false, ".write": false }
+  }
+}
+
+要点：
+  * 云函数使用管理员权限访问数据库，不受上述规则限制；
+    因此 "deny all" 只拦截小程序端直连，不影响 radioApi / radioAsk。
+  * 如果控制台只提供"简易权限设置"，请对三个集合一律选
+    「仅创建者可读写」之外的最严格项 —— 即自定义安全规则并全部设为 false。
+  * 不要给 radio_users 开"仅创建者可读写"：小程序端拿不到 openIdHash，
+    这条规则只会造成误判，且会把 profile 暴露给端上。
+  * 前端不得使用 wx.cloud.database() 直连这 3 个集合，只能 wx.cloud.callFunction。
+
+================================================================================
+3. 索引建议
+================================================================================
+radio_questions:
+  * 复合索引 owner(升序) + createdAt(降序) + _id(降序)
+      -> 支撑 listQuestions 的游标分页
+  * 单字段索引 owner
+      -> 支撑 deleteHistory / deleteAccount 的批量删除
+
+radio_users:
+  * _id 即主键，无需额外索引
+
+radio_limits:
+  * _id 即主键，无需额外索引
+  * 可选：为 updatedAt 建索引，便于定期清理历史计数器
+
+================================================================================
+4. 云函数环境变量
+================================================================================
+在「云开发控制台 -> 云函数 -> 对应函数 -> 配置 -> 环境变量」中配置。
+所有密钥只存在于服务端，绝不下发到小程序。
+
+--------------------------------------------------------------------------------
+4.1 radioApi
+--------------------------------------------------------------------------------
+RADIO_ID_SALT       必填。>=16 字符的随机串。用于 openid 摘要加盐。
+                    一旦上线不要更换，否则所有用户状态会"丢失"（摘要变了）。
+                    生成示例：openssl rand -hex 32
+
+--------------------------------------------------------------------------------
+4.2 radioAsk
+--------------------------------------------------------------------------------
+RADIO_ID_SALT       必填。必须与 radioApi 使用完全相同的值，否则读不到同一个用户。
+AI_BASE_URL         必填。OpenAI 兼容端点的基础地址，必须是 https。
+                    例：https://api.openai.com/v1
+                    代码会自动拼接 /chat/completions。
+ALLOWED_AI_HOSTS    必填。允许出站的主机名白名单，逗号分隔，必须包含
+                    AI_BASE_URL 的 host，否则函数直接拒绝启动请求（AI_CONFIG）。
+                    例：api.openai.com
+AI_API_KEY          必填。模型服务密钥。仅用于 Authorization 头。
+AI_MODEL            必填。模型名，例：gpt-4o-mini
+RADIO_DAILY_LIMIT   可选，默认 20。每人每日提问上限。
+RADIO_MINUTE_LIMIT  可选，默认 3。每人每分钟提问上限。
+AI_TIMEOUT_MS       可选，默认 25000（25 秒）。
+AI_MAX_BYTES        可选，默认 262144（256KB）。响应体超过即中断并报错。
+AI_RESPONSE_FORMAT  可选。设为 json_object 时才发送 response_format 字段。
+                    部分兼容端点不支持该字段，默认不发送。
+
+安全约束（代码强制，无法通过请求绕过）：
+  * 协议必须是 https，http 一律拒绝；
+  * host 必须在 ALLOWED_AI_HOSTS 中，否则拒绝；
+  * AI_API_KEY / AI_MODEL / AI_BASE_URL 全部只读环境变量；
+    radioAsk 的入参只认 {question, episodeId}，客户端传 openid/model/baseUrl 会被忽略。
+
+================================================================================
+5. 安全接口权限（security.msgSecCheck）
+================================================================================
+radioAsk 在「模型调用前」和「模型返回后」各做一次内容安全检查，且 fail closed：
+只要接口没返回明确的 suggest=pass，就当作不通过，直接拒绝，绝不返回、绝不落库。
+
+需要开通的权限：
+  1. 微信公众平台 -> 开发管理 -> 接口设置：
+     确认小程序已具备「内容安全」相关接口的调用资格。
+  2. 云开发控制台 -> 云函数 -> radioAsk -> 配置 -> 云调用（openapi 权限）：
+     勾选 security.msgSecCheck。
+     未勾选时 cloud.openapi.security.msgSecCheck 会抛异常，
+     代码会捕获并返回 SEC_EXCEPTION -> 对外表现为 CONTENT_BLOCKED，属于预期内的
+     "fail closed"（不会放行，但会误伤正常提问，所以务必配置正确）。
+  3. 使用 version=2 时需要传调用方 openid。radioAsk 传的是
+     cloud.getWXContext().OPENID（平台注入的真实 openid），不是客户端字段。
+     若该用户近 2 小时内未使用过小程序，接口可能报错，同样按 fail closed 处理。
+
+注意：openid 明文只在这一处出现（作为 msgSecCheck 参数），不会写入数据库。
+
+================================================================================
+6. 部署步骤
+================================================================================
+6.1 准备
+    * 已开通云开发环境，记下环境 ID。
+    * 小程序端 cloud.init / wx.cloud.callFunction 指向同一环境。
+
+6.2 上传两个云函数
+    方式 A（开发者工具）：右键 cloudfunctions/radioApi -> 「上传并部署：云端安装依赖」，
+                         对 radioAsk 重复一次。
+    方式 B（CLI）：在项目根目录执行
+        npx @cloudbase/cli functions:deploy radioApi
+        npx @cloudbase/cli functions:deploy radioAsk
+    * 必须选择"云端安装依赖"，node_modules 不需要提交。
+    * 运行环境选择 Node 18 或更高（代码只依赖 Node 内置模块 + wx-server-sdk）。
+
+6.3 建集合与索引
+    按第 1、3 节在控制台创建 radio_users / radio_questions / radio_limits 及索引。
+
+6.4 应用权限规则
+    按第 2 节提交 database.rules.json。
+
+6.5 配置环境变量
+    按第 4 节配置。RADIO_ID_SALT 两个函数必须一致。
+
+6.6 配置云调用权限
+    按第 5 节为 radioAsk 勾选 security.msgSecCheck。
+
+6.7 小程序端调用方式
+    wx.cloud.callFunction({
+      name: 'radioApi',
+      data: { action: 'getState' }
+    })
+    wx.cloud.callFunction({
+      name: 'radioAsk',
+      data: { question: '藏红花素为什么是黄色的？', episodeId: 'ep02' }
+    })
+    * 请求体里不要传 openid，传了也会被忽略。
+
+6.8 关于费用
+    云函数、云数据库、msgSecCheck 以及模型 API 都可能产生费用。
+    本文档不执行任何开通或扣费动作，请在部署前自行确认计费方式。
+
+================================================================================
+7. 本地测试步骤
+================================================================================
+测试只覆盖纯逻辑（校验 / 限流 / 内容安全判定 / 模型响应解析），
+不连接云数据库、不调用微信接口、不发起任何真实网络请求，因此不需要任何凭证。
+
+    cd cloudfunctions/radioApi && npm test
+    cd cloudfunctions/radioAsk && npm test
+
+  * 使用 Node 内置 test runner（node --test），无需安装任何依赖即可运行。
+  * radioApi: 12 个用例（集数白名单、进度边界、长度上限、游标、摘要加盐、错误脱敏）。
+  * radioAsk: 38 个用例（入参契约、限流决策与边界、msgSecCheck fail closed、
+    端点白名单/超时/字节上限、JSON 解析与拒绝、错误不外泄）。
+  * 首次真正部署前如需在本地跑通 index.js，再执行 npm install 安装 wx-server-sdk；
+    测试不需要它。
+
+================================================================================
+8. 接口行为速查
+================================================================================
+统一响应信封：
+  成功  { ok: true,  ...payload }
+  失败  { ok: false, code: "...", message: "..." }
+  code 只会是 errors.js 里白名单中的值，未知异常一律 INTERNAL。
+
+--------------------------------------------------------------------------------
+radioApi
+--------------------------------------------------------------------------------
+action           入参                             成功返回
+login            { consent?: boolean,              { ok, loggedIn: true,
+                   profile?: {displayName?} }        profile:{displayName,consent,createdAt},
+                                                     state:{...} }
+getState         {}                                { ok, state }
+saveProgress     { episodeId, position, duration } { ok, state }
+toggleLike       { episodeId }                     { ok, state }
+toggleFavorite   { episodeId }                     { ok, state }
+listQuestions    { limit?, cursor? }               { ok, questions:[...], hasMore, cursor }
+toggleQuote      { questionId }                    { ok, saved: boolean }
+deleteHistory    {}                                { ok, deleted: true, questionsRemoved }
+deleteAccount    {}                                { ok, deleted: true, questionsRemoved, userRemoved }
+
+state = { progress: { epId: {position, duration, updatedAt} },
+          likes: string[], favorites: string[], lastEpisode: string }
+
+细节：
+  * login 不返回 openid（也不返回摘要），只返回 loggedIn:true 和最小 profile。
+    consent 是三态：不传=保持原值，true/false=显式写入（撤回时 consentAt 置 null）。
+  * saveProgress 用 path 级更新（progress.<epId>），两台设备播不同集不会互相覆盖；
+    同一集重复写以最后一次为准。position/duration 必须是有限数字，
+    duration ∈ (0, 21600]，position ∈ [0, duration+5]（5 秒为播放器取整容差）。
+  * toggleLike / toggleFavorite / toggleQuote 走数据库事务，避免并发覆盖；
+    收藏数组元素只能是 ep01..ep04。
+  * listQuestions：limit 默认 20、最大 50；返回 questions 按 createdAt 倒序，
+    hasMore 为 true 时同时返回 cursor，翻页时原样回传即可。
+    单条记录字段：id / _id / question / answer / quote / episodeId / createdAt / saved。
+  * deleteHistory / deleteAccount 只删除 owner == 调用者摘要 的记录；
+    deleteAccount 额外删除 radio_users 本人记录和 radio_limits 计数器。
+
+--------------------------------------------------------------------------------
+radioAsk
+--------------------------------------------------------------------------------
+入参：{ question: string(1..500), episodeId: 'ep01'|'ep02'|'ep03'|'ep04' }
+成功：{ ok: true, answer, quote, questionId, episodeId, createdAt,
+        remaining: { daily, minute } }
+
+执行顺序（任一环节失败都不会落库、不会返回半成品）：
+  1. 校验入参（集数白名单、长度上限、控制字符）
+  2. openid 只取 getWXContext()，加盐摘要
+  3. consent 闸门：radio_users.consent 必须为 true，否则 CONSENT_REQUIRED
+  4. 限流（事务内读改写）：每日 20 / 每分钟 3，超限返回 RATE_LIMITED
+  5. msgSecCheck(question) —— 不通过即 CONTENT_BLOCKED，且不计费
+  6. 调用模型（https + 白名单 + 25s 超时 + 256KB 上限）
+     失败：回滚第 4 步的额度，返回 AI_TIMEOUT / AI_UPSTREAM / AI_BAD_RESPONSE
+  7. msgSecCheck(answer + quote) —— 不通过即 CONTENT_BLOCKED，不落库
+  8. 落库 radio_questions，saved 初始为 false
+
+模型契约：system 提示词固定在 lib/ai.js（品牌语气 + 安全规则），
+要求只输出 {"answer": "...", "quote": "..."}。
+解析会剥离代码块围栏并校验字段类型与长度；不满足即 AI_BAD_RESPONSE，
+不会用兜底文案冒充模型回答，也不会保存这条记录。
+
+品牌规则要点（已写死在服务端，客户端无法改写）：
+  * 温暖、专业、从容；
+  * 不杜撰产地、认证或医疗疗效；
+  * 解释黄色与藏红花素的关系，但明确说明颜色不能用于鉴真；
+  * 不针对个人按"根"给医疗剂量，孕期/哺乳期/用药人群建议咨询医生；
+  * 先给科学信息，再以温暖的总结收尾。
+
+================================================================================
+9. 前端主代理需要知道的约定（consent 契约）
+================================================================================
+这是 radioAsk 的硬性前置条件，请前端主代理按此实现：
+
+  1. 后端要求 radio_users.consent === true，否则 radioAsk 一律返回
+     { ok:false, code:'CONSENT_REQUIRED' }。后端不做任何隐式默认同意。
+
+  2. 前端必须在用户"明确同意"之后，显式调用一次：
+        wx.cloud.callFunction({
+          name: 'radioApi',
+          data: { action: 'login', consent: true }
+        })
+     登录时若不传 consent，后端保持原值不变（不会自动变 true）。
+
+  3. 用户撤回同意：调用 { action:'login', consent:false }，
+     之后 radioAsk 立即恢复为 CONSENT_REQUIRED。
+
+  4. 用户健康相关的敏感信息只有在上述明确同意之后才会被发送给模型。
+     同意文案由前端负责展示与获取，后端只负责校验与记录。
+
+  5. 建议前端在首次提问前判断 state.profile.consent：
+     为 false 时先弹同意说明，同意后再 login 并继续提问。
+
+  6. 前端不要缓存或自行拼接 openid；后端只认平台注入的身份。
+
+================================================================================
+10. 隐私与合规说明
+================================================================================
+  * 身份：openid 全程不落库，只存加盐 sha256 摘要；摘要只用于数据归属。
+  * 数据最小化：profile 只保留 displayName（可选）与 consent 状态。
+  * 用户可自助删除：deleteHistory 清空提问记录；deleteAccount 连带删除
+    用户资料、进度、收藏与限流计数器。
+  * 内容安全：提问与回答双向过 msgSecCheck，任一环节不通过即拦截。
+  * 健康信息：涉及个人健康的问题属于敏感信息，必须经用户明确同意才发送给模型；
+    模型侧提示词禁止给出个人化的医疗剂量建议，并引导孕期/哺乳期/用药人群就医。
+  * 出站管控：仅允许 https + 白名单主机的模型端点；密钥不出服务端；
+    错误信息脱敏，不向前端暴露上游响应体、密钥或数据库细节。
+
+================================================================================
+11. 故障排查
+================================================================================
+CONSENT_REQUIRED
+  用户未同意或前端没调用 login(consent:true)。见第 9 节。
+
+RATE_LIMITED
+  触达每日/每分钟上限。确认 RADIO_DAILY_LIMIT / RADIO_MINUTE_LIMIT，
+  并检查 radio_limits 中对应 _id 的 count 是否异常偏高。
+
+CONTENT_BLOCKED（stage: input / output）
+  内容安全未通过，或 msgSecCheck 未被授权（此时同样是 fail closed）。
+  优先检查第 5 节的云调用权限是否已勾选。
+
+AI_CONFIG
+  AI_BASE_URL / AI_API_KEY / AI_MODEL / ALLOWED_AI_HOSTS 缺失，
+  或 AI_BASE_URL 不是 https，或 host 不在白名单内。
+
+AI_TIMEOUT / AI_UPSTREAM / AI_BAD_RESPONSE
+  模型端超时、非 2xx、响应体非 JSON、或 JSON 不符合 {answer, quote} 契约。
+  这类失败都会回滚限流额度，且不会写入 radio_questions。
+
+INTERNAL
+  未预期的异常（例如 RADIO_ID_SALT 未配置或短于 16 字符）。
+  详细信息只记录在云函数日志中，不返回给客户端。
+================================================================================

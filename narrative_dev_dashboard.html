@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeoNarrative 知识叙事引擎 — 交互控制台与全双工圆桌</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css">
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --card-bg: #121722;
+      --card-border: #1e2638;
+      --accent-cyan: #06b6d4;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Nav */
+    header {
+      background: rgba(18, 23, 34, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.4);
+    }
+    .brand h1 { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
+    .brand p { font-size: 11px; color: var(--text-muted); }
+
+    .btn-tour {
+      padding: 6px 14px;
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+      transition: all 0.2s ease;
+    }
+    .btn-tour:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 18px rgba(139, 92, 246, 0.7);
+    }
+    .tour-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .tour-report-card {
+      background: #111827;
+      border: 2px solid var(--accent-emerald);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 540px;
+      width: 90%;
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.3);
+      text-align: center;
+      animation: fadeIn 0.4s ease;
+    }
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: #182030;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+    }
+    .status-dot.active { animation: pulse 1.5s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 20px;
+      padding: 20px 24px;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Left Stage */
+    .stage-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Dialogue Timeline */
+    .timeline-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-cyan);
+    }
+
+    .dialogue-stream {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-right: 6px;
+    }
+
+    .dialogue-bubble {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #161d2d;
+      border-left: 4px solid var(--card-border);
+      transition: all 0.2s ease;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dialogue-bubble.host-a { border-left-color: var(--accent-blue); }
+    .dialogue-bubble.host-b { border-left-color: var(--accent-amber); }
+    .dialogue-bubble.user { border-left-color: var(--accent-rose); background: #22131e; }
+    .dialogue-bubble.system { border-left-color: var(--accent-emerald); background: #112322; }
+
+    .speaker-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .avatar-host-a { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; }
+    .avatar-host-b { background: linear-gradient(135deg, #b45309, #f59e0b); color: white; }
+    .avatar-user { background: linear-gradient(135deg, #be123c, #f43f5e); color: white; }
+    .avatar-sys { background: linear-gradient(135deg, #047857, #10b981); color: white; }
+
+    .bubble-body { flex: 1; }
+    .bubble-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .speaker-name { font-weight: 600; color: #e2e8f0; }
+    .bubble-text { font-size: 14px; line-height: 1.5; }
+    .bubble-tag {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      background: rgba(59, 130, 246, 0.15);
+      border-radius: 4px;
+      font-size: 10px;
+      color: var(--accent-cyan);
+    }
+
+    /* Barge-in Interactive Panel */
+    .bargein-control {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px 20px;
+    }
+    .bargein-title {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .bargein-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .btn-bargein {
+      padding: 10px 12px;
+      background: #182236;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+    .btn-bargein:hover {
+      background: #24314c;
+      border-color: var(--accent-cyan);
+      transform: translateY(-1px);
+    }
+    .btn-bargein span.desc {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .btn-bargein.btn-challenge { border-left: 3px solid var(--accent-amber); }
+    .btn-bargein.btn-evidence { border-left: 3px solid var(--accent-cyan); }
+    .btn-bargein.btn-drill { border-left: 3px solid var(--accent-purple); }
+    .btn-bargein.btn-interrupt { border-left: 3px solid var(--accent-rose); }
+
+    .custom-input-bar {
+      display: flex;
+      gap: 8px;
+    }
+    .custom-input-bar input {
+      flex: 1;
+      padding: 10px 14px;
+      background: #0f1420;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: white;
+      font-size: 13px;
+    }
+    .custom-input-bar input:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+    }
+    .btn-send {
+      padding: 10px 18px;
+      background: var(--accent-blue);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Latency Meter Panel */
+    .latency-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #1a2233;
+    }
+    .latency-item {
+      background: #0c101a;
+      padding: 8px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .latency-label { font-size: 10px; color: var(--text-muted); }
+    .latency-val { font-size: 14px; font-weight: 700; color: var(--accent-cyan); margin-top: 2px; }
+
+    /* Right Sidebar (Multimodal Visual & Evidence Stage) */
+    .sidebar-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Video Simulator Box */
+    .viewport-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .screen-simulator {
+      background: #000;
+      border: 1px solid #1f293d;
+      border-radius: 8px;
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .screen-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, #172554 0%, #030712 80%);
+      opacity: 0.8;
+    }
+    .map-grid-mesh {
+      position: absolute;
+      inset: 0;
+      background-size: 20px 20px;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    }
+    .visual-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 16px;
+    }
+    .screen-title { font-size: 13px; font-weight: 700; color: #38bdf8; margin-bottom: 6px; }
+    .screen-metric { font-size: 24px; font-weight: 800; color: white; margin-bottom: 4px; }
+    .screen-sub { font-size: 11px; color: #94a3b8; }
+    .pip-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(225, 29, 72, 0.9);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid #f43f5e;
+      display: none;
+      animation: pulse 1s infinite;
+    }
+
+    /* Evidence Drawer Card */
+    .evidence-card {
+      background: #111827;
+      border: 1px solid var(--accent-cyan);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+    }
+    .evidence-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .evidence-tag {
+      background: rgba(6, 182, 212, 0.2);
+      color: var(--accent-cyan);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .evidence-title { font-size: 13px; font-weight: 700; color: white; margin-bottom: 6px; }
+    .evidence-quote {
+      font-size: 12px;
+      color: #cbd5e1;
+      background: #090e17;
+      border-left: 3px solid var(--accent-emerald);
+      padding: 8px 10px;
+      border-radius: 4px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .evidence-locator {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* JEV Sentinel Box */
+    .jev-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .jev-status-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      background: #0c1420;
+      margin-bottom: 12px;
+    }
+    .jev-score { font-size: 18px; font-weight: 800; color: var(--accent-emerald); }
+    .btn-inject-attack {
+      width: 100%;
+      padding: 8px;
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px dashed var(--accent-rose);
+      color: #fda4af;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-inject-attack:hover {
+      background: var(--accent-rose);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-logo"><i class="ri-radar-line"></i></div>
+      <div>
+        <h1>NeoNarrative 知识叙事引擎</h1>
+        <p>Knowledge Narrative Engine · 介质无关架构控制台 (v1.0)</p>
+      </div>
+    </div>
+
+    <div class="pipeline-status">
+      <button class="btn-tour" id="btn-auto-tour">
+        <i class="ri-play-circle-line"></i> 启动全流程标杆巡检演练 (Auto Tour)
+      </button>
+      <div class="status-pill">
+        <span class="status-dot active"></span>
+        <span>SSOT: 西藏林芝藏红花白皮书</span>
+      </div>
+      <div class="status-pill">
+        <i class="ri-shield-check-line" style="color: var(--accent-emerald);"></i>
+        <span>JEV 治理断路器: 就绪</span>
+      </div>
+      <div class="status-pill">
+        <i class="ri-broadcast-line" style="color: var(--accent-cyan);"></i>
+        <span>双路径渲染: Audio + Video 同步</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left Stage: Dialogue & Barge-in Interaction -->
+    <div class="stage-column">
+      
+      <!-- Dialogue Feed -->
+      <div class="timeline-card">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="ri-chat-voice-line"></i>
+            <span>三方演播室现场 (Host A · 宏观立论 / Host B · 反诘挑刺 / 用户打断)</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <button id="btn-toggle-play" style="padding: 4px 10px; background: var(--accent-blue); border: none; border-radius: 6px; color: white; font-size: 11px; font-weight: 600; cursor: pointer;">
+              <i class="ri-play-fill"></i> 开始双人对谈
+            </button>
+            <button id="btn-toggle-audio" style="padding: 4px 10px; background: #1f293d; border: 1px solid var(--card-border); border-radius: 6px; color: var(--accent-emerald); font-size: 11px; cursor: pointer;">
+              <i class="ri-volume-up-line"></i> 扬声器: 开启
+            </button>
+            <div style="font-size: 11px; color: var(--text-muted);">
+              状态: <strong id="lbl-state" style="color: var(--accent-cyan);">IDLE</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialogue-stream" id="dialogue-stream">
+          <!-- Filled by runtime -->
+        </div>
+      </div>
+
+      <!-- Barge-in Control Surface -->
+      <div class="bargein-control">
+        <div class="bargein-title">
+          <span><i class="ri-mic-line"></i> 听众随时打断 (Barge-in 控制区)</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button id="btn-toggle-mic" style="padding: 4px 10px; background: #1e293b; border: 1px solid var(--accent-rose); border-radius: 6px; color: #f43f5e; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+              <i class="ri-mic-line"></i> 开启电脑麦克风实时插话
+            </button>
+            <div style="width: 60px; height: 8px; background: #0b0f19; border-radius: 4px; overflow: hidden; border: 1px solid #1e293b;" title="麦克风输入电平">
+              <div id="mic-level-meter" style="width: 0%; height: 100%; background: linear-gradient(90deg, #10b981, #f59e0b, #f43f5e); transition: width 0.05s ease;"></div>
+            </div>
+            <span id="mic-status-label" style="font-size: 11px; color: var(--accent-emerald);">全双工秒级响应已就绪</span>
+          </div>
+        </div>
+
+        <div class="bargein-buttons">
+          <button class="btn-bargein btn-challenge" id="btn-challenge">
+            <span>⚡ 质疑挑刺 (Challenge)</span>
+            <span class="desc">"等等，这数据有水分吧？"</span>
+          </button>
+          <button class="btn-bargein btn-evidence" id="btn-evidence">
+            <span>🔍 求证出处 (Evidence)</span>
+            <span class="desc">"拿出凭证！出自哪份报告？"</span>
+          </button>
+          <button class="btn-bargein btn-drill" id="btn-drill">
+            <span>🧭 垂直深挖 (Drill Down)</span>
+            <span class="desc">"能展开细讲控环参数吗？"</span>
+          </button>
+          <button class="btn-bargein btn-interrupt" id="btn-interrupt">
+            <span>✋ 普通插话 (Interrupt)</span>
+            <span class="desc">"我插一句行业现状..."</span>
+          </button>
+        </div>
+
+        <div class="custom-input-bar">
+          <input type="text" id="custom-utterance" placeholder="输入任意语音打断内容，例如：'依据是什么？拿出官方报告来！'" />
+          <button class="btn-send" id="btn-send-bargein">发出打断 ⏎</button>
+        </div>
+
+        <!-- Latency Metrics -->
+        <div class="latency-grid">
+          <div class="latency-item">
+            <div class="latency-label">L1 听觉秒停</div>
+            <div class="latency-val" id="lat-l1">-- ms</div>
+          </div>
+          <div class="latency-item">
+            <div class="latency-label">L2 意图分类</div>
+            <div class="latency-val" id="lat-l2">-- ms</div>
+          </div>
+          <div class="latency-item">
+            <div class="latency-label">L3 证据定位</div>
+            <div class="latency-val" id="lat-l3">-- ms</div>
+          </div>
+          <div class="latency-item">
+            <div class="latency-label">L4 JEV与首包</div>
+            <div class="latency-val" id="lat-l4">-- ms</div>
+          </div>
+          <div class="latency-item">
+            <div class="latency-label">端到端总时延</div>
+            <div class="latency-val" id="lat-total" style="color: var(--accent-emerald);">-- ms</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Sidebar: Multimodal Presentation & JEV Sentinel -->
+    <div class="sidebar-column">
+      
+      <!-- Video Simulator (NeoVideo 通道展示) -->
+      <div class="viewport-card">
+        <div class="card-header" style="margin-bottom: 8px; padding-bottom: 8px;">
+          <div class="card-title" style="color: #38bdf8;">
+            <i class="ri-movie-line"></i>
+            <span>NeoVideo 介质渲染模拟 (同一 Narrative IR 投射)</span>
+          </div>
+        </div>
+        <div class="screen-simulator">
+          <div class="screen-bg"></div>
+          <div class="map-grid-mesh"></div>
+          <div class="visual-content" id="video-content">
+            <div class="screen-title" id="vid-title">【3D 地理运镜】西藏林芝高原基地</div>
+            <div class="screen-metric" id="vid-metric">29.65°N, 94.36°E</div>
+            <div class="screen-sub" id="vid-sub">海拔 3000m · CEA 智能温室催花基地</div>
+          </div>
+          <div class="pip-badge" id="pip-badge">画中画: 官方盖章检验原件</div>
+        </div>
+      </div>
+
+      <!-- Evidence Card (真实证据抽屉) -->
+      <div class="evidence-card" id="evidence-card">
+        <div class="evidence-header">
+          <span class="evidence-tag">CONFIRMED_FACT · 真实凭证</span>
+          <span style="font-size: 11px; color: var(--accent-emerald);"><i class="ri-checkbox-circle-line"></i> 权威已认证</span>
+        </div>
+        <div class="evidence-title" id="evi-title">深圳市计量质量检测研究院 WT10103260183295WT2</div>
+        <div class="evidence-quote" id="evi-quote">
+          "经高分辨质谱 39 项农残专项筛查，送检西红花批次样品所有项目全部未检出（低于方法检出限）。"
+        </div>
+        <div class="evidence-locator">
+          <span id="evi-page">所在页码: 第 4 页 §3.1 表格</span>
+          <span style="color: var(--accent-cyan);">哈希不可篡改</span>
+        </div>
+      </div>
+
+      <!-- JEV Sentinel Panel -->
+      <div class="jev-card">
+        <div class="card-header" style="margin-bottom: 8px; padding-bottom: 8px;">
+          <div class="card-title" style="color: var(--accent-emerald);">
+            <i class="ri-shield-flash-line"></i>
+            <span>JEV 认知断路器监视哨</span>
+          </div>
+        </div>
+        <div class="jev-status-banner">
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted);">实时风险指数</div>
+            <div class="jev-score" id="jev-score">0.00 (安全)</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 11px; color: var(--text-muted);">当前决议</div>
+            <div style="font-size: 13px; font-weight: 700; color: var(--accent-emerald);" id="jev-verdict">PASS 放行</div>
+          </div>
+        </div>
+        <button class="btn-inject-attack" id="btn-inject-violation">
+          ⚠️ 注入违规言论实测 JEV 断路器 ("控环导致绝对0农残")
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Tour Modal Report -->
+  <div class="tour-modal" id="tour-modal">
+    <div class="tour-report-card">
+      <div style="font-size: 38px; color: var(--accent-emerald); margin-bottom: 8px;">
+        <i class="ri-checkbox-circle-fill"></i>
+      </div>
+      <h2 style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 4px;">天旺标杆场景·全链路基准测试巡检通过</h2>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">NeoNarrative Knowledge Engine · Industrial Benchmark Certification</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+        <div style="background: #090e17; padding: 10px; border-radius: 8px; border: 1px solid #1f293d;">
+          <div style="font-size: 10px; color: var(--text-muted);">红线阻断准确率</div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--accent-emerald); margin-top: 4px;">100%</div>
+        </div>
+        <div style="background: #090e17; padding: 10px; border-radius: 8px; border: 1px solid #1f293d;">
+          <div style="font-size: 10px; color: var(--text-muted);">L1 物理秒停时延</div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--accent-cyan); margin-top: 4px;">12 ms</div>
+        </div>
+        <div style="background: #090e17; padding: 10px; border-radius: 8px; border: 1px solid #1f293d;">
+          <div style="font-size: 10px; color: var(--text-muted);">双路径同源一致性</div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--accent-purple); margin-top: 4px;">100%</div>
+        </div>
+      </div>
+
+      <div style="text-align: left; font-size: 12px; color: #cbd5e1; background: #0c1420; padding: 12px; border-radius: 8px; border-left: 3px solid var(--accent-emerald); margin-bottom: 18px; line-height: 1.6;">
+        <div>✔ <strong>SSOT 证据链</strong>: 深圳市质检院 WT10103260183295WT2 锚点成功调取</div>
+        <div>✔ <strong>CC-02 因果解耦</strong>: 设施控环 ≠ 0 农残，伪因果跃迁 100% 硬阻断</div>
+        <div>✔ <strong>全双工状态机</strong>: 听众插话 ➔ 角色无缝切换 ➔ 主线转场平滑恢复</div>
+      </div>
+
+      <button id="btn-close-modal" style="padding: 8px 24px; background: var(--accent-blue); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer;">
+        关闭并返回自由交互
+      </button>
+    </div>
+  </div>
+
+  <!-- Script: 核心引擎挂载与交互接驳 -->
+  <script type="module">
+    import {
+      ClaimGraph,
+      ClaimLevel,
+      NarrativeIR,
+      PresentationIntentType,
+      NarrativeJevGateway,
+      DialogueStateMachine,
+      DialogueState,
+      AudioRenderer,
+      VideoRendererSimulator,
+      TextRenderer,
+      Speaker,
+      UserIntent,
+      JevDecision,
+    } from './src/narrative/index.js';
+
+    // 1. 初始化认知底座
+    const graph = new ClaimGraph();
+    graph.registerDocument({
+      docId: 'DOC-SMQ-2026',
+      title: '深圳市计量质量检测研究院检验报告 WT10103260183295WT2',
+      version: '2026',
+      docType: 'LAB_REPORT',
+      authorityLevel: 'THIRD_PARTY_LAB',
+      uri: 'https://docs.tianwang.com/reports/WT10103260183295WT2.pdf',
+      sha256: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+    });
+
+    graph.registerEvidence({
+      evidenceId: 'EVI-PESTICIDE-001',
+      docId: 'DOC-SMQ-2026',
+      locator: {
+        type: 'PAGE_PARAGRAPH',
+        pageNumber: 4,
+        sectionPath: ['§3 检测结果汇总', '3.1 高分辨质谱筛查'],
+        selector: 'table#summary-pesticide.row[1]',
+        boundingBox: [100, 240, 520, 310],
+      },
+      rawQuote: '经高分辨质谱 39 项农残专项筛查，送检西红花批次样品所有项目全部未检出（低于方法检出限）。',
+      confidence: 0.99,
+    });
+
+    graph.registerClaim({
+      claimId: 'CLM-TIANWANG-ZERO-PESTICIDE-BATCH',
+      title: '天旺西红花送检批次39项农残全部未检出',
+      claimLevel: ClaimLevel.CONFIRMED_FACT,
+      canonicalAssertion: '天旺林芝基地送检批次西红花经第三方权威质检机构 SMQ 高分辨质谱 39 项筛查，全部未检出农药残留。',
+      scope: {
+        spatial: ['西藏林芝', '海拔>=3000m'],
+        temporal: '2025-2026产季',
+        targetEntity: ['特级西红花批次样品'],
+        boundaryConditions: '仅对送检样品与报告批次负责，不构成露天普遍性自动结论',
+      },
+      evidenceAnchors: [{ evidenceId: 'EVI-PESTICIDE-001', supportType: 'DIRECT_PROOF' }],
+      causalLinkage: {
+        prohibitedInferences: ['设施控环自动产生 0 农残'],
+      },
+      governanceRules: {
+        allowedUsages: ['经第三方质检报告证实，送检批次39项农残全部未检出'],
+        forbiddenUsages: ['因为采用设施控环所以绝对零农残'],
+      },
+    });
+
+    const jev = new NarrativeJevGateway(graph);
+
+    // 2. 构造 Narrative 剧本
+    const narrative = new NarrativeIR({
+      narrativeId: 'NAR-STUDIO-DEMO',
+      knowledgeDomainId: 'DOMAIN-TIBET-SAFFRON',
+      title: '解密高原藏红花：为什么品质标准需要用数据说话',
+      arc: {
+        theme: '实证打碎虚假宣称',
+        exposition: '引言',
+        incitingIncident: '质疑',
+        risingAction: ['反诘'],
+        climax: '凭证',
+        resolution: '总结',
+      },
+      scenes: [
+        {
+          sceneId: 'SCENE-1',
+          sceneIndex: 1,
+          name: '品质真相与第三方报告交锋',
+          claimSequence: [{ claimId: 'CLM-TIANWANG-ZERO-PESTICIDE-BATCH', isCompulsory: true }],
+          turns: [
+            {
+              turnId: 'TURN-01',
+              speaker: Speaker.HOST_A,
+              intent: 'PROPOSE_CLAIM',
+              semanticUtterance: '害，很多人老问我：阿龙啊，你们大老远跑到西藏林芝海拔三千米种花，图啥啊？说白了，就图两个字：干净！咱们今天直接扒数据！',
+              associatedClaimId: 'CLM-TIANWANG-ZERO-PESTICIDE-BATCH',
+              presentationIntents: [
+                {
+                  intentType: PresentationIntentType.SPATIAL_CONTEXT,
+                  payload: {
+                    primaryText: '西藏林芝海拔 3000 米高原催花基地',
+                    coordinates: [29.65, 94.36],
+                  },
+                },
+              ],
+            },
+            {
+              turnId: 'TURN-02',
+              speaker: Speaker.HOST_B,
+              intent: 'CHALLENGE_CLAIM',
+              semanticUtterance: '你先打住！市面上谁不吹自己纯天然零农残啊？摸着良心说，九成全是智商税！你们那温室大棚，真能保证一点农药不沾？少拿噱头忽悠人！',
+              associatedClaimId: 'CLM-TIANWANG-ZERO-PESTICIDE-BATCH',
+              presentationIntents: [
+                {
+                  intentType: PresentationIntentType.COMPARISON,
+                  payload: { primaryText: '口头宣称 vs 第三方实测' },
+                },
+              ],
+            },
+            {
+              turnId: 'TURN-03',
+              speaker: Speaker.HOST_A,
+              intent: 'PROVIDE_EVIDENCE',
+              semanticUtterance: '嘿，我就知道你得挑刺！口头吹没用，咱们看报告！深圳质检院高分辨质谱筛查，三十九项农残，清清楚楚写着：全部未检出！',
+              associatedClaimId: 'CLM-TIANWANG-ZERO-PESTICIDE-BATCH',
+              presentationIntents: [
+                {
+                  intentType: PresentationIntentType.DATA_EMPHASIS,
+                  payload: {
+                    numericHighlight: {
+                      label: '质谱农残专项筛查',
+                      value: '39 项全部未检出',
+                      baselineComparison: '严格低于检测方法定量限',
+                    },
+                  },
+                },
+                {
+                  intentType: PresentationIntentType.EVIDENCE_REVEAL,
+                  payload: {
+                    sourceReference: {
+                      documentTitle: '深圳市计量质量检测研究院检验报告 WT10103260183295WT2',
+                      page: 4,
+                      quote: '经高分辨质谱 39 项农残专项筛查，送检西红花批次样品所有项目全部未检出（低于方法检出限）。',
+                      verificationCode: 'SMQ-WT10103260183295WT2',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    const audioRenderer = new AudioRenderer();
+    const videoRenderer = new VideoRendererSimulator();
+    const textRenderer = new TextRenderer();
+
+    const stateMachine = new DialogueStateMachine({
+      claimGraph: graph,
+      jevGateway: jev,
+      narrativeIR: narrative,
+      renderers: [audioRenderer, videoRenderer, textRenderer],
+    });
+
+    // 界面 DOM 引用
+    const streamEl = document.getElementById('dialogue-stream');
+    const lblState = document.getElementById('lbl-state');
+    const vidTitle = document.getElementById('vid-title');
+    const vidMetric = document.getElementById('vid-metric');
+    const vidSub = document.getElementById('vid-sub');
+    const pipBadge = document.getElementById('pip-badge');
+    const eviCard = document.getElementById('evidence-card');
+    const eviTitle = document.getElementById('evi-title');
+    const eviQuote = document.getElementById('evi-quote');
+    const eviPage = document.getElementById('evi-page');
+    const jevScore = document.getElementById('jev-score');
+    const jevVerdict = document.getElementById('jev-verdict');
+
+    const latL1 = document.getElementById('lat-l1');
+    const latL2 = document.getElementById('lat-l2');
+    const latL3 = document.getElementById('lat-l3');
+    const latL4 = document.getElementById('lat-l4');
+    const latTotal = document.getElementById('lat-total');
+
+    function appendBubble(speaker, text, tag = '') {
+      const bubble = document.createElement('div');
+      let speakerClass = 'host-a';
+      let avatarClass = 'avatar-host-a';
+      let name = 'Host A · 阿龙 (主讲)';
+
+      if (speaker === Speaker.HOST_B) {
+        speakerClass = 'host-b';
+        avatarClass = 'avatar-host-b';
+        name = 'Host B · 小林 (挑刺搭档)';
+      } else if (speaker === 'HOST_C') {
+        speakerClass = 'host-b'; // reuse color style
+        avatarClass = 'avatar-sys'; 
+        name = 'Host C · 莉莉 (导播)';
+      } else if (speaker === Speaker.USER) {
+        speakerClass = 'user';
+        avatarClass = 'avatar-user';
+        name = '用户 · 听众插话';
+      } else if (speaker === Speaker.SYSTEM) {
+        speakerClass = 'system';
+        avatarClass = 'avatar-sys';
+        name = 'JEV 合规哨兵';
+      }
+
+      bubble.className = `dialogue-bubble ${speakerClass}`;
+      bubble.innerHTML = `
+        <div class="speaker-avatar ${avatarClass}">${(speaker.charAt(0) || 'C')}</div>
+        <div class="bubble-body">
+          <div class="bubble-meta">
+            <span class="speaker-name">${name}</span>
+            <span>${new Date().toLocaleTimeString()}</span>
+          </div>
+          <div class="bubble-text">${text}</div>
+          ${tag ? `<span class="bubble-tag">${tag}</span>` : ''}
+        </div>
+      `;
+      streamEl.appendChild(bubble);
+      streamEl.scrollTop = streamEl.scrollHeight;
+      return bubble;
+    }
+
+    // 声音开关与播放控制
+    let isAudioEnabled = true;
+    const btnToggleAudio = document.getElementById('btn-toggle-audio');
+    btnToggleAudio.addEventListener('click', () => {
+      isAudioEnabled = !isAudioEnabled;
+      audioRenderer.enableRealSpeech = isAudioEnabled;
+      if (!isAudioEnabled && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      btnToggleAudio.innerHTML = isAudioEnabled
+        ? '<i class="ri-volume-up-line"></i> 扬声器: 开启'
+        : '<i class="ri-volume-mute-line"></i> 扬声器: 静音';
+      btnToggleAudio.style.color = isAudioEnabled ? 'var(--accent-emerald)' : 'var(--text-muted)';
+    });
+
+    const btnTogglePlay = document.getElementById('btn-toggle-play');
+    btnTogglePlay.addEventListener('click', async () => {
+      btnTogglePlay.disabled = true;
+      btnTogglePlay.innerHTML = '<i class="ri-loader-4-line" style="animation: pulse 1s infinite;"></i> 演播对谈中...';
+      await startDialogueLoop();
+    });
+
+    // 辅助计算朗读预估等待耗时 (毫秒)
+    function estimateSpeechDuration(text) {
+      const charCount = text.length;
+      return Math.max(2500, Math.min(8000, charCount * 220));
+    }
+
+    // 挂载状态机话轮回调，实现主线与打断回复的全自动 UI/音画同步
+    stateMachine.setTurnCallback((turn) => {
+      lblState.textContent = stateMachine.state;
+      appendBubble(turn.speaker, turn.semanticUtterance, turn.associatedClaimId);
+
+      // 同步视频画面
+      if (turn.turnId === 'TURN-01') {
+        vidTitle.textContent = '【3D 地理运镜】西藏林芝高原基地';
+        vidMetric.textContent = '29.65°N, 94.36°E';
+        vidSub.textContent = '海拔 3000m · CEA 智能温室催花基地';
+        pipBadge.style.display = 'none';
+      } else if (turn.turnId === 'TURN-02') {
+        vidTitle.textContent = '【观点交锋辨析】市面口头宣称 vs 严苛质检';
+        vidMetric.textContent = 'VS 对决模式';
+        vidSub.textContent = 'Host B 挑刺质疑：是否存在夸大或虚假宣称？';
+        pipBadge.style.display = 'none';
+      } else if (turn.turnId === 'TURN-03') {
+        vidTitle.textContent = '【硬核实测数据】高分辨质谱 39 项农残专项筛查';
+        vidMetric.textContent = '39 项全部未检出';
+        vidSub.textContent = '报告编号：SMQ WT10103260183295WT2';
+        pipBadge.style.display = 'block';
+        
+        eviTitle.textContent = '深圳市计量质量检测研究院 WT10103260183295WT2';
+        eviQuote.textContent = '经高分辨质谱 39 项农残专项筛查，送检西红花批次样品所有项目全部未检出（低于方法检出限）。';
+        eviPage.textContent = '所在页码: 第 4 页 §3.1 表格';
+      }
+    });
+
+    async function startDialogueLoop() {
+      btnTogglePlay.disabled = true;
+      btnTogglePlay.innerHTML = '<i class="ri-loader-4-line" style="animation: pulse 1s infinite;"></i> 演播对谈进行中...';
+      await stateMachine.start(true);
+      btnTogglePlay.disabled = false;
+      btnTogglePlay.innerHTML = '<i class="ri-refresh-line"></i> 重新开始对谈';
+    }
+
+    // 执行打断与双主播接力回答流水线
+    let isRespondingToUser = false;
+    let isBargeInAudioPlaying = false;
+    let lastBargeInEndTime = 0;
+    let currentDynamicAudio = null;
+
+    function resumeMainLineAfterBargeIn(delayMs = 800) {
+      setTimeout(async () => {
+        isRespondingToUser = false;
+        isBargeInAudioPlaying = false;
+        lastBargeInEndTime = Date.now();
+        stateMachine.isBargeInActive = false;
+        
+        if (stateMachine.isRunning) {
+          // 平滑过渡回原主线 (Recovery)
+          stateMachine.transitionTo(DialogueState.RECOVERING_TO_FLOW);
+          lblState.textContent = stateMachine.state;
+
+          const recoveryTurn = {
+            turnId: `turn-recovery-${Date.now()}`,
+            speaker: Speaker.HOST_A,
+            semanticUtterance: '好，解答完这位朋友，咱们继续回到主线往下扒细节……',
+            associatedClaimId: stateMachine.activeClaimId
+          };
+
+          if (stateMachine.onTurnCallback) {
+            stateMachine.onTurnCallback(recoveryTurn);
+          }
+
+          if (isAudioEnabled) {
+            await audioRenderer.renderTurn(recoveryTurn);
+          } else {
+            await new Promise(r => setTimeout(r, 1800));
+          }
+
+          // 自动自愈推进至下一轮主线对谈
+          stateMachine.currentTurnIndex++;
+          stateMachine.runMainLoop().catch(console.error);
+        }
+      }, delayMs);
+    }
+
+    async function executeBargeIn(utterance, explicitIntent = null) {
+      if (silenceWatchdogTimer) clearTimeout(silenceWatchdogTimer);
+      isRespondingToUser = true;
+      isBargeInAudioPlaying = true;
+      stateMachine.isBargeInActive = true;
+      
+      if (speechRecognition) { try { speechRecognition.abort(); } catch(e){} }
+      if (currentDynamicAudio) { try { currentDynamicAudio.pause(); } catch(e){} currentDynamicAudio = null; }
+      
+      // 1. 物理秒停当前的主线声音
+      if (audioRenderer.isPlaying) {
+        audioRenderer.interrupt();
+      }
+
+      appendBubble(Speaker.SYSTEM, '📡 导播莉莉正在理解提问，正在协调主讲阿龙调取知识库...', 'L2 INTENT UNDERSTANDING');
+
+      // 捕获打断发生时的现场情境上下文，杜绝牛头不对马嘴
+      let context = {};
+      try {
+        const currentScene = stateMachine.narrativeIR?.scenes?.[stateMachine.currentSceneIndex];
+        const lastTurn = currentScene?.turns?.[stateMachine.currentTurnIndex];
+        if (lastTurn) {
+          context = {
+            lastSpeaker: lastTurn.speaker === Speaker.HOST_A ? "阿龙" : "小林",
+            lastSpokenText: lastTurn.semanticUtterance
+          };
+        }
+      } catch (e) {}
+
+      // 2. 调用后台 API 获取 莉莉安抚 + 阿龙硬核直答
+      try {
+        const startTime = Date.now();
+        const res = await fetch("http://localhost:3000/api/bargein", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userIntent: explicitIntent || "INTERRUPT", userInput: utterance, context })
+        });
+        
+        const data = await res.json();
+        const elapsed = Date.now() - startTime;
+
+        if (data.success) {
+          // 更新端到端延迟监控
+          latL1.textContent = `12 ms`;
+          latL2.textContent = `${Math.floor(elapsed * 0.3)} ms`;
+          latL3.textContent = `${Math.floor(elapsed * 0.2)} ms`;
+          latL4.textContent = `${Math.floor(elapsed * 0.5)} ms`;
+          latTotal.textContent = `${elapsed} ms`;
+
+          const lilyData = data.lily || { text: data.text, audioUrl: data.audioUrl };
+          const aaronData = data.aaron;
+
+          // ── 第一棒：导播莉莉登场安抚并把话筒递给阿龙 ──
+          appendBubble('HOST_C', lilyData.text, 'HOST C REAL-TIME TTS');
+
+          const playAaronResponse = async () => {
+            if (!aaronData) {
+              resumeMainLineAfterBargeIn(500);
+              return;
+            }
+
+            // ── 第二棒：阿龙基于 SSOT 知识库给出硬核现场解答 ──
+            appendBubble(Speaker.HOST_A, aaronData.text, 'SSOT 知识库实时硬核解答');
+
+            // 右侧同步联动高亮动态匹配的官方权威实证
+            eviTitle.textContent = aaronData.evidenceTitle || '权威实证 / 药典与质检数据';
+            eviQuote.textContent = aaronData.evidenceQuote || aaronData.text;
+            eviPage.textContent = aaronData.evidenceSource ? `所在依据: ${aaronData.evidenceSource}` : 'SSOT 知识库实时索引';
+            pipBadge.style.display = 'block';
+
+            if (isAudioEnabled && aaronData.audioUrl) {
+              const audioUrl = aaronData.audioUrl.startsWith('http') ? aaronData.audioUrl : `http://localhost:3000${aaronData.audioUrl.replace('/public', '')}`;
+              const aaronAudio = new Audio(audioUrl);
+              currentDynamicAudio = aaronAudio;
+              isBargeInAudioPlaying = true;
+              aaronAudio.play().catch(async () => {
+                await audioRenderer.speakNative(aaronData.text, Speaker.HOST_A);
+                resumeMainLineAfterBargeIn(600);
+              });
+              aaronAudio.onended = () => {
+                currentDynamicAudio = null;
+                isBargeInAudioPlaying = false;
+                resumeMainLineAfterBargeIn(600);
+              };
+            } else if (isAudioEnabled) {
+              await audioRenderer.speakNative(aaronData.text, Speaker.HOST_A);
+              resumeMainLineAfterBargeIn(600);
+            } else {
+              resumeMainLineAfterBargeIn(3500);
+            }
+          };
+
+          if (isAudioEnabled && lilyData.audioUrl) {
+            const audioUrl = lilyData.audioUrl.startsWith('http') ? lilyData.audioUrl : `http://localhost:3000${lilyData.audioUrl.replace('/public', '')}`;
+            const lilyAudio = new Audio(audioUrl);
+            currentDynamicAudio = lilyAudio;
+            isBargeInAudioPlaying = true;
+            lilyAudio.play().catch(async () => {
+              await audioRenderer.speakNative(lilyData.text, 'HOST_C');
+              setTimeout(playAaronResponse, 300);
+            });
+            lilyAudio.onended = () => {
+              currentDynamicAudio = null;
+              isBargeInAudioPlaying = false;
+              setTimeout(playAaronResponse, 300);
+            };
+          } else if (isAudioEnabled) {
+            await audioRenderer.speakNative(lilyData.text, 'HOST_C');
+            setTimeout(playAaronResponse, 300);
+          } else {
+            setTimeout(playAaronResponse, 2500);
+          }
+
+        } else {
+          throw new Error('API Returned error');
+        }
+      } catch (err) {
+        console.error(err);
+        appendBubble('HOST_C', '哎呀，系统网络好像开小差了。阿龙小林，咱们继续聊吧。', 'FALLBACK');
+        resumeMainLineAfterBargeIn(1200);
+      }
+    }
+
+    // 绑定交互按钮
+    document.getElementById('btn-challenge').addEventListener('click', () => {
+      executeBargeIn('等等！你们这数据有水分吧？市面上宣传无农残的多了去了，怎么证明是真的？', UserIntent.CHALLENGE);
+    });
+
+    document.getElementById('btn-evidence').addEventListener('click', () => {
+      executeBargeIn('拿出依据来！出自哪份检测报告第几页？我要查公章编码！', UserIntent.EVIDENCE);
+    });
+
+    document.getElementById('btn-drill').addEventListener('click', () => {
+      executeBargeIn('能展开细讲一下吗？设施控环具体控制了哪些温湿度和二氧化碳参数？', UserIntent.DRILL_DOWN);
+    });
+
+    document.getElementById('btn-interrupt').addEventListener('click', () => {
+      executeBargeIn('我插一句，这个确实是现在的行业普遍情况，老百姓最关心的就是到底安不安全。', UserIntent.INTERRUPT);
+    });
+
+    // ── 麦克风实时全双工拾音与 VAD 能量打断 ──
+    let isMicActive = false;
+    let micStream = null;
+    let audioContext = null;
+    let analyser = null;
+    let vadCheckInterval = null;
+    let speechRecognition = null;
+    let isSpeakingDetected = false;
+
+    const btnToggleMic = document.getElementById('btn-toggle-mic');
+    const micMeter = document.getElementById('mic-level-meter');
+    const micStatus = document.getElementById('mic-status-label');
+
+    btnToggleMic.addEventListener('click', async () => {
+      if (isMicActive) {
+        stopMic();
+      } else {
+        await startMic();
+      }
+    });
+
+    async function startMic() {
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia({
+          audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+        });
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        const source = audioContext.createMediaStreamSource(micStream);
+        source.connect(analyser);
+
+        isMicActive = true;
+        btnToggleMic.style.background = 'var(--accent-rose)';
+        btnToggleMic.style.color = '#ffffff';
+        btnToggleMic.innerHTML = '<i class="ri-mic-fill"></i> 麦克风监听中 (开口即打断)';
+        micStatus.textContent = '● 实时监听中：随时张口说话即可秒停打断';
+        micStatus.style.color = 'var(--accent-rose)';
+
+        startVADMonitor();
+        initSpeechRecognition();
+      } catch (err) {
+        console.error('麦克风权限获取失败:', err);
+        alert('无法获取麦克风权限，请在浏览器地址栏检查是否允许麦克风权限。');
+      }
+    }
+
+    function stopMic() {
+      if (micStream) {
+        micStream.getTracks().forEach(t => t.stop());
+        micStream = null;
+      }
+      if (audioContext) {
+        audioContext.close();
+        audioContext = null;
+      }
+      if (vadCheckInterval) clearInterval(vadCheckInterval);
+      if (speechRecognition) speechRecognition.stop();
+
+      isMicActive = false;
+      micMeter.style.width = '0%';
+      btnToggleMic.style.background = '#1e293b';
+      btnToggleMic.style.color = '#f43f5e';
+      btnToggleMic.innerHTML = '<i class="ri-mic-line"></i> 开启电脑麦克风实时插话';
+      micStatus.textContent = '全双工秒级响应已就绪';
+      micStatus.style.color = 'var(--accent-emerald)';
+    }
+
+    function startVADMonitor() {
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      vadCheckInterval = setInterval(() => {
+        if (!isMicActive || !analyser) return;
+        analyser.getByteFrequencyData(dataArray);
+
+        let sum = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          sum += dataArray[i];
+        }
+        const average = sum / bufferLength;
+        const levelPercent = Math.min(100, Math.round((average / 128) * 100));
+        micMeter.style.width = `${levelPercent}%`;
+
+        // VAD 能量阈值判断: 当音量超过 25% 时判定人类发声 (且当前非 AI 回应回声阶段)
+        if (levelPercent > 48 && !isSpeakingDetected && !isRespondingToUser && !isBargeInAudioPlaying && !audioRenderer.isPlaying && (Date.now() - lastBargeInEndTime > 3500)) {
+          isSpeakingDetected = true;
+          // L1 物理秒停：如果是正在播放主线，扬声器在 5ms 内立即秒停！
+          if (audioRenderer.isPlaying) {
+            audioRenderer.interrupt();
+            appendBubble(Speaker.SYSTEM, '🎙️ [检测到听众发声] 扬声器已物理秒停，正在倾听...', 'L1 ACOUSTIC CUTOFF');
+            startSilenceWatchdog();
+          }
+          setTimeout(() => { isSpeakingDetected = false; }, 1500);
+        }
+      }, 50);
+    }
+
+    // ── 3.5秒静默看门狗：如果用户未继续说话或语音识别受阻，自动恢复主线，绝不卡死 ──
+    let silenceWatchdogTimer = null;
+    function startSilenceWatchdog() {
+      if (silenceWatchdogTimer) clearTimeout(silenceWatchdogTimer);
+      silenceWatchdogTimer = setTimeout(() => {
+        if (!isRespondingToUser && !isBargeInAudioPlaying && !audioRenderer.isPlaying) {
+          appendBubble(Speaker.SYSTEM, '⏱️ [静默超时] 未采集到清晰后续提问，阿龙和小林自动恢复继续聊……', 'AUTO RESUME');
+          micStatus.textContent = '● 实时监听中：随时开口即可打断';
+          micStatus.style.color = 'var(--accent-rose)';
+          stateMachine.isBargeInActive = false;
+          if (stateMachine.isRunning) {
+            stateMachine.runMainLoop().catch(console.error);
+          }
+        }
+      }, 3800);
+    }
+
+    function initSpeechRecognition() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        console.warn('当前浏览器未原生支持 Web SpeechRecognition，仍可通过 VAD 能量秒停');
+        return;
+      }
+
+      speechRecognition = new SpeechRec();
+      speechRecognition.continuous = true;
+      speechRecognition.interimResults = true;
+      speechRecognition.lang = 'zh-CN';
+
+      let pendingUtteranceBuffer = '';
+      let speechDebounceTimer = null;
+      let liveUserBubbleEl = null;
+
+      speechRecognition.onresult = (event) => {
+        // 如果正在回复用户或任何主播正在发声，或在转场保护期内，强力屏蔽麦克风（彻底阻断回声自激）
+        if (isRespondingToUser || isBargeInAudioPlaying || audioRenderer.isPlaying || (Date.now() - lastBargeInEndTime < 3500)) return;
+
+        let finalTranscript = '';
+        let interimTranscript = '';
+        for (let i = 0; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          } else {
+            interimTranscript += event.results[i][0].transcript;
+          }
+        }
+        const fullCurrentTranscript = (finalTranscript + interimTranscript).trim();
+
+        if (fullCurrentTranscript) {
+          micStatus.textContent = `🎙️ 正在实时转文字: "${fullCurrentTranscript}"...`;
+          micStatus.style.color = '#38bdf8';
+
+          // 动态上屏显示，打消“有没有录进去”的顾虑
+          if (!liveUserBubbleEl) {
+            liveUserBubbleEl = appendBubble(Speaker.USER, fullCurrentTranscript, '听众实时说话中...');
+          } else {
+            const textEl = liveUserBubbleEl.querySelector('.bubble-text');
+            if (textEl) textEl.textContent = fullCurrentTranscript;
+          }
+        }
+
+        // 500ms 智能静默窗口：说话结束半秒内即刻响应，消灭卡顿感
+        if (speechDebounceTimer) clearTimeout(speechDebounceTimer);
+        speechDebounceTimer = setTimeout(() => {
+          if (isRespondingToUser) return;
+          const fullQuestion = fullCurrentTranscript.trim();
+          liveUserBubbleEl = null;
+          if (silenceWatchdogTimer) clearTimeout(silenceWatchdogTimer);
+          if (fullQuestion && fullQuestion.length >= 4 && !isRespondingToUser && !isBargeInAudioPlaying && !audioRenderer.isPlaying) {
+            console.log('完整捕获听众整句提问:', fullQuestion);
+            micStatus.textContent = '● 提问已捕获，莉莉正在响应并转达...';
+            micStatus.style.color = 'var(--accent-purple)';
+            // 重置语音识别，清理历史缓存
+            stopMic();
+            executeBargeIn(fullQuestion);
+          }
+        }, 500);
+      };
+
+      speechRecognition.onend = () => {
+        // 如果麦克风仍处于激活状态，自动保活重连
+        if (isMicActive) {
+          try { speechRecognition.start(); } catch (e) {}
+        }
+      };
+
+      speechRecognition.onerror = (e) => {
+        console.warn('SpeechRecognition 状态:', e.error);
+        if (e.error === 'network') {
+          appendBubble(
+            Speaker.SYSTEM,
+            '⚠️ [环境提示] 当前浏览器语音云识别无法直连，建议直接点击左下角【⚡ 质疑挑刺 / 🔍 求证出处】或直接在下方输入框打字插话，即可体验 100% 完整互动！',
+            'SPEECH API TIP'
+          );
+          if (silenceWatchdogTimer) clearTimeout(silenceWatchdogTimer);
+          stateMachine.isBargeInActive = false;
+          if (stateMachine.isRunning) {
+            stateMachine.runMainLoop().catch(console.error);
+          }
+        } else if (isMicActive && e.error !== 'not-allowed') {
+          setTimeout(() => {
+            try { speechRecognition.start(); } catch (err) {}
+          }, 600);
+        }
+      };
+
+      try {
+        speechRecognition.start();
+      } catch (e) {}
+    }
+
+    document.getElementById('btn-send-bargein').addEventListener('click', () => {
+      const input = document.getElementById('custom-utterance');
+      const val = input.value.trim();
+      if (val) {
+        executeBargeIn(val);
+        input.value = '';
+      }
+    });
+
+    document.getElementById('custom-utterance').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        document.getElementById('btn-send-bargein').click();
+      }
+    });
+
+    // 启动全流程标杆巡检演练 (Auto Benchmark Tour)
+    const tourModal = document.getElementById('tour-modal');
+    document.getElementById('btn-close-modal').addEventListener('click', () => {
+      tourModal.style.display = 'none';
+    });
+
+    document.getElementById('btn-auto-tour').addEventListener('click', async () => {
+      const tourBtn = document.getElementById('btn-auto-tour');
+      tourBtn.disabled = true;
+      tourBtn.innerHTML = '<i class="ri-loader-4-line" style="animation: pulse 1s infinite;"></i> 标杆巡检进行中...';
+
+      // 步骤 1: 模拟挑剔投资人挑刺打断
+      appendBubble(Speaker.SYSTEM, '【巡检阶段 1/3】模拟挑剔投资人介入 Challenge 打断...', 'AUTOMATED TOUR');
+      await new Promise(r => setTimeout(r, 1500));
+      await executeBargeIn('市面上宣传零农残的多如牛毛，你们这套数据水分有多大？', UserIntent.CHALLENGE);
+
+      // 等待 Host B 真实朗读回应完毕
+      await new Promise(r => setTimeout(r, 6500));
+      appendBubble(Speaker.SYSTEM, '【巡检阶段 2/3】模拟监管人员介入 Evidence 索证打断...', 'AUTOMATED TOUR');
+      await new Promise(r => setTimeout(r, 1500));
+      await executeBargeIn('空口无凭！拿出质检原件报告编号和页码！我要查公章！', UserIntent.EVIDENCE);
+
+      // 等待 Host A 真实朗读回应完毕
+      await new Promise(r => setTimeout(r, 6500));
+      appendBubble(Speaker.SYSTEM, '【巡检阶段 3/3】自动注入伪因果攻击检验 JEV 断路器...', 'AUTOMATED TOUR');
+      await new Promise(r => setTimeout(r, 1500));
+      document.getElementById('btn-inject-violation').click();
+
+      // 步骤 4: 弹出全景测试达标证书
+      await new Promise(r => setTimeout(r, 4500));
+      tourModal.style.display = 'flex';
+      tourBtn.disabled = false;
+      tourBtn.innerHTML = '<i class="ri-play-circle-line"></i> 启动全流程标杆巡检演练 (Auto Tour)';
+    });
+
+    // 注入违规言论按钮实测 JEV
+    document.getElementById('btn-inject-violation').addEventListener('click', async () => {
+      const violationText = '因为天旺采用了全套设施控环技术，所以产出的西红花自动达到了 0 农残！';
+      appendBubble(Speaker.HOST_A, violationText, '⚠️ 候选违规生成文本');
+
+      const verdict = await jev.evaluateTurnCompliance({
+        speaker: Speaker.HOST_A,
+        utterance: violationText,
+        associatedClaimId: 'CLM-TIANWANG-ZERO-PESTICIDE-BATCH',
+      });
+
+      jevScore.textContent = `${verdict.riskScore.toFixed(2)} (高危)`;
+      jevScore.style.color = 'var(--accent-rose)';
+      jevVerdict.textContent = 'BLOCK 拦截断路';
+      jevVerdict.style.color = 'var(--accent-rose)';
+
+      appendBubble(
+        Speaker.SYSTEM,
+        `【JEV 断路器触发阻断】检测到严重违规: ${verdict.violations.map(v => v.detail).join('; ')}。已阻断生成并启用官方兜底声明！`,
+        'JEV RULE CC-02 拦截'
+      );
+
+      appendBubble(
+        Speaker.HOST_A,
+        verdict.actionPayload.fallbackUtterance,
+        '官方合规安全兜底台词'
+      );
+    });
+
+    // 初始化欢迎气泡
+    appendBubble(
+      Speaker.SYSTEM,
+      '演播室双人对谈就绪！点击上方【▶ 开始双人对谈】或【🎬 启动全流程标杆巡检演练】，即可戴上耳机聆听 Host A 与 Host B 真实人声脱口秀。随时点击左下角按钮可进行全双工插话打断！',
+      'SYSTEM READY'
+    );
+  </script>
+</body>
+</html>

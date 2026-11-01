@@ -199,6 +199,71 @@ export const api = {
     return { success: false, message: 'Restore unsupported' };
   },
 
+  // DUAL-TRACK GOVERNANCE & JEV AUDIT API
+  promoteAsset(id) {
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `${API_BASE}/assets/${id}/promote`, false);
+      xhr.send(null);
+      if (xhr.status === 200) {
+        const res = JSON.parse(xhr.responseText);
+        store.promoteAsset(id);
+        return res;
+      }
+    } catch (e) {}
+    // Fallback to local store
+    try {
+      const promoted = store.promoteAsset(id);
+      return { success: true, data: promoted, is_fallback: true };
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  },
+
+  rejectAsset(id, reason) {
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `${API_BASE}/assets/${id}/reject`, false);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({ reason }));
+      if (xhr.status === 200) {
+        const res = JSON.parse(xhr.responseText);
+        store.rejectAsset(id, reason);
+        return res;
+      }
+    } catch (e) {}
+    // Fallback to local store
+    try {
+      const rejected = store.rejectAsset(id, reason);
+      return { success: true, data: rejected, is_fallback: true };
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+  },
+
+  async auditAssetAsync(id, scenario = 'OFFICIAL_PR') {
+    return await store.auditSingleAsset(id, scenario);
+  },
+
+  async batchAuditWithJevAsync(scenario = 'OFFICIAL_PR') {
+    try {
+      const res = await fetch(`${API_BASE}/jev/batch-audit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenario })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        // Also update local store
+        await store.batchAuditWithJev(scenario);
+        return data;
+      }
+    } catch (e) {}
+    // Fallback to client-side Jev batch audit
+    const report = await store.batchAuditWithJev(scenario);
+    return { success: true, data: report, is_fallback: true };
+  },
+
   getAssetRelations(id) {
     const relations = store.getRelationsForAsset ? store.getRelationsForAsset(id) : [];
     return { success: true, data: relations };

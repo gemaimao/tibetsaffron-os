@@ -38,6 +38,16 @@ export function renderSidebar(currentPath, onNavigate, onOpenSearch) {
         <span>数据与资产总览</span>
         <span class="badge-count">${dashData.asset_count}</span>
       </a>
+      <a class="nav-item ${currentPath === 'dual-track-hub' ? 'active' : ''}" data-path="dual-track-hub">
+        <i class="ri-git-merge-line" style="color: #34d399;"></i>
+        <span>双轨知识中台 (Jev治理)</span>
+        <span class="badge-count" style="background: rgba(16,185,129,0.2); color: #34d399;">${dashData.draft_count > 0 ? dashData.draft_count : 'SSOT'}</span>
+      </a>
+      <a class="nav-item" href="/narrative.html" target="_blank" style="color: #38bdf8;">
+        <i class="ri-radar-line" style="color: #38bdf8;"></i>
+        <span>NeoNarrative 叙事引擎</span>
+        <span class="badge-count" style="background: rgba(6, 182, 212, 0.2); color: #38bdf8;">Live</span>
+      </a>
 
       <div class="nav-section-title" style="display: flex; justify-content: space-between; align-items: center;">
         <span>5 大品牌核心维度</span>

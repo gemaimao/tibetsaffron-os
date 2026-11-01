@@ -3,356 +3,574 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="theme-color" content="#0a0d14" />
-  <title>天旺藏红花 移动终端速记与极速采集 App</title>
-  <!-- Google Fonts & Remixicon -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <title>雪域林泉 · 藏红花电台</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: #0a0d14; color: #f1f5f9; padding: 16px; min-height: 100vh; display: flex; flex-direction: column; }
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+    body {
+      background-color: #0b0c0d;
+      color: #f1ede6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+    }
+    .app-viewport {
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px 16px env(safe-area-inset-bottom) 16px;
+      position: relative;
+    }
     
-    /* Header */
-    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #1e293b; }
-    .header-left { display: flex; align-items: center; gap: 10px; }
-    .header-logo { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; background: #fff; padding: 2px; }
-    .title { font-size: 15px; font-weight: 700; color: #f8fafc; }
-    .subtitle { font-size: 11px; color: #94a3b8; margin-top: 1px; }
-    .user-tag { font-size: 11px; background: rgba(59,130,246,0.15); color: #38bdf8; border: 1px solid rgba(59,130,246,0.3); padding: 4px 8px; border-radius: 6px; display: flex; align-items: center; gap: 4px; }
-    .btn-lock { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+    /* 顶部台头 */
+    .top-header { flex-shrink: 0; margin-bottom: 6px; }
+    .brand-line { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .brand-title { font-size: 17px; font-weight: 800; color: #ffffff; letter-spacing: 0.5px; }
+    .brand-live {
+      font-size: 11px; color: #10b981; font-weight: 700;
+      background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 2px 8px; border-radius: 12px;
+    }
+    .chapter-strip {
+      display: flex; align-items: center; gap: 8px; padding: 4px 10px;
+      background: rgba(229, 185, 116, 0.08); border: 1px solid rgba(229, 185, 116, 0.2);
+      border-radius: 8px;
+    }
+    .chapter-tag {
+      background: linear-gradient(135deg, #c89647, #e5b974); color: #0b0c0d;
+      font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px; flex-shrink: 0;
+    }
+    .chapter-name {
+      color: #e5b974; font-size: 12px; font-weight: 500;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
 
-    .card { background-color: #141c2d; border: 1px solid #1e293b; border-radius: 16px; padding: 16px; margin-bottom: 16px; }
-    .card-title { font-size: 13.5px; font-weight: 600; color: #cbd5e1; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-    
-    .media-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
-    .media-btn { background-color: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 14px 6px; text-align: center; color: #94a3b8; font-size: 11px; cursor: pointer; transition: all 0.2s; }
-    .media-btn:active, .media-btn.active { border-color: #3b82f6; background-color: rgba(59,130,246,0.15); color: #3b82f6; }
-    .media-btn i { font-size: 22px; display: block; margin-bottom: 4px; }
+    /* 🏛️ 核心视觉大画卷区（高保真舒展大屏，100% 纯净无遮挡） */
+    .whiteboard-stage {
+      width: 100%; height: 210px; border-radius: 16px; overflow: hidden;
+      background: #121417; border: 1px solid rgba(229, 185, 116, 0.32);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7); flex-shrink: 0; position: relative;
+    }
+    .stage-img { width: 100%; height: 100%; object-fit: contain; background: #0f1113; transition: all 0.3s ease; }
+    .stage-badge {
+      position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+      background: rgba(11, 13, 16, 0.85); backdrop-filter: blur(8px);
+      border: 1px solid rgba(229, 185, 116, 0.5); color: #fce7c8;
+      font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px;
+      white-space: nowrap; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); cursor: pointer;
+    }
 
-    input, select, textarea { width: 100%; background-color: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 12px; color: #f8fafc; font-size: 14px; outline: none; margin-bottom: 12px; }
-    input:focus, textarea:focus { border-color: #3b82f6; }
+    /* 🌟 全新独立：双行高奢互动廊 */
+    .interactive-corridor {
+      flex-shrink: 0; background: rgba(18, 22, 28, 0.85); backdrop-filter: blur(10px);
+      border: 1px solid rgba(229, 185, 116, 0.22); border-radius: 14px;
+      padding: 6px 10px; display: flex; flex-direction: column; gap: 6px; margin: 4px 0;
+    }
+    .corridor-row { display: flex; align-items: center; height: 26px; gap: 8px; }
+    .corridor-tag {
+      font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 6px;
+      flex-shrink: 0; height: 20px; display: flex; align-items: center; gap: 4px;
+    }
+    .tag-live { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+    .tag-gold { background: linear-gradient(135deg, rgba(217, 119, 6, 0.25), rgba(251, 191, 36, 0.25)); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4); }
+    .danmaku-marquee { flex: 1; overflow: hidden; height: 24px; position: relative; }
+    .marquee-text {
+      font-size: 11px; color: #f8fafc; line-height: 24px; white-space: nowrap;
+      animation: marqueeScroll 10s linear infinite; display: inline-block;
+    }
+    @keyframes marqueeScroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    .dm-quick-btn {
+      font-size: 10px; color: #e5b974; background: rgba(229, 185, 116, 0.12);
+      border: 1px solid rgba(229, 185, 116, 0.3); padding: 2px 6px; border-radius: 8px; flex-shrink: 0; cursor: pointer;
+    }
 
-    .preview-box { background: #0f172a; border: 1px dashed #334155; border-radius: 10px; padding: 12px; text-align: center; margin-bottom: 12px; display: none; }
-    .preview-box img { max-width: 100%; max-height: 200px; border-radius: 8px; }
+    /* 行 2: 好问题推荐走廊 */
+    .qa-scroll { flex: 1; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+    .qa-scroll::-webkit-scrollbar { display: none; }
+    .qa-pill {
+      display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(229, 185, 116, 0.28); border-radius: 12px; padding: 2px 8px; height: 24px;
+      flex-shrink: 0; cursor: pointer;
+    }
+    .qa-pill:hover { background: rgba(229, 185, 116, 0.2); }
+    .qa-user { color: #fbbf24; font-size: 10px; font-weight: 700; }
+    .qa-question { color: #e2e8f0; font-size: 10px; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .qa-listen-btn {
+      background: linear-gradient(135deg, #d97706, #b45309); color: #ffffff;
+      font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 6px;
+    }
 
-    .submit-btn { width: 100%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 12px; padding: 15px; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 16px rgba(59,130,246,0.4); cursor: pointer; }
-    .submit-btn:active { transform: scale(0.98); }
+    /* 🎙️ 演播室三人金三角并列席位 */
+    .hosts-row { display: flex; gap: 8px; justify-content: space-between; flex-shrink: 0; margin: 4px 0; }
+    .host-cell {
+      flex: 1; height: 56px; border-radius: 12px; background: rgba(18, 22, 28, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center;
+      padding: 0 8px; gap: 6px; transition: all 0.2s ease;
+    }
+    .cell-active { background: rgba(28, 24, 18, 0.95); transform: translateY(-1px); }
+    .cell-gold { border-color: rgba(229, 185, 116, 0.6); box-shadow: 0 4px 14px rgba(229, 185, 116, 0.25); }
+    .cell-blue { border-color: rgba(56, 189, 248, 0.6); box-shadow: 0 4px 14px rgba(56, 189, 248, 0.25); background: rgba(12, 24, 38, 0.95); }
+    .cell-amber { border-color: rgba(251, 191, 36, 0.6); box-shadow: 0 4px 14px rgba(251, 191, 36, 0.25); background: rgba(30, 20, 10, 0.95); }
+    .cell-avatar {
+      width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.08);
+      display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+    }
+    .cell-info { display: flex; flex-direction: column; overflow: hidden; }
+    .cell-name { font-size: 11px; font-weight: 700; color: #ffffff; white-space: nowrap; }
+    .cell-status { font-size: 10px; color: #94a3b8; margin-top: 1px; white-space: nowrap; }
+    .cell-active .cell-status { color: #e5b974; font-weight: 600; }
+    .cell-blue.cell-active .cell-status { color: #38bdf8; }
+    .cell-amber.cell-active .cell-status { color: #fbbf24; }
 
-    .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #10b981; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9999; }
+    /* 底部控制台 */
+    .bottom-station { flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+    .status-ticker {
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px; padding: 4px 10px; display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .transport-dock {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      background: rgba(18, 22, 28, 0.9); backdrop-filter: blur(12px);
+      border: 1px solid rgba(229, 185, 116, 0.28); border-radius: 20px; padding: 6px 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+    }
+    .btn-step {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer;
+    }
+    .btn-step:active { transform: scale(0.92); }
+    .step-ico { font-size: 14px; line-height: 1; }
+    .step-lbl { font-size: 9px; color: #94a3b8; font-weight: 700; margin-top: 1px; }
+    .btn-main-circle {
+      width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; background: linear-gradient(135deg, #d97706, #b45309);
+      color: #ffffff; box-shadow: 0 6px 20px rgba(217, 119, 6, 0.45); cursor: pointer; font-size: 20px;
+    }
+    .btn-main-circle:active { transform: scale(0.94); }
+    .btn-barge-pill {
+      flex: 1; height: 44px; border-radius: 14px; display: flex; align-items: center;
+      justify-content: center; gap: 6px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35); font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .btn-rate-chip {
+      padding: 4px 10px; height: 34px; border-radius: 10px; background: rgba(229, 185, 116, 0.12);
+      border: 1px solid rgba(229, 185, 116, 0.35); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: #e5b974; font-size: 12px; font-weight: 800;
+    }
 
-    /* Auth Screen Overlay */
-    #auth-overlay { position: fixed; inset: 0; background: rgba(7,9,14,0.96); backdrop-filter: blur(20px); z-index: 8888; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .auth-card { width: 100%; max-width: 380px; background: #111726; border: 1px solid #1e293b; border-radius: 20px; padding: 28px 24px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-    .auth-logo { width: 64px; height: 64px; border-radius: 16px; object-fit: cover; background: #fff; padding: 4px; margin: 0 auto 16px; border: 2px solid rgba(245,158,11,0.4); }
-    .auth-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-    .auth-desc { font-size: 12.5px; color: #94a3b8; line-height: 1.5; margin-bottom: 24px; }
-    .auth-input { text-align: center; font-size: 18px; letter-spacing: 2px; font-family: monospace; padding: 14px; background: #07090e; border: 1px solid #334155; border-radius: 12px; margin-bottom: 16px; color: #f59e0b; }
-    .auth-input:focus { border-color: #f59e0b; box-shadow: 0 0 12px rgba(245,158,11,0.25); }
-    .auth-btn { width: 100%; background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 700; font-size: 15px; border: none; border-radius: 12px; padding: 14px; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .auth-btn:active { transform: scale(0.98); }
-    .auth-footer { font-size: 11px; color: #64748b; margin-top: 16px; }
+    /* 🔄 横屏全屏沉浸查验模态窗 */
+    .landscape-modal {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000000;
+      z-index: 99999; display: none; align-items: center; justify-content: center;
+    }
+    .landscape-container {
+      width: 100vh; height: 100vw; transform: rotate(90deg);
+      display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    .landscape-img { width: 100%; height: 100%; object-fit: contain; }
+    .landscape-close-btn {
+      position: absolute; top: 20px; right: 20px; background: rgba(225, 29, 72, 0.85);
+      color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer;
+    }
   </style>
 </head>
 <body>
-
-  <div class="toast" id="toast"></div>
-
-  <!-- 安全权限验证浮层 (Auth Gatekeeper) -->
-  <div id="auth-overlay">
-    <div class="auth-card">
-      <img src="/assets/logo.jpg" alt="天旺农牧" class="auth-logo" />
-      <h2 class="auth-title">天旺移动采集端 · 权限验证</h2>
-      <p class="auth-desc">该终端仅供天旺农牧现场采编与知识库管理员使用。请输入访问安全口令解锁。</p>
-      
-      <input type="password" id="auth-password-input" class="auth-input" placeholder="输入访问口令" autofocus />
-      
-      <button class="auth-btn" onclick="verifyAuth()">
-        <i class="ri-shield-keyhole-line"></i> 验证并进入移动终端
-      </button>
-
-      <div class="auth-footer">
-        <a href="/" style="color: #94a3b8; text-decoration: none;"><i class="ri-arrow-left-line"></i> 返回企业官网首页</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- 主界面 (验证通过后展示) -->
-  <div class="header">
-    <div class="header-left">
-      <img src="/assets/logo.jpg" alt="天旺" class="header-logo" />
-      <div>
-        <div class="title">天旺藏红花 · 移动速记采集</div>
-        <div class="subtitle">照片/PDF 原图真实传输与全屏预览</div>
-      </div>
-    </div>
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <div class="user-tag" id="current-user-badge"><i class="ri-user-follow-line"></i> 采编员</div>
-      <button class="btn-lock" onclick="lockTerminal()" title="锁定退出"><i class="ri-lock-2-line"></i></button>
-    </div>
-  </div>
-
-  <!-- 多媒体快捷采集面板 -->
-  <div class="card">
-    <div class="card-title"><i class="ri-sparkling-line" style="color: #8b5cf6;"></i> 选择手机采集类型</div>
-    <div class="media-grid">
-      <div class="media-btn active" id="btn-type-text" onclick="setType('text')">
-        <i class="ri-file-text-line"></i> 文本速记
-      </div>
-      <div class="media-btn" id="btn-type-voice" onclick="setType('voice')">
-        <i class="ri-mic-line"></i> 语音听写
-      </div>
-      <div class="media-btn" id="btn-type-photo" onclick="setType('photo')">
-        <i class="ri-camera-line"></i> 拍照/照片
-      </div>
-      <div class="media-btn" id="btn-type-file" onclick="setType('file')">
-        <i class="ri-file-pdf-2-line"></i> PDF/文档
-      </div>
-    </div>
-
-    <!-- 预览框 -->
-    <div class="preview-box" id="preview-box"></div>
-
-    <!-- 表单录入 -->
-    <input type="text" id="input-title" placeholder="资产标题 (如: 西藏林芝 0农残检测报告原件)..." />
+  <div class="app-viewport">
     
-    <select id="input-module">
-      <option value="mod-dat">DAT 数据层 (Evidence & Data 7级证据)</option>
-      <option value="mod-kno">KNO 知识层 (SFR-KNO 认知底库)</option>
-      <option value="mod-com">COM 传播层 (口号/公关声明)</option>
-      <option value="mod-vis">VIS 视觉层 (4K 镜头/包装 Token)</option>
-      <option value="mod-brd">BRD 品牌行为层 (愿景/法理防线)</option>
-    </select>
+    <!-- 顶部台头 -->
+    <div class="top-header">
+      <div class="brand-line">
+        <span class="brand-title">雪域林泉 · 藏红花电台</span>
+        <span class="brand-live">● LIVE 148人同频</span>
+      </div>
+      <div class="chapter-strip">
+        <span class="chapter-tag" id="chapterTag">第 1 章</span>
+        <span class="chapter-name" id="chapterName">迷局与澄清：名字叫藏红花，西藏到底产不产？</span>
+      </div>
+    </div>
 
-    <textarea id="input-content" rows="5" placeholder="在此输入补充文字、备注或检测解读..."></textarea>
+    <!-- 🏛️ 核心视觉大画卷区（380px 大屏，100% 纯净无遮挡） -->
+    <div class="whiteboard-stage">
+      <img class="stage-img" id="stageImg" src="/images/report_whiteboard.png" alt="实证白板" onclick="openLandscape()" />
+      <div class="stage-badge" onclick="openLandscape()">🏛️ 权威证据白板 · A26SW02809 (点击横屏双指放大查验)</div>
+    </div>
 
-    <!-- 隐藏文件上传器 (支持拍照与选择 PDF) -->
-    <input type="file" id="file-uploader" accept="image/*,application/pdf" style="display: none;" onchange="handleFileSelected(this)" />
+    <!-- 🌟 全新独立：双行高奢互动廊 -->
+    <div class="interactive-corridor">
+      <div class="corridor-row">
+        <div class="corridor-tag tag-live">● 弹幕</div>
+        <div class="danmaku-marquee">
+          <div class="marquee-text" id="danmakuText">雪域漫步：原来真红花泡水是金黄色的，涨知识了！  ·  藏地老李：林芝2945米高山温室确实现代化！  ·  茶席小敏：查验报告A26SW02809苷含量15.8%太强了！</div>
+        </div>
+        <div class="dm-quick-btn" onclick="sendPraise()">✨ 赞叹</div>
+      </div>
+      <div class="corridor-row">
+        <div class="corridor-tag tag-gold">🎙️ 热问推荐</div>
+        <div class="qa-scroll" id="qaScroll">
+          <div class="qa-pill" onclick="listenQA(101)">
+            <span class="qa-user">【老李】</span>
+            <span class="qa-question">泡水为什么是金黄色？</span>
+            <span class="qa-listen-btn">🎧 旁听</span>
+          </div>
+          <div class="qa-pill" onclick="listenQA(102)">
+            <span class="qa-user">【小敏】</span>
+            <span class="qa-question">2945m温室到底有没有薄霜？</span>
+            <span class="qa-listen-btn">🎧 旁听</span>
+          </div>
+          <div class="qa-pill" onclick="listenQA(103)">
+            <span class="qa-user">【老王】</span>
+            <span class="qa-question">法定质检实测指标如何？</span>
+            <span class="qa-listen-btn">🎧 旁听</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <button class="submit-btn" id="submit-btn" onclick="submitMobileIngest()">
-      <i class="ri-cloud-upload-line"></i> 上传原图/PDF 并预览
-    </button>
+    <!-- 🎙️ 演播室三人金三角并列席位 -->
+    <div class="hosts-row">
+      <div class="host-cell" id="cellA">
+        <div class="cell-avatar">🏔️</div>
+        <div class="cell-info">
+          <span class="cell-name">主持 · 扎西</span>
+          <span class="cell-status">待命倾听</span>
+        </div>
+      </div>
+      <div class="host-cell" id="cellB">
+        <div class="cell-avatar">🔬</div>
+        <div class="cell-info">
+          <span class="cell-name">专家 · 林博士</span>
+          <span class="cell-status">待命倾听</span>
+        </div>
+      </div>
+      <div class="host-cell" id="cellC">
+        <div class="cell-avatar">⚡</div>
+        <div class="cell-info">
+          <span class="cell-name">导播 · 莉莉</span>
+          <span class="cell-status">导播守候</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部控制台 -->
+    <div class="bottom-station">
+      <div class="status-ticker" id="statusTicker">
+        <span>🔔</span>
+        <span id="tickerMsg">点击【收听】进入全双工演播室，随时点击【提问对线】开麦互动。</span>
+      </div>
+      <div class="transport-dock">
+        <div class="btn-step" onclick="seekBackward()">
+          <span class="step-ico">⏪</span>
+          <span class="step-lbl">15s</span>
+        </div>
+        <div class="btn-main-circle" id="playBtn" onclick="togglePlay()">▶</div>
+        <div class="btn-step" onclick="seekForward()">
+          <span class="step-ico">⏩</span>
+          <span class="step-lbl">15s</span>
+        </div>
+        <div class="btn-barge-pill" id="bargeBtn" onclick="handleBargein()">
+          <span>🎙️</span>
+          <span id="bargeTxt">提问对线</span>
+        </div>
+        <div class="btn-rate-chip" onclick="toggleRate()">
+          <span id="rateTxt">1.0x</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- 历史实时采集流 -->
-  <div class="card" style="flex: 1;">
-    <div class="card-title" style="justify-content: space-between;">
-      <span><i class="ri-history-line" style="color: #3b82f6;"></i> 手机真实上传历史 (WebUI 实时同步)</span>
-      <span style="font-size: 11px; color: #10b981;"><i class="ri-checkbox-circle-fill"></i> 权限已激活</span>
-    </div>
-    <div id="history-list" style="display: flex; flex-direction: column; gap: 8px;">
-      <div style="font-size: 12px; color: #64748b; text-align: center; padding: 20px;">加载中...</div>
+  <!-- 🔄 横屏全屏沉浸查验模态窗 -->
+  <div class="landscape-modal" id="landscapeModal">
+    <div class="landscape-container">
+      <img class="landscape-img" id="landscapeImg" src="/images/report_whiteboard.png" alt="横屏大图" />
+      <div class="landscape-close-btn" onclick="closeLandscape()">✕ 退出横屏</div>
     </div>
   </div>
+
+  <audio id="audioPlayer" preload="auto"></audio>
 
   <script>
-    // 权限密码设定 (支持管理员口令与采编员口令)
-    const AUTH_KEYS = {
-      'tianwang2026': { role: '管理员', badge: '👑 首席架构师' },
-      'tianwang888': { role: '采编员', badge: '👤 现场采编员' },
-      'tianwang': { role: '采编员', badge: '👤 现场采编员' }
-    };
+    const playlist = [
+      { id: "turn_01", chapter: 1, chapter_title: "迷局与澄清：名字叫藏红花，西藏到底产不产？", host: "C", speaker: "莉莉", desc: "欢迎收听《雪域林泉·藏红花电台》，来到林芝2945米基地...", img: "/images/cover.jpg", url: "/audio/master/turn_01_C.mp3" },
+      { id: "turn_02", chapter: 1, chapter_title: "迷局与澄清：名字叫藏红花，西藏到底产不产？", host: "A", speaker: "扎西", desc: "历史上经西藏转运得名，但今天的林芝米瑞乡已扎下现代科学根基...", img: "/images/cover.jpg", url: "/audio/master/turn_02_A.mp3" },
+      { id: "turn_03", chapter: 1, chapter_title: "迷局与澄清：名字叫藏红花，西藏到底产不产？", host: "B", speaker: "林博士", desc: "现代环境控制农业（CEA）让鸢尾科植物克服突发霜冻...", img: "/images/greenhouse_broll.png", url: "/audio/master/turn_03_B.mp3" },
+      { id: "turn_10", chapter: 3, chapter_title: "水试防伪与分子机制：金黄与血红的真假交锋", host: "C", speaker: "莉莉", desc: "听众最容易误解的水试颜色！导播为您切出水溶实验...", img: "/images/water_test.jpg", url: "/audio/master/turn_10_C.mp3" },
+      { id: "turn_11", chapter: 3, chapter_title: "水试防伪与分子机制：金黄与血红的真假交锋", host: "B", speaker: "林博士", desc: "天然番红花苷是强极性水溶色素，水试金黄沉丝，绝无血红！", img: "/images/water_test.jpg", url: "/audio/master/turn_11_B.mp3" },
+      { id: "turn_12", chapter: 4, chapter_title: "实证主义的高原奇迹：国家质检单的数据真相", host: "C", speaker: "莉莉", desc: "导播台已为您切出国家权威检测报告 A26SW02809 白板！", img: "/images/report_whiteboard.png", url: "/audio/master/turn_12_C.mp3" },
+      { id: "turn_13", chapter: 4, chapter_title: "实证主义的高原奇迹：国家质检单的数据真相", host: "B", speaker: "林博士", desc: "药典规定苷含量≥10.0%，天旺实测高达15.8%，苦素远超国标！", img: "/images/report_whiteboard.png", url: "/audio/master/turn_13_B.mp3" }
+    ];
 
-    function checkAuth() {
-      const token = localStorage.getItem('tianwang_mobile_auth');
-      const overlay = document.getElementById('auth-overlay');
-      if (token && AUTH_KEYS[token]) {
-        overlay.style.display = 'none';
-        document.getElementById('current-user-badge').innerHTML = AUTH_KEYS[token].badge;
-        loadHistory();
+    let currentIdx = 0;
+    let isPlaying = false;
+    let currentRate = 1.0;
+    let rates = [1.0, 1.25, 1.5, 2.0];
+    let snapshot = null;
+    let dynamicQueue = [];
+
+    const audio = document.getElementById('audioPlayer');
+    const playBtn = document.getElementById('playBtn');
+    const stageImg = document.getElementById('stageImg');
+    const chapterTag = document.getElementById('chapterTag');
+    const chapterName = document.getElementById('chapterName');
+    const tickerMsg = document.getElementById('tickerMsg');
+    const rateTxt = document.getElementById('rateTxt');
+
+    function setActiveHost(host) {
+      ['cellA', 'cellB', 'cellC'].forEach(id => {
+        const el = document.getElementById(id);
+        el.className = 'host-cell';
+        el.querySelector('.cell-status').textContent = '待命倾听';
+      });
+      if (host === 'A') {
+        const el = document.getElementById('cellA');
+        el.className = 'host-cell cell-active cell-gold';
+        el.querySelector('.cell-status').textContent = '正在讲述';
+      } else if (host === 'B') {
+        const el = document.getElementById('cellB');
+        el.className = 'host-cell cell-active cell-blue';
+        el.querySelector('.cell-status').textContent = '科学实证';
+      } else if (host === 'C') {
+        const el = document.getElementById('cellC');
+        el.className = 'host-cell cell-active cell-amber';
+        el.querySelector('.cell-status').textContent = '连线切屏中';
+      }
+    }
+
+    function playTurn(idx, seekTime = 0) {
+      const item = playlist[idx];
+      if (!item) return;
+      currentIdx = idx;
+      chapterTag.textContent = `第 ${item.chapter} 章`;
+      chapterName.textContent = item.chapter_title;
+      stageImg.src = item.img;
+      document.getElementById('landscapeImg').src = item.img;
+      tickerMsg.textContent = `【${item.speaker}】正在讲述：${item.desc}`;
+      setActiveHost(item.host);
+
+      audio.src = item.url;
+      audio.playbackRate = currentRate;
+      audio.play().then(() => {
+        isPlaying = true;
+        playBtn.textContent = '⏸';
+        if (seekTime > 0) audio.currentTime = seekTime;
+      }).catch(e => console.log('Auto-play blocked:', e));
+    }
+
+    function togglePlay() {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        playBtn.textContent = '▶';
+        tickerMsg.textContent = '电台已暂停。';
+        setActiveHost(null);
       } else {
-        overlay.style.display = 'flex';
-      }
-    }
-
-    function verifyAuth() {
-      const pwd = document.getElementById('auth-password-input').value.trim();
-      if (AUTH_KEYS[pwd]) {
-        localStorage.setItem('tianwang_mobile_auth', pwd);
-        showToast('✅ 身份验证通过，欢迎进入移动采集端');
-        checkAuth();
-      } else {
-        showToast('❌ 口令错误，请重新输入');
-        document.getElementById('auth-password-input').value = '';
-      }
-    }
-
-    // 支持回车直接登录
-    document.getElementById('auth-password-input').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') verifyAuth();
-    });
-
-    function lockTerminal() {
-      localStorage.removeItem('tianwang_mobile_auth');
-      showToast('🔒 终端已安全锁定');
-      checkAuth();
-    }
-
-    let activeType = 'text';
-    let uploadedMediaUrl = null;
-
-    function setType(type) {
-      activeType = type;
-      document.querySelectorAll('.media-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(`btn-type-${type}`).classList.add('active');
-
-      if (type === 'voice') {
-        startVoiceRecognition();
-      } else if (type === 'photo') {
-        const uploader = document.getElementById('file-uploader');
-        uploader.setAttribute('accept', 'image/*');
-        uploader.click();
-      } else if (type === 'file') {
-        const uploader = document.getElementById('file-uploader');
-        uploader.setAttribute('accept', 'application/pdf,image/*,.doc,.docx');
-        uploader.click();
-      }
-    }
-
-    function startVoiceRecognition() {
-      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'zh-CN';
-        recognition.onstart = () => showToast('🎤 请说话，正在录音听写...');
-        recognition.onresult = (event) => {
-          const transcript = event.results[0][0].transcript;
-          document.getElementById('input-content').value += transcript;
-          showToast('已完成语音转文字！');
-        };
-        recognition.start();
-      } else {
-        showToast('当前手机浏览器请使用系统自带键盘语音输入');
-      }
-    }
-
-    function handleFileSelected(input) {
-      if (input.files && input.files[0]) {
-        const file = input.files[0];
-        showToast(`正在上传原文件: ${file.name}...`);
-
-        const reader = new FileReader();
-        reader.onload = async (e) => {
-          const base64Data = e.target.result;
-          
-          // 渲染本地预览
-          const pBox = document.getElementById('preview-box');
-          pBox.style.display = 'block';
-          if (file.type.startsWith('image/')) {
-            pBox.innerHTML = `<img src="${base64Data}" alt="预览" /><div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">图片名称: ${file.name}</div>`;
-          } else {
-            pBox.innerHTML = `<div style="padding: 12px; font-size: 13px; color: #38bdf8;"><i class="ri-file-pdf-2-line" style="font-size: 24px;"></i><br/>已选择 PDF 文档: ${file.name} (${(file.size/1024).toFixed(1)} KB)</div>`;
-          }
-
-          // 上传至 Node API 服务器
-          try {
-            const res = await fetch('/api/upload', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ filename: file.name, fileData: base64Data })
-            });
-            const data = await res.json();
-            if (data.success) {
-              uploadedMediaUrl = data.mediaUrl;
-              document.getElementById('input-title').value = document.getElementById('input-title').value || `[附件] ${file.name}`;
-              showToast('✅ 媒体文件真实上传成功！服务器随时可在线浏览！');
-            }
-          } catch (err) {
-            showToast('❌ 上传失败: ' + err.message);
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.innerText = msg;
-      toast.style.display = 'block';
-      setTimeout(() => toast.style.display = 'none', 3000);
-    }
-
-    async function submitMobileIngest() {
-      const title = document.getElementById('input-title').value.trim() || '手机终端极速采集';
-      const moduleId = document.getElementById('input-module').value;
-      let content = document.getElementById('input-content').value.trim();
-
-      if (uploadedMediaUrl) {
-        if (uploadedMediaUrl.toLowerCase().includes('.pdf')) {
-          content = `${content}\n\n### 📄 PDF 原件在线浏览凭证\n<iframe src="${uploadedMediaUrl}" width="100%" height="600px" style="border: 1px solid #334155; border-radius: 8px;"></iframe>\n\n[点击在新标签页全屏打开 PDF 原件](${uploadedMediaUrl})`;
-        } else {
-          content = `${content}\n\n### 📷 现场照片与检测图谱凭证\n![高清晰度上传图片](${uploadedMediaUrl})`;
+        if (!audio.src) playTurn(currentIdx);
+        else {
+          audio.play();
+          isPlaying = true;
+          playBtn.textContent = '⏸';
+          setActiveHost(playlist[currentIdx].host);
         }
       }
+    }
 
-      if (!content) {
-        showToast('⚠️ 请输入内容或拍照/选择文件！');
+    audio.onended = () => {
+      if (dynamicQueue.length > 0) {
+        const next = dynamicQueue.shift();
+        playDynamic(next);
         return;
       }
+      if (snapshot) {
+        const s = snapshot;
+        snapshot = null;
+        tickerMsg.textContent = '🎧 旁听解答完毕，已为您精准回切至主线收听进度。';
+        playTurn(s.idx, s.time);
+        return;
+      }
+      let nextIdx = (currentIdx + 1) % playlist.length;
+      playTurn(nextIdx);
+    };
 
-      const submitBtn = document.getElementById('submit-btn');
-      submitBtn.innerText = '正在提交并同步...';
-      submitBtn.disabled = true;
+    function playDynamic(seg) {
+      setActiveHost(seg.host);
+      tickerMsg.textContent = seg.text;
+      audio.src = seg.audioUrl;
+      audio.playbackRate = currentRate;
+      audio.play();
+    }
 
-      try {
-        const res = await fetch('/api/assets', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            module_id: moduleId,
-            title: title,
-            summary: content.slice(0, 100),
-            content: content,
-            media_url: uploadedMediaUrl,
-            status: 'Draft'
-          })
-        });
-
-        const data = await res.json();
-        if (data.success) {
-          showToast('🎉 上传成功！电脑 WebUI 实时支持图片/PDF 预览！');
-          document.getElementById('input-title').value = '';
-          document.getElementById('input-content').value = '';
-          document.getElementById('preview-box').style.display = 'none';
-          uploadedMediaUrl = null;
-          loadHistory();
-        } else {
-          showToast('❌ 上传失败: ' + data.message);
-        }
-      } catch (err) {
-        showToast('❌ 网络错误: ' + err.message);
-      } finally {
-        submitBtn.innerHTML = '<i class="ri-cloud-upload-line"></i> 上传原图/PDF 并预览';
-        submitBtn.disabled = false;
+    function seekBackward() {
+      if (audio.currentTime > 15) {
+        audio.currentTime -= 15;
+      } else {
+        currentIdx = (currentIdx - 1 + playlist.length) % playlist.length;
+        playTurn(currentIdx);
       }
     }
 
-    async function loadHistory() {
-      try {
-        const res = await fetch('/api/assets');
-        const data = await res.json();
-        if (data.success && data.data.items) {
-          const listEl = document.getElementById('history-list');
-          const items = data.data.items.slice(0, 5);
-          listEl.innerHTML = items.map(item => `
-            <div style="background-color: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 10px 12px;">
-              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                <span style="font-weight: 700; color: #3b82f6;">${item.asset_code}</span>
-                <span style="font-size: 10.5px; color: #64748b;">${new Date(item.created_at).toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit'})}</span>
-              </div>
-              <div style="font-size: 13px; font-weight: 600; margin-bottom: 2px;">${item.title}</div>
-              <div style="font-size: 11px; color: #94a3b8; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${item.summary || item.content}</div>
-            </div>
-          `).join('');
-        }
-      } catch (e) {}
+    function seekForward() {
+      if (audio.currentTime + 15 < audio.duration) {
+        audio.currentTime += 15;
+      } else {
+        currentIdx = (currentIdx + 1) % playlist.length;
+        playTurn(currentIdx);
+      }
     }
 
-    // 页面加载触发权限检查
-    checkAuth();
+    function toggleRate() {
+      let next = rates[(rates.indexOf(currentRate) + 1) % rates.length];
+      currentRate = next;
+      rateTxt.textContent = `${next}x`;
+      audio.playbackRate = next;
+    }
+
+    function listenQA(qaId) {
+      snapshot = { idx: currentIdx, time: audio.currentTime };
+      audio.pause();
+      fetch('/api/shared-qa').then(r => r.json()).then(data => {
+        const matched = (data.qas || []).find(q => q.id === qaId) || data.qas[0];
+        if (matched) {
+          tickerMsg.textContent = `🎧 正在为您旁听【${matched.user}】关于“${matched.question}”的解答...`;
+          if (matched.visualIntent === 'WATER_TEST') stageImg.src = '/images/water_test.jpg';
+          else if (matched.visualIntent === 'GREENHOUSE_IOT') stageImg.src = '/images/greenhouse_broll.png';
+          else stageImg.src = '/images/report_whiteboard.png';
+          dynamicQueue = [...matched.audioQueue];
+          if (dynamicQueue.length > 0) playDynamic(dynamicQueue.shift());
+        }
+      });
+    }
+
+    // 🎙️ 导播莉莉智能语音意图交互中枢 (Voice Intent Dispatcher)
+    let speechRecognizer = null;
+    if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      speechRecognizer = new SpeechRecognition();
+      speechRecognizer.lang = 'zh-CN';
+      speechRecognizer.continuous = false;
+      speechRecognizer.interimResults = false;
+    }
+
+    function executeVoiceIntent(q) {
+      if (!q || !q.trim()) return;
+      tickerMsg.textContent = `⚡ 导播莉莉已接收指令：“${q.slice(0, 18)}...” 正在分发...`;
+      audio.pause();
+      setActiveHost('C');
+
+      fetch('/api/voice-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mode: 'LILY_DIRECTOR',
+          text: q,
+          context: { current_chapter: playlist[currentTrackIndex]?.chapter_title || '第一章' }
+        })
+      })
+      .then(r => r.json())
+      .then(res => {
+        if (!res.success) throw new Error(res.error || '分发失败');
+
+        // 1. 命令式 COMMAND 响应
+        if (res.tier === 'COMMAND') {
+          tickerMsg.textContent = `👑 [导播控制] ${res.lily_monologue}`;
+          const cmd = res.command || {};
+          if (cmd.action === 'SEEK') {
+            audio.currentTime = Math.max(0, audio.currentTime + (cmd.offset_seconds || 0));
+          } else if (cmd.action === 'PAUSE') {
+            audio.pause();
+          } else if (cmd.action === 'RESUME') {
+            audio.play();
+          } else if (cmd.action === 'SET_RATE') {
+            audio.playbackRate = cmd.rate || 1.0;
+            document.getElementById('rateTxt').textContent = `${audio.playbackRate}x`;
+          }
+
+          if (res.audio_url) {
+            playDynamic({ host: 'C', audioUrl: res.audio_url, text: `【导播 莉莉】：${res.lily_monologue}` });
+          } else {
+            setTimeout(() => { audio.play(); }, 1200);
+          }
+        }
+        // 2. 修订式 REVISION 响应
+        else if (res.tier === 'REVISION') {
+          tickerMsg.textContent = `📜 [主理人修订账本] 已记录：“${q}”`;
+          if (res.audio_url) {
+            playDynamic({ host: 'C', audioUrl: res.audio_url, text: `【导播 莉莉】：${res.lily_monologue}` });
+          }
+        }
+        // 3. 询问式 INQUIRY 响应
+        else {
+          tickerMsg.textContent = `🔍 [多模态调度] 导播莉莉为您切屏展示实证`;
+          if (res.visual_intent === 'WATER_TEST') stageImg.src = '/images/water_test.jpg';
+          else if (res.visual_intent === 'GREENHOUSE_IOT') stageImg.src = '/images/greenhouse_broll.png';
+          else stageImg.src = '/images/report_whiteboard.png';
+
+          if (res.stage_badge) {
+            const badgeEl = document.querySelector('.stage-badge');
+            if (badgeEl) badgeEl.textContent = `🔍 ${res.stage_badge}`;
+          }
+
+          if (res.audio_url) {
+            dynamicQueue = [
+              { host: 'C', audioUrl: res.audio_url, text: `【导播 莉莉】：${res.lily_monologue}` }
+            ];
+            if (dynamicQueue.length > 0) playDynamic(dynamicQueue.shift());
+          }
+        }
+      })
+      .catch(err => {
+        console.warn('Voice intent error:', err);
+        tickerMsg.textContent = `⚠️ 导播莉莉分发异常: ${err.message}`;
+      });
+    }
+
+    function handleBargein() {
+      const bargeTxt = document.getElementById('bargeTxt');
+      if (speechRecognizer) {
+        bargeTxt.textContent = '🔴 正在聆听...';
+        tickerMsg.textContent = '🎙️ 麦克风已开启，请对导播莉莉说出指令（如：倒退30秒 / 为什么是金黄 / 年份不对）...';
+        
+        speechRecognizer.onresult = (event) => {
+          bargeTxt.textContent = '提问对线';
+          const spoken = event.results[0][0].transcript;
+          executeVoiceIntent(spoken);
+        };
+        speechRecognizer.onerror = (event) => {
+          bargeTxt.textContent = '提问对线';
+          const fallback = prompt('麦克风未能采音，请手动键入指令：', '倒退三十秒');
+          if (fallback) executeVoiceIntent(fallback);
+        };
+        speechRecognizer.onend = () => {
+          bargeTxt.textContent = '提问对线';
+        };
+        try {
+          speechRecognizer.start();
+        } catch (_) {
+          const fallback = prompt('导播莉莉演播室：请输入您的语音指令：', '倒退三十秒');
+          if (fallback) executeVoiceIntent(fallback);
+        }
+      } else {
+        const q = prompt('导播莉莉演播室：请输入您的指令（例如：倒退30秒 / 查质检报告 / 年份不对）：', '倒退三十秒');
+        if (q) executeVoiceIntent(q);
+      }
+    }
+
+    function openLandscape() {
+      document.getElementById('landscapeModal').style.display = 'flex';
+      document.getElementById('landscapeImg').src = stageImg.src;
+    }
+    function closeLandscape() {
+      document.getElementById('landscapeModal').style.display = 'none';
+    }
+    function sendPraise() {
+      tickerMsg.textContent = '✨ 您的赞叹已穿透发送至全网演播室！';
+      setTimeout(() => { tickerMsg.textContent = '雪域林泉 · 藏红花电台持续推流中...'; }, 2000);
+    }
   </script>
 </body>
 </html>

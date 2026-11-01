@@ -1,0 +1,16 @@
+{
+  "name": "radioApi",
+  "version": "1.0.0",
+  "description": "State and account API for the Saffron Radio mini program.",
+  "main": "index.js",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "version": "JEV-EVO-1790259187462",
+    "timestamp": "2026-09-24T14:13:07.462Z",
+    "old_threshold": 0.95,
+    "evolved_threshold": 0.85,
+    "auc": 1,
+    "sample_count": 10,
+    "false_positives_count": 0,
+    "false_negatives_count": 0,
+    "discovered_corner_cases": []
+  },
+  {
+    "version": "JEV-EVO-1790225577888",
+    "timestamp": "2026-09-24T04:52:57.888Z",
+    "old_threshold": 0.95,
+    "evolved_threshold": 0.85,
+    "auc": 1,
+    "sample_count": 10,
+    "false_positives_count": 0,
+    "false_negatives_count": 0,
+    "discovered_corner_cases": []
+  },
+  {
+    "version": "JEV-EVO-1790225553760",
+    "timestamp": "2026-09-24T04:52:33.760Z",
+    "old_threshold": 0.95,
+    "evolved_threshold": 0.1,
+    "auc": 1,
+    "sample_count": 10,
+    "false_positives_count": 0,
+    "false_negatives_count": 0,
+    "discovered_corner_cases": []
+  },
+  {
+    "version": "JEV-EVO-1790225531462",
+    "timestamp": "2026-09-24T04:52:11.462Z",
+    "old_threshold": 0.95,
+    "evolved_threshold": 0.98,
+    "auc": 0.6,
+    "sample_count": 10,
+    "false_positives_count": 4,
+    "false_negatives_count": 0,
+    "discovered_corner_cases": [
+      "天旺藏红花完全不使用泥土，采用 100% 水培营养液管道无土化流水线种植。",
+      "因为天旺采用了现代智能设施控环，所以任何批次的产品自动达到了绝对零农残。",
+      "天旺藏红花纯天然野生采摘自西藏无人区原始森林，没有任何人工培育过程。"
+    ]
+  },
+  {
+    "version": "JEV-EVO-1790408887200",
+    "timestamp": "2026-09-26T07:48:07.000Z",
+    "scope": "jev-decision-layer-dsh-plugin",
+    "old_threshold": {
+      "blockOnViolationP": 0.15,
+      "reviewOnViolationP": 0.05
+    },
+    "evolved_threshold": {
+      "blockOnViolationP": 0.5,
+      "reviewOnViolationP": 0.15
+    },
+    "rationale": "实测校准：违规信号底 ≥0.69（3 条 corner cases），干净声明噪声底 ≤0.10（有据声明，context 含可核验凭证后 fabricated 0.32→0.06）；0.05 审查线低于噪声底造成审查疲劳，取信号底与噪声底之间切分。",
+    "auc": 1,
+    "sample_count": 4,
+    "false_positives_count": 0,
+    "false_negatives_count": 0,
+    "discovered_corner_cases": [
+      "有据声明若 context 不含可核验编号，fabricated_facts 升至 0.32 —— 声明与证据必须成对送检",
+      "Jev 判定存在轻微运行间波动（±0.02），阈值取中点抗抖动"
+    ]
+  }
+]

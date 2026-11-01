@@ -3,14 +3,19 @@ import vue from '@vitejs/plugin-vue';
 import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
+import { jevDecisionEngine } from './src/services/jevDecisionEngine.js';
 
 // Real Server Storage File Path
 const DB_PATH = path.resolve(__dirname, 'Core/Knowledge/db.json');
 const INBOX_DIR = path.resolve(__dirname, 'Inbox/Documents');
+const INBOX_FIELD_DIR = path.resolve(__dirname, 'Inbox/Field');
+const INBOX_RESEARCH_DIR = path.resolve(__dirname, 'Inbox/Research');
 const MEDIA_DIR = path.resolve(__dirname, 'Inbox/Media');
 
 function ensureDirsExist() {
   if (!fs.existsSync(INBOX_DIR)) fs.mkdirSync(INBOX_DIR, { recursive: true });
+  if (!fs.existsSync(INBOX_FIELD_DIR)) fs.mkdirSync(INBOX_FIELD_DIR, { recursive: true });
+  if (!fs.existsSync(INBOX_RESEARCH_DIR)) fs.mkdirSync(INBOX_RESEARCH_DIR, { recursive: true });
   if (!fs.existsSync(MEDIA_DIR)) fs.mkdirSync(MEDIA_DIR, { recursive: true });
 
   if (!fs.existsSync(DB_PATH)) {
@@ -295,43 +300,145 @@ function apiServerPlugin() {
         if (url.pathname === '/api/assets' && req.method === 'POST') {
           let body = '';
           req.on('data', chunk => body += chunk);
-          req.on('end', () => {
+          req.on('end', async () => {
             try {
               const payload = JSON.parse(body);
               const newId = `asset-${Date.now()}`;
               const mod = db.modules.find(m => m.id === payload.module_id) || db.modules[0];
+              
+              // Run Jev System One evaluation & track classification
+              const track = payload.track || jevDecisionEngine.classifyTrack(`${payload.title || ''} ${payload.content || ''}`, payload);
+              const jevDecision = await jevDecisionEngine.auditAsset({
+                title: payload.title,
+                summary: payload.summary,
+                content: payload.content,
+                media_url: payload.media_url,
+                track
+              });
+
               const newAsset = {
                 id: newId,
                 uuid: `uuid-${Date.now()}`,
                 module_id: mod.id,
                 asset_code: `${mod.code}-${Math.floor(1000 + Math.random() * 9000)}`,
-                title: payload.title || '手机移动终端极速采集',
-                subtitle: payload.subtitle || 'Mobile Capture',
-                summary: payload.summary || (payload.content ? payload.content.slice(0, 100) : '手机终端数据'),
-                content: payload.content || '手机端采集的具体内容...',
+                title: payload.title || '移动/情报极速采集',
+                subtitle: payload.subtitle || (track === 'FIELD_REALITY' ? 'Field Capture' : 'Research Insight'),
+                summary: payload.summary || (payload.content ? payload.content.slice(0, 100) : '采集数据'),
+                content: payload.content || '采集的具体内容...',
                 quote: payload.quote || '',
                 status: payload.status || 'Draft',
+                track: track,
                 media_url: payload.media_url || null,
+                jev_decision: jevDecision,
+                governance_status: payload.status === 'Published' ? 'CERTIFIED_SSOT' : 'PENDING_INBOX',
                 version: 'v1.0',
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
-                tag_ids: ['tag-mobile-ingest']
+                tag_ids: ['tag-ingest', track === 'FIELD_REALITY' ? 'tag-field' : 'tag-research']
               };
 
               db.assets.push(newAsset);
               writeDb(db);
 
-              // Save Real Markdown File
-              const mdPath = path.resolve(INBOX_DIR, `MOB-${newAsset.asset_code}-${Date.now()}.md`);
-              const mdContent = `# ${newAsset.title}\n\n**Asset Code**: ${newAsset.asset_code}\n**Module**: ${mod.code}\n**Captured At**: ${newAsset.created_at}\n\n${newAsset.content}\n`;
+              // Route Markdown into specialized Dual-Track Ingestion directories
+              let targetDir = INBOX_DIR;
+              let filePrefix = 'INBOX';
+              if (track === 'FIELD_REALITY') {
+                targetDir = INBOX_FIELD_DIR;
+                filePrefix = 'FIELD';
+              } else if (track === 'RESEARCH_AUTHORITY') {
+                targetDir = INBOX_RESEARCH_DIR;
+                filePrefix = 'RES';
+              }
+
+              const mdPath = path.resolve(targetDir, `${filePrefix}-${newAsset.asset_code}-${Date.now()}.md`);
+              const mdContent = `# ${newAsset.title}\n\n**Asset Code**: ${newAsset.asset_code}\n**Track**: ${track}\n**Jev Safe**: ${jevDecision.is_safe} (P=${jevDecision.safe_probability})\n**Evidence Level**: ${jevDecision.evidence_level}\n**Captured At**: ${newAsset.created_at}\n\n${newAsset.content}\n`;
               fs.writeFileSync(mdPath, mdContent, 'utf-8');
 
-              triggerGitAutoSync(`Mobile Upload Asset ${newAsset.asset_code}: ${newAsset.title}`);
+              triggerGitAutoSync(`Dual-Track Ingest ${newAsset.asset_code} [${track}]: ${newAsset.title}`);
 
               res.statusCode = 201;
               res.end(JSON.stringify({ success: true, data: newAsset }));
             } catch (err) {
               res.statusCode = 400;
+              res.end(JSON.stringify({ success: false, message: err.message }));
+            }
+          });
+          return;
+        }
+
+        // Dual-Track Governance: Promote to Core SSOT
+        if (url.pathname.match(/\/api\/assets\/[^/]+\/promote$/) && req.method === 'POST') {
+          const id = url.pathname.replace('/api/assets/', '').replace('/promote', '');
+          const idx = db.assets.findIndex(a => a.id === id || a.asset_code === id);
+          if (idx !== -1) {
+            db.assets[idx].status = 'Published';
+            db.assets[idx].governance_status = 'CERTIFIED_SSOT';
+            db.assets[idx].updated_at = new Date().toISOString();
+            writeDb(db);
+
+            // Mirror canonical file to Core/Knowledge
+            try {
+              const coreDir = path.resolve(__dirname, 'Core/Knowledge');
+              const targetFile = path.resolve(coreDir, `SSOT-${db.assets[idx].asset_code}.md`);
+              const content = `# ${db.assets[idx].title}\n\n**Asset Code**: ${db.assets[idx].asset_code}\n**Track**: ${db.assets[idx].track || 'GENERAL'}\n**Certified Date**: ${db.assets[idx].updated_at}\n\n${db.assets[idx].content}\n`;
+              fs.writeFileSync(targetFile, content, 'utf-8');
+            } catch (e) {}
+
+            triggerGitAutoSync(`Promote Asset ${db.assets[idx].asset_code} to Core SSOT`);
+            res.end(JSON.stringify({ success: true, data: db.assets[idx] }));
+          } else {
+            res.statusCode = 404;
+            res.end(JSON.stringify({ success: false, message: 'Asset not found' }));
+          }
+          return;
+        }
+
+        // Dual-Track Governance: Reject Asset
+        if (url.pathname.match(/\/api\/assets\/[^/]+\/reject$/) && req.method === 'POST') {
+          const id = url.pathname.replace('/api/assets/', '').replace('/reject', '');
+          let body = '';
+          req.on('data', chunk => body += chunk);
+          req.on('end', () => {
+            const payload = body ? JSON.parse(body) : {};
+            const idx = db.assets.findIndex(a => a.id === id || a.asset_code === id);
+            if (idx !== -1) {
+              db.assets[idx].status = 'Blocked';
+              db.assets[idx].governance_status = 'REJECTED';
+              db.assets[idx].rejection_reason = payload.reason || 'Red-line violation or failed quality check';
+              db.assets[idx].updated_at = new Date().toISOString();
+              writeDb(db);
+              triggerGitAutoSync(`Reject Asset ${db.assets[idx].asset_code}`);
+              res.end(JSON.stringify({ success: true, data: db.assets[idx] }));
+            } else {
+              res.statusCode = 404;
+              res.end(JSON.stringify({ success: false, message: 'Asset not found' }));
+            }
+          });
+          return;
+        }
+
+        // Jev Batch Audit Endpoint
+        if (url.pathname === '/api/jev/batch-audit' && req.method === 'POST') {
+          let body = '';
+          req.on('data', chunk => body += chunk);
+          req.on('end', async () => {
+            try {
+              const payload = body ? JSON.parse(body) : {};
+              const scenario = payload.scenario || 'OFFICIAL_PR';
+              const report = await jevDecisionEngine.auditBatch(db.assets, scenario);
+              for (const item of report.results) {
+                const target = db.assets.find(a => a.id === item.asset_id);
+                if (target) {
+                  target.jev_decision = item.decision;
+                  if (item.decision.track) target.track = item.decision.track;
+                }
+              }
+              writeDb(db);
+              triggerGitAutoSync(`Jev Batch Audit Completed: ${report.passed}/${report.total} passed`);
+              res.end(JSON.stringify({ success: true, data: report }));
+            } catch (err) {
+              res.statusCode = 500;
               res.end(JSON.stringify({ success: false, message: err.message }));
             }
           });
@@ -533,6 +640,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
+        narrative: path.resolve(__dirname, 'narrative.html'),
         os: path.resolve(__dirname, 'os.html'),
         mobile: path.resolve(__dirname, 'mobile.html'),
         portal: path.resolve(__dirname, 'portal.html'),

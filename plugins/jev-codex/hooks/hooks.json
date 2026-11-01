@@ -1,0 +1,18 @@
+{
+  "description": "Use local Gemma for lightweight request routing before Codex starts substantial work.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${PLUGIN_ROOT}/hooks/user_prompt_submit.mjs",
+            "timeout": 22,
+            "statusMessage": "本地 Gemma 正在快速分流",
+            "additionalContextLimit": 350
+          }
+        ]
+      }
+    ]
+  }
+}

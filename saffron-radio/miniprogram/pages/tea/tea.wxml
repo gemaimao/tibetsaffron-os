@@ -1,0 +1,124 @@
+<!-- 茶室 · 向主播提问 -->
+<view class="page page--with-player">
+
+  <view class="hero">
+    <view class="brand-name">茶室</view>
+    <view class="brand-sub">向主播提问</view>
+    <view class="slogan">问节目，问产地，问工艺</view>
+  </view>
+
+  <view class="hairline hairline--wide"></view>
+
+  <!-- 隐私同意门 -->
+  <view class="gate" wx:if="{{privacyAccepted === false}}">
+    <view class="gate__title">隐私说明</view>
+    <view class="gate__body">提问内容会用于生成回答。同意前，本页不会发送任何提问内容，也不会发起登录。你可以在「我的」中随时撤回同意。</view>
+    <view class="gate__list">
+      <view class="gate__li">· 未同意时：仅浏览，不发送、不登录</view>
+      <view class="gate__li">· 同意后：一键登录，问答可同步到云端</view>
+      <view class="gate__li">· 不自动获取头像昵称，仅获取用于区分账号的 openid</view>
+    </view>
+    <button class="btn btn-primary gate__btn" bindtap="onAcceptPrivacy">同意并继续</button>
+  </view>
+
+  <!-- 运行状态 -->
+  <view class="status status--{{statusTone}}">
+    <view class="status__title">{{statusTitle}}</view>
+    <view class="status__desc">{{statusDesc}}</view>
+    <button class="btn btn-ghost btn-mini status__btn" wx:if="{{showLogin}}" bindtap="onLoginTap">一键登录</button>
+  </view>
+
+  <!-- 开场白 -->
+  <view class="msg msg--bot" wx:if="{{messages.length === 0 && notices.length === 0}}">
+    <view class="msg__bubble">
+      <view class="msg__text">{{greeting}}</view>
+    </view>
+  </view>
+
+  <!-- 对话 -->
+  <view class="msgs">
+    <block wx:for="{{messages}}" wx:for-item="msg" wx:key="key">
+      <view class="msg msg--user" wx:if="{{msg.role === 'user'}}">
+        <view class="msg__bubble msg__bubble--user">{{msg.text}}</view>
+      </view>
+
+      <view class="msg msg--bot" wx:else>
+        <view class="msg__bubble">
+          <view class="msg__text">{{msg.text}}</view>
+
+          <view class="msg__quote" wx:if="{{msg.quote}}">
+            <view class="msg__quote-text">{{msg.quote}}</view>
+          </view>
+
+          <view class="msg__foot">
+            <text class="msg__src" wx:if="{{msg.source === 'local'}}">本地知识库 · 非大模型回答</text>
+            <text class="msg__src msg__src--cloud" wx:else>云端回答</text>
+            <text class="msg__quoted" wx:if="{{msg.saved}}">· 已收藏</text>
+          </view>
+
+          <view class="msg__acts">
+            <view class="msg__act" data-id="{{msg.id}}" bindtap="onMakeCard">生成金句卡片</view>
+            <view class="msg__act" data-id="{{msg.id}}" bindtap="onToggleSaved">{{msg.saved ? '取消收藏' : '收藏'}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 失败提示（不生成替代答案） -->
+    <view class="msg msg--sys" wx:for="{{notices}}" wx:for-item="notice" wx:key="key">
+      <view class="msg__sys-text">{{notice.text}}</view>
+      <view class="msg__sys-acts">
+        <view class="msg__act msg__act--sys" data-text="{{notice.question}}" bindtap="onRetry">重试</view>
+        <view class="msg__act msg__act--sys" data-key="{{notice.key}}" bindtap="onDismissNotice">知道了</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="sending" wx:if="{{sending}}">正在提问…</view>
+
+  <!-- 推荐问题 -->
+  <view class="sugs" wx:if="{{messages.length === 0}}">
+    <view class="section-sub">可以这样问</view>
+    <view class="sugs__list">
+      <view class="sug" wx:for="{{suggestions}}" wx:key="*this" data-text="{{item}}" bindtap="onSuggestionTap">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="hairline hairline--wide"></view>
+
+  <!-- 输入 -->
+  <view class="composer">
+    <input
+      class="composer__input"
+      value="{{draft}}"
+      placeholder="写下你的问题（不超过 {{maxLength}} 字）"
+      placeholder-class="composer__ph"
+      maxlength="{{maxLength}}"
+      confirm-type="send"
+      disabled="{{privacyAccepted === false}}"
+      bindinput="onInput"
+      bindconfirm="onSend"
+    />
+    <view class="composer__send" bindtap="onSend">
+      <text class="composer__send-text">发送</text>
+    </view>
+  </view>
+  <view class="composer__hint" wx:if="{{privacyAccepted === false}}">同意隐私说明后才能提问</view>
+  <view class="composer__hint" wx:elif="{{cloudConfigured && loggedIn === false}}">登录后提问会发送到云端；未登录时不会发送任何内容</view>
+
+  <view class="notice notice--safety">
+    <view class="notice__dot"></view>
+    <view class="notice__text">{{safeguard}}</view>
+  </view>
+
+  <view class="tools">
+    <view class="tools__item" bindtap="onClearLocal">清空问答记录</view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<!-- 金句卡片画布（离屏，高度按内容动态调整） -->
+<canvas canvas-id="quoteCanvas" class="quote-canvas" style="width: 600px; height: {{cardCanvasH}}px;"></canvas>
+
+<mini-player />

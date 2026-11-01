@@ -1,0 +1,80 @@
+{
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "projectname": "saffron-radio",
+  "description": "雪域林泉·藏红花电台",
+  "appid": "wx0ed02a6db87c37a3",
+  "compileType": "miniprogram",
+  "libVersion": "3.5.5",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": false,
+    "newFeature": true,
+    "nodeModules": false,
+    "checkSiteMap": false,
+    "coverView": true,
+    "autoAudits": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "useCompilerPlugins": false,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "condition": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "藏红花电台 (主页)",
+          "pathName": "pages/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "德木口述史 (分包)",
+          "pathName": "packageDemu/pages/demu/demu",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "播放页",
+          "pathName": "pages/player/player",
+          "query": "episodeId=ep04",
+          "scene": null
+        },
+        {
+          "name": "茶室问答",
+          "pathName": "pages/tea/tea",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "我的",
+          "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  },
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {},
+  "isGameTourist": false
+}

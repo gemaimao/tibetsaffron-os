@@ -45,7 +45,29 @@
 
 ---
 
+## 🎙️ Sprint ID: `VOICE-INTENT-DISPATCHER-V15.1`
+- **Execution Date**: `2026-10-08`
+- **Status**: `Verified & All 36 Regression Tests PASS`
+
+### Sprint Deliverables
+1. **模式一 (OPS_CONTROLLER) 落地与打通**:
+   - `scripts/voice_intent_dispatcher.py` & `/opt/paseo-alerts/voice_intent_dispatcher.py` (云扬声线 `zh-CN-YunyangNeural`).
+   - `/opt/paseo-alerts/paseo_voice_ctl.sh`: VPS 端 Paseo 消息包装与手机双向推送.
+   - 实测指标: 磁盘健康查询、异步短剧台词流水线拉起、临时缓存自愈清理全数通畅.
+2. **模式二 (LILY_DIRECTOR) 落地与打通**:
+   - `src/services/voiceIntentDispatcher.js` (晓晓声线 `zh-CN-XiaoxiaoNeural`).
+   - 商业计划书 BP 3.2 节三层意图分流严密落地:
+     * Command: 倒退/快进/暂停/继续/语速调整 ➔ 毫秒级 Seek + 莉莉独白.
+     * Inquiry: 质检/水试/温室/丝路 ➔ 多模态 Stage 切屏 + CUE 专家.
+     * Revision: 历史勘误 ➔ 写入 `DEMU_REVISION_LEDGER.json` 永久存证.
+3. **接口与前端集成**:
+   - `server.mjs`: 挂载 `POST /api/voice-intent`.
+   - `public/mobile.html`: Web Speech API 极速语音识别 + 双模态闭环接入.
+4. **测试与验证**:
+   - `tests/test_voice_intent.mjs`: 36 项自动化测试全部通过 (0 失败).
+   - 云端 VPS 真实 SSH 调用与本地 HTTP API 调用双重通过.
+
+---
+
 ## ⏸️ Next Phase Standby
-- Governance V2.3 capability upgrade complete.
-- **Standby for Next Phase: Asset Migration Sprint** (mounting V2.3 3D governance metadata tags onto existing Tianwang assets).
-- **NO Git commit executed** as per sprint instructions.
+- Dual-Mode Voice Intent Dispatcher V15.1 Production Ready.

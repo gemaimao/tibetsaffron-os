@@ -1,0 +1,309 @@
+<!-- 《雪域林泉 · 藏红花电台》全双工互动演播室 OS -->
+<view class="container">
+  
+  <!-- 🌟 屏幕最右上角固定徽章 (点击切换主理人模式，长按直接进入德木演播室) -->
+  <view class="screen-live-badge {{isCreatorMode ? 'badge-creator-sovereign' : ''}}" bindtap="toggleCreatorMode" bindlongpress="goToDemuStudio">
+    <text class="live-dot">{{isCreatorMode ? '👑' : '●'}}</text>
+    <text class="live-text">{{isCreatorMode ? '主理人·强化学习中' : 'LIVE: 148人收听'}}</text>
+  </view>
+
+  <!-- 1. 顶部：期数编号 (EP.01 ▾) + 标题 (轻触呼出节目单目录抽屉) + 德木直达胶囊 -->
+  <view class="podcast-topic-bar">
+    <view class="topic-left-wrap" bindtap="openEpisodeDrawer">
+      <view class="topic-episode-badge">
+        <text>EP.0{{currentChapter}}</text>
+        <text class="badge-arrow">▾</text>
+      </view>
+      <text class="topic-title">{{currentChapterTitle}}</text>
+    </view>
+    <view class="topic-demu-btn" catchtap="goToDemuStudio">
+      <text class="demu-ico">📜</text>
+      <text class="demu-txt">德木口述史</text>
+    </view>
+  </view>
+
+  <!-- 2. 上面为评论区：真实收听观点短评滚动 + 发表评论 (Comments Zone) -->
+  <view class="danmaku-zone">
+    <!-- 实时收听观点滚动流 -->
+    <view class="danmaku-stream-row">
+      <view class="zone-tag tag-live"><text class="live-dot">●</text> 实时评论</view>
+      <swiper class="danmaku-marquee" autoplay circular vertical interval="3500" duration="500">
+        <swiper-item wx:for="{{danmakuList}}" wx:key="id" class="marquee-item">
+          <text class="dm-text">{{item.text}}</text>
+        </swiper-item>
+      </swiper>
+      <view class="dm-like-btn" bindtap="likeCurrentComment">
+        <text class="like-ico">♥</text>
+      </view>
+    </view>
+    <!-- 评论输入编辑区 -->
+    <view class="danmaku-input-row">
+      <input class="dm-input" 
+             placeholder="写下你的收听观点与评论..." 
+             placeholder-class="dm-input-ph"
+             value="{{danmakuInputText}}" 
+             bindinput="onDanmakuInput" 
+             confirm-type="send" 
+             bindconfirm="sendCustomDanmaku" />
+      <view class="dm-send-btn" bindtap="sendCustomDanmaku">
+        <text>评论</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 3. 封面图居中：可随机导入白板、图片、视频 (Centered Visual Stage) -->
+  <view class="stage-frame">
+    <swiper class="stage-swiper" current="{{currentSlide}}" bindchange="onSlideChange" indicator-dots="{{true}}" indicator-color="rgba(255,255,255,0.25)" indicator-active-color="#e5b974" autoplay="{{false}}">
+      <!-- 模态 0: 封面 · 喜马拉雅藏红花原景 -->
+      <swiper-item>
+        <view class="stage-slide" bindtap="previewCurrentAsset" data-src="/assets/images/cover.jpg">
+          <image class="stage-img" src="/assets/images/cover.jpg" mode="aspectFill"></image>
+        </view>
+      </swiper-item>
+
+      <!-- 模态 1: 权威检测白板 · 国家质检 A26SW02809 -->
+      <swiper-item>
+        <view class="stage-slide" bindtap="previewCurrentAsset" data-src="/assets/images/report_whiteboard.jpg">
+          <image class="stage-img" src="/assets/images/report_whiteboard.jpg" mode="aspectFit"></image>
+        </view>
+      </swiper-item>
+
+      <!-- 模态 2: 2945m CEA 智能温室监控看板 -->
+      <swiper-item>
+        <view class="stage-slide" bindtap="previewCurrentAsset" data-src="/assets/images/greenhouse_broll.jpg">
+          <image class="stage-img" src="/assets/images/greenhouse_broll.jpg" mode="aspectFit"></image>
+        </view>
+      </swiper-item>
+
+      <!-- 模态 3: 药典实验 · 水试金黄澄清沉丝实测 -->
+      <swiper-item>
+        <view class="stage-slide" bindtap="previewCurrentAsset" data-src="/assets/images/water_test.jpg">
+          <image class="stage-img" src="/assets/images/water_test.jpg" mode="aspectFill"></image>
+        </view>
+      </swiper-item>
+
+      <!-- 模态 4: 汉唐丝路与明清茶马古道 · 藏红花历史贸易与本草考证图谱 -->
+      <swiper-item>
+        <view class="stage-slide" bindtap="previewCurrentAsset" data-src="/assets/images/trade_map.jpg">
+          <image class="stage-img" src="/assets/images/trade_map.jpg" mode="aspectFit"></image>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 4. 下面为优选问题区：热问推荐与一键旁听 (Curated Q&A Zone) -->
+  <view class="curated-qa-zone">
+    <view class="qa-header-row">
+      <text class="zone-tag tag-gold">🎙️ 优选热问</text>
+    </view>
+    <scroll-view class="qa-scroll" scroll-x enable-flex>
+      <view class="qa-pill" wx:for="{{sharedQAList}}" wx:key="id" bindtap="listenToSharedQAById" data-qaid="{{item.id}}">
+        <text class="qa-user">【{{item.user}}】</text>
+        <text class="qa-question">{{item.question}}</text>
+        <view class="qa-listen-btn">🎧 旁听</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 5. 控制区：时间条 ＋ 单排按键 (Master Bottom Deck) -->
+  <view class="master-bottom-deck">
+    
+    <!-- 5.1 🌟 受控时间条 (Controlled Global Timeline) -->
+    <view class="deck-timeline-row">
+      <text class="timeline-time">{{currentProgressFormatted}}</text>
+      <view class="timeline-slider-wrap">
+        <slider class="timeline-slider" 
+                min="0" 
+                max="{{totalPodcastSeconds}}" 
+                value="{{currentTotalSeconds}}" 
+                block-size="12" 
+                activeColor="{{isTimelineFrozen ? '#f59e0b' : '#e5b974'}}" 
+                backgroundColor="rgba(255,255,255,0.12)" 
+                block-color="{{isTimelineFrozen ? '#f59e0b' : '#e5b974'}}" 
+                bindchange="onTimelineChange" 
+                bindchanging="onTimelineChanging" />
+        <view class="timeline-freeze-tag" wx:if="{{isTimelineFrozen}}">
+          <text class="freeze-dot">⏸</text>
+          <text>答疑已冻结在 {{frozenTimestampFormatted || currentProgressFormatted}}</text>
+        </view>
+      </view>
+      <text class="timeline-time time-total">{{totalDurationFormatted}}</text>
+    </view>
+
+    <!-- 5.2 【极简风格·三均分底坞】：收听(带后退/播放/前进) ＋ 提问(Ask) ＋ 导出 (三键三均分) -->
+    <view class="minimal-dock-row">
+      <!-- 1. 收听组 (后退15s + 播放/暂停 + 前进15s) 占据1/3 -->
+      <view class="dock-col col-listen">
+        <view class="step-sub-btn" bindtap="seekBackward">⏪</view>
+        <view class="play-main-sub-btn {{isPlaying ? 'sub-play-active' : ''}}" bindtap="togglePlay">
+          <text class="play-sub-ico">{{isPlaying ? '⏸' : '▶'}}</text>
+        </view>
+        <view class="step-sub-btn" bindtap="seekForward">⏩</view>
+      </view>
+
+      <!-- 2. 提问键 (Ask) 占据1/3 -->
+      <view class="dock-col col-ask {{isRecording ? 'barge-recording' : ''}}" bindtap="handleInterruptQuestion">
+        <view class="record-dot {{isRecording ? 'dot-on' : ''}}"></view>
+        <text class="dock-ico">{{isRecording ? '⏹' : '🎙️'}}</text>
+        <text class="dock-txt">{{isRecording ? (recordSec >= 50 ? ('倒数 ' + (60 - recordSec) + 's') : ('Ask ' + recordSec + 's')) : 'Ask'}}</text>
+      </view>
+
+      <!-- 3. 导出键 (导出) 占据1/3 -->
+      <view class="dock-col col-export" bindtap="exportPodcast">
+        <text class="dock-ico">📥</text>
+        <text class="dock-txt">导出</text>
+      </view>
+    </view>
+
+  </view>
+
+  <!-- 🌟 录音与10秒收尾倒数全局 HUD (60s Recording Limit & 10s Countdown) -->
+  <view class="recording-hud-mask" wx:if="{{isRecording}}" catchtouchmove="true">
+    <view class="recording-hud-card {{recordSec >= 50 ? 'hud-warning-pulse' : ''}}">
+      <view class="hud-mic-ring {{recordSec >= 50 ? 'mic-ring-urgent' : ''}}" bindtap="finishRecordingAndSubmit">
+        <text class="hud-mic-icon">{{recordSec >= 50 ? '⏳' : '🎙️'}}</text>
+      </view>
+      <text class="hud-status-title">{{recordSec >= 50 ? '即将截止，请收尾提问' : '正在录制您的语音提问...'}}</text>
+      <view class="hud-timer-badge {{recordSec >= 50 ? 'timer-badge-urgent' : ''}}">
+        <text class="hud-sec-num">{{recordSec >= 50 ? (60 - recordSec) : recordSec}}</text>
+        <text class="hud-sec-unit">{{recordSec >= 50 ? '秒后自动提交' : 's / 60s'}}</text>
+      </view>
+      <text class="hud-tip-txt">{{recordSec >= 50 ? '已进入最后10秒，请尽快收尾' : '轻触【完成提问】或点击下方播放/提问键随时提前提交'}}</text>
+
+      <!-- 🌟 操作按钮区：显式完成与放弃按钮，彻底根治“点不着”问题 -->
+      <view class="hud-action-row">
+        <button class="hud-btn-cancel" bindtap="cancelRecording">✕ 放弃</button>
+        <button class="hud-btn-submit" bindtap="finishRecordingAndSubmit">
+          <text class="btn-sub-ico">⏹</text>
+          <text>说完了 · 立即解答</text>
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 🌟 动态答疑专属快捷条：如果听众想提前结束答疑，随时一键恢复正片 -->
+  <view class="dynamic-qa-dock-bar" wx:if="{{isDynamicActive && !isRecording}}" bindtap="exitDynamicQAAndResume">
+    <text class="dynamic-dot">⚡</text>
+    <text class="dynamic-tip">正在互动答疑中 · 点击此处可提前结束并返回正片</text>
+    <text class="dynamic-skip-btn">返回正片 ›</text>
+  </view>
+
+  <!-- 6. 最下方：高大上品牌信息栏 (Brand Hallmark / 沉底居中版权位) -->
+  <view class="brand-hallmark-bar" bindtap="showBrandCertificate">
+    <view class="brand-line-glow"></view>
+    <view class="brand-content">
+      <text class="crest-icon">✦</text>
+      <text class="brand-copyright-txt">出品：STARSPINE STUDIO(星脊工作室)</text>
+      <text class="brand-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 7. 👑 星脊工作室 (STARSPINE STUDIO) 官方产品卡片模态窗 -->
+  <view class="brand-modal-mask" wx:if="{{showBrandModal}}" bindtap="closeBrandCertificate" catchtouchmove="true">
+    <view class="brand-card-sheet" catchtap="preventProp">
+      <view class="sheet-gold-glow"></view>
+      <view class="sheet-header">
+        <view class="sheet-title-group">
+          <text class="sheet-sub">PRODUCED BY STARSPINE STUDIO</text>
+          <text class="sheet-main">星脊工作室 · 新一代 AI 互动播客系统</text>
+        </view>
+        <view class="sheet-close" bindtap="closeBrandCertificate">✕</view>
+      </view>
+
+      <view class="sheet-badge-row">
+        <view class="sheet-badge"><text class="badge-dot">●</text> 旗舰产品：Interactive Podcast OS</view>
+        <view class="sheet-badge"><text class="badge-dot">●</text> 架构：一人公司 (Solopreneur)</view>
+        <view class="sheet-badge gold-badge"><text class="badge-dot">●</text> 毫秒级打断与真全双工</view>
+      </view>
+
+      <view class="sheet-specs-grid">
+        <view class="spec-cell">
+          <text class="spec-label">出品机构</text>
+          <text class="spec-val">星脊工作室 (StarSpine)</text>
+        </view>
+        <view class="spec-cell">
+          <text class="spec-label">核心系统</text>
+          <text class="spec-val">StarSpine Neural OS v3.0</text>
+        </view>
+        <view class="spec-cell">
+          <text class="spec-label">机构服务品牌</text>
+          <text class="spec-val">天旺农牧 <text class="spec-note">(归属本工作室技术赋能)</text></text>
+        </view>
+        <view class="spec-cell">
+          <text class="spec-label">商业赋能</text>
+          <text class="spec-val">一人公司 · 品牌全双工播客定制</text>
+        </view>
+      </view>
+
+      <view class="sheet-footer-tip">
+        <text class="seal-icon">✦</text>
+        <text>Designed & Engineered by StarSpine Studio · 天旺农牧数字化技术服务商</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 🔄 横屏沉浸全屏查验模态窗 (专门为宽幅 A26SW02809 报告设计) -->
+  <view class="landscape-modal" wx:if="{{showLandscapeModal}}" catchtouchmove="true">
+    <view class="landscape-container">
+      <image class="landscape-img" src="{{landscapeImageSrc}}" mode="aspectFit"></image>
+      <view class="landscape-close-btn" bindtap="closeLandscapeModal">✕ 退出横屏</view>
+      <view class="landscape-hint">🔄 已切换为横屏宽幅视角 · 支持全屏细查检测单数据与公章</view>
+    </view>
+  </view>
+
+  <!-- 8. 📜 智识剧场节目单 · 选集抽屉 (Episode Catalog Drawer) -->
+  <view class="episode-drawer-mask" wx:if="{{showEpisodeDrawer}}" bindtap="closeEpisodeDrawer" catchtouchmove="true">
+    <view class="episode-drawer-sheet" catchtap="preventProp">
+      <view class="sheet-drag-handle"></view>
+      <view class="drawer-header">
+        <view class="drawer-title-group">
+          <text class="drawer-main-title">🎙️ 节目单 · 藏红花科学澄清系列</text>
+          <text class="drawer-sub-title">星脊工作室定制化出品 · 声画同频多模态智识剧场</text>
+        </view>
+        <view class="drawer-close" bindtap="closeEpisodeDrawer">✕</view>
+      </view>
+
+      <!-- 🌟 演播室频道直通车：德木口述史工坊 (旺久多吉老先生专属) -->
+      <view class="channel-switch-card" bindtap="goToDemuStudio">
+        <view class="channel-switch-left">
+          <view class="channel-badge">文化抢救 · 专属演播室</view>
+          <text class="channel-switch-title">🏛️ 德木口述史 · 旺久多吉演播室</text>
+          <text class="channel-switch-desc">全语音脱屏伴读 · 导播莉莉实时意图裁决与口述校勘</text>
+        </view>
+        <view class="channel-switch-btn">进入 ➔</view>
+      </view>
+
+      <scroll-view class="drawer-scroll" scroll-y enable-flex>
+        <view class="episode-item {{currentChapter === item.chapter ? 'item-active' : ''}}" 
+              wx:for="{{episodeList}}" 
+              wx:key="chapter" 
+              bindtap="selectEpisode" 
+              data-chapter="{{item.chapter}}" 
+              data-index="{{item.firstIndex}}">
+          <view class="item-left">
+            <view class="item-ep-badge">EP.0{{item.chapter}}</view>
+            <view class="item-info">
+              <view class="item-title-row">
+                <text class="item-title">{{item.title}}</text>
+              </view>
+              <text class="item-meta">{{item.speaker}} · 视觉物证: {{item.visualTag}}</text>
+            </view>
+          </view>
+          <view class="item-right">
+            <view class="now-playing-tag" wx:if="{{currentChapter === item.chapter}}">
+              <text class="wave-dot">●</text>
+              <text>收听中</text>
+            </view>
+            <view class="play-hint-btn" wx:elif="{{item.isReady}}">
+              <text>▶ 选集</text>
+            </view>
+            <view class="lock-hint-btn" wx:else>
+              <text>待建</text>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+</view>

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "jev-codex": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["server.mjs"],
+      "cwd": ".",
+      "env_vars": ["TYPESAFE_API_KEY", "OLLAMA_HOST", "OLLAMA_MODEL"]
+    }
+  }
+}

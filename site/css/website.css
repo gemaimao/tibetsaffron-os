@@ -3,3 +3,38 @@
 @media(min-width:1500px){.hero{min-height:690px}.hero-photo{height:555px}}@media(max-width:1100px){.wrap{padding:0 35px}.nav{gap:20px}.top-tools>a{display:none}.hero{gap:25px}.hero-photo{height:465px}.origin-story{gap:60px;padding-left:15px;padding-right:15px}.season-layout{gap:40px}.labor-grid{gap:40px}.annual-caption{display:none}.product-photo{height:240px}}
 @media(max-width:760px){html{scroll-padding-top:115px}.wrap{padding:0 22px}.top{height:77px;position:relative}.brand b{font-size:17px}.brand small{font-size:7px}.brand-logo{width:34px;height:34px;border-radius:5px}.brand-mark{width:32px;height:39px;font-size:22px}.top-tools{gap:6px}.nav-ai{font-size:10px;padding:6px 9px}.nav-notice{font-size:10px;padding:6px 10px}.menu-button{display:block;padding:8px}.nav{display:none;position:absolute;top:76px;left:-22px;right:-22px;background:var(--tw-paper);padding:18px 22px;z-index:50;border-bottom:1px solid var(--tw-line);justify-content:space-between;gap:10px}.nav.open{display:flex}.nav a{font-size:12px}.preview-strip{font-size:8px}.hero{grid-template-columns:1fr;gap:29px;padding:29px 0 28px;min-height:0}.hero h1{font-size:36px;letter-spacing:1px;margin:22px 0}.hero .mission{font-size:15px;letter-spacing:3px}.hero .intro{font-size:12px;max-width:100%}.hero .link{margin-top:18px}.hero-art{padding:0 16px 0 22px}.hero-photo{height:380px;border-radius:47% 47% 2px 2px}.roundel{width:83px;height:83px;left:0;bottom:43px;outline-width:5px}.roundel b{font-size:23px}.roundel small{font-size:7px}.art-side{right:-3px;top:35px;font-size:8px}.photo-caption{font-size:8px}.hero-bottom{padding:15px 0}.hero-bottom .location{gap:13px;font-size:8px}.hero-bottom strong{font-size:25px}.hero-bottom .scroll-hint{font-size:8px}.origin-story{grid-template-columns:1fr;gap:33px;padding:53px 0}.chapter-label{margin-bottom:13px;gap:13px}.chapter-label .number{font-size:37px}.section-title{font-size:29px}.story-intro{font-size:12px}.timeline{gap:17px;margin-left:5px}.annual-inner{flex-wrap:wrap;gap:7px;padding-top:10px;padding-bottom:10px;justify-content:center}.annual-title{font-size:9px;display:flex;align-items:baseline}.annual-title b{font-size:16px}.season-switch{gap:1px}.season-button{font-size:11px;min-width:59px;padding:7px 12px}.chapter{padding:56px 0}.chapter-head{align-items:start;flex-direction:column;gap:16px;margin-bottom:29px}.chapter-head .aside{max-width:100%;font-size:11px}.terroir-grid{grid-template-columns:1fr;gap:30px}.place-image img{height:252px}.place-title{font-size:27px}.altitude b{font-size:67px}.environment-tags span{font-size:10px}.season-layout{grid-template-columns:1fr;gap:24px}.calendar{width:300px;height:300px}.calendar button:nth-of-type(1){left:120px}.calendar button:nth-of-type(2){top:120px}.calendar button:nth-of-type(3){left:120px}.calendar button:nth-of-type(4){top:120px}.calendar .ring-center{width:170px;height:170px}.season-copy{padding-top:7px}.season-name{font-size:53px}.season-copy h3{font-size:23px}.season-copy>p{max-width:none}.labor-grid{grid-template-columns:1fr;gap:16px}.labor-photo img{height:435px}.labor-text{padding:6px 0}.labor-text h3{font-size:30px}.product-grid{grid-template-columns:1fr;gap:38px}.product-photo{height:300px}.product-photo.document{padding:20px 80px}.product-card h3{font-size:26px}.product-card p{max-width:none}.evidence-line{flex-direction:column;align-items:start;gap:13px;margin-top:32px}.footer{padding:39px 0 24px}.footer-top{grid-template-columns:1fr;gap:25px}.footer-title{font-size:25px}.footer-links{font-size:11px}.footer-bottom{flex-direction:column;gap:8px}.detail-hero{padding:43px 0 28px}.detail-hero h1{font-size:36px}.detail-layout{grid-template-columns:1fr;gap:26px}.detail-aside{position:static}.article p,.article li{font-size:13px}.workspace-options{grid-template-columns:1fr}.dialog{padding:25px}.dialog-head h2{font-size:26px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+
+/* 天旺农牧“西藏藏红花”产业战略与官网扩充样式 */
+.strategy-banner{background:#fff;border:1px solid var(--tw-line);border-left:4px solid var(--tw-purple);padding:24px 28px;border-radius:8px;margin:28px 0;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
+.strategy-banner .quote{font:20px/1.6 var(--tw-serif);color:var(--tw-purple);letter-spacing:1px;margin-bottom:8px}
+.strategy-banner .quote-author{font-size:12px;color:var(--tw-muted);letter-spacing:1.5px}
+.strategy-pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:24px 0}
+.pillar-card{background:#fff;border:1px solid var(--tw-line);border-radius:8px;padding:18px;position:relative}
+.pillar-card small{font-size:10px;font-weight:700;color:var(--tw-purple);letter-spacing:1.5px;display:block;margin-bottom:6px}
+.pillar-card strong{font:17px var(--tw-serif);color:var(--tw-ink);display:block;margin-bottom:6px}
+.pillar-card p{font-size:12px;line-height:1.8;color:var(--tw-muted);margin:0}
+.four-sites-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0}
+.site-box{background:#fff;border:1px solid var(--tw-line);border-radius:8px;padding:20px}
+.site-box .site-badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:14px;background:#f5edf6;color:var(--tw-purple);margin-bottom:10px}
+.site-box h4{font:18px var(--tw-serif);margin:0 0 8px;color:var(--tw-ink)}
+.site-box p{font-size:12px;line-height:1.9;color:var(--tw-muted);margin:0}
+.dual-center-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin:28px 0}
+.center-card{background:#fff;border:1px solid var(--tw-line);border-radius:10px;padding:26px}
+.center-card h3{font:22px var(--tw-serif);color:var(--tw-purple);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.center-card ul{padding-left:18px;margin:14px 0}
+.center-card li{font-size:13px;line-height:2;color:var(--tw-ink)}
+.strategy-img-box{position:relative;background:#f4f1ea;border:1px solid var(--tw-line);border-radius:10px;overflow:hidden;margin:28px 0}
+.strategy-img-box img{width:100%;height:auto;display:block;cursor:zoom-in}
+.strategy-img-box .caption{padding:12px 18px;font-size:11px;color:var(--tw-muted);background:#fff;border-top:1px solid var(--tw-line);display:flex;justify-content:space-between;align-items:center}
+.terroir-matrix{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:28px 0}
+.terroir-item{background:#fff;border:1px solid var(--tw-line);border-radius:8px;padding:18px}
+.terroir-item .tag{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--tw-purple);background:#f6edf7;padding:3px 8px;border-radius:4px;display:inline-block;margin-bottom:8px}
+.terroir-item h4{font:17px var(--tw-serif);color:var(--tw-ink);margin:0 0 6px}
+.terroir-item p{font-size:12px;line-height:1.9;color:var(--tw-muted);margin:0}
+.visit-guide-box{background:#fff;border:1px solid var(--tw-line);border-radius:10px;padding:26px;margin:28px 0}
+.visit-guide-box h3{font:22px var(--tw-serif);margin-bottom:14px}
+.visit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:16px}
+.visit-cell{background:#fbf9f4;border:1px solid var(--tw-line);border-radius:6px;padding:14px}
+.visit-cell strong{display:block;font-size:13px;color:var(--tw-ink);margin-bottom:4px}
+.visit-cell span{font-size:12px;color:var(--tw-muted);line-height:1.7;display:block}
+

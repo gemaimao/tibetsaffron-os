@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "\u6211\u7684",
+  "usingComponents": {
+    "mini-player": "/components/mini-player/index"
+  }
+}

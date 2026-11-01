@@ -14,6 +14,7 @@ import { renderReleaseManagerView } from './views/releaseManagerView.js';
 import { renderModuleManagerView } from './views/moduleManagerView.js';
 import { renderRelationGraphView } from './views/relationGraphView.js';
 import { renderSettingsView } from './views/settingsView.js';
+import { renderDualTrackHubView } from './views/dualTrackHubView.js';
 
 import { store } from './services/store.js';
 import { api } from './services/api.js';
@@ -144,6 +145,11 @@ class AppRouter {
       );
     } else if (path === 'settings') {
       renderSettingsView(mainContainer);
+    } else if (path === 'dual-track-hub') {
+      renderDualTrackHubView(
+        mainContainer,
+        (assetId) => this.navigateToAssetDetail(assetId)
+      );
     } else if (path === 'new-asset') {
       const createdRes = api.createAsset({
         title: '未命名 Brand Asset',

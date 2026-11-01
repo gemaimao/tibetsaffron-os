@@ -148,6 +148,246 @@ export default {
       }
     }
 
+    // 2.1 实时弹幕接口
+    if (url.pathname === "/api/danmaku" || url.pathname === "/api/danmaku/") {
+      if (request.method === "GET") {
+        return new Response(JSON.stringify({
+          success: true,
+          onlineListeners: 142,
+          danmakus: [
+            { user: "拉萨茶友", text: "刚到拉萨，满街都卖藏红花，到底怎么看真伪？" },
+            { user: "林芝姆多村驻村老周", text: "米瑞乡这温室真下了血本，大棚顶全是智能遮阳幕布！" },
+            { user: "成都会员李姐", text: "泡水出来确实是金黄色丝带状，不是染色的假红水！" },
+            { user: "广州健康体验官", text: "查了 A26SW02809 报告，苦素和西红花苷指标确实高！" }
+          ]
+        }), {
+          headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
+        });
+      }
+      if (request.method === "POST") {
+        const body = await request.json().catch(() => ({}));
+        return new Response(JSON.stringify({
+          success: true,
+          item: {
+            user: body.user || "听众",
+            text: body.text || ""
+          }
+        }), {
+          headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
+        });
+      }
+    }
+
+    // 2.2 共享答疑库
+    if (url.pathname === "/api/shared-qa" || url.pathname === "/api/shared-qa/") {
+      return new Response(JSON.stringify({
+        success: true,
+        list: [
+          {
+            id: 101,
+            user: "听众老李",
+            question: "藏红花泡水为什么是金黄色？",
+            visualIntent: "WATER_TEST",
+            audioQueue: [
+              { host: "C", audioUrl: "assets/audio/master/turn_10_C.mp3", text: "【导播 莉莉】：这位听众问到了大家最容易误解的水试颜色！" },
+              { host: "B", audioUrl: "assets/audio/master/turn_11_B.mp3", text: "【专家 林博士】：天然番红花苷是强极性水溶性色素，入水垂直沉丝，纯净金黄绝无血红！" }
+            ],
+            listenCount: 28
+          },
+          {
+            id: 102,
+            user: "林芝茶友",
+            question: "林芝2945米高山温室到底有没有薄霜？",
+            visualIntent: "GREENHOUSE_IOT",
+            audioQueue: [
+              { host: "A", audioUrl: "assets/audio/master/turn_05_A.mp3", text: "【主持 扎西】：林芝在东经94.4°，早上六点天黑透了，现代温室有地暖根本无薄霜！" },
+              { host: "B", audioUrl: "assets/audio/master/turn_06_B.mp3", text: "【专家 林博士】：采收抢的是花药未裂的黄金几小时，遮阳幕布自动调光，高科技控温。" }
+            ],
+            listenCount: 42
+          },
+          {
+            id: 103,
+            user: "成都游客小周",
+            question: "天旺藏红花在国家法定质检的实测指标如何？",
+            visualIntent: "WHITEBOARD_REPORT",
+            audioQueue: [
+              { host: "C", audioUrl: "assets/audio/master/turn_12_C.mp3", text: "【导播 莉莉】：导播台已为您切出国家权威检测报告 A26SW02809 白板！" },
+              { host: "B", audioUrl: "assets/audio/master/turn_13_B.mp3", text: "【专家 林博士】：药典规定苷含量≥10.0%，天旺实测高达15.8%，苦素远超国标！" }
+            ],
+            listenCount: 65
+          }
+        ]
+      }), {
+        headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
+      });
+    }
+
+    // 2.3 全双工动态打断接口
+    if (url.pathname === "/api/bargein" || url.pathname === "/api/bargein/") {
+      if (request.method === "POST") {
+        try {
+          const body = await request.json().catch(() => ({}));
+          const question = String(body.userInput || body.question || "").trim();
+          let visualIntent = "WHITEBOARD_REPORT";
+          if (/水|颜色|金黄|染色|水试/.test(question)) {
+            visualIntent = "WATER_TEST";
+          } else if (/大棚|温室|环境|薄霜|霜冻|温度/.test(question)) {
+            visualIntent = "GREENHOUSE_IOT";
+          } else if (/历史|丝绸之路|茶马古道|赵学敏|来源|地名/.test(question)) {
+            visualIntent = "TRADE_MAP";
+          }
+
+          let lilyText = `这位朋友抓住了核心要害：“${question.slice(0, 18)}”。林博士，请您依据《中国药典》为听众深入解答！`;
+          let linText = `依据《中国药典》与天旺基地检测报告（No. A26SW02809），林芝米瑞乡2945米高海拔大温差促进了番红花苷深度积累，实测指标远超国标一级品，且39项农残零检出。`;
+          let bridgeText = `好山好水出好物，雪域现代农业打破了传统瓶颈，咱们顺着这层活性接着往下听。`;
+
+          // 若配置了 AMD DeepSeek-V4，进行实时生成
+          try {
+            const amdApiKey = (env && env.AMD_API_KEY) || DEFAULT_AMD_API_KEY;
+            const amdEndpoint = ((env && env.AMD_API_ENDPOINT) || DEFAULT_AMD_ENDPOINT).replace(/\/+$/, "");
+            const amdModel = (env && env.AMD_MODEL) || DEFAULT_AMD_MODEL;
+            const prompt = `听众向电台提问：“${question}”。请分别以【导播莉莉】（热情专业引导）、【专家林博士】（基于中国药典与天旺检测报告严谨科学作答，2句话）、【主持扎西】（淳朴温润桥接回主线，1句话）的角色生成应答。纯JSON格式：{"lily":"...","lin":"...","bridge":"..."}`;
+            const aiRes = await fetch(`${amdEndpoint}/chat/completions`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "Authorization": `Bearer ${amdApiKey}` },
+              body: JSON.stringify({
+                model: amdModel,
+                messages: [{ role: "user", content: prompt }],
+                temperature: 0.3,
+                max_tokens: 400
+              })
+            });
+            const aiData = await aiRes.json();
+            const rawContent = aiData.choices?.[0]?.message?.content || "";
+            const jsonMatch = rawContent.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+              const parsed = JSON.parse(jsonMatch[0]);
+              if (parsed.lily) lilyText = parsed.lily;
+              if (parsed.lin) linText = parsed.lin;
+              if (parsed.bridge) bridgeText = parsed.bridge;
+            }
+          } catch(e) {}
+
+          return new Response(JSON.stringify({
+            success: true,
+            visualIntent: visualIntent,
+            lily: {
+              speaker: "HOST_C",
+              name: "导播 · 莉莉",
+              text: lilyText,
+              audioUrl: "assets/audio/filler_lily.mp3"
+            },
+            lin: {
+              speaker: "HOST_B",
+              name: "专家 · 林博士",
+              text: linText,
+              audioUrl: visualIntent === "WATER_TEST" ? "assets/audio/master/turn_11_B.mp3" : "assets/audio/master/turn_13_B.mp3"
+            },
+            bridge: {
+              speaker: "HOST_A",
+              name: "主持 · 扎西",
+              text: bridgeText,
+              audioUrl: "assets/audio/master/turn_02_A.mp3"
+            }
+          }), {
+            headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
+          });
+        } catch (err) {
+          return new Response(JSON.stringify({ success: false, error: err.message }), {
+            status: 500,
+            headers: { ...CORS_HEADERS, "Content-Type": "application/json; charset=utf-8" }
+          });
+        }
+      }
+    }
+
+    // 2.5 微信握手桥：公众号(测试号)服务器回调 + AI 大脑被动回复
+    //     握手协议：GET 校验 sha1(token,timestamp,nonce) 并回显 echostr；POST 收消息 → AI 应答
+    if (url.pathname === "/api/wechat" || url.pathname === "/api/wechat/") {
+      const wxToken = (env && env.WECHAT_BRIDGE_TOKEN) || "08b125c77018210b";
+
+      const wxSignature = async (token, timestamp, nonce) => {
+        const raw = [token, timestamp, nonce].sort().join("");
+        const buf = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(raw));
+        return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+      };
+
+      if (request.method === "GET") {
+        const qs = url.searchParams;
+        const echostr = qs.get("echostr");
+        if (echostr !== null) {
+          const sig = await wxSignature(wxToken, qs.get("timestamp") || "", qs.get("nonce") || "");
+          if (sig === (qs.get("signature") || "")) {
+            return new Response(echostr, { status: 200, headers: { "Content-Type": "text/plain; charset=utf-8" } });
+          }
+          return new Response("handshake failed: signature mismatch", { status: 403 });
+        }
+        // 无 echostr：桥状态页（配对说明）
+        return new Response(
+          `<!doctype html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DSH ⇋ 微信握手桥</title></head>` +
+          `<body style="font-family:-apple-system,sans-serif;max-width:560px;margin:40px auto;padding:0 16px;line-height:1.7">` +
+          `<h2>✅ 微信握手桥在线</h2><p>回调端点：<code>/api/wechat</code><br>配对令牌：<code>${wxToken.slice(0, 6)}…</code>（完整值见 Worker 源码 <code>WECHAT_BRIDGE_TOKEN</code> 或环境变量）</p>` +
+          `<ol><li>登录 <a href="https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index">公众平台测试号</a></li>` +
+          `<li>「接口配置信息」URL 填 <code>${url.origin}/api/wechat</code>，Token 填配对令牌，点提交（即完成服务器握手）</li>` +
+          `<li>扫码关注测试号 → 微信发消息 → AI 大脑回复。握手完成。</li></ol></body></html>`,
+          { headers: { "Content-Type": "text/html; charset=utf-8" } });
+      }
+
+      if (request.method === "POST") {
+        try {
+          const xml = await request.text();
+          const pick = (tag) => {
+            const m = xml.match(new RegExp(`<${tag}>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?</${tag}>`));
+            return m ? m[1] : "";
+          };
+          const fromUser = pick("FromUserName");
+          const toOfficial = pick("ToUserName");
+          const msgType = pick("MsgType");
+          const event = pick("Event");
+          let replyText = "";
+
+          if (msgType === "event" && event === "subscribe") {
+            replyText = "握手成功 ✅ 你的微信已与 DSH/AI 大脑建立会话，直接发消息即可。";
+          } else if (msgType === "text") {
+            const question = pick("Content").trim().slice(0, 500);
+            const amdApiKey = (env && env.AMD_API_KEY) || DEFAULT_AMD_API_KEY;
+            const amdEndpoint = ((env && env.AMD_API_ENDPOINT) || DEFAULT_AMD_ENDPOINT).replace(/\/+$/, "");
+            const amdModel = (env && env.AMD_MODEL) || DEFAULT_AMD_MODEL;
+            let answer = "";
+            try {
+              const aiRes = await fetch(`${amdEndpoint}/chat/completions`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${amdApiKey}` },
+                body: JSON.stringify({
+                  model: amdModel,
+                  messages: [
+                    { role: "system", content: UNIFIED_SYSTEM_PROMPT },
+                    { role: "user", content: question }
+                  ],
+                  temperature: 0.25,
+                  max_tokens: 700
+                })
+              });
+              const data = await aiRes.json();
+              answer = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
+            } catch (e) {
+              answer = "";
+            }
+            replyText = answer ? answer.replace(/\]\]>/g, "］］>").slice(0, 600)
+                               : "AI 算力通道暂时无响应，请稍后重试。";
+          } else {
+            replyText = `已收到你的消息（类型：${msgType || "unknown"}）。当前支持文字消息的 AI 应答。`;
+          }
+
+          const ts = Math.floor(Date.now() / 1000);
+          const xmlReply = `<xml><ToUserName><![CDATA[${fromUser}]]></ToUserName><FromUserName><![CDATA[${toOfficial}]]></FromUserName><CreateTime>${ts}</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[${replyText}]]></Content></xml>`;
+          return new Response(xmlReply, { headers: { "Content-Type": "application/xml; charset=utf-8" } });
+        } catch (err) {
+          return new Response("success", { status: 200 });
+        }
+      }
+    }
+
     // 3. 静态资源转发 (Cloudflare Pages 静态资产托管)
     return env.ASSETS ? env.ASSETS.fetch(request) : new Response("Not found", { status: 404 });
   }

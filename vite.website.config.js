@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = path.dirname(fileURLToPath(import.meta.url));
-const pages = ['index.html','portal.html','site/index.html','site/brand/history.html','site/brand/terroir.html','site/cognition/lifecycle.html','site/cognition/saffron-lifecycle-animation.html','site/brand/labor.html','site/brand/agronomy.html','site/products/index.html','site/brand/evidence.html','site/announcements.html','site/workspace.html','site/credits.html','site/ai/copilot.html'];
+const pages = ['index.html','portal.html','site/index.html','site/brand/strategy.html','site/brand/history.html','site/brand/terroir.html','site/cognition/lifecycle.html','site/cognition/science.html','site/cognition/saffron-lifecycle-animation.html','site/brand/labor.html','site/brand/agronomy.html','site/products/index.html','site/brand/evidence.html','site/announcements.html','site/workspace.html','site/credits.html','site/ai/copilot.html','site/regions/index.html','site/standards/index.html','site/brand/legacy-home.html'];
 
 export default defineConfig({
   root,

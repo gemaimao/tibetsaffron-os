@@ -107,6 +107,9 @@ export function renderAssetDetailView(container, assetId, onBack, onSelectAsset)
               <div class="tab-btn ${activeRightTab === 'metadata' ? 'active' : ''}" data-tab="metadata">Metadata</div>
               <div class="tab-btn ${activeRightTab === 'versions' ? 'active' : ''}" data-tab="versions">Versions (${versions.length})</div>
               <div class="tab-btn ${activeRightTab === 'relations' ? 'active' : ''}" data-tab="relations">Relations (${relations.length})</div>
+              <div class="tab-btn ${activeRightTab === 'jev' ? 'active' : ''}" data-tab="jev" style="color: ${activeRightTab === 'jev' ? '#a78bfa' : '#c4b5fd'};">
+                <i class="ri-cpu-line"></i> Jev 治理
+              </div>
             </div>
 
             <!-- Inspector Tab Contents -->
@@ -114,6 +117,7 @@ export function renderAssetDetailView(container, assetId, onBack, onSelectAsset)
               ${activeRightTab === 'metadata' ? renderMetadataTab(currentAsset, mod, tagsRes) : ''}
               ${activeRightTab === 'versions' ? renderVersionsTab(versions, currentAsset, diffTargetVersion) : ''}
               ${activeRightTab === 'relations' ? renderRelationsTab(relations, allAssets, currentAsset) : ''}
+              ${activeRightTab === 'jev' ? renderJevTab(currentAsset) : ''}
             </div>
           </div>
         </div>
@@ -265,6 +269,42 @@ export function renderAssetDetailView(container, assetId, onBack, onSelectAsset)
         onSelectAsset(targetId);
       });
     });
+
+    // Bind Jev Inspector actions
+    const reAuditBtn = container.querySelector('#btn-re-audit-detail');
+    if (reAuditBtn) {
+      reAuditBtn.addEventListener('click', async () => {
+        reAuditBtn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> 正在 Jev 审定...';
+        try {
+          const decision = await api.auditAssetAsync(currentAsset.id);
+          const refreshed = api.getAsset(currentAsset.id);
+          if (refreshed.success) currentAsset = refreshed.data;
+          showToast(`✅ Jev 判定: ${decision.seal}, P(Safe)=${(decision.safe_probability*100).toFixed(0)}%, Level ${decision.evidence_level}`);
+          render();
+        } catch (e) {
+          showToast('❌ 审定失败: ' + e.message);
+        }
+      });
+    }
+
+    const promoteDetailBtn = container.querySelector('#btn-promote-detail');
+    if (promoteDetailBtn) {
+      promoteDetailBtn.addEventListener('click', () => {
+        try {
+          const res = api.promoteAsset(currentAsset.id);
+          if (res.success) {
+            const refreshed = api.getAsset(currentAsset.id);
+            if (refreshed.success) currentAsset = refreshed.data;
+            showToast('🎉 资产已晋升为 Core SSOT 唯一可信源并完成双写持久化！');
+            render();
+          } else {
+            showToast('❌ 晋升失败: ' + res.message);
+          }
+        } catch (e) {
+          showToast('❌ 错误: ' + e.message);
+        }
+      });
+    }
   }
 
   function renderMetadataTab(asset, mod, tags) {
@@ -409,6 +449,85 @@ export function renderAssetDetailView(container, assetId, onBack, onSelectAsset)
               </button>
             </div>
           `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderJevTab(asset) {
+    const jev = asset.jev_decision;
+    const isPending = asset.status === 'Draft' || asset.governance_status === 'PENDING_INBOX';
+    const track = asset.track || (asset.tag_ids && asset.tag_ids.includes('tag-field') ? 'FIELD_REALITY' : (asset.tag_ids && asset.tag_ids.includes('tag-research') ? 'RESEARCH_AUTHORITY' : 'GENERAL'));
+
+    return `
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.25); border-radius: 8px; padding: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 12px; font-weight: 700; color: #a78bfa; display: flex; align-items: center; gap: 4px;">
+              <i class="ri-shield-star-line"></i> Jev System One 认证
+            </span>
+            <span style="font-size: 11px; background: rgba(139, 92, 246, 0.2); color: #c4b5fd; padding: 2px 6px; border-radius: 4px;">
+              ${jev ? jev.seal : 'JEV_CERTIFIED'}
+            </span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-dark-muted); line-height: 1.5;">
+            依据认知双系统权力分立规范，Jev 作为唯一合规与事实准入裁决引擎。
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--text-dark-muted); text-transform: uppercase;">双轨中台归属 (Dual-Track)</label>
+          <div style="margin-top: 4px;">
+            ${track === 'FIELD_REALITY' ? `
+              <span style="font-size: 12px; font-weight: 700; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="ri-seedling-line"></i> 轨一 · 现场泥土实证 (Field Reality)
+              </span>
+            ` : (track === 'RESEARCH_AUTHORITY' ? `
+              <span style="font-size: 12px; font-weight: 700; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="ri-microscope-line"></i> 轨二 · 权威科研情报 (Research Authority)
+              </span>
+            ` : `
+              <span style="font-size: 12px; color: #94a3b8;">基础知识资产库 (General)</span>
+            `)}
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--text-dark-muted); text-transform: uppercase;">安全合规置信度 (Noul Probability)</label>
+          <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: ${(jev ? jev.safe_probability : 0.98) >= 0.9 ? '#34d399' : '#f87171'}; margin-top: 4px;">
+            P(Safe) = ${((jev ? jev.safe_probability : 0.98) * 100).toFixed(1)}%
+          </div>
+          ${jev && jev.violation_reasons && jev.violation_reasons.length > 0 ? `
+            <div style="font-size: 11.5px; color: #f87171; margin-top: 4px;">
+              ⚠️ 违规拦截理由: ${jev.violation_reasons.join('; ')}
+            </div>
+          ` : ''}
+        </div>
+
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--text-dark-muted); text-transform: uppercase;">证据效力等级 (Score Hierarchy)</label>
+          <div style="font-size: 13px; font-weight: 600; color: #c4b5fd; margin-top: 4px;">
+            ${jev ? (jev.evidence_label || `Level ${jev.evidence_level}`) : (asset.module_id === 'mod-dat' ? 'Level 1: 国家级法定质检报告 / 海关检疫原单' : 'Level 3: 产业基地现场物候与连续档案')}
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--text-dark-muted); text-transform: uppercase;">装配角色分配 (Assigned Role)</label>
+          <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: #38bdf8; margin-top: 4px;">
+            ${jev ? jev.role : 'CORE_EVIDENCE'}
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--border-dark);">
+          <button class="btn btn-secondary btn-sm" id="btn-re-audit-detail" style="width: 100%; font-size: 12px;">
+            <i class="ri-refresh-line"></i> 触发 Jev System One 重新裁决
+          </button>
+          ${isPending ? `
+            <button class="btn btn-primary btn-sm" id="btn-promote-detail" style="width: 100%; background: linear-gradient(135deg, #10b981, #059669); border: none; font-size: 12px;">
+              <i class="ri-check-line"></i> 一键晋升为 Core SSOT
+            </button>
+          ` : ''}
         </div>
       </div>
     `;

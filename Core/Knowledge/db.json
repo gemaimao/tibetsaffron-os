@@ -538,6 +538,148 @@
       ],
       "created_at": "2026-09-14T12:00:00.000Z",
       "updated_at": "2026-09-14T12:00:00.000Z"
+    },
+    {
+      "id": "asset-std-6000",
+      "uuid": "007493a5-c4b1-4693-940a-666b1cdc6a96",
+      "module_id": "mod-std",
+      "asset_code": "STD-6000",
+      "title": "藏红花（西红花）国内外现行标准对标清单",
+      "subtitle": "Global & Domestic Saffron Standards Benchmark",
+      "summary": "11 项现行标准（GB/T 22324.1、中国药典 2020+2023、DB54 双地标、T/CATCM 002、T/CGAPA 073、ISO 3632-1:2025/3632-2:2010/21590:2026、CXS 351-2022、EP/USP/JP/KP）的适用场景、核心管控指标与差异化特点全对标；含标准短板分析与企标→地标→国际三阶段培育路径。天旺标准工程的调研基础。",
+      "content": "详见 Core/Standards/STD-6000_藏红花国内外标准对标清单.md（完整指标、汇总表、三阶段路径、实体清单）。",
+      "quote": "国标药典是通用底线，体现不了西藏高原高活性成分的独有优势——这正是标准话语权的空位。",
+      "status": "Active",
+      "version": "v1.0",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "藏红花有哪些国内外标准？",
+        "ISO 3632 最新版是什么？",
+        "西藏藏红花地方标准有哪些？",
+        "做企业标准对标哪些标准？"
+      ],
+      "target_scenarios": [
+        "标准工程企标起草",
+        "地标升级论证",
+        "国际联盟标准培育",
+        "贸易合规对标"
+      ],
+      "created_at": "2026-09-26T08:04:58.000Z",
+      "updated_at": "2026-09-26T08:04:58.000Z",
+      "tag_ids": [
+        "tag-standards",
+        "tag-governance",
+        "tag-bcos"
+      ]
+    },
+    {
+      "id": "asset-std-6100",
+      "uuid": "b5bb5420-245c-46d4-ab8d-b6aa08405fdf",
+      "module_id": "mod-std",
+      "asset_code": "STD-6100",
+      "title": "国际藏红花标准格局与中国联盟标准突破战略",
+      "subtitle": "Standards Geopolitics & Alliance-Level Breakthrough Strategy",
+      "summary": "标准主导权三要素模型（产能/市场/历史）：伊朗以产能、印度以市场与克什米尔产区、西班牙以品质与原产地保护主导。中国为最大消费与进口国之一，两段式+CEA 模式品质领先（天旺为典型代表，证据链 EVI/CMP-001），但产能不足 1 吨（待核验）。战略结论：ISO 通用层面主导不现实，突破口在国际藏红花产业联盟层面制定品质、等级、深加工的联盟标准。",
+      "content": "详见 Core/Standards/STD-6100_国际标准格局与中国联盟标准突破战略.md（三要素模型、中国基本面、战略推演、路径逻辑、待核验清单）。",
+      "quote": "不在国际通用层面争霸，而在产业联盟层面立标——产能弱势 × 品质强势的标准突围之路。",
+      "status": "Active",
+      "version": "v1.0",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "STRATEGIC_DIRECTION",
+      "trigger_questions": [
+        "为什么伊朗是藏红花标准大国？",
+        "中国能主导藏红花国际标准吗？",
+        "藏红花产业联盟标准是什么路线？",
+        "中国藏红花产能现状？"
+      ],
+      "target_scenarios": [
+        "标准战略决策",
+        "产业联盟筹备",
+        "投资人产业叙事",
+        "政府标准工作汇报"
+      ],
+      "created_at": "2026-09-26T08:04:58.000Z",
+      "updated_at": "2026-09-26T08:04:58.000Z",
+      "tag_ids": [
+        "tag-standards",
+        "tag-strategy",
+        "tag-bcos"
+      ]
+    },
+    {
+      "id": "asset-std-6200",
+      "uuid": "f5bda0e3-4b41-47b5-b0a7-fafea8810c03",
+      "module_id": "mod-std",
+      "asset_code": "STD-6200",
+      "title": "西藏藏红花地理标志体系：空转前史与天旺主导路径",
+      "subtitle": "GI System Void History & Tianwang Domination Path",
+      "summary": "DB54/T 0245 地理标志体系为'先有标准后有产品'的倒置产物：制定时西藏尚无实际种植，十余年零认证。天旺农牧为首家以真实种植产品通过该标准全项检测的企业（书面证据 EVI-2026-A26SW02809，检验依据明载 DB54/T 0245-2021）。战略路径：以企标反向修正地标认证内容，成为体系主导公司。前史叙述为口述口径待文献核验。",
+      "content": "详见 Core/Standards/STD-6200_西藏藏红花地标体系空转前史与天旺主导路径.md。",
+      "quote": "标准在空中十余年，第一次有产品接住它——接住的人定标准。",
+      "status": "Active",
+      "version": "v1.0",
+      "ownership": "BRAND_OWNED",
+      "temporal": "HISTORICAL",
+      "claim_control": "STRATEGIC_DIRECTION",
+      "trigger_questions": [
+        "西藏藏红花地理标志标准的由来？",
+        "天旺是第一家地标认证企业吗？",
+        "天旺如何主导地标标准？"
+      ],
+      "target_scenarios": [
+        "标准工程叙事",
+        "政府与地标机构沟通",
+        "品牌历史纵深内容",
+        "联盟标准战略铺垫"
+      ],
+      "created_at": "2026-09-26T08:17:29.000Z",
+      "updated_at": "2026-09-26T08:17:29.000Z",
+      "tag_ids": [
+        "tag-standards",
+        "tag-history",
+        "tag-bcos"
+      ]
+    },
+    {
+      "id": "asset-kno-8000",
+      "uuid": "f636a8af-cb22-4907-8e62-43104174583c",
+      "module_id": "mod-kno",
+      "asset_code": "KNO-8000",
+      "title": "天旺农牧西藏藏红花两段式种植法（借地长球·归藏定质）",
+      "subtitle": "Two-Stage Cultivation Method: Borrow Land for Corms, Return to Tibet for Quality",
+      "summary": "正式定义版 v1.0：三层逻辑（西藏育种决定种质基础 / 全国扩繁形成规模产能 / 归藏定质形成产品品质），配套产业战略语言'西藏育种，全国扩繁，全球共享'与农艺方法语言'借地长球，归藏定质'。含全生命周期时间窗（12月初-5月底全国扩繁 / 6月初-11月底西藏归藏）、亳州德州扩繁实践地、林芝2945m核心基地、六大关键步骤与三层价值。核心金句：种球决定能开多少花，西藏决定花有什么价值。",
+      "content": "详见 Core/Knowledge/KNO-8000_两段式种植法_借地长球归藏定质.md（三层逻辑、闭环调度、三大支撑、六大步骤、模块整合逻辑、治理纪律）。主视觉：Core/Visual/KNO-8000-VIS-A/B。",
+      "quote": "种球决定能开多少花，西藏决定花有什么价值。",
+      "status": "Active",
+      "version": "v1.0",
+      "ownership": "BRAND_OWNED",
+      "temporal": "CURRENT",
+      "claim_control": "CONFIRMED_FACT",
+      "trigger_questions": [
+        "两段式种植法是什么？",
+        "为什么种球要去内地扩繁？",
+        "借地长球归藏定质怎么理解？",
+        "全国扩繁会稀释西藏品质吗？",
+        "西藏育种全国扩繁全球共享是什么战略？"
+      ],
+      "target_scenarios": [
+        "品牌战略叙事",
+        "官网农艺页",
+        "政府与投资人汇报",
+        "企标起草农艺正文",
+        "扩繁基地招商"
+      ],
+      "created_at": "2026-09-27T05:10:50.000Z",
+      "updated_at": "2026-09-27T05:10:50.000Z",
+      "tag_ids": [
+        "tag-agronomy",
+        "tag-strategy",
+        "tag-bcos",
+        "tag-two-stage"
+      ]
     }
   ],
   "modules": [

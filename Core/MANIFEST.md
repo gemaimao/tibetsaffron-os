@@ -54,6 +54,15 @@
 - [x] KU-5230 Framework Registry
 - [x] KU-5231 Canonical Framework Catalog
 
+### STR-5000 & Brand SSOT (Industrial Strategy & Brand Core)
+- [x] STR-5000 天旺农牧西藏藏红花产业发展战略方案 (从西藏生产走向西藏创造 · 10亩四大现场)
+- [x] STR-5100 生长阶段环境需求 × 西藏/内地资源优势精准匹配矩阵 (STR-5000 §四的阶段级细化 · 七阶段对表)
+- [x] KNO-BRAND-SSOT-QA 天旺藏红花品牌传播官方 SSOT 问答库 (含战略与护城河口径)
+- [x] TIANWANG-OFFICIAL-TEXTS 天旺农牧标准官方文本库 (企业/基地简介与战略总纲)
+
+### 西藏育种命题系列 (Tibet Breeding Question Series)
+- [x] KNO-BULB-1000 西藏育种命题①：什么样的种球才是好种球 (净×纯×壮三重门 · 五关评估对表 · 传播三层口径)
+
 ---
 
 ## Release v0.5 — Platform Architecture & Production Pilot (Active)
@@ -65,6 +74,7 @@
 - [ ] PL-0005 藏红花科技展厅 1 分钟/5 分钟解说词
 - [ ] PL-0006 藏红花品质等级与常见疑问 FAQ 集
 - [ ] PL-0007 “生命迁徙”15s/30s 抖音/小红书脚本
+- [x] PL-0009 天旺农牧「西藏藏红花两段式种植法」内容包（定稿口径 · 现代农业特稿 · 复用模块 · 证据对照 · 红线清单）
 - [ ] PL-0008 藏红花原料技术规格说明书 (Spec Sheet)
 
 

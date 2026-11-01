@@ -1,0 +1,31 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "subpackages": [
+    {
+      "root": "packageDemu",
+      "name": "demu",
+      "pages": [
+        "pages/demu/demu"
+      ]
+    }
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#0c0d0e",
+    "navigationBarTitleText": "雪域林泉：藏红花播客",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0c0d0e",
+    "backgroundColorTop": "#0c0d0e",
+    "backgroundColorBottom": "#0c0d0e"
+  },
+  "permission": {
+    "scope.record": {
+      "desc": "录音功能将用于向藏红花电台主持人实时语音提问互动"
+    }
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
+

@@ -1,0 +1,14 @@
+# BCOS JEV 决策层：挂载插件并施加 Phase 1 阈值。
+# 本文件是包级 bundle patch；若包未列入 profile bundles，
+# 请将下方两行等价条目复制到 profile 的 cordis.patch.yml。
+
+- insert:
+    - id: jev-decision-layer
+      name: '@bcos/jev-decision-layer'
+
+- id: jev-decision-layer
+  config:
+    model: jev-latest
+    apiKeyEnv: TYPESAFE_API_KEY
+    blockOnViolationP: 0.5
+    reviewOnViolationP: 0.15

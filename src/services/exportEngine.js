@@ -1,12 +1,15 @@
 /**
- * Brand Content OS (BCOS) - V2.3 Governance & Composition Engine
+ * Brand Content OS (BCOS) - V3.0 Governance & Jev Decision Composition Engine
  * Implements:
  * 1. Knowledge Ownership Validation (BRAND_OWNED, INDUSTRY_KNOWLEDGE, FUTURE_EXPLORATION...)
  * 2. Temporal State Validation (ORIGIN, HISTORICAL, CURRENT, EVOLUTION, FUTURE...)
  * 3. Claim Scope Validation (CONFIRMED_FACT, DERIVED_EXPLANATION, STRATEGIC_DIRECTION, FORBIDDEN_ASSERTION)
- * 4. CAP Engine Audit Validation Nodes (Ownership Check, Temporal Check, Claim Check)
- * 5. V2.3 Regression Test Suite (Case 001, Case 002, Case 003)
+ * 4. Jev System One Decision Layer Integration (Scenario Routing, Claim Safety, Role Assignment)
+ * 5. CAP Engine Audit Validation Nodes (Ownership Check, Temporal Check, Claim Check)
+ * 6. V3.0 Jev Decision Regression Test Suite
  */
+
+import { jevDecisionEngine } from './jevDecisionEngine.js';
 
 export const V23_OWNERSHIP_TYPES = [
   'BRAND_OWNED',
@@ -527,6 +530,14 @@ export const exportEngine = {
         blockedUnverifiedDraft: blockedDraft
       }
     };
+  },
+
+  /**
+   * V3.0 Jev Decision Layer CAP Generator
+   * Executes through TypeSafe Jev System One decision primitives
+   */
+  async generateJevContentAssemblyPlan(rawBrief = {}, knowledgePool = []) {
+    return await jevDecisionEngine.buildJevGovernedCAP(rawBrief, knowledgePool);
   },
 
   downloadFile(filename, content, type = 'text/plain;charset=utf-8') {

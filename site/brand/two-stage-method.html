@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>天旺农牧“西藏藏红花两段式种植法”定义与逻辑全景图</title>
+  <link rel="stylesheet" href="/site/css/website.css">
+  <style>
+    :root {
+      --c-purple-dark: #3a153d;
+      --c-purple: #6a236e;
+      --c-purple-light: #f5edf6;
+      --c-gold: #c88a35;
+      --c-gold-light: #fbf5ea;
+      --c-green: #2d6a4f;
+      --c-green-light: #edf7f1;
+      --c-blue: #1d3557;
+      --c-blue-light: #f0f4f8;
+      --c-border: #e3d7e5;
+      --c-text-main: #2b2723;
+      --c-text-muted: #6e655f;
+    }
+    body {
+      background: #f8f6f2;
+      color: var(--c-text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Noto Sans CJK SC", sans-serif;
+      margin: 0;
+      padding: 24px 16px 60px;
+    }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 36px 32px;
+      box-shadow: 0 10px 30px rgba(58, 21, 61, 0.06);
+      border: 1px solid var(--c-border);
+    }
+    .header-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: var(--c-purple-light);
+      color: var(--c-purple);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 28px;
+      margin: 0 0 8px;
+      color: var(--c-purple-dark);
+      letter-spacing: -0.5px;
+    }
+    .subhead {
+      font-size: 16px;
+      color: var(--c-text-muted);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    .axiom-card {
+      background: linear-gradient(135deg, #3a153d 0%, #5c1e60 100%);
+      color: #fff;
+      padding: 22px 26px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+      box-shadow: 0 6px 18px rgba(58, 21, 61, 0.15);
+    }
+    .axiom-title {
+      font-size: 12px;
+      color: #dfb2f4;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .axiom-text {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 1.4;
+      margin: 0 0 10px;
+    }
+    .axiom-desc {
+      font-size: 14px;
+      color: #e8d7ea;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* 对称结构层 */
+    .dual-structure {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .struct-box {
+      border: 1px solid #ebdfee;
+      border-radius: 10px;
+      padding: 16px 20px;
+      background: #faf7fa;
+    }
+    .struct-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c-purple);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .struct-main {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--c-purple-dark);
+      margin: 4px 0 6px;
+    }
+    .struct-desc {
+      font-size: 13px;
+      color: var(--c-text-muted);
+      margin: 0;
+    }
+
+    /* 三层核心逻辑卡片 */
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--c-purple-dark);
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: "";
+      width: 4px;
+      height: 18px;
+      background: var(--c-purple);
+      border-radius: 2px;
+      display: inline-block;
+    }
+    .three-tier-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .tier-card {
+      border-radius: 12px;
+      padding: 22px 20px;
+      border: 1px solid var(--c-border);
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .tier-badge {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 12px;
+      align-self: flex-start;
+    }
+    .tier-1 { border-top: 4px solid var(--c-purple); }
+    .tier-1 .tier-badge { background: var(--c-purple-light); color: var(--c-purple); }
+    .tier-2 { border-top: 4px solid var(--c-green); }
+    .tier-2 .tier-badge { background: var(--c-green-light); color: var(--c-green); }
+    .tier-3 { border-top: 4px solid var(--c-gold); }
+    .tier-3 .tier-badge { background: var(--c-gold-light); color: var(--c-gold); }
+
+    .tier-title {
+      font-size: 17px;
+      font-weight: 800;
+      margin: 0 0 6px;
+      color: var(--c-purple-dark);
+    }
+    .tier-axiom {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .tier-1 .tier-axiom { color: var(--c-purple); }
+    .tier-2 .tier-axiom { color: var(--c-green); }
+    .tier-3 .tier-axiom { color: #a4630a; }
+
+    .tier-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #4a443f;
+    }
+    .tier-list li {
+      position: relative;
+      padding-left: 14px;
+      margin-bottom: 4px;
+    }
+    .tier-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--c-purple);
+      font-weight: bold;
+    }
+    .tier-footer {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px dashed #eee;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--c-text-muted);
+    }
+
+    /* 流程箭头闭环图 */
+    .flow-svg-container {
+      background: #faf8fa;
+      border: 1px solid #ebdfee;
+      border-radius: 12px;
+      padding: 24px 16px;
+      margin-bottom: 32px;
+    }
+
+    /* 四大高明处 */
+    .merits-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .merit-card {
+      background: #fff;
+      border: 1px solid #e7dfeb;
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .merit-card h4 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--c-purple);
+      margin: 0 0 8px;
+    }
+    .merit-card p {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* 战略成本卡片 */
+    .cost-card {
+      background: #fff9f0;
+      border: 1px solid #f2e2cb;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 16px;
+    }
+    .cost-card h4 {
+      color: #935905;
+      font-size: 15px;
+      margin: 0 0 8px;
+    }
+    .cost-card p {
+      font-size: 13px;
+      color: #634b27;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .dual-structure, .three-tier-grid, .merits-grid {
+        grid-template-columns: 1fr;
+      }
+      .container {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap" style="margin-bottom:20px">
+  <header class="top">
+    <a class="brand" href="/"><img src="/site/assets/logo.jpg" alt="天旺农牧官方标志" class="brand-logo"><span><b>天旺农牧</b><small>TIANWANG · NYINGCHI</small></span></a>
+    <nav class="nav" id="main-nav" aria-label="五段主导航">
+      <a href="/#origin" data-chapter="origin">缘起</a>
+      <a href="/#terroir" data-chapter="terroir">风土</a>
+      <a href="/#seasons" data-chapter="seasons">四季</a>
+      <a href="/#labor" data-chapter="labor">劳作</a>
+      <a href="/#products" data-chapter="products">产物</a>
+      <a href="/site/brand/strategy.html" style="color:var(--tw-purple);font-weight:600">发展战略 ↗</a>
+      <a href="/site/brand/agronomy.html" style="color:var(--tw-purple);font-weight:600">两段式农法 ↗</a>
+      <a href="/site/ai/copilot.html" style="color:var(--tw-purple);font-weight:600">智能问答 ✨</a>
+    </nav>
+    <div class="top-tools">
+      <a href="/site/brand/strategy.html" class="nav-ai" style="background:#f5edf6">产业战略 ↗</a>
+      <a href="/site/brand/agronomy.html" class="nav-ai">两段式 ↗</a>
+      <a href="/site/workspace.html">知识库 OS ↗</a>
+    </div>
+  </header>
+</div>
+
+<div class="container">
+  <div style="margin-bottom:16px"><a class="back-link" href="/site/brand/agronomy.html" style="color:var(--c-purple);font-weight:600;text-decoration:none">← 返回两段式与设施农业</a> · <a class="back-link" href="/site/brand/strategy.html" style="color:var(--c-purple);font-weight:600;text-decoration:none">查阅产业发展战略 ↗</a></div>
+  <span class="header-tag">Tianwang Saffron Agronomy Spec</span>
+  <h1>天旺农牧“西藏藏红花两段式种植法”定义与逻辑全景图</h1>
+  <p class="subhead">核心主张：借地长球 · 归藏定质 ｜ 把藏红花不同生长阶段对环境的不同需求，与西藏和内地各自的资源禀赋进行精准匹配</p>
+
+  <!-- 终极核心定义 -->
+  <div class="axiom-card">
+    <div class="axiom-title">核心方法定义 (Core Agronomic Definition)</div>
+    <div class="axiom-text">“借地长球 · 归藏定质” —— 跨域时空双解耦的西藏特有版两段式</div>
+    <p class="axiom-desc">其本质绝不是“把一个完整的种植过程拆到两个地方”，而是<strong>双轨生物学分工</strong>：种球决定繁育潜能与数量基础，西藏决定最终产品性状与品质极限。以全国土地滋养种球，以西藏天地定型品质！</p>
+  </div>
+
+  <!-- 战略与方法对称体系 -->
+  <div class="dual-structure">
+    <div class="struct-box">
+      <span class="struct-label">产业战略叙事 (Macro Strategy)</span>
+      <div class="struct-main">西藏育种 · 全国扩繁 · 全球共享</div>
+      <p class="struct-desc">宏观产业组织模式：以西藏为科技与品质母体，组织全国产能，辐射全球高端健康消费市场。</p>
+    </div>
+    <div class="struct-box">
+      <span class="struct-label">底层农艺方法 (Micro Agronomy)</span>
+      <div class="struct-main">借地长球 · 归藏定质</div>
+      <p class="struct-desc">微观生物学实践规程：打破单一地域局限，通过跨区域物候调度，实现两段式种植的巅峰形态。</p>
+    </div>
+  </div>
+
+  <!-- 三层逻辑链条 -->
+  <div class="section-title">三层底层逻辑：种质基础 ➔ 规模产能 ➔ 产品品质</div>
+  <div class="three-tier-grid">
+    <!-- 第1层 -->
+    <div class="tier-card tier-1">
+      <span class="tier-badge">STAGE 01 · 西藏林芝</span>
+      <div class="tier-title">① 西藏育种</div>
+      <div class="tier-axiom">决定【种质基础】</div>
+      <ul class="tier-list">
+        <li><strong>核心任务</strong>：环境 × 科技，解决“种什么”；</li>
+        <li><strong>十代驯化</strong>：在海拔2945m极端逆境下持续筛选与表观诱导；</li>
+        <li><strong>四大特性</strong>：高品质、高适应性、高稳定性、良好繁育潜能；</li>
+        <li><strong>核心资产</strong>：形成不可替代的自主核心种源芯片。</li>
+      </ul>
+      <div class="tier-footer">定位：品质与基因源头 (创新母体)</div>
+    </div>
+
+    <!-- 第2层 -->
+    <div class="tier-card tier-2">
+      <span class="tier-badge">STAGE 02 · 全国多基地</span>
+      <div class="tier-title">② 全国扩繁</div>
+      <div class="tier-axiom">形成【规模产能】</div>
+      <ul class="tier-list">
+        <li><strong>核心任务</strong>：借地长球，解决“够不够”；</li>
+        <li><strong>时间窗口</strong>：12月初至次年5月底（地下营养生长）；</li>
+        <li><strong>资源利用</strong>：内地深厚沙壤、适宜积温、充沛水源与劳动力；</li>
+        <li><strong>生理实现</strong>：母球分蘖、膨大子球、营养蓄积（优质蓄电池）；</li>
+        <li><strong>科学检验</strong>：验证遗传基础与性状稳定性。</li>
+      </ul>
+      <div class="tier-footer">定位：做大种球基数 (产能联合体)</div>
+    </div>
+
+    <!-- 第3层 -->
+    <div class="tier-card tier-3">
+      <span class="tier-badge">STAGE 03 · 归藏温室</span>
+      <div class="tier-title">③ 归藏定质</div>
+      <div class="tier-axiom">形成【产品品质】</div>
+      <ul class="tier-list">
+        <li><strong>核心任务</strong>：归藏定型，决定“品质高不高”；</li>
+        <li><strong>时间窗口</strong>：6月初至11月底（休眠/催花/采收）；</li>
+        <li><strong>四大借力</strong>：极净环境、剧烈日温差、强紫外线、雅尼水汽；</li>
+        <li><strong>次生代谢</strong>：西红花苷爆发超药典16%、锁死藏红花醛；</li>
+        <li><strong>终极产出</strong>：0农残极品花丝、全花冻干、冷萃多糖多酚。</li>
+      </ul>
+      <div class="tier-footer">定位：极地品质定型 (终极产品)</div>
+    </div>
+  </div>
+
+  <!-- SVG 闭环交互示意图 -->
+  <div class="section-title">两段式种植法物候时空调度拓扑流</div>
+  <div class="flow-svg-container">
+    <svg viewBox="0 0 960 380" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#6a236e"/>
+        </marker>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#2d6a4f"/>
+        </marker>
+        <marker id="arrow-gold" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#c88a35"/>
+        </marker>
+      </defs>
+
+      <!-- 节点 1：西藏育种 -->
+      <g transform="translate(40, 40)">
+        <rect width="260" height="130" rx="10" fill="#fff" stroke="#6a236e" stroke-width="2"/>
+        <rect width="260" height="28" rx="10" fill="#f5edf6"/>
+        <text x="130" y="20" fill="#6a236e" font-size="13" font-weight="bold" text-anchor="middle">① 西藏林芝 · 种质创新与育种</text>
+        <text x="20" y="55" fill="#3a153d" font-size="14" font-weight="bold">决定【种质基础】(好不好)</text>
+        <text x="20" y="80" fill="#666" font-size="12">• 10代高原生境驯化迭代</text>
+        <text x="20" y="100" fill="#666" font-size="12">• 种源筛选 / 抗逆基因富集</text>
+        <text x="20" y="120" fill="#666" font-size="12">• 单球多花繁育潜能</text>
+      </g>
+
+      <!-- 连接线 1->2：输出优质种球 -->
+      <path d="M 300 105 L 390 105" fill="none" stroke="#6a236e" stroke-width="2" marker-end="url(#arrow)"/>
+      <text x="345" y="95" fill="#6a236e" font-size="11" font-weight="bold" text-anchor="middle">输出核心种源</text>
+      <text x="345" y="122" fill="#888" font-size="10" text-anchor="middle">(11月底跨省调拨)</text>
+
+      <!-- 节点 2：全国扩繁 -->
+      <g transform="translate(400, 40)">
+        <rect width="270" height="130" rx="10" fill="#fff" stroke="#2d6a4f" stroke-width="2"/>
+        <rect width="270" height="28" rx="10" fill="#edf7f1"/>
+        <text x="135" y="20" fill="#2d6a4f" font-size="13" font-weight="bold" text-anchor="middle">② 全国实践基地 · 借地长球</text>
+        <text x="20" y="55" fill="#1b4332" font-size="14" font-weight="bold">形成【规模产能】(够不够)</text>
+        <text x="20" y="80" fill="#666" font-size="12">• 周期：12月初 至 次年5月底</text>
+        <text x="20" y="100" fill="#666" font-size="12">• 地下营养生长 · 子球膨大</text>
+        <text x="20" y="120" fill="#666" font-size="12">• 充沛土地与积温做大基数</text>
+      </g>
+
+      <!-- 连接线 2->3：成熟种球统一回藏 -->
+      <path d="M 535 170 L 535 220 L 300 220" fill="none" stroke="#2d6a4f" stroke-width="2" marker-end="url(#arrow-green)"/>
+      <text x="420" y="210" fill="#2d6a4f" font-size="11" font-weight="bold" text-anchor="middle">5月底统一起球 · 冷链归藏</text>
+
+      <!-- 节点 3：归藏定质 -->
+      <g transform="translate(40, 210)">
+        <rect width="260" height="135" rx="10" fill="#fff" stroke="#c88a35" stroke-width="2"/>
+        <rect width="260" height="28" rx="10" fill="#fbf5ea"/>
+        <text x="130" y="20" fill="#c88a35" font-size="13" font-weight="bold" text-anchor="middle">③ 西藏林芝温室 · 归藏定质</text>
+        <text x="20" y="55" fill="#804d00" font-size="14" font-weight="bold">形成【产品品质】(高不高)</text>
+        <text x="20" y="80" fill="#666" font-size="12">• 周期：6月初 至 11月底</text>
+        <text x="20" y="100" fill="#666" font-size="12">• 休眠分化 ➔ 悬空催花 ➔ 采收</text>
+        <text x="20" y="120" fill="#666" font-size="12">• 四大生境激越次生代谢</text>
+      </g>
+
+      <!-- 连接线 3->4：高品质终极产出 -->
+      <path d="M 300 280 L 390 280" fill="none" stroke="#c88a35" stroke-width="2" marker-end="url(#arrow-gold)"/>
+      <text x="345" y="270" fill="#c88a35" font-size="11" font-weight="bold" text-anchor="middle">极地品质定型</text>
+
+      <!-- 节点 4：最终产品矩阵与反哺 -->
+      <g transform="translate(400, 210)">
+        <rect width="270" height="135" rx="10" fill="#fff" stroke="#3a153d" stroke-width="2"/>
+        <rect width="270" height="28" rx="10" fill="#f5edf6"/>
+        <text x="135" y="20" fill="#3a153d" font-size="13" font-weight="bold" text-anchor="middle">④ 商业价值与反哺西藏创新</text>
+        <text x="20" y="55" fill="#3a153d" font-size="14" font-weight="bold">全球共享与商业闭环</text>
+        <text x="20" y="80" fill="#666" font-size="12">• 0农残特级花丝 / 冻干整花</text>
+        <text x="20" y="100" fill="#666" font-size="12">• 宝芝林/劲酒冷萃深加工</text>
+        <text x="20" y="120" fill="#666" font-size="12">• 收益数据反哺下一轮育种</text>
+      </g>
+
+      <!-- 反哺闭环弧线 4->1 -->
+      <path d="M 670 280 C 780 280, 780 100, 670 100" fill="none" stroke="#6a236e" stroke-width="2" stroke-dasharray="5,5"/>
+      <path d="M 670 100 L 310 100" fill="none" stroke="#6a236e" stroke-width="0"/>
+      <text x="790" y="195" fill="#6a236e" font-size="11" font-weight="bold" text-anchor="middle">收益与数据</text>
+      <text x="790" y="215" fill="#6a236e" font-size="11" font-weight="bold" text-anchor="middle">反哺西藏创新 ↺</text>
+    </svg>
+  </div>
+
+  <!-- 四大高明处 -->
+  <div class="section-title">此法的高明之处 (Why It Surpasses Traditional Agronomy)</div>
+  <div class="merits-grid">
+    <div class="merit-card">
+      <h4>01 / 双轨生物学分工（解耦潜能与品质）</h4>
+      <p>破除“同一土地包揽一切”的农业迷信。种球只负责解决长势、繁育率与单株多花潜能；而花丝的西红花苷等次生代谢物与独特香氛，则完全由西藏高原生境定型。两者各司其职，互不透支。</p>
+    </div>
+    <div class="merit-card">
+      <h4>02 / 跨域时空双解耦（百年农艺形态超越）</h4>
+      <p>日本竹田农法与崇明模式皆局限于“单一空间分时段”。天旺不仅上半年营养生长与下半年生殖开花解耦，更将两段分别布置在全国平原与西藏极地，彻底冲破单一地理环境瓶颈。</p>
+    </div>
+    <div class="merit-card">
+      <h4>03 / 多维主动组合风土（Composite Terroir）</h4>
+      <p>跳脱传统欧洲与中药的“单一风土宿命论”。天旺将平原的土地效率与积温资源，同西藏近3000m强紫外、12~18℃温差、极净水汽的主动拼合，创造了乘法级的品质爆发。</p>
+    </div>
+    <div class="merit-card">
+      <h4>04 / 去中心化防灾风控（打破单点脆弱性）</h4>
+      <p>传统模式将全部身家压在一个产区，遭遇极端气候极易绝收。天旺“西藏母本选育 + 全国多点扩繁 + 归藏定品质”构成了极强弹性的分布式产业防御体系，无惧局部灾害。</p>
+    </div>
+  </div>
+
+  <!-- 战略成本卡片 -->
+  <div class="cost-card">
+    <h4>为什么竞争对手无法轻易抄袭？—— 坦诚且硬核的“战略成本壁垒”</h4>
+    <p>这种高明的模式必须承担两项极高的不可偷懒的系统成本：<strong>① 十年扎根西藏逆境驯化淘汰的沉没时间与科研成本</strong>；<strong>② 每年跨越数千公里的冷链流转时效控制与外省严格技术品控督导成本</strong>。正因天旺愿意付出这些沉重成本，换来的才是实打实经过验证的“0农残”、“超药典16%色价”以及全国土地支撑的稳定供给保障！</p>
+  </div>
+</div>
+
+<footer class="footer" style="margin-top:40px">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <img src="/site/assets/logo.jpg" alt="天旺农牧官方标志" class="brand-logo" style="width:38px;height:38px">
+          <div>
+            <p class="eyebrow" style="margin:0">ROOTED IN PLACE. GROWN WITH CARE.</p>
+            <p class="footer-title" style="margin:2px 0 0">让藏红花实至名归。</p>
+          </div>
+        </div>
+        <p class="small">西藏自治区林芝市巴宜区米瑞乡姆多村 · 海拔 2945m 雅尼交汇</p>
+      </div>
+      <nav class="footer-links" aria-label="更多内容">
+        <a href="/site/brand/strategy.html">产业发展战略 ↗</a>
+        <a href="/site/brand/agronomy.html">两段式与设施农业 ↗</a>
+        <a href="/site/brand/two-stage-method.html">两段式全景图 ↗</a>
+        <a href="/site/brand/history.html">品牌缘起 ↗</a>
+        <a href="/site/brand/terroir.html">风土机制 ↗</a>
+        <a href="/site/brand/evidence.html">品质与证据档案 ↗</a>
+        <a href="/site/cognition/science.html">三大活性分子科学 ↗</a>
+        <a href="/site/brand/labor.html">劳作与四大现场 ↗</a>
+        <a href="/site/announcements.html">官方公报与实体探访 ↗</a>
+        <a href="/site/ai/copilot.html">AI 品牌大脑 ✨</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>TIANWANG AGRICULTURE · 西藏创新 · 全国扩繁 · 全球共享</span>
+      <span>借地长球 · 归藏定质 · <a href="/site/credits.html">影像与版权说明</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

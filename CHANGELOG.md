@@ -40,6 +40,33 @@ Bug Fix / Documentation Update
 
 ---
 
+# v15.1.0
+
+Dual-Mode Voice Intent Dispatcher & Mobile Sovereign Remote Controller
+
+Status: Production Verified
+
+Date: 2026-10-08
+
+### Added
+- **Mode 1 (OPS_CONTROLLER)**: VPS Sovereign Remote Control via Paseo & Edge Neural TTS (`zh-CN-YunyangNeural`).
+  - System Health Watchdog (`OPS_STATUS`): Real-time disk & load checks with voice feedback.
+  - Async Podcast/Drama Pipeline (`OPS_PODCAST_BUILD`): Trigger audio batch generation from mobile.
+  - Autonomous Cache Purge (`OPS_CLEANUP`): Self-healing temp audio cleanup.
+  - Paseo Mobile Push Integration: Automatic voice reply push to mobile via `/usr/bin/paseo run`.
+- **Mode 2 (LILY_DIRECTOR)**: 3-Tier Intent Dispatcher for Podcast Director Lily (`zh-CN-XiaoxiaoNeural`).
+  - Tier 1 (COMMAND): Zero-latency Seek (-30s/+60s), Pause, Resume, Rate adjustment + Lily monologue.
+  - Tier 2 (INQUIRY): Multi-modal visual stage switching (`WATER_TEST`, `GREENHOUSE_IOT`, `WHITEBOARD_REPORT`, `TRADE_MAP`) + Expert cue.
+  - Tier 3 (REVISION): Master/Demu oral correction persisted to `DEMU_REVISION_LEDGER.json`.
+- **Unified Engine**:
+  - Python: `scripts/voice_intent_dispatcher.py` & `/opt/paseo-alerts/voice_intent_dispatcher.py` (VPS).
+  - Node.js ESM: `src/services/voiceIntentDispatcher.js`.
+  - HTTP API: `POST /api/voice-intent` mounted on `server.mjs`.
+  - Frontend: `public/mobile.html` Web Speech API & dynamic barge-in upgraded.
+  - Test Suite: `tests/test_voice_intent.mjs` (36/36 assertions passed).
+
+---
+
 # v0.1.0
 
 Repository Initialization

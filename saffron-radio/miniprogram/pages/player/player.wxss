@@ -1,0 +1,430 @@
+/* 播放页 */
+
+.player {
+  padding-top: 40rpx;
+}
+
+/* ---------- 唱片 ---------- */
+
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56rpx 0 48rpx;
+}
+
+.disc {
+  position: relative;
+  width: 440rpx;
+  height: 440rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: rgba(140, 43, 43, 0.12);
+  box-shadow: 0 24rpx 64rpx rgba(62, 56, 53, 0.14);
+  animation: disc-spin 28s linear infinite;
+}
+
+.disc--paused {
+  animation-play-state: paused;
+}
+
+.disc__cover {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.disc__groove {
+  position: absolute;
+  left: 9%;
+  top: 9%;
+  right: 9%;
+  bottom: 9%;
+  border-radius: 50%;
+  border: 1rpx solid rgba(248, 246, 240, 0.3);
+}
+
+.disc__hole {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60rpx;
+  height: 60rpx;
+  margin: -30rpx 0 0 -30rpx;
+  border-radius: 50%;
+  background-color: #F8F6F0;
+  box-shadow: 0 0 0 2rpx rgba(140, 43, 43, 0.22);
+}
+
+@keyframes disc-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- 曲目信息 ---------- */
+
+.meta {
+  text-align: center;
+  padding: 0 12rpx;
+}
+
+.meta__no {
+  font-size: 21rpx;
+  letter-spacing: 4rpx;
+  color: #8C2B2B;
+}
+
+.meta__title {
+  font-size: 40rpx;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #3E3835;
+  margin-top: 20rpx;
+}
+
+.meta__sub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 18rpx;
+  font-size: 22rpx;
+  color: rgba(62, 56, 53, 0.5);
+}
+
+.meta__badge {
+  display: inline-block;
+  margin-top: 20rpx;
+  font-size: 20rpx;
+  letter-spacing: 2rpx;
+  color: #8C2B2B;
+  background-color: rgba(140, 43, 43, 0.08);
+  border-radius: 6rpx;
+  padding: 4rpx 16rpx;
+}
+
+/* ---------- 波形 ---------- */
+
+.wave {
+  position: relative;
+  height: 108rpx;
+  margin: 52rpx 0 20rpx;
+}
+
+.wave__bars {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wave__bar {
+  width: 5rpx;
+  border-radius: 3rpx;
+  background-color: rgba(140, 43, 43, 0.16);
+  transform-origin: center;
+}
+
+.wave__clip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.wave__bars--on {
+  right: auto;
+  width: 670rpx;
+}
+
+.wave__bars--on .wave__bar {
+  background-color: #8C2B2B;
+}
+
+.wave--on .wave__bar {
+  animation: wave-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes wave-pulse {
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(0.42); }
+  100% { transform: scaleY(1); }
+}
+
+/* ---------- 进度 ---------- */
+
+.track {
+  margin-top: 8rpx;
+}
+
+.track__slider {
+  margin: 0 8rpx;
+}
+
+.track__time {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 12rpx;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: rgba(62, 56, 53, 0.55);
+  font-variant-numeric: tabular-nums;
+}
+
+.track__remain {
+  color: rgba(62, 56, 53, 0.4);
+}
+
+/* ---------- 控制 ---------- */
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 44rpx 0 8rpx;
+}
+
+.ctrl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctrl--side {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  border: 1rpx solid rgba(140, 43, 43, 0.28);
+}
+
+.ctrl--main {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  background-color: #8C2B2B;
+  margin: 0 56rpx;
+  box-shadow: 0 12rpx 32rpx rgba(140, 43, 43, 0.28);
+}
+
+.icon-play-lg {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 22rpx 0 22rpx 36rpx;
+  border-color: transparent transparent transparent #F8F6F0;
+  margin-left: 10rpx;
+}
+
+.icon-pause-lg {
+  display: flex;
+  align-items: center;
+}
+
+.icon-pause-lg__bar {
+  width: 10rpx;
+  height: 44rpx;
+  border-radius: 3rpx;
+  background-color: #F8F6F0;
+}
+
+.icon-pause-lg__bar + .icon-pause-lg__bar {
+  margin-left: 14rpx;
+}
+
+.icon-prev {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 16rpx 24rpx 16rpx 0;
+  border-color: transparent #8C2B2B transparent transparent;
+  margin-right: 6rpx;
+}
+
+.icon-next-lg {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 16rpx 0 16rpx 24rpx;
+  border-color: transparent transparent transparent #8C2B2B;
+  margin-left: 6rpx;
+}
+
+.spinner {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(248, 246, 240, 0.35);
+  border-top-color: #F8F6F0;
+  animation: disc-spin 0.9s linear infinite;
+}
+
+.error {
+  margin-top: 20rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #8C2B2B;
+}
+
+/* ---------- 倍速 ---------- */
+
+.rate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 40rpx;
+}
+
+.rate__label {
+  font-size: 22rpx;
+  color: rgba(62, 56, 53, 0.5);
+  letter-spacing: 3rpx;
+  margin-right: 20rpx;
+}
+
+.rate__chips {
+  display: flex;
+  align-items: center;
+}
+
+.rate__chips .chip {
+  margin-right: 16rpx;
+}
+
+.rate__hint {
+  width: 100%;
+  text-align: center;
+  font-size: 20rpx;
+  color: rgba(62, 56, 53, 0.45);
+  margin-top: 14rpx;
+}
+
+/* ---------- 简介 / 文稿 ---------- */
+
+.tabs {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.tab {
+  font-size: 30rpx;
+  color: rgba(62, 56, 53, 0.45);
+  margin-right: 48rpx;
+  padding-bottom: 12rpx;
+  position: relative;
+  letter-spacing: 4rpx;
+}
+
+.tab--on {
+  color: #8C2B2B;
+  font-weight: 600;
+}
+
+.tab--on::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3rpx;
+  background-color: #8C2B2B;
+  border-radius: 2rpx;
+}
+
+.content__text {
+  font-size: 28rpx;
+  line-height: 2;
+  color: rgba(62, 56, 53, 0.85);
+}
+
+.transcript {
+  display: block;
+  font-size: 27rpx;
+  line-height: 2;
+  color: rgba(62, 56, 53, 0.82);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.kv {
+  margin-top: 40rpx;
+  border-top: 1rpx solid rgba(140, 43, 43, 0.1);
+}
+
+.kv__row {
+  display: flex;
+  align-items: flex-start;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid rgba(140, 43, 43, 0.1);
+}
+
+.kv__k {
+  width: 140rpx;
+  flex-shrink: 0;
+  font-size: 23rpx;
+  color: rgba(62, 56, 53, 0.45);
+  letter-spacing: 2rpx;
+}
+
+.kv__v {
+  flex: 1;
+  font-size: 24rpx;
+  color: rgba(62, 56, 53, 0.8);
+  line-height: 1.6;
+}
+
+.content .notice {
+  margin-top: 36rpx;
+}
+
+/* ---------- 互动 ---------- */
+
+.acts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.act {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 0;
+  border-radius: 16rpx;
+}
+
+.act__glyph {
+  font-size: 38rpx;
+  line-height: 1;
+  color: rgba(62, 56, 53, 0.35);
+}
+
+.act--on .act__glyph {
+  color: #8C2B2B;
+}
+
+.act__text {
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: rgba(62, 56, 53, 0.6);
+  letter-spacing: 2rpx;
+}
+
+.act--on .act__text {
+  color: #8C2B2B;
+}
+
+.cloud-hint {
+  margin-top: 28rpx;
+  text-align: center;
+  font-size: 21rpx;
+  color: rgba(62, 56, 53, 0.45);
+}

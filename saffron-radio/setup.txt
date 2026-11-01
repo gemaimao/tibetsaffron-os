@@ -1,0 +1,224 @@
+雪域林泉 · 藏红花电台  —— 配置与部署说明
+================================================
+（纯文本说明文件，非 Markdown）
+版本：第二轮集成修正后
+
+
+一、目录结构
+------------------------------------------------
+outputs/saffron-radio/
+  project.config.json          小程序项目配置（appid 默认 touristappid）
+  setup.txt                    本文件（小程序侧配置说明）
+  cloud-setup.txt              云端侧说明（由后端负责）
+  tests/native.test.js         原生小程序 <-> 云函数 契约回归测试（node:test）
+  miniprogram/                 小程序源码根目录
+    app.js / app.json / app.wxss / sitemap.json
+    config.js                  唯一需要改动的配置文件
+    data/episodes.js           节目数据（真实音频地址在这里配置）
+    utils/
+      cloud.js                 云调用封装（按 action 路由到两个云函数）
+      store.js                 本地状态 + 脏意图合并 + 串行同步
+      questions.js             本机问答记录（含稳定 local id）
+      canvasCard.js            金句卡绘制 / 导出 / 存相册
+      audio.js                 背景音频 + 本地试听双通道
+      privacy.js  format.js  kb.js
+    components/mini-player/    常驻迷你播放器
+    pages/index|player|tea|mine
+    assets/                    图片与试听音频（由主代理放置，当前为空）
+  cloudfunctions/
+    radioApi/                  状态与账号
+    radioAsk/                  提问（本次未改动）
+  web/                         网页版（本次未改动）
+
+
+二、开发者工具导入
+------------------------------------------------
+1. 微信开发者工具 → 导入项目 → 选择 outputs/saffron-radio 目录。
+2. project.config.json 中 appid 默认为 "touristappid"（游客模式）。
+   游客模式下不能使用云开发，小程序会以「本地体验模式」运行：
+   收听进度、点赞、收藏保存在本机，登录按钮会明确提示「云环境未配置」。
+3. 需要使用云开发时，把 appid 换成你自己的真实 AppID：
+   - 打开 project.config.json，将 "appid": "touristappid"
+     改为 "appid": "wx1234567890abcdef"；
+   - 或在开发者工具「详情 → 基本信息」里直接修改。
+4. 基础库建议 2.20.0 以上；隐私弹窗（wx.requirePrivacyAuthorize）
+   需要 2.32.3 以上，低版本会自动退回应用内同意卡片。
+
+
+三、云开发配置（可选）
+------------------------------------------------
+1. miniprogram/config.js：
+     cloudEnv: ''            ← 默认空，表示本地体验模式
+     cloudEnv: '你的环境ID'   ← 填入后启用云开发
+   注意：cloudEnv 配好只代表「云端可用」，不代表「已登录」。
+   开启同步必须同时满足三个条件：
+     ① config.js 已填 cloudEnv；② 用户已同意隐私说明；③ 用户主动登录过。
+2. 在开发者工具「云开发」中创建环境，环境 ID 与 cloudEnv 保持一致。
+3. 部署两个云函数（源码位于 cloudfunctions/）：
+     radioApi   —— 状态与账号
+     radioAsk   —— 提问
+
+   ── radioApi 契约（入参 { action, ... }）──
+   所有成功响应形如 { ok:true, ...payload }；
+   所有失败响应形如 { ok:false, code, message }，客户端原样保留 code。
+
+     login            data: { consent: boolean }
+                      返回 { loggedIn:true, profile:{displayName,consent,createdAt},
+                             state:{progress,likes,favorites,lastEpisode} }
+                      不返回原始 openid，客户端也不需要。
+                      consent 为三态：不传=不改动，true/false=显式记录。
+     getState         返回 { state:{ progress, likes, favorites, lastEpisode } }
+     saveProgress     data: { episodeId, position, duration }
+                      服务端要求 duration > 0 且 position <= duration。
+     toggleLike       data: { episodeId, desired?: boolean }
+     toggleFavorite   data: { episodeId, desired?: boolean }
+                      desired 为 true/false 时是「幂等 set」；不传则退化为盲 toggle。
+                      客户端始终传 desired，重试/乱序不会反转用户意图。
+                      返回 { state:{...} }
+     listQuestions    data: { limit?, cursor? }
+                      返回 { questions:[{ question, answer, quote, episodeId,
+                                          createdAt, saved }], hasMore, cursor }
+     toggleQuote      data: { questionId }
+                      返回 { saved: boolean }（注意字段名是 saved，不是 quoted）
+     clearProgress    data: { episodeId? }        ← 清「收听进度」
+                      不传 episodeId = 清空全部进度；不影响 likes/favorites。
+                      返回 { cleared:true, episodeId, state:{...} }
+     deleteHistory    无参数                       ← 清「问答记录」
+                      注意：名字叫 history，实际删除的是 radio_questions
+                      （问答历史），不是收听进度。返回 { deleted, questionsRemoved }
+     deleteAccount    清空该用户全部数据（含问答、限额、用户记录）
+
+   ── radioAsk 契约（入参 { question, episodeId }，不带 action）──
+     成功返回 { ok:true, answer, quote, questionId, episodeId, createdAt, remaining }
+     失败返回 { ok:false, code, message }
+     服务端要求该用户已通过 radioApi login 记录 consent === true，
+     否则返回 CONSENT_REQUIRED。
+     AI 调用超时由云函数环境变量 AI_TIMEOUT_MS 控制（默认 25000）。
+     密钥只从环境变量读取，日志只打印 code，不泄露密钥。
+
+4. 客户端超时（miniprogram/config.js，可调）：
+     apiTimeoutMs: 10000   状态类调用
+     askTimeoutMs: 30000   提问（AI 较慢，给更长时间）
+   超时后返回 CLIENT_TIMEOUT，且不再接受迟到的响应。
+
+
+四、音频配置
+------------------------------------------------
+1. 真实音频（推荐）
+   编辑 miniprogram/data/episodes.js，为每一期填写 audioUrl：
+     { id: 'ep04', ..., audioUrl: 'https://your-cdn.com/ep04.mp3' }
+   - 填了 audioUrl 的期数自动使用 wx.getBackgroundAudioManager()：
+     支持锁屏播放、切后台播放、切换 tab 持续播放。
+   - 需在小程序后台「开发管理 → 服务器域名 → downloadFile 合法域名」
+     中加入音频所在域名（必须 https）。
+   - 背景音频的系统播放控件只接受网络封面图，本地 /assets 图片不会显示在
+     系统控件里，这是平台行为，不影响小程序内页面显示。
+   - 每一期各自保存/恢复自己的收听进度；onHide 时会立即写盘。
+
+2. 本地试听（未配置真实音频时）
+   - 使用 miniprogram/assets/preview.m4a，通过 wx.createInnerAudioContext() 播放。
+   - 页面会明确标注「合成试听，非完整节目」（config.js 的 previewNotice），
+     进度条与时间全部来自真实音频事件（onTimeUpdate / onCanplay / onEnded），
+     不存在用定时器伪造播放进度的情况。
+   - 该文件需由主代理放入 miniprogram/assets/preview.m4a，缺失时播放会报错，
+     页面会显示错误文案，不会假装在播放。
+
+3. 倍速说明（平台能力差异）
+   - 本地试听通道：InnerAudioContext.playbackRate，支持 1 / 1.25 / 1.5。
+   - 真实音频通道：BackgroundAudioManager 在部分基础库上不提供 playbackRate。
+     代码会做能力探测，不支持时点击倍速会提示「当前音频通道不支持倍速」，
+     不做静默失败。
+
+
+五、图片资源
+------------------------------------------------
+以下图片由主代理放入 miniprogram/assets/（当前目录为空）：
+  mountain.jpg   ep01 / ep04 封面（雪山）
+  crocus.jpg     ep02 封面（藏红花）
+  tea.jpg        ep03 封面（茶室 / 烘焙工坊）
+  preview.m4a    本地试听音频
+图片缺失时封面区域显示米色占位底色，不影响编译与功能。
+
+
+六、隐私与登录行为
+------------------------------------------------
+1. app.json 已设置 "__usePrivacyCheck__": true，启用官方隐私合规检查。
+   首次使用需在「茶室」或「我的」中点击「同意隐私说明」。
+2. 未同意隐私说明时：
+   - 不发起 wx.cloud.callFunction 登录；
+   - 不发送任何提问内容；
+   - 输入框处于禁用状态。
+3. 登录必须由用户主动点击「一键登录」触发，不会自动登录；
+   onLaunch 只会在「已同意 + 之前登录过」时才静默恢复会话。
+4. 登录调用 radioApi 的 login 并显式携带 { consent: true }，
+   服务端据此记录同意状态（radioAsk 依赖它）。
+   登录仅换取账号身份，不会自动获取头像与昵称，界面上也如实说明。
+5. 撤回同意：在「我的 → 隐私与数据」中可随时撤回，
+   撤回后会清除本机会话标记并停止云端同步。
+
+
+七、数据合并策略（避免覆盖 / 避免复活）
+------------------------------------------------
+1. progress：本地存在未同步写入（pendingProgress）时，云端不得覆盖该期；
+   否则按 updatedAt 取较新的一条。
+2. likes / favorites：本地是权威意图。维护 dirtyLikes / dirtyFavorites 目标状态，
+   脏条目保留本地目标，非脏条目才采用云端值。
+   —— 因此「本地取消收藏」不会被云端旧数据重新复活。
+3. lastEpisode：仅当用户本次没有主动选集时才采用云端值。
+4. 同步是串行的（同一时刻只有一个云调用在飞），toggle 携带 desired 布尔，
+   服务端幂等写入，重放不会反转结果。
+5. 进度只在「发送时的版本号」与当前一致时才从待同步队列移除，
+   同步途中用户又拖了进度不会丢。
+6. 云端调用失败时不清空本地数据，脏标记保留，下次连接后重试。
+
+   语义区分（重要）：
+     store.clearProgress()  -> radioApi clearProgress  清「收听进度」
+     store.clearQuestions() -> radioApi deleteHistory  清「问答记录」
+
+
+八、内容边界与安全声明（已写入页面文案）
+------------------------------------------------
+1. 不开具「每天几根」这类按根计量的使用建议。
+2. 不承诺任何保健或治疗功效。
+3. 孕期、哺乳期人群及正在服药者，一律引导咨询专业医师或药师。
+4. 明确说明颜色深浅不能作为纯度或品质的凭证，
+   沉水、扩散等民间鉴别法不作为结论依据。
+5. 「茶室」未连接云环境时，答复来源标注为「本地知识库 · 非大模型回答」，
+   不冒充大模型实时作答；云端调用失败时只提示失败，不生成替代答案。
+6. 金句卡片包含完整的「问题 + 回答 + 金句」，换行不截断、高度动态计算；
+   保存到相册被拒时给出引导，不会静默失败。
+
+
+九、回归测试
+------------------------------------------------
+在 outputs/saffron-radio 目录下执行：
+
+  node --test tests/native.test.js
+
+该用例在 mock 的 wx 运行时里真实加载 miniprogram/utils 下的代码，
+用一个复刻真实云函数契约的假后端跑 39 条断言，覆盖：
+  - radioAsk / radioApi 的路由与错误码透传
+  - login 携带 consent:true、会话门控、离线补发
+  - 取消收藏不被复活、pending 进度不被覆盖
+  - desired 幂等、同步串行（maxInFlight === 1）、版本匹配
+  - clearProgress 与 deleteHistory 的语义区分
+  - 本机问答稳定 id 与 saved 映射
+  - 金句卡完整问答、动态高度、字号自适应
+  - 与 cloudfunctions 下真实源码的静态契约一致性
+
+云端单测（radioApi）：
+
+  cd cloudfunctions/radioApi && node --test
+
+
+十、待配置项清单
+------------------------------------------------
+[必填-如需云能力] project.config.json 的 appid 改为真实 AppID
+[必填-如需云能力] miniprogram/config.js 的 cloudEnv 填入环境 ID
+[必填-如需云能力] 部署并上传云函数 radioApi 与 radioAsk
+[必填-如需云能力] 云函数环境变量配置 AI 相关密钥（仅云端，不要写进小程序）
+[选填] 云函数环境变量 AI_TIMEOUT_MS（默认 25000）
+[选填] data/episodes.js 各期 audioUrl 填入真实音频地址
+[选填] 小程序后台配置 downloadFile 合法域名（音频域名）
+[选填] 主代理放入 assets/mountain.jpg、tea.jpg、crocus.jpg、preview.m4a
+[选填] 小程序后台配置隐私协议（app.json 已开启 __usePrivacyCheck__）
