@@ -450,6 +450,87 @@ btnBackToStep1?.addEventListener('click', () => {
   dialogStepTitle.textContent = '📦 步骤 1/2：确认商品与收件信息';
 });
 
+// 购物车管理逻辑 (Cart State)
+let cartItems = [];
+const cartFloatingBar = document.getElementById('cartFloatingBar');
+const cartBadgeCount = document.getElementById('cartBadgeCount');
+const cartBarTotal = document.getElementById('cartBarTotal');
+const btnCartCheckout = document.getElementById('btnCartCheckout');
+
+function updateCartUI() {
+  const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  if (cartBadgeCount) cartBadgeCount.textContent = String(totalQty);
+  if (cartBarTotal) cartBarTotal.textContent = String(totalPrice);
+
+  if (cartFloatingBar) {
+    cartFloatingBar.style.display = totalQty > 0 ? 'flex' : 'none';
+  }
+}
+
+document.querySelectorAll('.btn-cart').forEach(btn => {
+  btn.addEventListener('click', () => {
+    triggerHaptic('medium');
+    const buyType = btn.dataset.cart;
+    let prodName = '特级西藏林芝锦丝';
+    if (buyType === 'flower') prodName = '鲜朵原态冻干整花';
+    if (buyType === 'extract') prodName = '藏红花多糖超低温冷萃精粹';
+
+    const selector = document.querySelector(`.spec-selector[data-product="${buyType}"]`);
+    const activePill = selector?.querySelector('.spec-pill.active');
+    const specName = activePill?.dataset.spec || '标准装';
+    const specPrice = parseFloat(activePill?.dataset.price || '128');
+
+    // 查重合并
+    const existing = cartItems.find(item => item.product === prodName && item.spec === specName);
+    if (existing) {
+      existing.quantity++;
+    } else {
+      cartItems.push({ product: prodName, spec: specName, price: specPrice, quantity: 1 });
+    }
+
+    updateCartUI();
+    noticeMsg.textContent = `🛒 已将【${prodName} (${specName})】加入购物车！当前共 ${cartItems.reduce((a, b) => a + b.quantity, 0)} 件。`;
+  });
+});
+
+btnCartCheckout?.addEventListener('click', () => {
+  triggerHaptic('heavy');
+  if (cartItems.length === 0) return;
+
+  const firstItem = cartItems[0];
+  const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalQty = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
+  dialogProduct.textContent = cartItems.length === 1 ? firstItem.product : `${firstItem.product} 等 ${cartItems.length} 款组合`;
+  dialogSpec.textContent = cartItems.length === 1 ? firstItem.spec : `共 ${totalQty} 盒优选组合装`;
+  currentUnitBasePrice = totalPrice / totalQty;
+  currentQuantity = totalQty;
+  if (dialogTotal) dialogTotal.textContent = String(totalPrice);
+  if (stepperCount) stepperCount.textContent = String(totalQty);
+
+  // 预填保存过的收件人
+  const savedName = localStorage.getItem('tw_buyer_name') || '';
+  const savedPhone = localStorage.getItem('tw_buyer_phone') || '';
+  const savedAddr = localStorage.getItem('tw_buyer_addr') || '';
+  const inputName = document.getElementById('inputName');
+  const inputPhone = document.getElementById('inputPhone');
+  const inputAddress = document.getElementById('inputAddress');
+  if (inputName && !inputName.value) inputName.value = savedName;
+  if (inputPhone && !inputPhone.value) inputPhone.value = savedPhone;
+  if (inputAddress && !inputAddress.value) inputAddress.value = savedAddr;
+
+  const orderStep1 = document.getElementById('orderStep1');
+  const orderStep2 = document.getElementById('orderStep2');
+  const dialogStepTitle = document.getElementById('dialogStepTitle');
+  if (orderStep1) orderStep1.style.display = 'block';
+  if (orderStep2) orderStep2.style.display = 'none';
+  if (dialogStepTitle) dialogStepTitle.textContent = '📦 购物车结算：确认商品与收件信息';
+
+  orderDialog.showModal();
+});
+
 // 一键复制 USDT 地址
 document.getElementById('btnCopyHash')?.addEventListener('click', () => {
   triggerHaptic('selection');
