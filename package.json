@@ -1,20 +1,27 @@
 {
-  "name": "@pi-desktop/desktop",
-  "version": "0.15.10",
-  "desktopName": "pi-desktop.desktop",
+  "name": "brand-content-os",
   "private": true,
-  "description": "PI-Desktop Electron application",
-  "homepage": "https://github.com/vastsa/PI-Desktop",
-  "author": {
-    "name": "vastsa",
-    "email": "hhxk666@gmail.com"
-  },
-  "main": "./out/main/index.js",
+  "version": "0.1.0",
   "type": "module",
-  "dependencies": {
-    "@picovoice/pvrecorder-node": "1.2.9",
-    "transcribe-cpp": "0.2.2",
-    "electron-updater": "^6.8.9"
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "node scripts/compile-public-site.mjs && NODE_OPTIONS=\"--max-old-space-size=4096\" vite build && cp -r public/* dist/ 2>/dev/null || true",
+    "preview": "vite preview",
+    "sync:notebooklm": "node scripts/sync-notebooklm.js",
+    "website:generate": "node scripts/compile-public-site.mjs",
+    "website:build": "node scripts/compile-public-site.mjs && vite build --config vite.website.config.js",
+    "website:preview": "vite preview --config vite.website.config.js",
+    "website:check": "node scripts/check-public-content.mjs"
   },
-  "piDistribution": "installed"
+  "dependencies": {
+    "@vitejs/plugin-vue": "^5.2.4",
+    "gsap": "^3.12.5",
+    "jszip": "^3.10.1",
+    "marked": "^12.0.0",
+    "three": "^0.176.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "vite": "^5.1.0"
+  }
 }

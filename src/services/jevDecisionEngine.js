@@ -16,7 +16,7 @@
  */
 
 export const JEV_CONFIG = {
-  model: typeof localStorage !== 'undefined' ? (localStorage.getItem('jev_model_version') || 'jev-latest') : 'jev-latest',
+  model: (typeof window !== 'undefined' && typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function') ? (localStorage.getItem('jev_model_version') || 'jev-latest') : 'jev-latest',
   pinnedVersion: 'jev-1.14.0',
   availableModels: [
     { id: 'jev-latest', name: 'jev-latest (自动追踪最新稳定版，当前指向 jev-1.14.0)' },
@@ -29,8 +29,8 @@ export const JEV_CONFIG = {
   relevanceThreshold: 3.5, // Score threshold (out of 5)
   typesafeEndpoint: 'https://api.typesafe.ai/v1/systemone',
   modelsEndpoint: 'https://api.typesafe.ai/v1/models',
-  apiKey: typeof localStorage !== 'undefined' ? (localStorage.getItem('typesafe_api_key') || (typeof process !== 'undefined' ? (process.env.TYPESAFE_API_KEY || '') : '')) : '',
-  mode: typeof localStorage !== 'undefined' ? (localStorage.getItem('jev_decision_mode') || 'HYBRID_ACTIVE') : 'HYBRID_ACTIVE'
+  apiKey: (typeof window !== 'undefined' && typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function') ? (localStorage.getItem('typesafe_api_key') || (typeof process !== 'undefined' ? (process.env.TYPESAFE_API_KEY || '') : '')) : '',
+  mode: (typeof window !== 'undefined' && typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function') ? (localStorage.getItem('jev_decision_mode') || 'HYBRID_ACTIVE') : 'HYBRID_ACTIVE'
 };
 
 export const jevDecisionEngine = {
@@ -40,21 +40,21 @@ export const jevDecisionEngine = {
 
   setApiKey(key) {
     JEV_CONFIG.apiKey = key;
-    if (typeof localStorage !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined' && typeof localStorage.setItem === 'function') {
       localStorage.setItem('typesafe_api_key', key);
     }
   },
 
   setModelVersion(modelId) {
     JEV_CONFIG.model = modelId;
-    if (typeof localStorage !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined' && typeof localStorage.setItem === 'function') {
       localStorage.setItem('jev_model_version', modelId);
     }
   },
 
   setMode(mode) {
     JEV_CONFIG.mode = mode;
-    if (typeof localStorage !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined' && typeof localStorage.setItem === 'function') {
       localStorage.setItem('jev_decision_mode', mode);
     }
   },
