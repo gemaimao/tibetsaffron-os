@@ -311,6 +311,7 @@ document.querySelectorAll('.btn-buy').forEach(btn => {
     triggerHaptic('heavy');
     const buyType = btn.dataset.buy;
     let prodName = '特级西藏林芝锦丝';
+    if (buyType === 'test1yuan') prodName = '【林芝特级锦丝】水试真品体验装';
     if (buyType === 'flower') prodName = '鲜朵原态冻干整花';
     if (buyType === 'extract') prodName = '藏红花多糖超低温冷萃精粹';
 
@@ -474,6 +475,7 @@ document.querySelectorAll('.btn-cart').forEach(btn => {
     triggerHaptic('medium');
     const buyType = btn.dataset.cart;
     let prodName = '特级西藏林芝锦丝';
+    if (buyType === 'test1yuan') prodName = '【林芝特级锦丝】水试真品体验装';
     if (buyType === 'flower') prodName = '鲜朵原态冻干整花';
     if (buyType === 'extract') prodName = '藏红花多糖超低温冷萃精粹';
 
